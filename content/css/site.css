@@ -16,7 +16,8 @@ color:
 ---
 
 body {
-  font-family: Verdana, "Bitstream Vera Sans", sans-serif;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* Headings
@@ -62,6 +63,15 @@ p.title {
   margin-bottom: 0.75em;
 }
 
-#header p.title { font-size: 3em; line-height: 1; margin-bottom: 0.5em; }
+#header {
+  margin-bottom: 2em;
+}
+#hheader {
+  border-bottom: 1px solid #999;
+}
+#footer {
+  margin-top: 2em;
+  border-top: 1px solid #999;
+}
 
 /* EOF */
