@@ -4,6 +4,7 @@ filter:    erb
 layout:    nil   # no layout
 
 color:
+  ruote:       "#bbbbbb"
   border:      "#ddd"
   header:      "#111"
   link:        "#125AA7"
@@ -16,7 +17,7 @@ color:
 ---
 
 body {
-  font-size: 14px;
+  font-size: 87%;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -56,11 +57,11 @@ th,td {
 p.quiet { color: <%= @page.color['quiet'] %>; }
 .alt    { color: <%= @page.color['alt'] %>; }
 
-p.title {
-  color: #111;
+#ruote {
+  color: <%= @page.color['ruote'] %>;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 2em;
-  margin-bottom: 0.75em;
+  margin-left: 4px;
 }
 
 #header {
@@ -69,6 +70,7 @@ p.title {
 #hheader {
   border-bottom: 1px solid #999;
 }
+
 #footer {
   margin-top: 2em;
   border-top: 1px solid #999;

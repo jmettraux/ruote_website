@@ -1,22 +1,17 @@
 ---
-title:       Ruote
+title: index
 filter:
   - erb
   - textile
 ---
 
-h1. nada
+h3. description
 
-Ruote is an open source Ruby workflow and BPM engine.
+<strong>Ruote</strong> is a workflow engine written in Ruby.  It's a runtime for long running [business] processes.
 
-It was previously named OpenWFEru (Open WorkFlow Engine (in Ruby))
+A process is started by handing a [business] process definition to the engine.  A <strong>process definition</strong> is expressed in ruote's own process definition language, which comes in two flavours : XML and a Ruby DSL.
 
-Current version is "0.9.19":http://rubyforge.org/frs/?group_id=2609
+A process definition will describe the flow of work among <strong>participants</strong>.
 
-<% coderay(:lang => "xml") do -%>
-  <sequence>
-    <participant ref="alpha" />
-    <participant ref="bravo" />
-  </sequence>
-<% end %>
+A ruote engine can handle simultaneously multiple <strong>process instances</strong>, created from one or more different process definitions. A process instance can be modified on the fly.
 
