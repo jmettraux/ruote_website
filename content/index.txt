@@ -9,6 +9,8 @@ h3. description
 
 <strong>Ruote</strong> is a workflow engine written in Ruby.  It's a runtime for long running [business] processes.
 
+Processes are explicitely defined and may be explicitely handled (start, pause, cancel, update).
+
 A process is started by handing a [business] process definition to the engine.  A <strong>process definition</strong> is expressed in ruote's own process definition language, which comes in two flavours : XML and a Ruby DSL.
 
 A process definition will describe the flow of work among <strong>participants</strong>.

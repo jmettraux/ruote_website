@@ -1,0 +1,27 @@
+---
+title: documentation
+filter:
+  - erb
+  - textile
+---
+
+h3. quickstarts
+
+* the "ruote quickstart":quickstart.html details how to install the ruote and gem and to write a first process definition and then launch a few instances of it
+
+h3. basic documentation
+
+* the ruote engine expects [business] process definitions as a set of "expressions":expressions.html
+
+* the engine communicates with the external world via "participants":participants.html that abstract the 'who' or 'what' is handling the workitems handed by the engine (to them, participants).
+
+h3. advanced documentation
+
+* the "glossary":glossary.html enumerates concepts and terms used throughout Ruote and attempts at giving explanations for them
+
+* "workflow patterns":patterns.html
+
+h3. blog excerpts
+
+a few links to blog posts about ruote.
+
