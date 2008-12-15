@@ -109,8 +109,6 @@ Their descriptions :
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="ActiveParticipant"></a>ActiveParticipant
 
-(this participant is part of the "openwferu-extras" gem)
-
 It's too bad this participant comes first in this [alphabetical] list. It's a bit advanced.
 
 The "active page":active.html is dedicated to the ActiveRecord items in Ruote.
@@ -119,8 +117,6 @@ The "active page":active.html is dedicated to the ActiveRecord items in Ruote.
 
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="ActiveStoreParticipant"></a>ActiveStoreParticipant
-
-(this participant is part of the "openwferu-extras" gem)
 
 It's a refinement of the <a href="#ActiveParticipant">ActiveParticipant</a>. This is the participant used by <a href="rquickstart.html">'densha'</a> for its workitem stores.
 
@@ -240,8 +236,6 @@ More at "atom :: BlogParticipant":atom.html#blog_participant
 
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="CsvParticipant"></a>CsvParticipant
-
-(this participant is part of the "openwferu-extras" gem)
 
 CsvParticipants are called "decision tables" or "decision participants" in Java OpenWFE.
 
@@ -407,8 +401,6 @@ Of course, there is a "SocketListener":rdoc/classes/OpenWFE/SocketListener.html 
 
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="SqsParticipant"></a>SqsParticipant
-
-(this participant and its listener is part of the "openwferu-extras" gem)
 
 SQS is an Amazon web service : 'Amazon Simple Queue Service (Amazon SQS) offers a reliable, highly scalable hosted queue for storing messages as they travel between computers', learn more at "http://aws.amazon.com":http://aws.amazon.com
 

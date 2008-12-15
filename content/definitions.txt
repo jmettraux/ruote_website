@@ -1,0 +1,55 @@
+---
+title: definitions
+filter:
+  - erb
+  - textile
+---
+
+h3. definitions
+
+There are 3 main ways to define processes with Ruote (OpenWFEru).
+
+The first one, inherited from OpenWFE (java), is via "XML":#xml. The second one is using the "Ruby":#ruby language. The third way is to write process definitions as "trees":#tree of expressions (abstract syntax tree). The first two representations are anyway turned into the third one upon process launch.
+
+Here is a process definition, a simple one, expressed in the 3 ways :
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <process-definition name="my_def">
+    <sequence>
+      <participant ref="alice" />
+      <participant ref="bob" />
+    </sequence>
+  </process-definition>
+<% end -%>
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  class MyDef < OpenWFE::ProcessDefinition
+    sequence do
+      participant :ref => 'alice'
+      participant :ref => 'bob'
+    end
+  end
+<% end -%>
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  [ 'process-definition', { 'name': 'my_def' }, [
+    [ 'sequence', {}, [
+      [ 'participant', { 'ref': 'alice' }, [] ],
+      [ 'participant', { 'ref': 'alice' }, [] ] 
+    ] ] 
+  ] ]
+<% end -%>
+
+<img src="/images/definitions_0.png" class="right-image"/>This last representation is the one fed to "ruote-fluo":http://difference.openwfe.org:4567/defs to produce a graphical view of a process definition. It's using "JSON":http://json.org/
+
+At the end of this page, a few more "tricks and ideas":#more about process definitions are exposed.
+
+
+h4(#xml). XML process definitions
+
+h4(#ruby). Ruby process definitions
+
+h4(#tree). process definition trees
+
+h4(#more). tips and tricks
+

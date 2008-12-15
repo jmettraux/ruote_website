@@ -42,6 +42,7 @@ filter:    erb
        <a href="lists.html">lists</a>
        <a href="http://jmettraux.wordpress.com">blog</a>
        <a href="http://difference.openwfe.org:3000/">demo</a>
+       <span style="font-size: 80%;"><a href="ja/index.html">日本語</a></span>
      </div>
 
    </div>
@@ -56,7 +57,7 @@ filter:    erb
          this website was created with <a href="http://webby.rubyforge.org">webby</a>
        </div>
        <div class="column span-10 align-right last">
-         &copy; 2005-2008 john mettraux
+         &copy; 2005-2009 the ruote team
        </div>
      </div>
    </div>

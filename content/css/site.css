@@ -41,8 +41,8 @@ pre {
 }
 
 hr {
-  background: <%= @page.color['highlight'] %>;
-  color:      <%= @page.color['highlight'] %>;
+  background: <%= @page.color['border'] %>;
+  color:      <%= @page.color['border'] %>;
 }
 
 /* Tables
@@ -78,6 +78,11 @@ p.quiet { color: <%= @page.color['quiet'] %>; }
 #footer {
   margin-top: 2em;
   border-top: 1px solid #999;
+}
+
+.right-image {
+  float: right;
+  margin-right: 0;
 }
 
 /* EOF */

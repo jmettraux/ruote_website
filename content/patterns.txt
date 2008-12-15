@@ -1,0 +1,782 @@
+---
+title: patterns
+filter:
+  - erb
+  - textile
+---
+
+h2. workflow control patterns
+
+The "Workflow Patterns":http://workflowpatterns.com/patterns/control/index.php are a catalog of various building blocks for workflow execution.
+
+Described here are ways to implement each of them (if necessary) with Ruote (OpenWFEru). Some of the patterns are not directly implementable with Ruote, workarounds are proposed.
+
+For each pattern, an example is given in XML and in Ruby. There is also a link to the academic explanation of the pattern.
+
+* "Basic Control Flow Patterns":#pat_a
+* "Advanced Branching and Synchronization Patterns":#pat_b
+* "Structural Patterns":#pat_c
+* "Multiple Instance Patterns":#pat_d
+* "State-based Patterns":#pat_e
+* "Cancellation Patterns":#pat_f
+* "New Control Flow Patterns":#pat_g
+
+<hr/>
+
+h2(#pat_a). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Basic Control Flow Patterns
+
+
+h3(#pat_1_sequence). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Sequence
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <sequence>
+    <participant ref="alpha" />
+    <participant ref="bravo" />
+  </sequence>
+<% end -%>
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  sequence do
+    alpha
+    bravo
+  end
+<% end -%>
+
+(Ruote finding no expression and no subprocess definition for 'alpha' and 'bravo', it automatically maps them to their participants).
+
+What else is there to say ?
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp1.php
+
+
+h3(#pat_2_parallel). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Parallel Split
+
+Splitting the process instance into two parallel path of execution.
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <concurrence>
+    <participant ref="alpha" />
+    <participant ref="bravo" />
+  </concurrence>
+<% end -%>
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  concurrence do
+    alpha
+    bravo
+  end
+<% end -%>
+
+"concurrence expression":expressions.html#exp_concurrence
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp2.php
+
+
+h3(#pat_3_synchronization). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Synchronization
+
+Synchronization is supported implicitely by the <a href="#pat_2_parallel">concurrence</a> expression.
+
+But the 'concurrence' expression can handle more patterns / scenario : the concurrence expression waits for all its branches to reply before resuming (before replying to its parent / containing expression.
+
+"concurrence expression":expressions.html#exp_concurrence
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp3.php
+
+
+h3(#pat_4_exclusive_choice). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Exclusive Choice
+
+Exclusive 'routing' within the process : the flow will go one way or the other, but not both.
+
+Two expressions in Ruote are used to implement this pattern : 'if' and 'case'.
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <if>
+    <equals field-value="x" other-value="y" />
+    <!-- then -->
+    <participant ref="theodor" />
+    <!-- else -->
+    <participant ref="emma" />
+  </if>
+<% end -%>
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  _if do
+    equals :field_value => :x, :other-value => "y"
+    # then
+    participant :theodor
+    # else
+    participant :emma
+  end
+<% end -%>
+
+(not to collide with Ruby's 'if', Ruote's 'if' is escaped with a "_" prefix in the Ruby process definition, same thing for 'case')
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <case>
+
+    <equals field-value="x" other-value="y" />
+    <participant ref="alpha" />
+
+    <if test="${field:price} > 12.0" />
+    <participant ref="bravo" />
+
+    <!-- optional else -->
+    <participant ref="emma" />
+
+  </case>
+<% end -%>
+
+(note here the usage of 'if' without children as a simple condition expression)
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  _case do
+
+    equals :field_value => "x", :other_value => "y"
+    alpha
+
+    _if :test => "${field:price} > 12.0"
+    bravo
+
+    # optional else :
+    emma
+
+  end
+<% end -%>
+
+(In this Ruby process definition, the participants, have simple one word names are directly referenced using those, no 'participant ref="alpha"' construct)
+
+"if expression":expressions.html#exp_if
+"case expression":expressions.html#exp_case
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp4.php
+
+
+h3(#pat_5_simple_merge). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Simple Merge
+
+The 'simple merge' is implicitely supported by the 'if' and 'case' expressions.
+
+"if expression":expressions.html#exp_if
+"case expression":expressions.html#exp_case
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp5.php
+
+
+<hr/>
+
+h2(#pat_b). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Advanced Branching and Synchronization Patterns
+
+
+h3(#pat_6_multi_choice). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Multi-Choice
+
+The straightforward way for implementing this pattern with Ruote is to use a set of 'if' nested within a 'concurrence' :
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <concurrence>
+    <if test="${field:price} > 12.0" >
+      <participant ref="alpha" />
+    </if>
+    <if>
+      <equals field="price" value="0">
+      <participant ref="bravo" />
+    </if>
+    <if test="${f:price} > 100.0" >
+      <participant ref="charly" />
+    </if>
+  </concurrence>
+<% end -%>
+
+Not that if the price is superior to 100, both the participant alpha and the participant charly will 'receive the flow'.
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+ concurrence do
+   _if :test => "${field:price} > 12.0" do
+     participant :alpha
+   end
+   _if do
+     _equals :field => "price", :value => "0"
+     participant :ref => :bravo
+   end
+   _if :test => "${f:price} > 100.0" do
+     participant :ref => "charly"
+   end
+ end
+<% end -%>
+
+(note here that the participant expression is very flexible, pick the way to use it that is the more readable for you)
+
+The short version :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  concurrence do
+    alpha :if => "${f:price} > 12.0"
+    bravo :if => "${f:price} == 0"
+    charly :if => "${f:price} > 100.0"
+  end
+<% end -%>
+
+(both the 'participant' and the 'subprocess' support this 'if' (and 'unless') attribute.
+
+"if expression":expressions.html#exp_if
+"concurrence expression":expressions.html#exp_concurrence
+"original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp6.php
+
+
+h3(#pat_7_structured_synchronizing_merge). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Structured Synchronizing Merge
+
+The Ruote implementation of pattern 6 'Multi-Choice' implicitely follows pattern 7 as well. The 'concurrence' expression, by default, waits for all its children to reply before resuming the flow (replying to its own parent expression).
+
+"concurrence expression":expressions.html#exp_concurrence
+"original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp7.php
+
+
+h3(#pat_8_multi_merge). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Multi-Merge
+
+This pattern is very interesting, it shows the difference between a graph-based workflow engine and Ruote.
+
+The "merge" after the "multi-choice" in that pattern is not synchronized. In the previous pattern, the workitems of the concurrent path got reunified into one workitem for the steps after the concurrence. Here, each concurrent workitem follows the 'track' indepedently.
+
+Here's how you can implement that with Ruote :
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <process-definition name="pat8multimerge" revision="2">
+
+    <concurrence>
+      <if test="${field:price} > 12.0" >
+        <sequence>
+          <participant ref="alpha" />
+          <after/>
+        </sequence>
+      </if>
+      <if>
+        <equals field="price" value="0">
+        <sequence>
+          <participant ref="bravo" />
+          <after/>
+        </sequence>
+      </if>
+      <if test="${f:price} > 100.0" >
+        <sequence>
+          <participant ref="charly" />
+          <after/>
+        </sequence>
+      </if>
+    </concurrence>
+
+    <process-definition name="after">
+      <sequence>
+        <participant ref="delta" />
+        <participant ref="echo" />
+      </sequence>
+    </process-definition>
+  </process-definition>
+<% end -%>
+
+Each concurrent workitem will make its way to its own instance of the 'after' subprocess.
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/def'
+
+  class Pat8MultiMerge2 < OpenWFE::ProcessDefinition
+
+    concurrence do
+      _if :test => "${field:price} > 12.0" do
+        sequence do
+          alpha
+          after
+        end
+      end
+      _if do
+        equals :field => "price", :value => "0"
+        sequence do
+          bravo
+          after
+        end
+      end
+      _if :test => "${f:price} > 100.0" do
+        sequence do
+          charly
+          after
+        end
+      end
+    end
+
+    process_definition :name => "after" do
+      sequence do
+        delta
+        echo
+      end
+    end
+  end
+<% end -%>
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp8.php
+
+
+h3(#pat_9_structured_discriminator). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Structured Discriminator
+
+As soon as a concurrent branch terminates, the concurrence expression resumes the flow.
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <sequence>
+    <participant ref="alpha" />
+    <concurrence count="1" remaining="forget">
+      <participant ref="bravo" />
+      <participant ref="charly" />
+    </concurrence>
+    <participant ref="delta" />
+  </sequence>
+<% end -%>
+
+The attributes "count" and "remaining" state that the concurrence is over when 1 branch has replied and that remaining branches should simply get forgotten (their reply will simply get discarded).
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  sequence do
+    alpha
+    concurrence :count => "2", :remaining => "forget" do
+      bravo
+      charly
+      delta
+    end
+    echo
+  end
+<% end -%>
+
+In this example expressed in Ruby, as soon as two branches replied, the flow will resume to 'echo'.
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp9.php
+
+
+<hr/>
+
+h2(#pat_c). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Structural Patterns
+
+
+h3(#pat_10_arbitray_cycles). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Arbitrary Cycles
+
+_The ability to represent cycles in a process model that have more than one entry or exit point._
+
+The "cursor expression":expressions.html#exp_cursor expression is used for implementing that pattern. It obeys to the "jump", "skip" and "back" commands.
+
+The process represented as "flash animation":http://workflowpatterns.com/patterns/control/structural/wcp10_animation.php on the Workflow Patterns site may be implemented as :
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <cursor>
+    <participant ref="alpha" />
+    <participant ref="bravo" />
+    <participant ref="charly" />
+    <if test="${condition}">
+      <back step="2" />
+    </if>
+    <participant ref="delta" />
+    <if test="${condition}">
+      <back step="3" />
+    </if>
+    <participant ref="echo" />
+  </cursor>
+<% end -%>
+
+but that doesn't put any emphasis on the _more than one entry point_ aspect, this could :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  class Pat10Definition < OpenWFE::ProcessDefinition
+
+    sequence do
+      jump :step => "1"
+      sub # will enter subprocess 'sub' at participant 'bravo'
+
+      jump :step => "0"
+      sub # will enter subprocess 'sub' at participant 'alpha' (useless)
+
+      jump 2
+      sub # will enter subprocess 'sub' at participant 'charly'
+
+      #
+      # as jump is used in a sequence, it has no direct effect, but as soon
+      # as a cursor spots it (here, when entering the 'sub'), the jump
+      # is performed
+    end
+
+    process_definition :name => "sub" do
+      cursor do
+        participant "alpha"
+        participant "bravo"
+        participant "charly"
+      end
+    end
+  end
+<% end -%>
+
+that could be refined into
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  class Pat10Definition < OpenWFE::ProcessDefinition
+
+    sequence do
+      sub :step => "1"
+      sub :step => "0"
+      sub :step => "2"
+    end
+
+    process_definition :name => "sub" do
+      sequence do
+        jump "${step}"
+        cursor do
+          participant "alpha"
+          participant "bravo"
+          participant "charly"
+        end
+      end
+    end
+  end
+<% end -%>
+
+(subprocess call attributes get saved as variables...)
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/structural/wcp10.php
+
+
+h3(#pat_11_implicit_termination). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Implicit Termination
+
+Replicating the "flash animation of the pattern":http://workflowpatterns.com/patterns/control/structural/wcp11_animation.php, we obtain :
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <sequence>
+    <participant ref="alpha" />
+    <concurrence>
+      <sequence>
+        <participant ref="bravo" />
+        <participant ref="delta" />
+      </sequence>
+      <sequence>
+        <participant ref="charly" />
+        <participant ref="echo" />
+      </sequence>
+    <concurrence/>
+  </sequence>
+<% end -%>
+
+Our 'implicit termination' sits at the end of the concurrence and the sequence.
+
+With a Ruby process definition, it would look like :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  sequence do
+    alpha
+    concurrence do
+      sequence do
+        bravo
+        delta
+      end
+      sequence do
+        charly
+        echo
+      end
+    end
+  end
+<% end -%>
+
+One should be able to write Ruote process definitions without using an "explicit termination sink".
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/structural/wcp11.php
+
+
+<hr/>
+
+h2(#pat_d). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Multiple Instance Patterns
+
+
+h3(#pat_12_multiple_instances_without_synchronization). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Multiple instances without synchronization
+
+The description says : "within a given process instance, multiple instances of an activity can be created. These instances are independent of each other and run concurrently. There is no requirement to synchronize them upon completion."
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <sequence>
+    <participant ref="alpha" />
+    <concurrent-iterator on-field="count" to-field="f" >
+      <forget>
+        <participant ref="bravo" />
+      </forget>
+    </concurrent-iterator>
+    <participant ref="charly" />
+  </sequence>
+<% end -%>
+
+With a Ruby process definition, that would look like :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  sequence do
+    alpha
+    concurrent_iterator :on_field => "count", :to_field => "f" do
+      forget do
+        bravo
+      end
+    end
+    charly
+  end
+<% end -%>
+
+The participant bravo is wrapped within a 'forget' expression as "there is no requirement to synchronize them upon completion". The flow will continue directly to participant "charly".
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp12.php
+
+
+h3(#pat_13_multiple_instances_with_a_priori_design_time_knowledge). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Multiple instances with a priori design-time knowledge
+
+"the required number of instances is known at design time. These instances are independent of each other and run concurrently. It is necessary to syncrhonize the activity instances at completion before any subsequent activities can be triggered."
+
+A 'plain' implementation of that might be :
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <sequence>
+    <participant ref="alpha" />
+    <concurrence>
+      <participant ref="bravo" />
+      <participant ref="bravo" />
+      <participant ref="bravo" />
+    </concurrence>
+    <participant ref="charly" />
+  </sequence>
+<% end -%>
+
+We know at design time that the activity / participant 'bravo' has to be run 3 times concurrently.
+
+A bit lighter :
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <sequence>
+    <participant ref="alpha" />
+    <concurrent-iterator on-value="a, b, c" to-field="index">
+      <participant ref="bravo" />
+    </concurrent-iterator>
+    <participant ref="charly" />
+  </sequence>
+<% end -%>
+
+With a Ruby process definition it would look like :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+require 'openwfe/def'
+
+class Pattern13 < OpenWFE::ProcessDefinition
+  sequence do
+    participant :ref => "alpha"
+    concurrent_iterator :on_value => "a, b, c", :to_field => "index"
+      participant :ref => "bravo"
+    end
+    participant :ref => "charly"
+  end
+end
+<% end -%>
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp13.php
+
+
+h3(#pat_14_multiple_instances_with_a_priori_run_time_knowledge). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Multiple instances with a priori run-time knowledge
+
+"Within a given process instance, multiple instances of an activity can be created. The required number of instances may depend on a number of runtime factors, including state data, resource availability and inter-process communications, but is known before the activity instances must be created. Once initiated, these instances are independent of each other and run concurrently. It is necessary to synchronize the instances at completion before any subsequent activities can be triggered."
+
+It's again a job for a "concurrent-iterator". In this example, a comma separated list of activities in kept in the variable named "activity_list" (maybe something like "sort, wash, dry"). The iterated value, stored in the variable "index" is passed to each 'activity' participant as a task parameter.
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <concurrent-iterator on-variable-value="activity_list" to-variable="index">
+    <participant ref="machine" task="${index}" />
+  </concurrent-iterator>
+<% end -%>
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  concurrent_iterator :on-variable-value => "activity_list", :to-variable => "index" do
+    participant :ref => "machine", :task => "${index}"
+  end
+<% end -%>
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp14.php
+
+
+h3(#pat_15_multiple_instances_without_a_priori_run_time_knowledge). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Multiple instances without a priori run-time knowledge
+
+Basically the number of activity is known at runtime and may change at any point during the execution of these activities.
+
+A loop or a cursor could be used to implement that pattern :
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <loop>
+    <concurrent-iterator on-variable-value="activity_list" to-variable="index">
+      <participant ref="machine" task="${index}" />
+    </concurrent-iterator>
+    <break if="${activity_list} == ''" />
+  </loop>
+<% end -%>
+
+But it doesn't quite reflect the "at any time" requirement. Maybe something like that :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  loop do
+    concurrence :merge-type => "mix", :merge => "lowest" do
+      concurrent_iterator :on_value => "${activity_list}", :to_variable => "index" do
+        participant :ref => "machine", :task => "${index}"
+      end
+      participant :ref => "decision_taker"
+    end
+    _break :if => "${activity_list} == ''"
+  end
+<% end -%>
+
+This implementation (as a Ruby process definition) assumes that the activity list will be filled by the participant "decision_taker" (which is given a priority (it's the lowest child) in the concurrence mix merge).
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp15.php
+
+
+<hr/>
+
+h2(#pat_e). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>State-based Patterns
+
+
+h3(#pat_16_deferred_choice). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Deferred Choice
+
+This pattern is not directly supported by Ruote (OpenWFEru), as it require a better control of the state of the task (workitems). The Ruote engine pushes the workitems towards the participants but does enforce any particular workitem state (offered, started, terminated, ...), it considers that the job of the participant implementation.
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <concurrence
+    count="1"
+    remaining="cancel"
+  >
+    <participant ref="an-activity" />
+    <participant ref="another-activity" />
+  </concurrence>
+<% end -%>
+
+('cancel' is the default behaviour for a concurrence with a 'count').
+
+As soon as one of the activities is over, the flow resumes (after the concurrence) and the other activity gets cancelled.
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  concurrence :count => 2 do
+    subprocess_0
+    subprocess_1
+    subprocess_2
+  end
+<% end -%>
+
+In that Ruby process definition example, as soon as two subprocesses do reply to the concurrence, the other gets cancelled and the flow resumes.
+
+"concurrence expression":expressions.html#exp_concurrence
+"original pattern explanation":http://workflowpatterns.com/patterns/control/state/wcp16.php
+
+
+h3(#pat_17_interleaved_parallel_routing). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Interleaved Parallel Routing
+
+OpenWFEja has an "interleaved" expression supposed to directly implement this pattern. Ruote doesn't reproduce it but makes use of the "reserve" expression (also used for "critical section").
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+ <concurrence>
+   <reserve mutex="toto">
+     <participant ref="test_b" />
+   </reserve>
+   <sequence>
+     <reserve mutex="toto">
+       <participant ref="test_c" />
+     </reserve>
+     <reserve mutex="toto">
+       <participant ref="test_d" />
+     </reserve>
+   </sequence>
+ </concurrence>
+<% end -%>
+
+The 'reserve' expression is a named mutex, the name is a variable name. Thus if the name begins with '//' (double-slash), the mutex will be stored at the engine level and the 'critical section' may span multiple business processes. The examples here have their scope limited to their process. A mutex name prefixed with '/' (one slash) indicates that the variable should be bound at process level, this is useful for mutexes shared among subprocesses (not putting a slash prefix would create mutex locally / at the subprocess level, defeating the exclusivity purpose).
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+ concurrence do
+   reserve :mutex => :toto do
+     test_b
+   end
+   sequence do
+     reserve :mutex => :toto do
+       test_c
+     end
+     reserve :mutex => :toto do
+       test_d
+     end
+   end
+ end
+<% end -%>
+
+"reserve expression":expressions.html#exp_reserve
+"original pattern explanation":http://workflowpatterns.com/patterns/control/state/wcp17.php
+
+
+h3(#pat_18_milestone). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Milestone
+
+This pattern is about enabling activities only when the process reaches a certain state.
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  concurrence do
+    sequence do
+      participant :ref => "A"
+      participant :ref => "B", :tag => "milestone"
+      participant :ref => "C"
+    end
+    sequence do
+      wait :until => "'${milestone}' != ''", :frequency => "300"
+      participant :ref => "D"
+    end
+  end
+<% end -%>
+
+In this segment of process, the participant 'D' will be activated (applied) only when the parallel branch reaches participant 'B'.
+
+This pattern is implemented by relying on the :tag attribute that any Ruote expression may yield (more about those tags in this "'state machine' blog post":http://jmettraux.wordpress.com/2007/12/03/state-machine/).
+
+When the tag "milestone" gets set, the wait expression's condition will evaluate to true and the lower parallel branch will resume its execution and reach participant 'D'.
+
+Since Ruote 0.9.17, the condition can be expressed as :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+
+  #wait :until => "'${milestone}' != ''", :frequency => "300"
+    # before Ruote (OpenWFEru) 0.9.17
+
+  wait :until => "${milestone} is set", :frequency => "300"
+    # since Ruote 0.9.17
+<% end -%>
+
+To conclude with an XML example, the 'when' expression can be used as well :
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <concurrence>
+    <sequence>
+      <participant ref="A" />
+      <sequence tag="milestone">
+        <participant ref="B" />
+        <participant ref="C" />
+      </sequence>
+      <participant ref="D" />
+    </sequence>
+    <when test="'${milestone}' != ''">
+      <participant ref="E" />
+    </when>
+  </concurrence>
+<% end -%>
+
+Here, the participant 'E' is 'activated' when the sequence 'B - C' is reached (in the previous (Ruby) example, a single participant was tagged 'milestone').
+
+Of course, tag names other than 'milestone' can be used.
+
+"wait expression":expressions.html#exp_wait
+"when expression":expressions.html#exp_when
+"original pattern explanation":http://workflowpatterns.com/patterns/control/state/wcp18.php
+
+
+<hr/>
+
+h2(#pat_f). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Cancellation Patterns
+
+h3(#pat_19_cancel_task). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Cancel Task
+
+(work in progress)
+
+h3(#pat_20_cancel_case). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>Cancel Case
+
+(work in progress)
+
+
+<hr/>
+
+h2(#pat_g). <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a>New Control Flow Patterns
+

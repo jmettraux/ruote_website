@@ -13,15 +13,21 @@ h3. basic documentation
 
 * the ruote engine expects [business] process definitions as a set of "expressions":expressions.html
 
+* there are three ways to write "process definitions":definitions.html, as XML, as Ruby or directly as process definition tree.
+
 * the engine communicates with the external world via "participants":participants.html that abstract the 'who' or 'what' is handling the workitems handed by the engine (to them, participants).
+
+* "workitems":workitems.html
 
 h3. advanced documentation
 
 * the "glossary":glossary.html enumerates concepts and terms used throughout Ruote and attempts at giving explanations for them
 
-* "workflow patterns":patterns.html
+* 'workflow patterns' provide a conceptual basis for process technology, they are enumerated by the research groups of Prof van der Aalst and Prof ter Hofstede at "http://workflowpatterns.com":http://workflowpatterns.com the following documentation piece details how a certain number of "control flow patterns":patterns.html can be implemented with Ruote
 
 h3. blog excerpts
 
 a few links to blog posts about ruote.
+
+* "how does Ruote work ?":http://jmettraux.wordpress.com/2008/09/07/how-does-ruote-work/
 
