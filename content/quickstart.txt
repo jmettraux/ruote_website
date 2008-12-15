@@ -1,0 +1,46 @@
+---
+title: quickstart
+filter:
+  - erb
+  - textile
+---
+
+h3. quickstart
+
+Here is a tiny process that fetches picture info from "http://flickr.com":http://flickr.com and submit it to three user, working concurrently on choosing their favourite photo.
+
+Three human participants and two automated participants are involved (though for the sake of brevity, our human participants are represented by a random number generator)
+
+This example is inspired by Amazon's mechanical turk, where one example of workflow uses human participants to tell whether a set of pictures contains the photo of a tree or an animal, etc...
+
+To run this example, you have at first to install the ruote gem (and the atom-tools one) :
+
+<pre>
+sudo gem install ruote atom-tools
+</pre>
+
+Then, to download and run the quickstart (Ruby 1.8.6 at least) :
+
+<pre>
+curl http://gist.github.com/raw/35914/d7bf829870c1a24eac7ac78be41d71535f8c8f48 > qs.rb
+ruby qs.rb
+</pre>
+
+That should generate an output like :
+
+<pre>
+ users selected those images : 
+
+ - user-charly :: http://www.flickr.com/photos/ssami/3105506108/
+ - user-bob :: http://www.flickr.com/photos/30211958@N00/3106452587/
+ - user-alice :: http://www.flickr.com/photos/mynamemeanseyes/3098673543/
+</pre>
+
+If not, you'll find some help on the "user's mailing list":http://groups.google.com/group/openwferu-users or on the #ruote channel on freenode.net
+
+Here is the source of the quickstart :
+
+<script src="http://gist.github.com/35914.js"></script>
+
+(I initially planned to use another quickstart example, but was not really happy with it, it's "visible":http://jmettraux.wordpress.com/2008/12/15/mini-todo-tool/ anyway)
+

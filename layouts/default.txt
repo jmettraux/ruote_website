@@ -38,7 +38,7 @@ filter:    erb
      </div>
      <div class="column span-10 align-right last">
        <a href="documentation.html">doc</a>
-       <a href="source.html">source</a>
+       <a href="http://github.com/search?q=ruote">source</a>
        <a href="lists.html">lists</a>
        <a href="http://jmettraux.wordpress.com">blog</a>
        <a href="http://difference.openwfe.org:3000/">demo</a>

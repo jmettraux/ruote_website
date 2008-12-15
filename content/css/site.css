@@ -22,7 +22,7 @@ body {
 }
 
 .CodeRay {
-  margin-bottom: 0.75em;
+  margin-bottom: 1em;
 }
 
 /* Headings
@@ -38,6 +38,7 @@ blockquote        { color: <%= @page.color['blockquote'] %>; }
 pre {
   background: <%= @page.color['box-bg'] %>;
   border:     1px solid <%= @page.color['border'] %>;
+  margin-bottom: 1em;
 }
 
 hr {
