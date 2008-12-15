@@ -1,0 +1,15 @@
+---
+title: lists
+filter:
+  - erb
+  - textile
+---
+
+h3. lists
+
+The main list is the users' mailing list : "http://groups.google.com/group/openwferu-users":http://groups.google.com/group/openwferu-users
+
+There is a developer mailing list, but it's almost not used, communication among developers happens on the users mailing list as well. This dev list is at "http://groups.google.com/group/openwferu-dev":http://groups.google.com/group/openwferu-dev
+
+The users mailing list is the preferred support medium (since it's archived), but there is also the #ruote channel on freenode.net which is used from time to time.
+

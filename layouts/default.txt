@@ -30,7 +30,7 @@ filter:    erb
 
      <div class="column span-20 first last" id="hheader">
        <a href="/"><img src="/images/ruote.png" align="left"/></a>
-       <span id="ruote">ruote</span>
+       <span id="ruote" onclick="location.href = '/'; return true;">ruote</span>
      </div>
 
      <div class="column span-10 first">
