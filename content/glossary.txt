@@ -5,6 +5,8 @@ filter:
   - textile
 ---
 
+h2. glossary
+
 An attempt at defining or explaining terms involved in ruote.
 
 

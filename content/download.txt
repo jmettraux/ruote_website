@@ -1,0 +1,30 @@
+---
+title: download
+filter:
+  - erb
+  - textile
+---
+
+h2. download
+
+
+h3. as a gem
+
+Since Ruote is, at the core, a Ruby library simply doing
+
+<pre>
+sudo gem install ruote
+</pre>
+
+will get it on your system (including all its dependencies).
+
+
+h3. releases
+
+"http://rubyforge.org/frs/?group_id=2609":http://rubyforge.org/frs/?group_id=2609
+
+
+h3. from the source
+
+Ruote and all its components is "hosted on GitHub":http://github.com/search?q=ruote
+

@@ -5,7 +5,7 @@ filter:
   - textile
 ---
 
-h3. quickstart
+h2. quickstart
 
 Here is a tiny process that fetches picture info from "http://flickr.com":http://flickr.com and submit it to three user, working concurrently on choosing their favourite photo.
 

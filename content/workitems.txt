@@ -5,7 +5,7 @@ filter:
   - textile
 ---
 
-h3. workitems
+h2. workitems
 
 a few words about launchitems and workitems.
 

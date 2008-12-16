@@ -5,7 +5,7 @@ filter:
   - textile
 ---
 
-h3. description
+h2. ruote
 
 <strong>Ruote</strong> is a workflow engine written in Ruby.  It's a runtime for long running [business] processes.
 

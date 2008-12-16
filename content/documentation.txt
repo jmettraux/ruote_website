@@ -5,6 +5,11 @@ filter:
   - textile
 ---
 
+h2. documentation
+
+bits and pieces of documentation.
+
+
 h3. quickstarts
 
 * the "ruote quickstart":quickstart.html details how to install the ruote and gem and to write a first process definition and then launch a few instances of it
