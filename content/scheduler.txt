@@ -7,7 +7,7 @@ filter:
 
 h2. the rufus-scheduler
 
-<b>update</b> : The scheduler has moved. It has become the "rufus-scheduler":http://rufus.rubyforge.org/rufus-scheduler gem.
+<b>update</b> : The scheduler has moved. It has become the "rufus-scheduler":http://github.com/jmettraux/rufus-scheduler gem.
 
 You can install it with :
 
