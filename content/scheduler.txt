@@ -1,0 +1,266 @@
+---
+title: rufus-scheduler gem
+filter:
+  - erb
+  - textile
+---
+
+h2. the rufus-scheduler
+
+<b>update</b> : The scheduler has moved. It has become the "rufus-scheduler":http://rufus.rubyforge.org/rufus-scheduler gem.
+
+You can install it with :
+
+<pre>
+  sudo gem install rufus-scheduler
+</pre>
+
+Backward compatibility has been preserved. This is still ok :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  require 'rubygems'
+  require 'openwfe/util/scheduler'
+
+  scheduler = OpenWFE::Scheduler.new
+  scheduler.start
+
+  # ...
+<% end %>
+
+Though the new gem will simply require :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  require 'rubygems'
+  require 'rufus/scheduler'
+
+  scheduler = Rufus::Scheduler.start_new
+
+  # ...
+<% end %>
+
+This 'move' is part of a move of some of the OpenWFEru subprojects from OpenWFEru to "Rufus":http://rufus.rubyforge.org (and OpenWFEru itself is now nicknamed "ruote").
+
+The information about all the rufus gems
+
+<hr>
+
+Ruote being a workflow / business process engine needs a scheduler for tasks to execute later (_at_) and tasks to execute repetitively (_cron_ or _every_).
+
+Quickly the scheduler was spinned off of OpenWFEru / ruote to become an independent gem released under the MIT license.
+
+The ruote scheduler was first presented in Ilya Grigorik's blog post about "Scheduling tasks in Ruby / Rails":http://www.igvita.com/blog/2007/03/29/scheduling-tasks-in-ruby-rails/ (under its former openwferu-scheduler name though).
+
+
+h3. independent (own gem)
+
+The "rufus-scheduler" is available in its *own gem*, just do
+
+<pre>
+  sudo gem install rufus-scheduler
+</pre>
+
+to get it. You can then use it straightaway like in
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  require 'rubygems'
+  require 'rufus/scheduler'
+
+  scheduler = Rufus::Scheduler.start_new
+
+  scheduler.schedule_in("1h12m") do
+    puts "...taking out the garbage (as requested one hour and twelve minutes ago)"
+  end
+
+  # ...
+<% end %>
+
+
+h3. "at" jobs
+
+"at" jobs are jobs to be executed in the future once (and only once). They are registered via the schedule_in() and the schedule_at() methods of the Scheduler.
+
+The basic idea is :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  scheduler.schedule_in("1h12m") do
+    puts "one hour and twelve minutes later..."
+  end
+
+  scheduler.schedule_at("Fri Jul 20 09:07:02 +0900 2007") do
+    puts "on this beautiful July day..."
+  end
+
+
+  require 'time'
+    #
+    # so that the Time class now features the parse() methods
+
+  scheduler.schedule_at Time.parse('18 July 2007 14:09:00') do
+    puts "yet another beautiful July day in the current time zone..."
+  end
+<% end %>
+
+Note that jobs meant to be scheduled at past dates will be triggered immediately but not scheduled. There is a :discard_past parameter to prevent the immediate triggering.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  jobid = scheduler.schedule_at yesterday do
+    puts "yesterday or today ?"
+  end
+    #
+    # the message will be displayed immediately. 'jobid' will yield nil.
+
+  jobid = scheduler.schedule_at(yesterday, :discard_past => true) do
+    puts "yesterday or today ?"
+  end
+    #
+    # the message will not be displayed. 'jobid' will yield nil.
+<% end %>
+
+
+h3. "cron" jobs
+
+Cron jobs have been around since as long as unixes have. The cron aspect of our ruby scheduler follows thus the "established practice":http://en.wikipedia.org/wiki/Cron
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  scheduler.schedule("1-60/3 * * * mon-fri") do
+    puts "...popping up every 3 minutes on weekdays..."
+  end
+<% end %>
+
+You can type "man 5 crontab" on your favourite unix box or look "there":http://www.google.com/search?q=man%205%20crontab to learn more about the cron format.
+
+cron jobs can be specified at the second level :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  scheduler.schedule("7 1-60/3 * * * *") do
+    puts "...popping up every 3 minutes, at the seventh second ..."
+  end
+<% end %>
+
+The first column is dedicated to seconds and optional, it behaves like the other columns, accepting a single value, or list or ranges of values.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  scheduler.schedule("7,27 * * * * *") do
+    puts "...popping up at the seventh and the twenty-seventh seconds..."
+  end
+<% end %>
+
+
+h3. "every" jobs
+
+For something more relaxed than cron :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  scheduler.schedule_every("12m45s") do
+    puts "...popping up every 12 minutes and 45 seconds..."
+  end
+<% end %>
+
+'every' jobs can reschedule/unschedule themselves. Two examples in an "internet electronic mail" context :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  schedule.schedule_every "5h" do |job_id, at, params|
+  
+    mails = $inbox.fetch_mails
+    mails.each { |m| $inbox.mark_as_spam(m) if is_spam(m) }
+  
+    params[:every] = if mails.size > 100
+      "1h" # lots of spam, check every hour
+    else
+      "5h" # normal schedule, every 5 hours
+    end
+  end
+<% end %>
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  schedule.every '10s' do |job_id, at, params|
+    #
+    # polls every 10 seconds until a mail arrives
+  
+    $mail = $inbox.fetch_last_mail
+  
+    params[:dont_reschedule] = true if $mail
+  end
+<% end %>
+
+
+h3. unscheduling jobs
+
+The scheduling methods each return a job identifier that can be used to unschedule the jobs :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  job_id = scheduler.schedule_every('12m45s') do
+    puts "...popping up every 12 minutes and 45 seconds..."
+  end
+
+  # a bit later...
+
+  scheduler.unschedule(job_id)
+<% end %>
+
+
+h3. stopping the scheduler
+
+To stop the scheduler :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  scheduler.stop
+<% end %>
+
+
+h3. scheduler precision
+
+By default, the scheduler checks for jobs to trigger 4 times per second. This is configurable at instantiation.
+    
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  scheduler = Rufus::Scheduler.new(:scheduler_precision => 0.500)
+  scheduler.start
+    #
+    # instatiates a scheduler that checks its jobs twice per second
+    # (the default is 4 times per second (0.250))
+
+  puts "scheduler precision is #{scheduler.precision}"
+<% end %>
+
+
+h3. <a name="tags"></a>tagging jobs
+
+It's possible to tag jobs at schedule time :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  scheduler.schedule_in "2h", :tags => "backup" do
+    init_backup_sequence()
+  end
+  scheduler.schedule "0 24 * * *", :tags => [ "old_day", "backup" ] do
+    init_backup_sequence()
+  end
+
+  scheduler.schedule "0 09 * * *", :tags => "new_day" do
+    unlock_building_doors()
+  end
+
+  # fetching the jobs with the backup tag
+
+  backup_jobs = scheduler.find_jobs('backup')
+
+  # and cancelling them ...
+
+  backup_jobs.each { |j| scheduler.unschedule(j.job_id) }
+<% end %>
+
+
+h3. questions ?
+
+If you have questions, feel free to ask them on Rufus's "mailing list":http://groups.google.com/group/rufus-ruby
+
+Or on freenode.net at #ruote
+
+
+h3. (uninstalling rufus-scheduler)
+
+if you don't need it :
+
+<pre>
+  sudo gem uninstall rufus-scheduler
+</pre>
+
