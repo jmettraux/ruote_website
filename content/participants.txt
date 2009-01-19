@@ -53,7 +53,7 @@ Participants are registered in the engine in this way :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
   require 'openwfe/engine/engine'
-  require 'openwfe/worklist/storeparticipants'
+  require 'openwfe/worklist/store_participants'
 
   (...)
 
@@ -253,7 +253,7 @@ h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.p
 This participant just dumps workitems to files. By default, it dumps the workitem as a YAML string, but you can override the encode_workitem() method.
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  require 'openwfe/participants/participants'
+  require 'openwfe/participants'
 
   engine.register_participant("Fedor", OpenWFE::FileParticipant)
 <% end -%>
@@ -348,7 +348,7 @@ Note that the participant and the subprocess are simply referred directly via th
 A ProcessParticipant can solve this URL problem :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  require 'openwfe/participants/participants'
+  require 'openwfe/participants'
 
   engine.register_participant(
     "proc0", 
@@ -386,7 +386,7 @@ h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.p
 A quite straightforward participant, it dumps the workitems over a TCP connection.
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  require 'openwfe/participants/socketparticipants'
+  require 'openwfe/participants/socket_participants'
 
   sp = OpenWFE::SocketParticipant.new("localhost", 7007)
 
@@ -407,7 +407,7 @@ SQS is an Amazon web service : 'Amazon Simple Queue Service (Amazon SQS) offers 
 The SqsParticipant deposits workitems on a SQS queue where they can be read by other applications.
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  require 'openwfe/extras/participants/sqsparticipants'
+  require 'openwfe/extras/participants/sqs_participants'
 
   engine.register_participant(:queue, OpenWFE::Extras::SqsParticipant.new("workqueue0"))
 <% end -%>
@@ -416,7 +416,7 @@ By default, this participant does a YAML dump of the workitem in its 'hash versi
 You can very easily change that by overriding encode_workitem(), for example :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  require 'openwfe/extras/participants/sqsparticipants'
+  require 'openwfe/extras/participants/sqs_participants'
 
   sp = OpenWFE::Extras::SqsParticipant.new("workqueue0")
   class << sp
@@ -464,7 +464,7 @@ The TwitterParticipant was first documented in this "blog post":http://jmettraux
 Twitter notification could be a lightweight substitute for email notification.
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  require 'openwfe/extras/participants/twitterparticipants'
+  require 'openwfe/extras/participants/twitter_participants'
 
   tp = OpenWFE::Extras::TwitterParticipant.new(
     twitter_account, twitter_password, :no_ssl => true)
@@ -480,7 +480,7 @@ The TwitterParticipant, out of the box supports status and direct messages. The 
 The way the message and the target are determined can be changed by overriding (or monkey patching) the extract_message() method. Here is an example :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  require 'openwfe/extras/participants/twitterparticipants'
+  require 'openwfe/extras/participants/twitter_participants'
 
   class MyTwitterParticipant < OpenWFE::Extras
 

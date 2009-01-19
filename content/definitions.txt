@@ -9,7 +9,7 @@ h2. definitions
 
 There are 3 main ways to define processes with Ruote (OpenWFEru).
 
-The first one, inherited from OpenWFE (java), is via "XML":#xml. The second one is using the "Ruby":#ruby language. The third way is to write process definitions as "trees":#tree of expressions (abstract syntax tree). The first two representations are anyway turned into the third one upon process launch.
+The first one, inherited from OpenWFE (java), is via "XML":#xml. The second one is using the "Ruby":#ruby language. The third way is to write process definitions [directly] as "trees":#tree of expressions (abstract syntax tree). The first two representations are anyway turned into the third one upon process launch.
 
 Here is a process definition, a simple one, expressed in the 3 ways :
 
