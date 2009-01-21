@@ -77,6 +77,8 @@ h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.p
 
 Makes for ugly process definitions, but anyway... With this expression, a complex value (like a list or a map) can be described directly in XML or YAML in the process definition.
 
+See the "restore":#exp_restore expression for some examples.
+
 "rdoc":rdoc/classes/OpenWFE/AttributeExpression.html for more information
 
 
@@ -973,6 +975,43 @@ end
   openwferu_engine.launch li
 <% end -%>
 )
+
+In XML, it looks like :
+
+<% coderay(:lang => 'xml', :line_numbers => "inline") do -%>
+<process-definition name="test" revision="44b9">
+  <set-fields>
+    <a>
+      <hash>
+        <entry>
+          <string>name</string><string></string>
+        </entry>
+        <entry>
+          <string>address</string><string></string>
+        </entry>
+        <entry>
+          <string>email</string><string></string>
+        </entry>
+      </hash>
+    </a>
+  </set-fields>
+  <sequence>
+    <participant ref="approve_registration" />
+    <participant ref="perform_registration if="${approved} == true" />
+    <participant ref="notify_customer" />
+  </sequence>
+</process-definition>
+<% end -%>
+
+Note that the passing JSON (or YAML) is OK :
+
+<% coderay(:lang => 'xml', :line_numbers => "inline") do -%>
+  <set-fields>
+    <a>
+      { "customer": { "name": "Zigue", "age": 34 }, "approved": false }
+    </a>
+  </set-fields>
+<% end -%>
 
 "rdoc":rdoc/classes/OpenWFE/RestoreWorkItemExpression.html
 
