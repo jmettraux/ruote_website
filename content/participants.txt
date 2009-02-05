@@ -97,7 +97,6 @@ Here are the participant implementations that ship with Ruote (OpenWFEru) :
 * <a href="#NullParticipant">NullParticipant</a>  - a bit like /dev/null, this participant will simply receive any workitem and discard them, but it never replies to the engine
 * <a href="#ProcessParticipant">ProcessParticipant</a>  - placing a [sub-]process launch behind a participant name (or names)
 * <a href="#SoapParticipant">SoapParticipant</a>  - invoking webservices from a process instance
-* <a href="#SocketParticipant">SocketParticipant</a>  - dispatching workitems over TCP sockets
 * <a href="#SqsParticipant">SqsParticipant</a>  - dispatching worktiems via "Amazon SQS":http://aws.amazon.com
 * <a href="#TwitterParticipant">TwitterParticipant</a>  - for notifications of users via "Twitter":http://www.twitter.com
 * <a href="#YamlParticipant">YamlParticipant</a>  - storing workitems in a persisted worklist
@@ -379,26 +378,6 @@ This is a minimal implementation, but it's Ruby, the extension possibilities are
 "rdoc":rdoc/classes/OpenWFE/SoapParticipant.html
 
 This participant is used in "one":/examples/quotereporter.rb of the examples in the "examples/":/examples/ folder of Ruote.
-
-
-h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="SocketParticipant"></a>SocketParticipant
-
-A quite straightforward participant, it dumps the workitems over a TCP connection.
-
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  require 'openwfe/participants/socket_participants'
-
-  sp = OpenWFE::SocketParticipant.new("localhost", 7007)
-
-  engine.register_participant(:stuart, sp)
-<% end -%>
-
-"rdoc":rdoc/classes/OpenWFE/SocketParticipant.html
-
-An extension : "XmlSocketParticipant":rdoc/classes/OpenWFE/SocketParticipant.html which dispatches workitems encoded as XML (as OpenWFEja understands them).
-
-Of course, there is a "SocketListener":rdoc/classes/OpenWFE/SocketListener.html available.
-
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="SqsParticipant"></a>SqsParticipant
 
