@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#webby build
+webby build
 
 rsync -azv -e ssh \
   output/ \

@@ -80,10 +80,11 @@ Pull participants like store participants, simply keep the workitems for later c
 
 &nbsp;
 
-Here are the participant implementations that ship with Ruote (OpenWFEru) :
+Here are the participant implementations that ship with Ruote (OpenWFEru) :<a name="top"></a>
 
 * <a href="#ActiveParticipant">ActiveParticipant</a>  - a participants that uses "ActiveRecord":http://ar.rubyonrails.com/ for storing workitems.
 * <a href="#ActiveStoreParticipant">ActiveStoreParticipant</a>  - a refinement of the ActiveParticipant
+* <a href="#ActiveResourceParticipant">ActiveResourceParticipant</a>  - a participant for interacting with 'active resources', it was contributed by "Torsten Schoenebaum":http://github.com/tosch
 * <a href="#AliasParticipant">AliasParticipant</a>  - adding extra names to participants
 * <a href="#AtomFeedParticipant">AtomFeedParticipant</a>  - outputting workitem to an Atom feed
 * <a href="#AtomPubParticipant">AtomPubParticipant</a>  - posting workitems as Atom entries to an AtomPub enabled resource
@@ -92,6 +93,7 @@ Here are the participant implementations that ship with Ruote (OpenWFEru) :
 * <a href="#CsvParticipant">CsvParticipant</a>  - a decision table participant
 * <a href="#FileParticipant">FileParticipant</a>  - dumping workitems to files
 * <a href="#HashParticipant">HashParticipant</a>  - storing workitems in an in-memory hash
+* <a href="#JabberParticipant">JabberParticipant</a>  - an XMPP participant contributed by "Kenneth Kalmer":http://www.opensourcery.co.za/
 * <a href="#MailParticipant">MailParticipant</a>  - sending a email [notification] for each workitem passing in the participant
 * <a href="#NoOperationParticipant">NoOperationParticipant</a>  - immediately replying to the engine, no operation
 * <a href="#NullParticipant">NullParticipant</a>  - a bit like /dev/null, this participant will simply receive any workitem and discard them, but it never replies to the engine
@@ -120,6 +122,25 @@ h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.p
 It's a refinement of the <a href="#ActiveParticipant">ActiveParticipant</a>. This is the participant used by <a href="rquickstart.html">'densha'</a> for its workitem stores.
 
 "rdoc":rdoc/classes/OpenWFE/Extras/ActiveStoreParticipant.html
+
+
+h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="ActiveResourceParticipant"></a>ActiveResourceParticipant
+
+Ruby on Rails provides a REST oriented framework for interacting with its active record, it's called Active Resource. "Torsten Schoenebaum":http://github.com/tosch has written a participant that wraps HTTP interactions with Rails [active] resource.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.register_participant(
+    'reminder',
+    ActiveResourceParticipant.new(
+      :site => 'http://localhost:3000',
+      :resource_name => 'invoice',
+      :method => 'post',
+      :argument => 'invoice_details'))
+<% end -%>
+
+This example will post (create) a new invoice based on the information (array) found in the field 'invoice_details' of incoming workitems.
+
+"rdoc":rdoc/classes/OpenWFE/Extras/ActiveResourceParticipant.html
 
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="AliasParticipant"></a>AliasParticipant
@@ -277,9 +298,39 @@ This participant is used in "one":/examples/mano_tracker.rb of the examples in t
 But the better rdoc to browse is the one of the "StoreParticipantMixin":rdoc/classes/OpenWFE/StoreParticipantMixin.html module HashParticipant implements.
 
 
+h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="JabberParticipant"></a>JabberParticipant
+
+"Kenneth Kalmer":http://www.opensourcery.co.za/ implemented this participant for his ruote engines to communicate with agents over XMPP (Jabber).
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.register_participant(
+    :jabber,
+    OpenWFE::Extras::JabberParticipant.new(
+      :jabber_id => 'ruote@devbox',
+      :password => 'secret',
+      :contacts => [ 'kenneth@devbox', 'torsten@devbox' ]))
+<% end -%>
+
+"rdoc":rdoc/classes/OpenWFE/Extras/JabberParticipant.html
+
+Kenneth also contributed a JabberListener for Ruote to listen to message (workitems) coming over XMPP ("rdoc":rdoc/classes/OpenWFE/Extras/JabberListener.html)
+
+<!--
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.register_listener(
+    OpenWFE::Extras::JabberListener,
+    :jabber_id => 'ruote@devbox',
+    :password => 'secret',
+    :contacts => [ 'kenneth@devbox', 'torsten@devbox' ])
+<% end -%>
+-->
+
+
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="MailParticipant"></a>MailParticipant
 
 This participant sends a notification per email. The text of the email is generated by filling a template with the data found in the workitem payload.
+
+(Thanks to "Alain Hoang":http://blogs.law.harvard.edu/hoanga/ for the initial implementation of this participant)
 
 "rdoc":rdoc/classes/OpenWFE/MailParticipant.html
 
