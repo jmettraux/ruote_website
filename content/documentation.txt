@@ -14,6 +14,7 @@ h3. quickstarts
 
 * the "ruote quickstart":quickstart.html details how to install the ruote and gem and to write a first process definition and then launch a few instances of it
 
+
 h3. basic documentation
 
 * the ruote engine expects [business] process definitions as a set of "expressions":expressions.html
@@ -24,11 +25,15 @@ h3. basic documentation
 
 * "workitems":workitems.html
 
+* there are various "persistence":persistence.html flavours for the engine
+
+
 h3. advanced documentation
 
 * the "glossary":glossary.html enumerates concepts and terms used throughout Ruote and attempts at giving explanations for them
 
 * 'workflow patterns' provide a conceptual basis for process technology, they are enumerated by the research groups of Prof van der Aalst and Prof ter Hofstede at "http://workflowpatterns.com":http://workflowpatterns.com the following documentation piece details how a certain number of "control flow patterns":patterns.html can be implemented with Ruote
+
 
 h3. blog excerpts
 

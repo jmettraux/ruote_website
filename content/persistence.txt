@@ -1,0 +1,88 @@
+---
+title: persistence
+filter:
+  - erb
+  - textile
+---
+
+h2. engine persistence
+
+*Warning* : this piece of documentation is about the persistence scheme found in Ruote 0.9.20 and above.
+
+The persistence as described here is 'persistence of the process instance' aka 'workflow runtime data persistence', it's not the same as worklist/workitem persistence.
+
+At the end of this page, there is an explanation about "pooltool.rb":#pooltool, a script for migration of rundata from one persistence flavour to another.
+
+
+<hr>
+
+
+h3. in-memory
+
+h4. OpenWFE::Engine
+
+This is the engine used in the "quickstart":quickstart.html, no persistence, the engine, gets shut down, all the processes are forgotten.
+
+It may still be useful in scenarii where a transient engine is necessary (tiny subprocesses, webflow, ...)
+
+<hr>
+
+
+h3. filesystem based persistence
+
+h4. OpenWFE::FsPersistedEngine
+
+This is the default persistence mechanism for "ruote-rest":http://github.com/jmettraux/ruote-rest and "ruote-web2":http://github.com/jmettraux/ruote-web2
+
+It stores the processes rundata in a hierarchy of directions with files for each expressions at the leaves.
+
+
+<hr>
+
+
+h3. relational database backed persistence
+
+h4. ...
+
+blah
+
+
+<hr>
+
+
+h3. Tokyo Cabinet / Tyrant based persistence
+
+"Tokyo Cabinet":http://tokyocabinet.sf.net/index.html is a lean DBM system authored by Mikio Hirabayashi. Cabinet is local while Tokyo Tyrant proposes a TCP front end for cabinets.
+
+Ruote uses the "rufus-tokyo":http://github.com/jmettraux/rufus-tokyo ruby gem for accessing Tokyo Cabinet tables or Tokyo Tyrant tables 
+
+Tokyo Cabinet / Tyrant install "instructions":tokyo.html.
+
+
+h4. OpenWFE::TcPersistedEngine
+
+By default, this engine stores all is rundata (expressions) in a file work/expstorage.tdb
+
+The benchmarks indicate that this persistence mecha performs a bit better than the FileSystem based one.
+
+
+h4. OpenWFE::TtPersistedEngine
+
+Storage occurs in a remote Tokyo Tyrant table. Such a server may be started with a command like :
+
+<pre>
+  ttserver -port 1978 expressions.tct
+</pre>
+
+The suffix .txt is very important, it indicates to Tokyo Tyrant that the backend is a table structure.
+
+By default, the TtPersistedEngine points to a Tyrant server supposedly on the localhost and listening on port 1978 (Tokyo Tyrant's default).
+
+
+<hr>
+
+
+h3. pooltool.rb<a name="pooltool"></a>
+
+blah
+

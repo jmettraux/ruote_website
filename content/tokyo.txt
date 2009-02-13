@@ -1,0 +1,77 @@
+---
+title: Tokyo Cabinet / Tyrant install
+filter:
+  - erb
+  - textile
+---
+
+h2. Tokyo Cabinet / Tyrant install
+
+"Tokyo Cabinet / Tyrant":http://tokyocabinet.sf.net/index.html are two nifty pieces of software. The simplest way of getting the latest of and best version of time is by downloading the source and compiling it.
+
+MacPorts come with an older version of Tokyo Cabinet and no copy of Tokyo Tyrant (well, at least the MacPorts on my mac). Since compiling is very easy (and fast). I tend to "go from the source":http://tokyocabinet.sourceforge.net/spex-en.html#installation instead of using a binary package. My debian box apt-get doesn't seem to know anything about Tyrant or Cabinet.
+
+(Note for Mac users, the compiling steps requires the installation of XCode, it's on the install CD/DVD that comes with the Mac).
+
+Tokyo Tyrant requires Tokyo Cabinet. Compile and install Cabinet first.
+
+If you don't need Tokyo Tyrant (no remote access needed), feel free to just install Tokyo Cabinet.
+
+
+h3. getting the source 
+
+h4. via sourceforge.net
+
+- "Tokyo Cabinet":http://sourceforge.net/project/showfiles.php?group_id=200242&package_id=237686
+- "Tokyo Tyrant":http://sourceforge.net/project/showfiles.php?group_id=200242&package_id=260026
+
+<pre>
+tar xzvf tokyocabinet-1.4.5.tar.gz
+tar xzvf tokyotyrant-1.1.14.tar.gz
+</pre>
+
+(version numbers will probably change)
+
+
+h4. via github.com
+
+If you have "git" installed on your system, you can directly fetch the Tokyo sources, thanks to "Etrepum":http://github.com/etrepum
+
+<pre>
+git clone git://github.com/etrepum/tokyo-cabinet.git
+git clone git://github.com/etrepum/tokyo-tyrant.git
+</pre>
+
+
+h3. compiling and installing
+
+<pre>
+cd tokyo-cabinet/
+./configure
+make
+sudo make install
+</pre>
+
+and
+
+<pre>
+cd tokyo-tyrant/
+./configure
+make
+sudo make install
+</pre>
+
+Once install is done, the Cabinet "tools":http://tokyocabinet.sourceforge.net/spex-en.html#tcadbapi_cli and the Tyrant "server":http://tokyocabinet.sourceforge.net/tyrantdoc/#serverprog and "tools":http://tokyocabinet.sourceforge.net/tyrantdoc/#clientprog will be present on your system.
+
+
+h3. uninstalling
+
+If you don't need Tokyo Cabinet or Tyrant, it's easy to come back in the build directory and to run "sudo make uninstall".
+
+<pre>
+cd tokyo-tyrant/
+sudo make uninstall
+</pre>
+
+When upgrading to a newer version of either Tokyo Cabinet or Tokyo Tyrant, this "sudo make uninstall" comes handy as well.
+
