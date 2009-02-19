@@ -5,55 +5,16 @@ filter:
   - textile
 ---
 
-h2. the rufus-scheduler
-
-<b>update</b> : The scheduler has moved. It has become the "rufus-scheduler":http://github.com/jmettraux/rufus-scheduler gem.
-
-You can install it with :
-
-<pre>
-  sudo gem install rufus-scheduler
-</pre>
-
-Backward compatibility has been preserved. This is still ok :
-
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  require 'rubygems'
-  require 'openwfe/util/scheduler'
-
-  scheduler = OpenWFE::Scheduler.new
-  scheduler.start
-
-  # ...
-<% end %>
-
-Though the new gem will simply require :
-
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  require 'rubygems'
-  require 'rufus/scheduler'
-
-  scheduler = Rufus::Scheduler.start_new
-
-  # ...
-<% end %>
-
-This 'move' is part of a move of some of the OpenWFEru subprojects from OpenWFEru to "Rufus":http://rufus.rubyforge.org (and OpenWFEru itself is now nicknamed "ruote").
-
-The information about all the rufus gems
-
-<hr>
+h2. rufus-scheduler
 
 Ruote being a workflow / business process engine needs a scheduler for tasks to execute later (_at_) and tasks to execute repetitively (_cron_ or _every_).
 
-Quickly the scheduler was spinned off of OpenWFEru / ruote to become an independent gem released under the MIT license.
+Quickly, the scheduler was spinned off of ruote (OpenWFEru) to become an independent gem released under the MIT license.
 
-The ruote scheduler was first presented in Ilya Grigorik's blog post about "Scheduling tasks in Ruby / Rails":http://www.igvita.com/blog/2007/03/29/scheduling-tasks-in-ruby-rails/ (under its former openwferu-scheduler name though).
+The rufus-scheduler gem was first presented in Ilya Grigorik's blog post about "Scheduling tasks in Ruby / Rails":http://www.igvita.com/blog/2007/03/29/scheduling-tasks-in-ruby-rails/ (under its former openwferu-scheduler name though).
 
 
-h3. independent (own gem)
-
-The "rufus-scheduler" is available in its *own gem*, just do
+h3. installing
 
 <pre>
   sudo gem install rufus-scheduler
@@ -82,11 +43,11 @@ h3. "at" jobs
 The basic idea is :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  scheduler.schedule_in("1h12m") do
+  scheduler.in("1h12m") do
     puts "one hour and twelve minutes later..."
   end
 
-  scheduler.schedule_at("Fri Jul 20 09:07:02 +0900 2007") do
+  scheduler.at("Fri Jul 20 09:07:02 +0900 2007") do
     puts "on this beautiful July day..."
   end
 
@@ -95,7 +56,7 @@ The basic idea is :
     #
     # so that the Time class now features the parse() methods
 
-  scheduler.schedule_at Time.parse('18 July 2007 14:09:00') do
+  scheduler.at Time.parse('18 July 2007 14:09:00') do
     puts "yet another beautiful July day in the current time zone..."
   end
 <% end %>
@@ -103,17 +64,17 @@ The basic idea is :
 Note that jobs meant to be scheduled at past dates will be triggered immediately but not scheduled. There is a :discard_past parameter to prevent the immediate triggering.
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  jobid = scheduler.schedule_at yesterday do
+  job_id = scheduler.at yesterday do
     puts "yesterday or today ?"
   end
     #
-    # the message will be displayed immediately. 'jobid' will yield nil.
+    # the message will be displayed immediately. 'job_id' will yield nil.
 
-  jobid = scheduler.schedule_at(yesterday, :discard_past => true) do
+  job_id = scheduler.schedule_at(yesterday, :discard_past => true) do
     puts "yesterday or today ?"
   end
     #
-    # the message will not be displayed. 'jobid' will yield nil.
+    # the message will not be displayed. 'job_id' will yield nil.
 <% end %>
 
 
@@ -122,7 +83,7 @@ h3. "cron" jobs
 Cron jobs have been around since as long as unixes have. The cron aspect of our ruby scheduler follows thus the "established practice":http://en.wikipedia.org/wiki/Cron
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  scheduler.schedule("1-60/3 * * * mon-fri") do
+  scheduler.cron("1-60/3 * * * mon-fri") do
     puts "...popping up every 3 minutes on weekdays..."
   end
 <% end %>
@@ -132,7 +93,7 @@ You can type "man 5 crontab" on your favourite unix box or look "there":http://w
 cron jobs can be specified at the second level :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  scheduler.schedule("7 1-60/3 * * * *") do
+  scheduler.cron("7 1-60/3 * * * *") do
     puts "...popping up every 3 minutes, at the seventh second ..."
   end
 <% end %>
@@ -140,7 +101,7 @@ cron jobs can be specified at the second level :
 The first column is dedicated to seconds and optional, it behaves like the other columns, accepting a single value, or list or ranges of values.
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  scheduler.schedule("7,27 * * * * *") do
+  scheduler.cron("7,27 * * * * *") do
     puts "...popping up at the seventh and the twenty-seventh seconds..."
   end
 <% end %>
@@ -151,7 +112,7 @@ h3. "every" jobs
 For something more relaxed than cron :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  scheduler.schedule_every("12m45s") do
+  scheduler.every("12m45s") do
     puts "...popping up every 12 minutes and 45 seconds..."
   end
 <% end %>
@@ -159,7 +120,7 @@ For something more relaxed than cron :
 'every' jobs can reschedule/unschedule themselves. Two examples in an "internet electronic mail" context :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  schedule.schedule_every "5h" do |job_id, at, params|
+  schedule.every "5h" do |job_id, at, params|
   
     mails = $inbox.fetch_mails
     mails.each { |m| $inbox.mark_as_spam(m) if is_spam(m) }
@@ -189,7 +150,7 @@ h3. unscheduling jobs
 The scheduling methods each return a job identifier that can be used to unschedule the jobs :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  job_id = scheduler.schedule_every('12m45s') do
+  job_id = scheduler.every('12m45s') do
     puts "...popping up every 12 minutes and 45 seconds..."
   end
 
@@ -228,14 +189,14 @@ h3. <a name="tags"></a>tagging jobs
 It's possible to tag jobs at schedule time :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  scheduler.schedule_in "2h", :tags => "backup" do
+  scheduler.in "2h", :tags => "backup" do
     init_backup_sequence()
   end
-  scheduler.schedule "0 24 * * *", :tags => [ "old_day", "backup" ] do
+  scheduler.cron "0 24 * * *", :tags => [ "old_day", "backup" ] do
     init_backup_sequence()
   end
 
-  scheduler.schedule "0 09 * * *", :tags => "new_day" do
+  scheduler.cron "0 09 * * *", :tags => "new_day" do
     unlock_building_doors()
   end
 
