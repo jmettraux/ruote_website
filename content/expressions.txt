@@ -1178,16 +1178,18 @@ In a Ruby process definition :
 <% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
   sequence do
 
-    sleep :for => "3m10s"
+    _sleep :for => "3m10s"
       # sleeping for 3 minutes and 10 seconds
 
-    sleep :until => "Mon Dec 03 10:48:03 +0900 2007"
+    _sleep :until => "Mon Dec 03 10:48:03 +0900 2007"
       # sleeping until some point in time
 
-    sleep "3M10d"
+    _sleep "3M10d"
       # sleeping for 3 months and 10 days
   end
 <% end -%>
+
+Note that when using a Ruby process definition, you'd better escape the 'sleep' expression with an underscore at the front to avoid collisions with the 'sleep' method provided by the Kernel class in Ruby.
 
 "rdoc":rdoc/classes/OpenWFE/SleepExpression.html
 
@@ -1363,7 +1365,7 @@ Note how the variable 'type' was set to 'white' and then 'colors' and used withi
       sequence do
         participant :ref => "al", :activity => "sort ${type}"
         participant :ref => "bob", :activity => "clean ${type}"
-        sleep :for => "1h30m"
+        _sleep :for => "1h30m"
         al :activity => "hang ${type}"
         al :activity => "iron ${type}"
       end
