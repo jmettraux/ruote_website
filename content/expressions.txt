@@ -51,7 +51,7 @@ Expressions are enumerated in the alphabetical order, but here is some kind of '
 * <a href="#exp_save">save</a>  - saving a workitem to a process variable
 * <a href="#exp_set">set</a>  - setting a process variable or a workitem field
 * <a href="#exp_set_fields">set-fields</a>  - an alias for <a href="#exp_restore">restore</a>, setting the payload of a workitem at once
-* <a href="#exp_sleep">sleep</a>  - making the process sleep for a while
+* <a href="#exp_wait">sleep</a>  - making the process wait for a while (an alias to 'wait')
 * <a href="#exp_timeout">timeout</a>  - putting a timeout on a process segment
 * <a href="#exp_undefined">undefined</a>  - checking whether a process variable or a workitem is defined
 * <a href="#exp_undo">undo</a>  - undoing a process segment
@@ -59,7 +59,7 @@ Expressions are enumerated in the alphabetical order, but here is some kind of '
 * <a href="#exp_unset">unset</a>  - unsetting a process variable or a workitem field
 * <a href="#exp_variable">variable / v</a>  - getting the value of a process variable
 * <a href="#exp_when">when</a>  - executing a piece of process only when a condition realizes
-* <a href="#exp_wait">wait</a>  - blocking until a condition realizes
+* <a href="#exp_wait">wait</a>  - blocking until a condition realizes or for a certain amount of time
 * <a href="#exp_attribute">attribute / a</a>  - describing some complex value directly from the process definition
 * <a href="#exp_log">log</a>  - logs a message to the application log
 * <a href="#exp_eval">eval</a>  - evaluates snippets of process definitions foudn in fields or variables on the fly
@@ -1160,38 +1160,7 @@ h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.p
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="exp_sleep"></a>sleep
 
-Makes a process segment sleep for a while.
-
-<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
-  <sequence>
-
-    <sleep for="3d" />
-      <!-- sleeping for 3 days -->
-
-    <sleep until="Mon Dec 03 10:48:03 +0900 2007" />
-
-  </sequence>
-<% end -%>
-
-In a Ruby process definition :
-
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
-  sequence do
-
-    _sleep :for => "3m10s"
-      # sleeping for 3 minutes and 10 seconds
-
-    _sleep :until => "Mon Dec 03 10:48:03 +0900 2007"
-      # sleeping until some point in time
-
-    _sleep "3M10d"
-      # sleeping for 3 months and 10 days
-  end
-<% end -%>
-
-Note that when using a Ruby process definition, you'd better escape the 'sleep' expression with an underscore at the front to avoid collisions with the 'sleep' method provided by the Kernel class in Ruby.
-
-"rdoc":rdoc/classes/OpenWFE/SleepExpression.html
+'sleep' got merged into <a href="#exp_wait">'wait'</a> since Ruote 0.9.20.
 
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="exp_step"></a>step
@@ -1522,9 +1491,87 @@ Note that in both examples, the concurrence will wait until the when expression 
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="exp_wait"></a>wait
 
+Since Ruote 0.9.20, 'sleep' got merged into the 'wait' expression.
+
+h4. wait
+
 This expression is very similar to when, but it doesn't accept a nested expression. It blocks until its 'until' condition evaluates to true or until it times out.
 
-May make some process definitions more readable.
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <concurrence>
+    <sequence>
+      <wait until="${done}" />
+      <!-- as soon as one review is ready, start the sorting job ... -->
+      <alice activity="sort reviews" />
+    </sequence>
+    <sequence>
+      <bob activity="do review" />
+      <set var="done" val="true" />
+    </sequence>
+    <sequence>
+      <charly activity="do review" />
+      <set var="done" val="true" />
+    </sequence>
+  </concurrence>
+<% end -%>
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  wait :until => "${reached} == 'stage 2'", :frequency => '30m'
+    # wait until the variable 'reached' is set to 'stage 2' (somewhere
+    # else in the process)
+    # check every thirty minutes.
+<% end -%>
+
+This expression sees more usage in its 'sleep' variant.
+
+h4. sleep
+
+Makes a process segment sleep for a while.
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <sequence>
+
+    <sleep for="3d" />
+      <!-- sleeping for 3 days -->
+
+    <sleep until="Mon Dec 03 10:48:03 +0900 2007" />
+
+  </sequence>
+<% end -%>
+
+In a Ruby process definition :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  sequence do
+
+    _sleep :for => "3m10s"
+      # sleeping for 3 minutes and 10 seconds
+
+    _sleep :until => "Mon Dec 03 10:48:03 +0900 2007"
+      # sleeping until some point in time
+
+    _sleep "3M10d"
+      # sleeping for 3 months and 10 days
+  end
+<% end -%>
+
+'wait' might be more readable (and sound more businessy) though :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  sequence do
+
+    wait :for => "3m10s"
+      # wait for 3 minutes and 10 seconds
+
+    wait :until => "Mon Dec 04 10:48:03 +0900 2007"
+      # wait until some point in time
+
+    wait "3M10d"
+      # wait for 3 months and 10 days
+  end
+<% end -%>
+
+Note that when using a Ruby process definition, you'd better escape the 'sleep' expression with an underscore at the front to avoid collisions with the 'sleep' method provided by the Kernel class in Ruby.
 
 "rdoc":rdoc/classes/OpenWFE/WaitExpression.html for more information
 
