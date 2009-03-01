@@ -11,7 +11,7 @@ h2. engine persistence
 
 The persistence as described here is 'persistence of the process instance' aka 'workflow runtime data persistence', it's not the same as worklist/workitem persistence.
 
-At the end of this page, there is an explanation about "pooltool.rb":#pooltool, a script for migration of rundata from one persistence flavour to another.
+At the end of this page, there is an explanation about "pooltool.ru":#pooltool, a script for migration of rundata from one persistence flavour to another.
 
 
 <hr>
@@ -74,7 +74,7 @@ Storage occurs in a remote Tokyo Tyrant table. Such a server may be started with
   ttserver -port 1978 expressions.tct
 </pre>
 
-The suffix .txt is very important, it indicates to Tokyo Tyrant that the backend is a table structure.
+The suffix .tct is very important, it indicates to Tokyo Tyrant that the backend is a table structure.
 
 By default, the TtPersistedEngine points to a Tyrant server supposedly on the localhost and listening on port 1978 (Tokyo Tyrant's default).
 
@@ -82,7 +82,57 @@ By default, the TtPersistedEngine points to a Tyrant server supposedly on the lo
 <hr>
 
 
-h3. pooltool.rb<a name="pooltool"></a>
+h3. work/pooltool.ru<a name="pooltool"></a>
 
-blah
+Sometimes, it's necessary to move from one persistence mechanism to another. Ruote makes sure to place a tool named "pooltool.ru" under the work/ repository.
+
+There is one important case where you might be forced to use work/pooltool.ru : when the Marshalling mechanism the persistence system uses has changed. This change sometimes occurs between one version of Ruby and another. You'd generally use pooltool.ru with the previous Ruby to read and then write as YAML. And then, from the next Ruby version, to read that YAML and write with the new Marshalling. YAML is way slower than Marshalling persistence, hence it's the recommended persistence flavour.
+
+To get some help about pooltool.ru :
+
+<pre>
+  ruby work/pooltool.ru --help
+</pre>
+
+To migrate from marshal to yaml :
+
+<pre>
+  ruby work/pooltool.ru --yaml work/expool work/expool_copy
+</pre>
+
+this will output something like :
+
+<pre>
+  source : work/expool
+  target : work/expool_copy
+
+  opts : {"-y"=>true}
+
+    . 20090301-gisanubeze 0.0.0 participant  (OpenWFE::ParticipantExpression)
+    . 20090301-gisanubeze 0.0 sequence  (OpenWFE::SequenceExpression)
+    . 20090301-gisanubeze 0 environment  (OpenWFE::Environment)
+    . 20090301-gisanubeze 0 process-definition  (OpenWFE::DefineExpression)
+    . 0 0 environment  (OpenWFE::Environment)
+    . 20090301-giropikutzu 0.0.0 participant  (OpenWFE::ParticipantExpression)
+    . 20090301-giropikutzu 0.0 sequence  (OpenWFE::SequenceExpression)
+    . 20090301-giropikutzu 0 environment  (OpenWFE::Environment)
+    . 20090301-giropikutzu 0 process-definition  (OpenWFE::DefineExpression)
+    . 20090301-gisejusuki 0.0.0 participant  (OpenWFE::ParticipantExpression)
+    . 20090301-gisejusuki 0.0 sequence  (OpenWFE::SequenceExpression)
+    . 20090301-gisejusuki 0 environment  (OpenWFE::Environment)
+    . 20090301-gisejusuki 0 process-definition  (OpenWFE::DefineExpression)
+    . 20090301-dibirizase 0.0.0 participant  (OpenWFE::ParticipantExpression)
+    . 20090301-dibirizase 0.0 sequence  (OpenWFE::SequenceExpression)
+    . 20090301-dibirizase 0 environment  (OpenWFE::Environment)
+    . 20090301-dibirizase 0 process-definition  (OpenWFE::DefineExpression)
+
+  migrated 17 expressions.
+  migrated 5 processes.
+</pre>
+
+Another example, copying from a classical filesystem persistence to a Tokyo Cabinet table :
+
+<pre>
+  ruby work/pooltool.ru work/expool work/expool.tct
+</pre>
 
