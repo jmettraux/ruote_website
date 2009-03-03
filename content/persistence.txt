@@ -13,6 +13,10 @@ The persistence as described here is 'persistence of the process instance' aka '
 
 At the end of this page, there is an explanation about "pooltool.ru":#pooltool, a script for migration of rundata from one persistence flavour to another.
 
+The persistence mechanism is determined by the engine class selection. For example, the class OpenWFE::Engine, the simplest of the engine classes, stores everything in memory. This is super fast, but is limited to the system of the memory and processes just die when the engine stops.
+
+The most common engine will be OpenWFE::FsPersistedEngine. it stores all the processes in a hierarchy of directories, under work/ by default. The expressions that make up process instances are stored using Ruby Marshalling (or YAML as an option, but this is way slower).
+
 
 <hr>
 

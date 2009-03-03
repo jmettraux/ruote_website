@@ -9,7 +9,7 @@ h2. ruote
 
 <strong>Ruote</strong> is a workflow engine written in Ruby.  It's a runtime for long running [business] processes.
 
-Ruote is available under the new "BSD":http://en.wikipedia.org/wiki/BSD_licenses#Proprietary_software_licenses_compatibility open source license.
+Ruote is available under the "MIT":http://en.wikipedia.org/wiki/MIT_License open source license.
 
 There is a small "quickstart":quickstart.html available, it focuses on the ruote 'gem'. For an example integration in Rails there is an online "demo":http://difference.openwfe.org:3000 (though it's still running an old version)
 
