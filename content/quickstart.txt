@@ -7,6 +7,13 @@ filter:
 
 h2. quickstart
 
+The "flickr quickstart":#flickr polls users about random pictures found on Flickr.
+
+The "mini todo tool quickstart":#todo uses a workitem to store a todo list and iterates until the list is entirely checked (1 participant involved). Warning : this quickstart is a bit rough.
+
+
+h3. <a name="flickr"></a>the flickr quickstart
+
 Here is a tiny process that fetches picture info from "http://flickr.com":http://flickr.com and submit it to three user, working concurrently on choosing their favourite photo.
 
 Three human participants and two automated participants are involved (though for the sake of brevity, our human participants are represented by a random number generator)
@@ -42,5 +49,31 @@ Here is the source of the quickstart :
 
 <script src="http://gist.github.com/35914.js"></script>
 
-(I initially planned to use another quickstart example, but was not really happy with it, it's "visible":http://jmettraux.wordpress.com/2008/12/15/mini-todo-tool/ anyway)
+&nbsp;
+
+
+h3.  <a name="todo"></a>the mini todo tool quickstart
+
+Warning : this process is a bit rough, but it may probably help some of you understand Ruote. It's in fact a special case (1 participant, 1 loop).
+
+This quickstart was initially mentioned in this "blog post":http://jmettraux.wordpress.com/2008/12/15/mini-todo-tool/
+
+The whole quickstart can be found at "http://gist.github.com/35894":http://gist.github.com/35894
+
+The process definition boils down to :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+class MyTodoProcess < OpenWFE::ProcessDefinition
+  cursor do
+    perform_task
+    continue :unless => "${f:over}"
+  end
+end
+<% end -%>
+
+It's a "cursor":http://openwferu.rubyforge.org/expressions.html#exp_cursor that gets rewound until the todos are all checked.
+
+The unique participant is named 'perform_task'. It simply presents the user on the console with a list of tasks to perform, accepts new tasks, marks tasks as checked. At the end of each of his run, the participant determines whether all tasks have been performed and sets the value of the field 'over' accordingly.
+
+Ruote is meant to be stoppable and restartable, the tricky part of this example is that, since it's a console example, each time the Ruby runtime gets stopped, the process is stuck in a suspended state. At restart, the process instance has to get re-ignited via a 'replay_at_error' call. (That's something very advanced, you shouldn't have to care about that unless you're building a similar console-driven process).
 

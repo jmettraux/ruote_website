@@ -13,6 +13,8 @@ Quickly, the scheduler was spinned off of ruote (OpenWFEru) to become an indepen
 
 The rufus-scheduler gem was first presented in Ilya Grigorik's blog post about "Scheduling tasks in Ruby / Rails":http://www.igvita.com/blog/2007/03/29/scheduling-tasks-in-ruby-rails/ (under its former openwferu-scheduler name though).
 
+(Note : the mailing list for the scheduler is at "http://groups.google.com/group/rufus-ruby":http://groups.google.com/group/rufus-ruby / Hint : since it's hosted at Google, the search functionality of the mailing list does work)
+
 
 h3. installing
 
