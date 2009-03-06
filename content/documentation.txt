@@ -10,6 +10,13 @@ h2. documentation
 bits and pieces of documentation.
 
 
+h3. presentations
+
+* "Kenneth Kalmer":http://github.com/kennethkalmer presented "Ruote in 20 minutes":http://www.opensourcery.co.za/2009/03/04/ruote-in-20-minutes/ at Ruby on Beer in Johannesburg
+
+* Two presentations of Ruote, one from "October 2008":http://www.slideshare.net/jmettraux/ruote-presentation-in-stockholm-presentation and one from "June 2008":http://www.slideshare.net/jmettraux/openwferu-ruote-bpminna-june-2008
+
+
 h3. quickstarts
 
 * the "ruote quickstart":quickstart.html details how to install the ruote and gem and to write a first process definition and then launch a few instances of it
