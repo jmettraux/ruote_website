@@ -19,6 +19,8 @@ h3. presentations
 
 h3. quickstarts
 
+* "simple.rb":http://github.com/jmettraux/ruote/blob/master/examples/simple.rb is a small example, one process definition, two participants
+
 * the "ruote quickstart":quickstart.html details how to install the ruote and gem and to write a first process definition and then launch a few instances of it
 
 
