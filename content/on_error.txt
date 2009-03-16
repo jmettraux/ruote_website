@@ -1,0 +1,70 @@
+---
+title: definitions
+filter:
+  - erb
+  - textile
+---
+
+h2. on_error / on_cancel
+
+(These two attributes were developed with Raphael Simon and "Kenneth Kalmer":http://www.opensourcery.co.za/. They were introduced in Ruote 0.9.20)
+
+"on_error":#on_error and "on_cancel":#on_cancel are two expression attributes. They can virtually be attached to any expression, though they make more sense when attached to expressions like 'process-definition', 'sequence' or 'concurrence', ie expressions that have child expressions.
+
+When a cancel or error event occurs inside the expression with the attribute (in the expression itself or in one of his child expressions), the value of the attribute will be used to find which participant or subprocess to invoke.
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  OpenWFE.process_definition :name => 'test' do
+    sequence :on_error => 'mail_process_owner' do
+      do_the_job_part_1
+      do_the_job_part_2
+    end
+  end
+<% end -%>
+
+In this example, as soon as an error occurs in do_the_job, part 1 or 2, instead of letting the process "stall" with the error, Ruote will execute 'mail_process_owner' (the name of a participant or a subprocess).
+
+
+h3(#on_error). on_error
+
+To specify a participant or a subprocess to be executed as soon as a segment of process triggers an error, the 'on_error' attribute can be attached to that process segment.
+
+A regular error usually "stalls" a process instance, the administrator has then to restart it manually. With the 'on_error' attribute, the handling of the error can be defined in the process definition.
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  OpenWFE.process_definition :name => 'test' do
+    sequence do
+      prepare_work
+      sequence :on_error => 'mail_process_owner' do
+        do_the_job_part_1
+        do_the_job_part_2
+      end
+      end_work
+    end
+  end
+<% end -%>
+
+In this example, if there is an error in the sequence, the participant named 'mail_process_owner' will be invoked (a workitem will be delivered to it) and, as soon as mail_process_owner replied, the process instance will resume the top sequence (towards 'end_work').
+
+
+h3(#on_cancel). on_cancel
+
+on_cancel is used when some piece of process gets executed when a process gets cnancelled.
+
+(remember that a process can get cancelled externally (admin cancels it) or internally via cancel-process)
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  OpenWFE.process_definition :name => 'test' do
+    sequence :on_cancel => 'notify_initiator' do
+      order_items
+      wait_for_delivery
+      cancel_process :if => '${f:broken_parts} == true'
+      assemble
+      send_to_initiator
+    end
+    process_definition :name => 'notify_initiator' do
+      participant :ref => 'initiator', :note => 'process got cancelled'
+    end
+  end
+<% end -%>
+

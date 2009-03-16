@@ -39,6 +39,10 @@ h3. advanced documentation
 
 * the "glossary":glossary.html enumerates concepts and terms used throughout Ruote and attempts at giving explanations for them
 
+* ruote's "rdoc":http://openwferu.rubyforge.org/rdoc/ (raw ruby documentation)
+
+* "on_error / on_cancel":on_error.html are two expression attributes used to redirect the flow of a process in case of error or just when it gets cancelled
+
 * 'workflow patterns' provide a conceptual basis for process technology, they are enumerated by the research groups of Prof van der Aalst and Prof ter Hofstede at "http://workflowpatterns.com":http://workflowpatterns.com the following documentation piece details how a certain number of "control flow patterns":patterns.html can be implemented with Ruote
 
 

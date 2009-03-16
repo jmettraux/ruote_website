@@ -23,7 +23,7 @@ Here is a process definition, a simple one, expressed in the 3 ways :
 <% end -%>
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  class MyDef < OpenWFE::ProcessDefinition
+  OpenWFE.process_definition :name => 'my_def' do
     sequence do
       participant :ref => 'alice'
       participant :ref => 'bob'
@@ -48,6 +48,30 @@ At the end of this page, a few more "tricks and ideas":#more about process defin
 h4(#xml). XML process definitions
 
 h4(#ruby). Ruby process definitions
+
+The classical process definition in Ruby will look like :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  class MyDef < OpenWFE::ProcessDefinition
+    sequence do
+      participant :ref => 'alice'
+      participant :ref => 'bob'
+    end
+  end
+<% end -%>
+
+It's a Ruby class, but you're not supposed to instantiate it by yourself. Pass it to the engine when launching a process instance based on that process definition.
+
+Since Ruote 0.9.20, the 
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  OpenWFE.process_definition :name => 'my_def' do
+    sequence do
+      participant :ref => 'alice'
+      participant :ref => 'bob'
+    end
+  end
+<% end -%>
 
 h4(#tree). process definition trees
 

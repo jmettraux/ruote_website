@@ -28,6 +28,7 @@ Expressions are enumerated in the alphabetical order, but here is some kind of '
 * <a href="#exp_process-definition">process-definition</a>  - defining a process or a sub process
 * <a href="#exp_cursor">cursor</a>  - like a 'sequence' but with opportunities to go back
 * <a href="#exp_loop">loop</a>  - a 'cursor', with a looping behaviour
+* <a href="#exp_loop">repeat</a>  - an alias for loop
 * <a href="#exp_iterator">iterator</a>  - some kind of 'for' loop
 * <a href="#exp_concurrent-iterator">concurrent-iterator</a>  - each iteration is run in parallel
 * <a href="#exp_subprocess">subprocess</a>  - calling a subprocess
@@ -294,6 +295,38 @@ Cursor commands accept condition attributes like in :
 <% end -%>
 
 More documentation of those conditions in the "cursor command rdoc":rdoc/classes/OpenWFE/CursorCommandExpression.html
+
+Since Ruote 0.9.20, the cursor (and the loop) expressions have 'rewind-if' / 'break-if' attributes.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  class Pr0 < OpenWFE::ProcessDefinition
+  #OpenWFE.process_definition :name => 'pr', :revision => '0'
+
+    # at launch time, the fields 'manager', 'initiator' and 'pr_url' are set
+    # by the initiator
+
+    cursor :rewind_if => '${f:rework}', :break_if => '${f:rejected}' do
+
+      participant '${f:initiator}', :activity => 'prepare pr', :if => '${f:rejected}'
+        # when entering the cursor, the field 'rejected' will not have been
+        # set so the flow will jump directly to the manager.
+
+      manager :activity => 'pr approval'
+
+      cfo :activity => 'pr approval', :if => '${f:dollar_value} > 10000'
+        # only goes to the CFO if the dollar value is high enough
+
+      accounting :activity => 'pr approval'
+      participant :field_ref => 'initiator'
+    end
+  end
+<% end -%>
+
+In this example, the process follows a serie of participant and each time one of the replies, it checks the fields 'rework' and 'rejected'. The cursor exits if the field 'rejected' is set to true, or gets rewound if the field 'rework' holds a true value.
+
+The attributes 'rewind_unless' and 'break_unless' are understood as well.
+
+Original is at "http://gist.github.com/73813":http://gist.github.com/73813
 
 The "loop":#exp_loop expression is a cursor that loops (you have to explicitely break or cancel it, to exit it).
 
@@ -662,6 +695,8 @@ Logs a message to the application log (if not specified otherwise logs/openwferu
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="exp_loop"></a>loop
 
+'repeat' is an alias for 'loop'.
+
 See "cursor":#exp_cursor.
 
 "rdoc":rdoc/classes/OpenWFE/LoopExpression.html
@@ -856,24 +891,13 @@ h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.p
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="exp_redo"></a>redo
 
-Every expression accepts an implicit 'tag' attribute which defines a name under which a copy of the expression before evaluation is kept along with the workitem as applied (as received by the expression tagged).
+This expression is a complement to "undo":#exp_undo
 
-The name (the tag) can then be used by a 'redo' or an '<a href="#exp_undo">undo</a>' expression.
+Whereas 'undo' simply cancels an expression given its tag name, redo will cancel it and restart it.
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
-  sequence do
-    sequence :tag => "core_job" do
-      participant "alice"
-      participant "bob"
-    end
-    participant "charly"
-    _if :test => "${f:charly_not_happy} == true" do
-      _redo :ref => "core_job"
-    end
-  end
-<% end -%>
+Note that as soon as the tagged expression is done, you can't redo it.
 
-Maybe this example should be 'implemented' with a 
+In a Ruby process definition, take care to prefix this expression with an underscore "_redo" to make sure Ruby won't take it for it's own "redo" expression.
 
 "rdoc":rdoc/classes/OpenWFE/RedoExpression.html
 
@@ -1431,6 +1455,8 @@ The name (the tag) can then be used by a 'redo' or an 'undo' expression.
 <% end -%>
 
 In this example, after participant 'charly' did his job, the first sequence (tagged 'side_job') will get cancelled (and its reply to the parent 'concurrence' will get triggered).
+
+If the 'alice / bob' sequence is already over, the 'undo' will have no effect (the tag will have vanished).
 
 See also the "redo":#exp_redo expression.
 

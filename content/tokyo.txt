@@ -11,9 +11,9 @@ h2. Tokyo Cabinet / Tyrant install
 
 MacPorts come with an older version of Tokyo Cabinet and no copy of Tokyo Tyrant (well, at least the MacPorts on my mac). Since compiling is very easy (and fast). I tend to "go from the source":http://tokyocabinet.sourceforge.net/spex-en.html#installation instead of using a binary package. My debian box apt-get doesn't seem to know anything about Tyrant or Cabinet.
 
-(Note for Mac users, the compiling steps requires the installation of XCode, it's on the install CD/DVD that comes with the Mac).
+(Note for Mac users, the compiling step requires the installation of XCode, it's on the install CD/DVD that comes with the Mac).
 
-Tokyo Tyrant requires Tokyo Cabinet. Compile and install Cabinet first.
+Tokyo Tyrant depends on Tokyo Cabinet. Compile and install Cabinet first.
 
 If you don't need Tokyo Tyrant (no remote access needed), feel free to just install Tokyo Cabinet.
 
