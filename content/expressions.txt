@@ -899,6 +899,8 @@ Note that as soon as the tagged expression is done, you can't redo it.
 
 In a Ruby process definition, take care to prefix this expression with an underscore "_redo" to make sure Ruby won't take it for it's own "redo" expression.
 
+It's OK to append a :if or :unless attribute to a '_redo' expression.
+
 "rdoc":rdoc/classes/OpenWFE/RedoExpression.html
 
 related : "using tags for signalling 'process state'":http://jmettraux.wordpress.com/2007/12/03/state-machine/
@@ -1457,6 +1459,8 @@ The name (the tag) can then be used by a 'redo' or an 'undo' expression.
 In this example, after participant 'charly' did his job, the first sequence (tagged 'side_job') will get cancelled (and its reply to the parent 'concurrence' will get triggered).
 
 If the 'alice / bob' sequence is already over, the 'undo' will have no effect (the tag will have vanished).
+
+It's OK to append a :if or :unless attribute to an 'undo' expression.
 
 See also the "redo":#exp_redo expression.
 
