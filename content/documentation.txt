@@ -26,7 +26,9 @@ h3. quickstarts
 
 h3. basic documentation
 
-* the ruote engine expects [business] process definitions as a set of "expressions":expressions.html
+* "examples/engine_template.rb":http://github.com/jmettraux/ruote/blob/master/examples/engine_template.rb is a piece of Ruby code (lots of comments though) instantiating a ruote engine, it details all the common engine configuration switches.
+
+* the ruote engine expects [business] process definitions as a set of "expressions":expressions.html.
 
 * there are three ways to write "process definitions":definitions.html, as XML, as Ruby or directly as process definition tree.
 

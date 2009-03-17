@@ -17,28 +17,57 @@ The persistence mechanism is determined by the engine class selection. For examp
 
 The most common engine will be OpenWFE::FsPersistedEngine. it stores all the processes in a hierarchy of directories, under work/ by default. The expressions that make up process instances are stored using Ruby Marshalling (or YAML as an option, but this is way slower).
 
+"examples/engine_template.rb":http://github.com/jmettraux/ruote/blob/master/examples/engine_template.rb is a piece of Ruby code showing how to instantiate a ruote engine, maybe having a quick look at it first will help you understand the brief pieces of Ruby code found here.
+
+<hr>
+
+* "OpenWFE::Engine":#e - in-memory, transient
+* "OpenWFE::FsPersistedEngine":#fse - filesystem based persistence, simplest
+* "OpenWFE::DmPersistedEngine":#dme - DataMapper persisted engine
+* "OpenWFE::ArPersistedEngine":#are - ActiveRecord persisted engine
+* "OpenWFE::TcPersistedEngine":#tce - Tokyo Cabinet persisted engine
+* "OpenWFE::TtPersistedEngine":#tte - Tokyo Tyrant persisted engine
 
 <hr>
 
 
 h3. in-memory
 
-h4. OpenWFE::Engine
+h4(#e). OpenWFE::Engine
 
 This is the engine used in the "quickstart":quickstart.html, no persistence, the engine, gets shut down, all the processes are forgotten.
 
 It may still be useful in scenarii where a transient engine is necessary (tiny subprocesses, webflow, ...)
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/engine'
+  engine = OpenWFE::Engine.new()
+<% end -%>
 
 <hr>
 
 
 h3. filesystem based persistence
 
-h4. OpenWFE::FsPersistedEngine
+h4(#fse). OpenWFE::FsPersistedEngine
 
 This is the default persistence mechanism for "ruote-rest":http://github.com/jmettraux/ruote-rest and "ruote-web2":http://github.com/jmettraux/ruote-web2
 
 It stores the processes rundata in a hierarchy of directions with files for each expressions at the leaves.
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/engine/fs_engine'
+  engine = OpenWFE::FsPersistedEngine.new()
+<% end -%>
+
+will store the expressions composing process instances under work/
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/engine/fs_engine'
+  engine = OpenWFE::FsPersistedEngine.new(:expstorage_path => '/var/ruote/work/')
+<% end -%>
+
+will store the expressions composing process instances under /var/ruote/work/
 
 
 <hr>
@@ -46,10 +75,51 @@ It stores the processes rundata in a hierarchy of directions with files for each
 
 h3. relational database backed persistence
 
-h4. ...
+h4(#dme). OpenWFE::Extras::DmPersistedEngine
 
-blah
+An engine whose persistence is done via "DataMapper":http://datamapper.org/.
 
+Note that you will not have to create the table (like you would with ActiveRecord), DataMapper will create it (or upgrade it) for you (a table named 'dm_expressions').
+
+By default, the DM persisted engine will rely on the DataMapper 'default' repository, which can be tuned with code like :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'rubygems'
+  require 'dm-core'
+  DataMapper.setup(:default, 'mysql://localhost/ruote_development')
+<% end -%>
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/extras/engine/dm_engine'
+  engine = OpenWFE::Extras::DmPersistedEngine.new()
+<% end -%>
+
+Using another repository should be easy :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'rubygems'
+  require 'dm-core'
+  DataMapper.setup(:ruote, 'postgres://localhost/ruote_production')
+<% end -%>
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/extras/engine/dm_engine'
+  engine = OpenWFE::Extras::DmPersistedEngine.new(:expstorage_dm_repository => :ruote)
+<% end -%>
+
+
+h4(#are). OpenWFE::Extras::ArPersistedEngine
+
+Expression persistence via "ActiveRecord":http://guides.rubyonrails.org/
+
+This persistence mode was originally developped by Tomaso Tosolini.
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/extras/engine/ar_engine'
+  engine = OpenWFE::Extras::ArPersistedEngine.new()
+<% end -%>
+
+There isn't much to configure, it will use the current ActiveRecord context and store the expressions in a table named 'expressions'. Not that, unlike with DataMapper persistence, you'll have to create the expressions table by yourself.
 
 <hr>
 
@@ -60,17 +130,33 @@ h3. Tokyo Cabinet / Tyrant based persistence
 
 Ruote uses the "rufus-tokyo":http://github.com/jmettraux/rufus-tokyo ruby gem for accessing Tokyo Cabinet tables or Tokyo Tyrant tables 
 
+If Hirabayashi-san native Ruby-C bindings are present, rufus-tokyo will automatically "adapt and use them":http://jmettraux.wordpress.com/2009/02/27/rufus-tokyo-018-rufusedo/ (faster).
+
 Tokyo Cabinet / Tyrant install "instructions":tokyo.html.
 
 
-h4. OpenWFE::TcPersistedEngine
+h4(#tce). OpenWFE::TcPersistedEngine
 
 By default, this engine stores all is rundata (expressions) in a file work/expstorage.tdb
 
 The benchmarks indicate that this persistence mecha performs a bit better than the FileSystem based one.
 
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/engine/tc_engine'
+  engine = OpenWFE::TcPersistedEngine.new()
+<% end -%>
 
-h4. OpenWFE::TtPersistedEngine
+will store the expressions in the file work/expstorage.tct (and the table indexes in adjacent files).
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/engine/tc_engine'
+  engine = OpenWFE::FsPersistedEngine.new(:expstorage_path => '/var/ruote/work/expressions.tct')
+<% end -%>
+
+will store the expressions in /var/ruote/work/expressions.tct
+
+
+h4(#tte). OpenWFE::TtPersistedEngine
 
 Storage occurs in a remote Tokyo Tyrant table. Such a server may be started with a command like :
 
@@ -80,13 +166,28 @@ Storage occurs in a remote Tokyo Tyrant table. Such a server may be started with
 
 The suffix .tct is very important, it indicates to Tokyo Tyrant that the backend is a table structure.
 
-By default, the TtPersistedEngine points to a Tyrant server supposedly on the localhost and listening on port 1978 (Tokyo Tyrant's default).
+By default, the TtPersistedEngine points to a Tyrant server supposedly on the localhost and listening on port 1978 (Tokyo Tyrant's default) :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/engine/tt_engine'
+  engine = OpenWFE::TtPersistedEngine.new()
+<% end -%>
+
+The target tyrant can be changed :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/engine/tt_engine'
+  engine = OpenWFE::TtPersistedEngine.new(
+    :tyrant_expstorage_host => 'tyrant.example.net',
+    :tyrant_expstorage_port => 45067
+  )
+<% end -%>
 
 
 <hr>
 
 
-h3. work/pooltool.ru<a name="pooltool"></a>
+h3(#pooltool). work/pooltool.ru
 
 Sometimes, it's necessary to move from one persistence mechanism to another. Ruote makes sure to place a tool named "pooltool.ru" under the work/ repository.
 
