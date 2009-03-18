@@ -15,7 +15,7 @@ At the end of this page, there is an explanation about "pooltool.ru":#pooltool, 
 
 The persistence mechanism is determined by the engine class selection. For example, the class OpenWFE::Engine, the simplest of the engine classes, stores everything in memory. This is super fast, but is limited to the system of the memory and processes just die when the engine stops.
 
-The most common engine will be OpenWFE::FsPersistedEngine. it stores all the processes in a hierarchy of directories, under work/ by default. The expressions that make up process instances are stored using Ruby Marshalling (or YAML as an option, but this is way slower).
+The *most common* engine will be OpenWFE::FsPersistedEngine. it stores all the processes in a hierarchy of directories, under work/ by default. The expressions that make up process instances are stored using Ruby Marshalling (or YAML as an option, but this is way slower).
 
 "examples/engine_template.rb":http://github.com/jmettraux/ruote/blob/master/examples/engine_template.rb is a piece of Ruby code showing how to instantiate a ruote engine, maybe having a quick look at it first will help you understand the brief pieces of Ruby code found here.
 

@@ -24,6 +24,8 @@ When a cancel or error event occurs inside the expression with the attribute (in
 
 In this example, as soon as an error occurs in do_the_job, part 1 or 2, instead of letting the process "stall" with the error, Ruote will execute 'mail_process_owner' (the name of a participant or a subprocess).
 
+*Note* : the workitems that are passed to the participant or subprocesses handling post-error or post-cancel routines are the workitems as found when they entered the process segment flagged with on_error/on_cancel. Those on_error/on_cancel 'routines' still have access to the process instance variables.
+
 
 h3(#on_error). on_error
 
@@ -46,10 +48,12 @@ A regular error usually "stalls" a process instance, the administrator has then 
 
 In this example, if there is an error in the sequence, the participant named 'mail_process_owner' will be invoked (a workitem will be delivered to it) and, as soon as mail_process_owner replied, the process instance will resume the top sequence (towards 'end_work').
 
+As already noted, the workitem that will be handled to 'mail_process_owner' is the one that left the step 'prepare_work', changes to the payload made past the sequence flagged with 'on_error' are not taken into account.
+
 
 h3(#on_cancel). on_cancel
 
-on_cancel is used when some piece of process gets executed when a process gets cnancelled.
+on_cancel is used when some piece of process gets executed when a process gets cancelled.
 
 (remember that a process can get cancelled externally (admin cancels it) or internally via cancel-process)
 
@@ -67,4 +71,6 @@ on_cancel is used when some piece of process gets executed when a process gets c
     end
   end
 <% end -%>
+
+As already noted, the workitem handed to 'notify_initiator' will be a copy of the one found at the beginning of the sequence flagged with 'on_cancel'. Subsequent changes are not visible.
 

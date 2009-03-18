@@ -7,6 +7,8 @@ filter:
 
 h2. quickstart
 
+The "simple.rb":http://github.com/jmettraux/ruote/blob/master/examples/simple.rb quickstart is probably too simple.
+
 The "flickr quickstart":#flickr polls users about random pictures found on Flickr.
 
 The "mini todo tool quickstart":#todo uses a workitem to store a todo list and iterates until the list is entirely checked (1 participant involved). Warning : this quickstart is a bit rough.
