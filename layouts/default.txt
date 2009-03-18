@@ -34,7 +34,7 @@ filter:    erb
      </div>
 
      <div class="column span-10 first">
-       open source ruby workflow and bpm engine
+       open source ruby workflow engine
      </div>
      <div class="column span-10 align-right last">
        <a href="documentation.html">doc</a>

@@ -17,6 +17,8 @@ The persistence mechanism is determined by the engine class selection. For examp
 
 The *most common* engine will be OpenWFE::FsPersistedEngine. it stores all the processes in a hierarchy of directories, under work/ by default. The expressions that make up process instances are stored using Ruby Marshalling (or YAML as an option, but this is way slower).
 
+There is a piece of "test output":http://gist.github.com/80941 that shows runtimes for the various persistence mechanisms. These are sequential tests though and they include lots of checking. The first output is for in-memory (no persistence), it's kind of the 'floor'.
+
 "examples/engine_template.rb":http://github.com/jmettraux/ruote/blob/master/examples/engine_template.rb is a piece of Ruby code showing how to instantiate a ruote engine, maybe having a quick look at it first will help you understand the brief pieces of Ruby code found here.
 
 <hr>
