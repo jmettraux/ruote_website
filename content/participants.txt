@@ -82,10 +82,11 @@ Pull participants like store participants, simply keep the workitems for later c
 
 Here are the participant implementations that ship with Ruote (OpenWFEru) :<a name="top"></a>
 
-* <a href="#ActiveParticipant">ActiveParticipant</a>  - a participants that uses "ActiveRecord":http://ar.rubyonrails.com/ for storing workitems.
-* <a href="#ActiveStoreParticipant">ActiveStoreParticipant</a>  - a refinement of the ActiveParticipant
+* <a href="#ActiveParticipant">ActiveParticipant</a>  - a participants that uses "ActiveRecord":http://ar.rubyonrails.com/ for storing workitems (deprecated by <a href="#ArParticipant">ArParticipant</a>)
+* <a href="#ActiveStoreParticipant">ActiveStoreParticipant</a>  - a refinement of the ActiveParticipant (deprecated by <a href="#ArParticipant">ArParticipant</a>)
 * <a href="#ActiveResourceParticipant">ActiveResourceParticipant</a>  - a participant for interacting with 'active resources', it was contributed by "Torsten Schoenebaum":http://github.com/tosch
 * <a href="#AliasParticipant">AliasParticipant</a>  - adding extra names to participants
+* <a href="#ArParticipant">ArParticipant</a> - newer and improved ActiveParticipant
 * <a href="#AtomFeedParticipant">AtomFeedParticipant</a>  - outputting workitem to an Atom feed
 * <a href="#AtomPubParticipant">AtomPubParticipant</a>  - posting workitems as Atom entries to an AtomPub enabled resource
 * <a href="#BlockParticipant">BlockParticipant</a>  - a simple Ruby block as a business process participant
@@ -110,7 +111,7 @@ Their descriptions :
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="ActiveParticipant"></a>ActiveParticipant
 
-It's too bad this participant comes first in this [alphabetical] list. It's a bit advanced.
+It's too bad this participant comes first in this [alphabetical] list. It's a bit advanced, and has been deprecated by the <a href="#ArParticipant">ArParticipant</a>.
 
 The "active page":active.html is dedicated to the ActiveRecord items in Ruote.
 
@@ -119,7 +120,7 @@ The "active page":active.html is dedicated to the ActiveRecord items in Ruote.
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="ActiveStoreParticipant"></a>ActiveStoreParticipant
 
-It's a refinement of the <a href="#ActiveParticipant">ActiveParticipant</a>. This is the participant used by <a href="rquickstart.html">'densha'</a> for its workitem stores.
+It's a refinement of the <a href="#ActiveParticipant">ActiveParticipant</a>. This is the participant used by <a href="rquickstart.html">'densha'</a> for its workitem stores. Never releases of ruote-web2 uses the new <a href="#ArParticipant">ArParticipant</a>, which has deprecated the ActiveStoreParticipant.
 
 "rdoc":rdoc/classes/OpenWFE/Extras/ActiveStoreParticipant.html
 
@@ -176,6 +177,15 @@ More at "atom :: AtomFeedParticipant":atom.html#atom_feed_participant
 
 "rdoc":rdoc/classes/OpenWFE/Extras/AtomFeedParticipant.html
 
+h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="ArParticipant"></a>ArParticipant
+
+The preferred participant for storing workitems in ActiveRecord. It was developed for ruote-web2 and is also the new default participant for ruote-rest from version 0.9.21. This participant deprecates the <a href="#ActiveParticipant">ActiveParticipant</a> and <a href="#ActiveStoreParticipant">ActiveStoreParticipant</a>.
+
+To migrate from the <a href="#ActiveParticipant">ActiveParticipant</a> to the new ArParticipant you use the "arparticipants.rb":http://gist.github.com/87900 script.
+
+The "active page":active.html is dedicated to the ActiveRecord items in Ruote.
+
+"rdoc":rdoc/classes/OpenWFE/Extras/ArParticipant.html
 
 h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="AtomPubParticipant"></a>AtomPubParticipant
 
