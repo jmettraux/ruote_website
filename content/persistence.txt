@@ -121,7 +121,9 @@ This persistence mode was originally developped by Tomaso Tosolini.
   engine = OpenWFE::Extras::ArPersistedEngine.new()
 <% end -%>
 
-There isn't much to configure, it will use the current ActiveRecord context and store the expressions in a table named 'expressions'. Not that, unlike with DataMapper persistence, you'll have to create the expressions table by yourself.
+There isn't much to configure, it will use the current ActiveRecord context and store the expressions in a table named 'expressions'. Note that, unlike with DataMapper persistence, you'll have to create the expressions table by yourself.
+
+For more information on ActiveRecord and ruote, please see the <%= link_to_page "ActiveRecord" %> page.
 
 <hr>
 

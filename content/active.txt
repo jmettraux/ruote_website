@@ -1,0 +1,72 @@
+---
+title: ActiveRecord
+filter:
+  - erb
+  - textile
+---
+
+h2. ruote &amp; ActiveRecord
+
+"ActiveRecord":http://ar.rubyonrails.org is the ORM framework bundled with "Ruby on Rails":http://www.rubyonrails.org, and can be used by ruote for various functions.
+
+Since version 0.9.16, thanks to Tomaso Tosolini, ruote can use ActiveRecord for the persistence of the engine itself.
+
+There are currently several different persistence aspects to ruote that can be handled by ActiveRecord:
+
+* <a href="#engine">DbPersistedEngine &amp; ArPersistedEngine</a>
+* <a href="#expressions">ArExpressionStorage</a>
+* <a href="#journal">DbErrorJournal</a>
+* <a href="#history">DbHistory &amp; QueuedDbHistory</a>
+* <a href="#active_participant">ActiveParticipant</a>
+* <a href="#active_store_participant">ActiveStoreParticipant</a>
+* <a href="#ar_participant">ArParticipant</a>
+
+Usually database persistence of the engine, expressions, error journals and process histories is not required because only the engine manages the data, and for that the classical file based persistence is sufficient. In some environments it is preferred to store everything in a database, and for this reason ActiveRecord can be used.
+
+Unlike the DataMapper variants, the ActiveRecord components require that you manually migrate the database. The ActiveRecord components also require an established database connection.
+
+h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="engine"></a>DbPersistedEngine &amp; ArPersistedEngine
+
+The DbPersistedEngine was originally developped by Tomaso Tosolini, and has been deprecated by ArPersistedEngine.
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  require 'openwfe/extras/engine/ar_engine'
+  engine = OpenWFE::Extras::ArPersistedEngine.new()
+<% end -%>
+
+There isn't much to configure, it will use the current ActiveRecord context and store the expressions in a table named _expressions_, and the process errors in a table named <em>process_errors</em>. 
+
+To setup the required tables the following code can be used:
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  require 'openwfe/extras/expool/ar_expstorage'
+  require 'openwfe/extras/expool/db_errorjournal'
+
+  # requires an established database connection
+  OpenWFE::Extras::ExpressionTables.up
+  OpenWFE::Extras::ProcessErrorTables.up
+<% end -%>
+
+h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="expressions"></a>ArExpressionStorage
+
+Used internally by the <a href="#engine">ArPersistedEngine</a> to store the running <%= link_to_page "expressions" %> in the _expressions_ table.
+
+h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="journal"></a>DbErrorJournal
+
+Used internally be the <a href="#engine">ArPersistedEngine</a> to store the process errors in the <em>process_errors</em> table.
+
+h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="history"></a>DbHistory &amp; QueuedDbHistory
+
+Insert Foo Here
+
+h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="active_participant"></a>ActiveParticipant
+
+Insert Foo Here
+
+h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="active_store_participant"></a>ActiveStoreParticipant
+
+Insert Foo Here
+
+h3. <a href="#top" title="back to top of page"><img src="images/ru-light-small.png" border="0" align="right"/></a> <a name="ar_participant"></a>ArParticipant
+
+Insert Foo Here
