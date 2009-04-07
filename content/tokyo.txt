@@ -66,6 +66,33 @@ sudo make install
 Once install is done, the Cabinet "tools":http://tokyocabinet.sourceforge.net/spex-en.html#tcadbapi_cli and the Tyrant "server":http://tokyocabinet.sourceforge.net/tyrantdoc/#serverprog and "tools":http://tokyocabinet.sourceforge.net/tyrantdoc/#clientprog will be present on your system.
 
 
+h3. Tyrant and Lua
+
+Lua is a very compact and attractive scripting language ("http://www.lua.org":http://www.lua.org). Hirabayashi-san has "integrated":http://tokyocabinet.sourceforge.net/tyrantdoc/#luaext it into Tokyo Tyrant.
+
+In order to enable those Lua extensions, you have to make sure Lua > 5.1.0 is available on your system. Then compile and install Tokyo Tyrant with :
+
+<pre>
+cd tokyo-tyrant/
+./configure --enable-lua
+make
+sudo make install
+</pre>
+
+On my Mac, the Lua 5.1.4 installed via "sudo port install lua" failed me. After tinkering a bit with --with-lua=DIR, I downloaded lua, compiled it and installed it (/usr/local/bin) and then --enable-lua worked 'out of the box'.
+
+Lua 5.1.4 is available at "http://www.lua.org/ftp/lua-5.1.4.tar.gz":http://www.lua.org/ftp/lua-5.1.4.tar.gz then
+
+<pre>
+tar xzvf lua-5.1.4.tar.gz
+cd lua-5.1.4
+make macosx
+sudo make install
+</pre>
+
+Then onto Tokyo Tyrant configure/make/sudo make install.
+
+
 h3. uninstalling
 
 If you don't need Tokyo Cabinet or Tyrant, it's easy to come back in the build directory and to run "sudo make uninstall".
