@@ -20,52 +20,25 @@ Usually, a process definition weaves the trajectory of workitems among participa
   </process-definition>
 <% end -%>
 
-As seen, participants are invoked with the <a href="expressions.html#exp_participant">'participant' expression</a> but you can write :
+(note : this is not the only way to "define processes":definitions.html)
 
-<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
-  <process-definition name="def0" revision="0.1">
-    <sequence>
-      <accounting />
-      <logistics />
-    </sequence>
-  </process-definition>
-<% end -%>
+Participants are invoked with the "participant expression":expressions.html#exp_participant.
 
-Provided that your participant names don't conflict with XML.
-
-In Ruote (OpenWFEru) you can define processes as Ruby classes :
-
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  class Def0 < OpenWFE::ProcessDefinition
-    sequence do
-      accounting
-      logistics
-      #
-      # sometimes you'll prefer the more explicit :
-      #
-      # participant :ref => "accounting"
-      # participant :ref => "logistics"
-    end
-  end
-<% end -%>
-
-Participants are registered in the engine in this way :
+Participants are registered in the engine via the "register_participant" method of the engine :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
   require 'openwfe/engine/engine'
-  require 'openwfe/worklist/store_participants'
-
-  (...)
-
   engine = Engine.new
 
+  require 'openwfe/participants/store_participants'
   hpAlice = HashParticipant.new
+
   hpBob = HashParticipant.new
 
   engine.register_participant(:alice, hpAlice)
   engine.register_participant(:bob, hpBob)
 
-  (...)
+  # ...
 <% end -%>
 
 To remove participants from the engine :
