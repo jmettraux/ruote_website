@@ -17,6 +17,8 @@ Tokyo Tyrant depends on Tokyo Cabinet. Compile and install Cabinet first.
 
 If you don't need Tokyo Tyrant (no remote access needed), feel free to just install Tokyo Cabinet.
 
+There is also an excellent howto from Plurk/Lightcloud at "http://opensource.plurk.com/LightCloud/Installation/":http://opensource.plurk.com/LightCloud/Installation/
+
 
 h3. getting the source 
 
