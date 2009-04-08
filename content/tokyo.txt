@@ -45,7 +45,7 @@ git clone git://github.com/etrepum/tokyo-tyrant.git
 </pre>
 
 
-h3. compiling and installing
+h3(#installing). compiling and installing
 
 <pre>
 cd tokyo-cabinet/
@@ -66,7 +66,7 @@ sudo make install
 Once install is done, the Cabinet "tools":http://tokyocabinet.sourceforge.net/spex-en.html#tcadbapi_cli and the Tyrant "server":http://tokyocabinet.sourceforge.net/tyrantdoc/#serverprog and "tools":http://tokyocabinet.sourceforge.net/tyrantdoc/#clientprog will be present on your system.
 
 
-h3. Tyrant and Lua
+h3(#lua). Tyrant and Lua
 
 Lua is a very compact and attractive scripting language ("http://www.lua.org":http://www.lua.org). Hirabayashi-san has "integrated":http://tokyocabinet.sourceforge.net/tyrantdoc/#luaext it into Tokyo Tyrant.
 
@@ -93,7 +93,7 @@ sudo make install
 Then onto Tokyo Tyrant configure/make/sudo make install.
 
 
-h3. uninstalling
+h3(#uninstall). uninstalling
 
 If you don't need Tokyo Cabinet or Tyrant, it's easy to come back in the build directory and to run "sudo make uninstall".
 
