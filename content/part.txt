@@ -1,0 +1,198 @@
+---
+title: part of the flow
+filter:
+  - erb
+  - textile
+---
+
+h2. part of the flow
+
+The motivation for writing this piece of documentation came from "a discussion":http://groups.google.com/group/openwferu-users/browse_frm/thread/28a6938a6ba09c2d on the mailing list.
+
+The classical block participant example is quite synchronous : the ruote (OpenWFEru) engine feeds a workitem to the participant which does something with/about it and gives it back to the engine, almost immediately.
+
+Ruote is an asynchronous beast. Workflow engines are asynchronous beasts. They cannot get stuck waiting for one single reply.
+
+The engine itself cannot distinguish between "local":#local and "remote":#remote participants, it only hands the workitem to the participant and sometimes later, as an updated version of the workitem comes back, it lets the flow resume where it stopped, at the participant expression point.
+
+The participant / engine interaction begins when a participant expression gets applied, typically, when launching this process
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  OpenWFE.process_definition :name => 'accident investigation case' do
+    sequence do
+      concurrence do
+        participant 'reporter 1', :activity => 'gather info on accident site'
+        participant 'reporter 2', :activity => 'gather info about customer'
+      end
+      participant 'hq', :activity => 'handle case'
+    end
+  end
+<% end -%>
+
+the engine will end up applying the participants 'reporter 1' and 'reporter 2' concurrently.
+
+The participant expression will look up a [registered] participant instance and make it consume the workitem. What happens next is outside of the scope of the engine, the participant expression will wait for a reply from the participant (the expression could eventually "timeout":#timeout).
+
+
+<div class="column span-20 first last">
+h3(#local). 'local' participants
+
+Participants whose activity is limited to the Ruby runtime of ruote. Those participants will usually reply by themselves to the engine, whereas the 'remote' participants will do it via a Listener of some sort.
+
+<img
+  src="images/inner_participant_flow.png"
+  style="float: left; margin: 0 3em 0 0"
+/>
+# participant expression gets applied
+# the participant expression gets the reference of the participant instance from the participant map, it hands the workitem to the participant instance
+# the participant instance, once its job is done for the workitem, will hand back the workitem to the engine, which will call the reply method of the participant expression
+# the participant expression resumes the flow by replying to its parent expression
+
+As said earlier, the vanilla example for a 'local' participant is the block participant. It executes a block of ruby code (with access to the workitem) and then implicitely replies to the engine.
+
+Here is an example of block participant who uses "Prawn":http://prawn.majesticseacreature.com/ to generate a PDF report :
+
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+engine.register_participant :generate_report do |workitem|
+
+  path = "report-#{workitem.fei.workflow_instance_id}.pdf"
+
+  Prawn::Document.generate(path) do
+    font 'Helvetica'
+    text "about : #{workitem.subject}"
+    text "date : #{Time.now}"
+    text "summary : "
+    text workitem.summary
+  end
+
+  workitem.report_path = path
+
+  # block participants implicitely reply to the engine
+end
+<% end -%>
+
+(for another complete example of "pdf report generation":http://github.com/jmettraux/ruote/blob/master/examples/flickr_report.rb)
+
+Most of the time, a block participant isn't ideal. Some participants may have an activity lasting longer than a direct ask/reply exchange, their activity should be cancellable.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'yaml'
+
+# An inbox where workitems stay only for 3 hours.
+# Workitems are then removed and their processes resume.
+#
+class SimpleInboxParticipant
+  include OpenWFE::LocalParticipant
+
+  def initialize (options={})
+    @dir = options[:inbox_dir] || 'work/inbox/'
+    FileUtils.mkdir_p(@dir) unless File.exist?(@dir)
+  end
+
+  # this is the method called when the participant expression hands a workitem
+  # to this participant
+  #
+  def consume (workitem)
+
+    File.open(determine_file_name(workitem)) do |f|
+      f.write(YAML.dump(workitem))
+    end
+
+    sleep 3 * 3600 # expose workitem for 3 hours
+
+    cancel(workitem) # delete file
+    reply_to_engine(workitem) # let flow resume
+  end
+
+  # this method is called when a segment or the whole process which has
+  # sent a workitem to this participant gets cancelled.
+  #
+  def cancel (cancelitem)
+    begin
+      FileUtils.rm_f(determine_file_name(cancelitem))
+    rescue Exception => e
+      # don't care, gone is gone
+    end
+  end
+
+  protected
+
+  def determine_file_name (workitem)
+    "#{@dir}/#{workitem.fei.wfid}_#{workitem.fei.expid}.yaml"
+  end
+end
+
+engine.register_participant :alice, SimpleInbox, :dir => 'work/alice'
+engine.register_participant :bob, SimpleInbox, :dir => 'work/bob'
+<% end -%>
+
+This participant simply dumps workitems as YAML in a file.
+
+</div>
+
+<div class="column span-20 first last">
+h3(#remote). 'remote' participants
+
+Participants who act as proxy to 'real' participants somewhere outside of the Ruby runtime.
+
+<img
+  src="images/participant_flow.png"
+  style="float: left; margin: 0 3em 0 0"
+/>
+# participant expression gets applied
+# participant instance receives workitem
+# participant dispatches to 'real' participant
+# 'real' participant does its job with the workitem, and some time later, hands it back to the engine via a listener
+# listener gives back the workitem to the engine which triggers the reply method of the waiting participant expression
+# the participant expression resumes the flow by replying to its parent expression
+
+TODO : continue me ...
+</div>
+
+
+<div class="column span-20 first last">
+h3(#timeout). participant timeout
+
+In the process definition, it's easy to set a timeout when 'invoking' a participant :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  OpenWFE.process_definition :name => 'reporting' do
+    sequence do
+      participant 'alice', :activity => 'gather information', :timeout => '2d'
+      participant 'bob', :activity => 'write report'
+      participant 'charly', :activity => 'distribute report'
+    end
+  end
+<% end -%>
+
+Alice has two days to gather the information for the report. If she hasn't replied/proceeded after two days, the engine will cancel her task and make the process resume (to Bob).
+</div>
+
+<div class="column span-20 first last">
+h3(#thread). participant dispatch thread
+
+By default, when a participant expressions hands a workitem to a participant, it does it in a separate thread so that the thread that applied the expression is immediately relieved (it goes on resuming other process instances).
+
+If a participant has a method 'do_not_thread' and this method returns true, upon dispatching, no new thread will get created. This might be interesting for tiny, immediate-reply participants. If your participant 'activity' is a potential bottleneck (disk/network access, long computation), it's recommend to stick to the default : the distinct, separate thread.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'openwfe/participants/participant'
+
+class TinyCounterParticipant
+  include OpenWFE::LocalParticipant
+
+  def consume (workitem)
+    @counter = (@counter || 0) + 1
+    workitem.tiny_count = @counter
+    reply_to_engine(workitem)
+  end
+
+  def do_not_thread
+    true
+  end
+end
+<% end -%>
+
+This transient counter is the ideal candidate for a 'do_not_thread', it simply does an addition and replies immediately. The cost of spawning a new thread just for that could become 'visible'.
+</div>

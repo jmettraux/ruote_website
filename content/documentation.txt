@@ -47,6 +47,8 @@ h3. advanced documentation
 
 * "on_error / on_cancel":on_error.html are two expression attributes used to redirect the flow of a process in case of error or just when it gets cancelled
 
+* a few lines about interaction between "engine and participants":part.html (local or remote).
+
 * 'workflow patterns' provide a conceptual basis for process technology, they are enumerated by the research groups of Prof van der Aalst and Prof ter Hofstede at "http://workflowpatterns.com":http://workflowpatterns.com the following documentation piece details how a certain number of "control flow patterns":patterns.html can be implemented with Ruote
 
 
