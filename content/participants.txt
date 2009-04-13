@@ -24,7 +24,7 @@ Usually, a process definition weaves the trajectory of workitems among participa
 
 Participants are invoked with the "participant expression":expressions.html#exp_participant.
 
-There are basically two different "kind of participant":part.html, 'local' and 'remote' (or maybe 'proxy').
+There are basically two different "kind of participant":part.html, 'local' and 'remote' (or maybe 'proxy'). Find there some notes about "writing custom participants":part.html#custom as well.
 
 Participants are registered in the engine via the "register_participant" method of the engine :
 

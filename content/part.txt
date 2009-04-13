@@ -196,3 +196,10 @@ end
 
 This transient counter is the ideal candidate for a 'do_not_thread', it simply does an addition and replies immediately. The cost of spawning a new thread just for that could become 'visible'.
 </div>
+
+<div class="column span-20 first last">
+h3(#custom). writing custom participants
+
+TODO : a few notes about writing custom participants (especially #initialize)
+</div>
+

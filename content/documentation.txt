@@ -45,6 +45,8 @@ h3. advanced documentation
 
 * ruote's "rdoc":http://openwferu.rubyforge.org/rdoc/ (raw ruby documentation)
 
+* some notes about "process administration":padmin.html
+
 * "on_error / on_cancel":on_error.html are two expression attributes used to redirect the flow of a process in case of error or just when it gets cancelled
 
 * a few lines about interaction between "engine and participants":part.html (local or remote).
