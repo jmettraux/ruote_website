@@ -526,7 +526,7 @@ This participant is an extension of the HashParticipant built on top of a YAML f
 
 By default, the workitems are stored under "./work/participants/name_of_the_participant/"
 
-This participant is used in the sample code of the "ManoTracker":/examples/mano_tracker.rb
+This participant is used in the sample code of the "ManoTracker":http://github.com/jmettraux/ruote/blob/master/examples/mano_tracker.rb
 
 "rdoc":rdoc/classes/OpenWFE/YamlParticipant.html
 
