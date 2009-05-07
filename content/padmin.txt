@@ -98,29 +98,48 @@ More information at :
 
 h3. pausing a process instance
 
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+engine.pause_process(processes.first.wfid)
+  # or
+engine.pause_process('20090413-gokezatawa')
+<% end -%>
+
 h3. cancelling processes or segments of processes
+
+The effect of cancelling a process is easy to grasp. After the operation, the process instance is gone. The workflow engine will have taken care of sending a cancelitem [message] to the participants currently holding a workitem for the cancelled process.
+
+Cancelling a segment of a process is done via cancelling an expression directly. All the children expressions get cancelled (if any), thus whole branches of the process instance can be removed. Note that cancelling the root expression of a process instance is the same as cancelling that process instance.
 
 h4. cancelling process instances
 
 <% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
 engine.cancel_process(processes.first.wfid)
-  #
-  # or directly something like ...
-  #
+  # or, more directly
 engine.cancel_process('20090413-gokezatawa')
 <% end -%>
 
 h4. cancelling expressions (segments of processes)
 
+It's fairly simple to cancel an expression that has been reached
+
 <% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
 engine.cancel_expression(processes.last.active_expressions.last)
 <% end -%>
 
-TODO : continue
+<div class="column span-20 first last">
+<img src="/images/padmin_cancele_pre.png" />
+<img src="/images/padmin_cancele_post.png" />
+</div>
+
+Cancelling an expression can be thought of as cutting a branch of a process instance true.
 
 h3. processes and errors
 
 h4. spotting process errors
 
+TODO
+
 h4. error replaying
+
+TODO
 

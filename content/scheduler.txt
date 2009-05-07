@@ -7,6 +7,8 @@ filter:
 
 h2. rufus-scheduler
 
+The information about rufus-scheduler (that ruote uses) may be found at :
+
 source :  "http://github.com/jmettraux/rufus-scheduler/":http://github.com/jmettraux/rufus-scheduler/
 rdoc : "http://rufus.rubyforge.org/rufus-scheduler/":http://rufus.rubyforge.org/rufus-scheduler/
 
