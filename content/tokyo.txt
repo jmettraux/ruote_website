@@ -28,8 +28,8 @@ h4. via sourceforge.net
 - "Tokyo Tyrant":http://sourceforge.net/project/showfiles.php?group_id=200242&package_id=260026
 
 <pre>
-tar xzvf tokyocabinet-1.4.5.tar.gz
-tar xzvf tokyotyrant-1.1.14.tar.gz
+tar xzvf tokyocabinet-1.4.20.tar.gz
+tar xzvf tokyotyrant-1.1.26.tar.gz
 </pre>
 
 (version numbers will probably change)
