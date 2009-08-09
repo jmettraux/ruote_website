@@ -211,7 +211,7 @@ In Ruby :
     set :field => f, :value => %w{ Alan, Bob, Clarence }
     #... 
     concurrent_iterator :on_field => "f", :to_field => "p" do
-      participant "${p}"
+      participant "${f:p}"
     end
   end
 <% end -%>

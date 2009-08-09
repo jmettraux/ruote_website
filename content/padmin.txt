@@ -1,0 +1,145 @@
+---
+title: process administration
+filter:
+  - erb
+  - textile
+---
+
+h2. [business] process administration
+
+A look at how to interrogate the engine about the process instances currently running and how to pause, cancel and modify them.
+
+This page describes all these operations as performed programmaticaly (via Ruby code), ruote-rest and ruote-web2 provide web interfaces for those tasks.
+
+The terms 'process instance' and 'process' are used interchangeably in this document.
+
+h3. setting the stage
+
+At first, a bit of context, let's start an engine
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+require 'rubygems'
+require 'openwfe/engine/fs_engine'
+require 'openwfe/participants'
+
+engine = OpenWFE::FsPersistedEngine.new(
+  :definition_in_launchitem_allowed => true)
+
+engine.reload
+  # resyncronizes engine with previously persisted process instances, if any
+<% end -%>
+
+register participants
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+engine.register_participant :warehouse, OpenWFE::YamlParticipant
+engine.register_participant :accounting, OpenWFE::YamlParticipant
+engine.register_participant :customer, OpenWFE::YamlParticipant
+  # super dumb participants
+<% end -%>
+
+define two processes
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+orders01 = OpenWFE.process_definition :name => 'orders', :revision => '0.1' do
+  sequence do
+    warehouse
+    accounting
+    customer
+  end
+end
+
+orders02 = OpenWFE.process_definition :name => 'orders', :revision => '0.2' do
+  sequence do
+    concurrence do
+      warehouse
+      accounting
+    end
+    customer
+  end
+end
+<% end -%>
+
+and launch 3 process instances
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+engine.launch(orders01)
+engine.launch(orders01)
+engine.launch(orders02)
+<% end -%>
+
+h3. getting info about process instances
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+processes = engine.processes
+
+puts "wfid\t\t\twfname\trev\terrors\tpaused"
+puts '-' * 54
+
+processes.each do |ps|
+  puts "#{ps.wfid}\t#{ps.wfname}\t#{ps.wfrevision}\t#{ps.errors.size}\t#{ps.paused}"
+end
+<% end -%>
+
+will yield something like
+
+<pre>
+wfid                    wfname  rev     errors  paused
+------------------------------------------------------
+20090413-gonakajidu     orders  0.1     0       false
+20090413-gomiyadura     orders  0.2     0       false
+20090413-gokezatawa     orders  0.1     0       false
+</pre>
+
+More information at :
+
+* "engine#processes":http://openwferu.rubyforge.org/rdoc/classes/OpenWFE/StatusMethods.html : the method for browsing all process instances
+* "ProcessStatus":http://openwferu.rubyforge.org/rdoc/classes/OpenWFE/ProcessStatus.html : what is actually returned by #processes
+
+h3. pausing a process instance
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+engine.pause_process(processes.first.wfid)
+  # or
+engine.pause_process('20090413-gokezatawa')
+<% end -%>
+
+h3. cancelling processes or segments of processes
+
+The effect of cancelling a process is easy to grasp. After the operation, the process instance is gone. The workflow engine will have taken care of sending a cancelitem [message] to the participants currently holding a workitem for the cancelled process.
+
+Cancelling a segment of a process is done via cancelling an expression directly. All the children expressions get cancelled (if any), thus whole branches of the process instance can be removed. Note that cancelling the root expression of a process instance is the same as cancelling that process instance.
+
+h4. cancelling process instances
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+engine.cancel_process(processes.first.wfid)
+  # or, more directly
+engine.cancel_process('20090413-gokezatawa')
+<% end -%>
+
+h4. cancelling expressions (segments of processes)
+
+It's fairly simple to cancel an expression that has been reached
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+engine.cancel_expression(processes.last.active_expressions.last)
+<% end -%>
+
+<div class="column span-20 first last">
+<img src="/images/padmin_cancele_pre.png" />
+<img src="/images/padmin_cancele_post.png" />
+</div>
+
+Cancelling an expression can be thought of as cutting a branch of a process instance true.
+
+h3. processes and errors
+
+h4. spotting process errors
+
+TODO
+
+h4. error replaying
+
+TODO
+

@@ -29,8 +29,13 @@ filter:    erb
    <div class="column span-20 prepend-2 first last" id="header">
 
      <div class="column span-20 first last" id="hheader">
-       <a href="/"><img src="/images/ruote.png" align="left"/></a>
-       <span id="ruote" onclick="location.href = '/'; return true;">ruote</span>
+       <div class="column span-10 first">
+         <a href="/"><img src="/images/ruote.png" align="left"/></a>
+         <span id="ruote" onclick="location.href = '/'; return true;">ruote</span>
+       </div>
+       <div class="column span-10 last align-right">
+         <!-- search, maybe later -->
+       </div>
      </div>
 
      <div class="column span-10 first">
