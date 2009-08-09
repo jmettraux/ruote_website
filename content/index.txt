@@ -11,6 +11,8 @@ h2. ruote
 
 Ruote is available under the "MIT":http://en.wikipedia.org/wiki/MIT_License open source license.
 
+<div class="home-progress">Ruote is heading towards <strong>2.0</strong>, <a href="2-0.html">learn more</a> about what is coming!</div>
+
 There is a small "quickstart":quickstart.html available, it focuses on the ruote 'gem'. For an example integration in Rails there is an online "demo":http://difference.openwfe.org:3000 (though it's still running an old version)
 
 Processes are explicitely defined and may be explicitely handled (start, pause, cancel, update).

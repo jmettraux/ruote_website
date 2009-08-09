@@ -95,4 +95,10 @@ p.quiet { color: <%= @page.color['quiet'] %>; }
   margin-right: 0;
 }
 
+.home-progress {
+  border: 1px solid <%= @page.color['border'] %>;
+  padding: 1em 0.5em;
+  margin-bottom: 1em;
+}
+
 /* EOF */

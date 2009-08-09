@@ -1,0 +1,31 @@
+---
+title: 2.0
+filter:
+  - textile
+---
+
+h2. Heading towards ruote 2.0
+
+Ruote 2.0 is an exciting development, and has been a long time in the making, offering a leaner engine with completely reworked internals.
+
+Much of the focus on 2.0 is on being lean, performant and easier to maintain over the long run. A lot of "bulk" that has been part of the pre-2.0 code will extracted into their own gems as well. <a href="http://github.com/kennethkalmer/ruote-amqp">ruote-amqp</a> and <a href="http://github.com/jmettraux/ruote-dm">ruote-dm</a> are the first two extras that have been removed from core.
+
+The old <a href="http://github.com/jmettraux/ruote-rest">ruote-rest</a> project will be replaced by the <a href="http://github.com/kennethkalmer/ruote-kit">ruote-kit</a> project, providing an engine with a RESTful interface.
+
+From the outside little should change. The biggest visible change is the top-level namespace changing from <em>OpenWFE</em> to <em>Ruote</em>. <a href="expressions.html">Expressions</a> and <a href="definitions.html">definitions</a> will remain mostly unchanged, except that Ruby definitions will need to change from <em>OpeWFE::ProcessDefinition</em> to <em>Ruote::ProcessDefinition</em>. A lot of expressions have gained additional options.
+
+The following expressions have been removed:
+* Foo expression
+* Bar expression
+
+h3. New to ruote?
+
+We encourage you to focus on using ruote 2.0 and report any bugs and issues you come up, and any inconsistencies in the documentation we still have to address.
+
+You can join us any time on the <a href="http://groups.google.com/group/openwferu-users">mailing list</a> or <a href="irc://irc.freenode.net/ruote">#ruote on Freenode</a> for a chat and occasional coffee.
+
+h3. Progress
+
+To monitor the progress you can watch the <a href="http://github.com/jmettraux/ruote/tree/ruote2.0">ruote2.0</a> branch at Github. It contains a TODO.txt file that gets updated as work progresses. Hanging out in IRC is a great way to stay updated as well.
+
+As with all open source projects, we ask for your patience and help as we move towards this goal.
