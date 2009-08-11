@@ -1,0 +1,81 @@
+---
+extension: html
+filter:    erb
+---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>ruote - <%= @page.title %></title>
+   <meta name="author" content="<%= @page.author %>" />
+
+   <!--- Blueprint CSS Framework -->
+   <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection" />
+   <link rel="stylesheet" href="/css/blueprint/plugins/css-classes/css-classes.css" type="text/css" media="screen, projection" />
+   <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print" />
+
+   <!-- CodeRay syntax highlighting CSS -->
+   <link rel="stylesheet" href="/css/coderay.css" type="text/css" />
+
+   <!-- Homepage CSS -->
+   <link rel="stylesheet" href="/css/site.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+
+<div class="container">
+
+   <div class="column span-20 prepend-2 first last" id="header">
+
+     <div class="column span-20 first last" id="hheader">
+       <div class="column span-10 first">
+         <a href="/"><img src="/images/ruote.png" align="left"/></a>
+         <span id="ruote" onclick="location.href = '/'; return true;">ruote 2.0</span>
+       </div>
+       <div class="column span-10 last align-right">
+         <!-- search, maybe later -->
+       </div>
+     </div>
+
+     <div class="column span-10 first">
+       open source ruby workflow engine
+     </div>
+     <div class="column span-10 align-right last">
+       <a href="documentation.html">doc</a>
+       <a href="source.html">source</a>
+       <a href="download.html">download</a>
+       <a href="lists.html">lists</a>
+       <a href="http://jmettraux.wordpress.com">blog</a>
+       <a href="http://openwferu.rubyforge.org/">1.0</a>
+     </div>
+
+   </div>
+
+   <div class="column span-20 prepend-2 first last">
+     <%= @content %>
+   </div>
+
+   <div class="column span-20 prepend-2 first last">
+     <div class="column span-20 first last" id="footer">
+       <div class="column span-10 first">
+         this website was created with <a href="http://webby.rubyforge.org">webby</a>
+       </div>
+       <div class="column span-10 align-right last">
+         &copy; 2005-2009 the ruote team
+       </div>
+     </div>
+   </div>
+
+</div>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js">
+</script>
+<script type="text/javascript">
+  var pageTracker=_gat._getTracker('UA-138748-2');
+  pageTracker._initData();
+  pageTracker._trackPageview();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+---
+title: documentation
+filter:
+  - erb
+  - textile
+---
+
+h2. documentation
+
+bits and pieces of documentation.
+
+
+h3. presentations
+
+* .
+
+
+h3. quickstarts
+
+* .
+
+
+h3. basic documentation
+
+
+h3. advanced documentation
+
+* the "glossary":glossary.html enumerates concepts and terms used throughout Ruote and attempts at giving explanations for them
+
+* ruote "rdoc":http://ruote.rubyforge.org/ruote/rdoc/ (raw ruby documentation)
+* ruote-dm "rdoc":http://ruote.rubyforge.org/ruote/rdoc/ (raw ruby documentation)
+
+* 'workflow patterns' provide a conceptual basis for process technology, they are enumerated by the research groups of Prof van der Aalst and Prof ter Hofstede at "http://workflowpatterns.com":http://workflowpatterns.com the following documentation piece details how a certain number of "control flow patterns":patterns.html can be implemented with Ruote
+
+
+h3. blog excerpts
+
+a few links to blog posts about ruote.
+
+* "how does Ruote work ?":http://jmettraux.wordpress.com/2008/09/07/how-does-ruote-work/
+

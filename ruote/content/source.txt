@@ -1,0 +1,22 @@
+---
+title: source
+filter:
+  - erb
+  - textile
+---
+
+h2. source
+
+Ruote's source code is located at the "github":http://github.com
+
+* "ruote 2.0":http://github.com/jmettraux/ruote/tree/ruote2.0 - the workflow engine
+
+* "ruote-dm":http://github.com/jmettraux/ruote-dm/ - "DataMapper" extensions for ruote (mostly DmParticipant)
+* "ruote-amqp":http://github.com/kennethkalmer/ruote-amqp/ - AMQP participants and listeners for ruote (coming soon for ruote 2.0) (by "Kenneth":http://opensourcery.co.za)
+
+* "ruote-fluo":http://github.com/jmettraux/ruote-fluo/ - some kind of a browser based editor for process definitions ("online demo":http://difference.openwfe.org:4567/?pdef=pdef.rb)
+
+* "ruote-kit":http://github.com/kennethkalmer/ruote-kit/ - RESTful wrapper for ruote (by "Kenneth":http://opensourcery.co.za)
+
+See also "rufus":http://rufus.rubyforge.org, a set of ruby gems spun off of ruote.
+
