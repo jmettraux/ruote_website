@@ -1,0 +1,56 @@
+---
+title: glossary
+filter:
+  - erb
+  - textile
+---
+
+h2. glossary
+
+An attempt at defining or explaining terms.
+
+
+h3(#fei). fei
+
+A short form for <a href="#flow_expression_id">Flow Expression Id</a>
+
+
+h3(#flow_expression). flow expression
+
+A piece of a process instance.
+
+
+h3(#flow_expression_id). flow expression id
+
+An identifier for a flow expression. This same identifier is used to identify "workitems":#workitem
+
+
+h3(#launch_item). launch item
+
+todo
+
+
+h3(#listener). listener
+
+todo
+
+
+h3(#participant). participant
+
+todo
+
+
+h3(#process_definition). process definition
+
+todo
+
+
+h3(#process_instance). process instance
+
+todo
+
+
+h3(#workitem). workitem
+
+todo
+

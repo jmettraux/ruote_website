@@ -5,11 +5,17 @@ filter:
   - textile
 ---
 
-h2. ruote
+h3. ruote
 
-<strong>Ruote</strong> is a "workflow engine":/wfengine.html written in Ruby.
+<strong>Ruote</strong> is a workflow engine written in Ruby.
 
-It could also be described as an 'operating system for business processes'. It is "not":http://jmettraux.wordpress.com/2009/07/03/state-machine-workflow-engine/ a state machine library.
+It could be described as an 'operating system for business processes'.
+
+A ruote engine may execute multiple <strong>process instances</strong> at a time. Processes are instantiated from <strong>process definitions</strong> written in a Ruby DSL or in XML (or directly as JSON).
+
+Process definitions describe the flow of work among <strong>participants</strong>. Participants maybe stand for users, groups of users, services, legacy systems, etc.
+
+It is "not":http://jmettraux.wordpress.com/2009/07/03/state-machine-workflow-engine/ a state machine library.
 
 Ruote is available under the "MIT":http://en.wikipedia.org/wiki/MIT_License open source license.
 
@@ -20,8 +26,7 @@ h3. ruote 2.0
 
 Ruote 2.0 is a rewrite of Ruote. Less code, simpler and all.
 
-
-h3. differences with ruote 1.0
+Some differences with ruote 1.0 :
 
 * Namespace changed from OpenWFE to Ruote
 
