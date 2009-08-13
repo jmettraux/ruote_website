@@ -30,7 +30,7 @@ Some differences with ruote 1.0 :
 
 * Namespace changed from OpenWFE to Ruote
 
-* extras have been removed from core, the two first being "ruote-dm":http://github.com/jmettraux/ruote-dm/ and "ruote-amqp":http://github.com/kennethkalmer/ruote-amqp/
+* extras have been removed from core, the two first being "ruote-dm":http://github.com/jmettraux/ruote-dm/ and "ruote-amqp":http://github.com/asm/ruote-amqp/
 
 * Generalization of the :timeout attribute (you can set a timeout on any expression)
 
