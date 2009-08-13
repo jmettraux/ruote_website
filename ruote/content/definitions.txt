@@ -1,0 +1,94 @@
+---
+title: process definitions
+filter:
+  - erb
+  - textile
+---
+
+h2. process definitions
+
+Process definitions are documents that describe how a [business] process should orchestrate the flow of work among participants.
+
+Participants are registered at start time usually. While process definitions are 'parsed' at their launch time. Each launch of a process definition creates a process instance.
+
+Ruote turns process definitions into an abstract syntax tree (a 'tree' for short) at launch time. It can mainly read three flavours of process definitions : a Ruby DSL, a XML and plain trees (usually as JSON, though YAML could be considered).
+
+A process definition contains 1 main process definition and may contain 1 or more sub-process definitions. For example.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition :name => 'test'
+    sequence do
+      subprocess :ref => 'analysis'
+      subprocess :ref => 'publication'
+    end
+    process_definition :name => 'analysis' do
+      sequence do
+        participant :ref => 'alice'
+        participant :ref => 'bob'
+      end
+    end
+    process_definition :name => 'publication' do
+      participant :ref => 'charly'
+    end
+  end
+<% end -%>
+
+
+h3. XML process definitions
+
+XML may be advantageous for some people as it looks enterprisey. Perhaps a better reason for using it is the fact that libraries for generating XML documents abound, as well as other XML related tools.
+
+<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+  <process-definition name="my_def">
+    <sequence>
+      <participant ref="alice" />
+      <participant ref="bob" />
+    </sequence>
+  </process-definition>
+<% end -%>
+
+
+h3. Ruby process definitions
+
+Some kind of Ruby DSL can be used to define processes :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition :name => 'my_def' do
+    sequence do
+      participant :ref => 'alice'
+      participant :ref => 'bob'
+    end
+  end
+<% end -%>
+
+
+One advantage of this 'notation' is that passing complex data structures from the process definition is possible :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition :name => 'my_def' do
+    sequence do
+      set :field => 'items', :value => { 'cars' => 2, 'trucks' => 0 }
+      participant :ref => 'alice'
+      participant :ref => 'bravo'
+    end
+  end
+<% end -%>
+
+
+Not necessarily a good practice but can come in handy.
+
+
+h3. raw [JSON] process definitions
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  [ 'process-definition', { 'name': 'my_def' }, [
+    [ 'sequence', {}, [
+      [ 'participant', { 'ref': 'alice' }, [] ],
+      [ 'participant', { 'ref': 'bob' }, [] ] 
+    ] ] 
+  ] ]
+<% end -%>
+
+
+This raw representation of a process definition can also accomodate deep data structures like the Ruby DSL does.
+

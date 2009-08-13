@@ -10,27 +10,30 @@ h2. documentation
 bits and pieces of documentation.
 
 
-h3. presentations
-
-* .
-
-
 h3. quickstarts
 
-* .
+* the source code "README.rdoc":http://github.com/jmettraux/ruote/tree/ruote2.0/ contains a tiny quickstart
 
 
 h3. basic documentation
 
+* the "glossary":glossary.html enumerates concepts and terms used throughout Ruote and attempts at giving explanations for them
+* "process definitions":definitions.html describe the flow of work among participants
+* "participants":participants.html are handed workitems by the engine
+* "expressions":expressions.html are the building blocks of process definitions
+
 
 h3. advanced documentation
-
-* the "glossary":glossary.html enumerates concepts and terms used throughout Ruote and attempts at giving explanations for them
 
 * ruote "rdoc":http://ruote.rubyforge.org/ruote_rdoc/ (raw ruby documentation)
 * ruote-dm "rdoc":http://ruote.rubyforge.org/ruote_dm_rdoc/ (raw ruby documentation)
 
 * 'workflow patterns' provide a conceptual basis for process technology, they are enumerated by the research groups of Prof van der Aalst and Prof ter Hofstede at "http://workflowpatterns.com":http://workflowpatterns.com the following documentation piece details how a certain number of "control flow patterns":patterns.html can be implemented with Ruote
+
+
+h3. presentations
+
+* .
 
 
 h3. blog excerpts
