@@ -19,7 +19,8 @@ h3. basic documentation
 
 * the "glossary":glossary.html enumerates concepts and terms used throughout Ruote and attempts at giving explanations for them
 * "process definitions":definitions.html describe the flow of work among participants
-* "participants":participants.html are handed workitems by the engine
+* "participants":participants.html are handed workitems by the engine to perform tasks with them
+* there are various "participant implementations":participant_implementations.html found in ruote itself and in its extensions, like ruote-dm and ruote-amqp
 * "expressions":expressions.html are the building blocks of process definitions
 
 

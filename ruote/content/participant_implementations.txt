@@ -1,0 +1,21 @@
+---
+title: participant implementations
+filter:
+  - erb
+  - textile
+---
+
+h2. participant implementations
+
+h3. participants and listeners
+
+h3. participants found in ruote
+
+h3. participants found in ruote-dm
+
+h3. participants found in ruote-amqp
+
+h3. see also
+
+* a few words about "participant":participants.html
+

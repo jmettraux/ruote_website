@@ -31,7 +31,7 @@ A process definition contains 1 main process definition and may contain 1 or mor
       participant :ref => 'charly'
     end
   end
-<% end -%>
+<% end %>
 
 
 h3. XML process definitions
@@ -45,7 +45,7 @@ XML may be advantageous for some people as it looks enterprisey. Perhaps a bette
       <participant ref="bob" />
     </sequence>
   </process-definition>
-<% end -%>
+<% end %>
 
 
 h3. Ruby process definitions
@@ -59,7 +59,7 @@ Some kind of Ruby DSL can be used to define processes :
       participant :ref => 'bob'
     end
   end
-<% end -%>
+<% end %>
 
 
 One advantage of this 'notation' is that passing complex data structures from the process definition is possible :
@@ -72,7 +72,7 @@ One advantage of this 'notation' is that passing complex data structures from th
       participant :ref => 'bravo'
     end
   end
-<% end -%>
+<% end %>
 
 
 Not necessarily a good practice but can come in handy.
@@ -87,7 +87,7 @@ h3. raw [JSON] process definitions
       [ 'participant', { 'ref': 'bob' }, [] ] 
     ] ] 
   ] ]
-<% end -%>
+<% end %>
 
 
 This raw representation of a process definition can also accomodate deep data structures like the Ruby DSL does.
