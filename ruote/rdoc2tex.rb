@@ -11,62 +11,78 @@ def print_usage
   puts
 end
 
-if ARGV.length < 1
-  print_usage
-  exit 1
-end
+def translate (path, indent=2)
 
-file = nil
-indent = 2
+  lines = File.readlines(path)
+  lines = lines.select { |l| l.match /^#{ ' ' * indent}#/ }
+  lines = lines.collect { |l| l[indent + 2..-1] }
 
-pos = 0
-while a = ARGV[pos]
-  if a == '-l' || a == '--level'
-    indent = ARGV[pos].to_i
-    pos = pos + 1
-  else
-    file = a
-  end
-  pos = pos + 1
-end
+  in_code = false
 
-lines = File.readlines(file)
-lines = lines.select { |l| l.match /^#{ ' ' * indent}#/ }
-lines = lines.collect { |l| l[indent + 2..-1] }
+  result = lines.inject([]) do |a, l|
 
-in_code = false
+    if in_code == false && l.match(/^  [^ ]/)
 
-result = lines.inject([]) do |a, l|
+      in_code = true
+      a << "<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>"
+      a << l
 
-  if in_code == false && l.match(/^  [^ ]/)
+    elsif in_code == true && l.match(/^[^ ]/)
 
-    in_code = true
-    a << "<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>"
-    a << l
+      in_code = false
+      if a.last.match(/^$/)
+        a[-1] = "<% end %>"
+        a << ""
+      else
+        a << "<% end %>"
+      end
+      a << l
 
-  elsif in_code == true && l.match(/^[^ ]/)
+    elsif m = l.match(/^(=+) (.+)$/)
 
-    in_code = false
-    if a.last.match(/^$/)
-      a[-1] = "<% end %>"
-      a << ""
+      a << "h#{m[1].length + H_OFFSET}. #{m[2]}"
+
     else
-      a << "<% end %>"
+
+      a << l
+
     end
-    a << l
 
-  elsif m = l.match(/^(=+) (.+)$/)
-
-    a << "h#{m[1].length + H_OFFSET}. #{m[2]}"
-
-  else
-
-    a << l
-
+    a
   end
 
-  a
+  if in_code
+    if result[-1] == ''
+      result[-1] = "<% end %>"
+    else
+      result << "<% end %>"
+    end
+  end
+
+  result
 end
 
-result.each { |l| puts l }
+if $0 == __FILE__
+
+  if ARGV.length < 1
+    print_usage
+    exit 1
+  end
+
+  file = nil
+  indent = 2
+
+  pos = 0
+  while a = ARGV[pos]
+    if a == '-l' || a == '--level'
+      indent = ARGV[pos].to_i
+      pos = pos + 1
+    else
+      file = a
+    end
+    pos = pos + 1
+  end
+
+  translate(file, indent).each { |l| puts l }
+end
 
