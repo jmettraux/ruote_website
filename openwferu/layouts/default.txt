@@ -49,6 +49,7 @@ filter:    erb
        <a href="http://jmettraux.wordpress.com">blog</a>
        <a href="http://difference.openwfe.org:3000/">demo</a>
        <span style="font-size: 80%;"><a href="ja/index.html">日本語</a></span>
+       <a href="http://ruote.rubyforge.org/">2.0</a>
      </div>
 
    </div>
