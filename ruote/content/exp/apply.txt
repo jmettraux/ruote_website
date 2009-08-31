@@ -1,0 +1,45 @@
+---
+title: apply expression
+filter:
+  - erb
+  - textile
+---
+
+h2. apply
+
+
+The 'apply' expression is an advanced expression.
+
+It takes as input an AST and applies it. The AST may be placed in a field
+or a variable or passed directly to the apply.
+
+These apply examples :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  apply :tree => [ 'echo', { 'nada' => nil }, [] ]
+
+  sequence do
+    set :var => 'tree', :val => [ 'echo', { 'nada' => nil }, [] ]
+    apply # looks by default in variable 'tree'
+  end
+
+  sequence do
+    set :var => 't', :val => [ 'echo', { 'nada' => nil }, [] ]
+    apply :tree_var => 't'
+  end
+
+  sequence do
+    set :field => 't', :val => [ 'echo', { 'nada' => nil }, [] ]
+    apply :tree_field => 't'
+  end
+<% end %>
+
+All are equivalent to
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  echo 'nada'
+
+<% end %>
+
+TODO : maybe accept directly ruby and xml (and json)
+

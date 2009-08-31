@@ -1,0 +1,9 @@
+---
+title: hash_participant 
+filter:
+  - erb
+  - textile
+---
+
+h2. hash_participant
+

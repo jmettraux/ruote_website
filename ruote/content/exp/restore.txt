@@ -1,0 +1,22 @@
+---
+title: restore expression
+filter:
+  - erb
+  - textile
+---
+
+h2. restore
+
+
+Restores the fields of the current workitem. That means usually copying
+them from a saved version in a variable or in a separate field.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  restore :from_var => 'v'
+<% end %>
+
+or
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  restore :from_f => 'customer.address.street', :to_f => 'delivery.street'
+<% end %>

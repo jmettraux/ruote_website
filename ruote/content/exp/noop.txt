@@ -1,0 +1,16 @@
+---
+title: noop expression
+filter:
+  - erb
+  - textile
+---
+
+h2. noop
+
+
+'No Operation' expression. Does nothing, immediately replies to
+its parent expression.
+
+Could be useful within a cursor expression with a :tag attribute
+as a jump expression target.
+

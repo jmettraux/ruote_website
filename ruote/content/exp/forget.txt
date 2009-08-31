@@ -1,0 +1,14 @@
+---
+title: forget expression
+filter:
+  - erb
+  - textile
+---
+
+h2. forget
+
+
+NOTE : deprecate in favour of 'forget' or 'orphan' attribute ?
+
+Forgets all of its children.
+

@@ -1,0 +1,19 @@
+---
+title: wait expression
+filter:
+  - erb
+  - textile
+---
+
+h2. wait
+
+
+Waits (sleeps) for a given period of time before resuming the flow.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    accounting :task => 'invoice'
+    wait '30d' # 30 days
+    accounting :task => 'check if customer paid'
+  end
+<% end %>

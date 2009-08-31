@@ -1,0 +1,130 @@
+---
+title: cursor expression
+filter:
+  - erb
+  - textile
+---
+
+h2. cursor
+
+
+This class implements the 'cursor' and the 'repeat' (loop) expressions.
+
+The cursor expression is a kind of enhanced 'sequence'. Like a sequence
+it will execute its child expression one by one, sequentially. Unlike a
+sequence though, it will obey 'commands'.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  cursor do
+    author
+    reviewer
+    rewind :if => '${f:not_ok}'
+    publisher
+  end
+<% end %>
+
+In this simplistic example, the process will flow from author to reviewer
+and back until the reviewer sets the workitem field 'not_ok' to something
+else than the value 'true'.
+
+There are two ways to pass commands to a cursor either directly from
+the process definition with a cursor command expression, either via
+the workitem '__command__' [special] field.
+
+h3. cursor commands
+
+The commands that a cursor understands are listed here. The most powerful
+ones are 'rewind' and 'jump'.
+
+h4. rewind
+
+Rewinds the cursor up to its first child expression.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  cursor do
+    author
+    reviewer
+    rewind :if => '${f:not_ok}'
+    publisher
+  end
+<% end %>
+
+h4. break
+
+Exits the cursor.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  cursor do
+    author
+    reviewer
+    rewind :if => '${f:review} == fix'
+    break :if => '${f:review} == abort'
+    publisher
+  end
+<% end %>
+
+h4. skip & back
+
+Those two commands jump forth and back respectively. By default, they
+skip 1 child, but they accept a numeric parameter holding the number
+of children to skip.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  cursor do
+    author
+    reviewer
+    rewind :if => '${f:review} == fix'
+    skip 2 :if => '${f:reviwer} == 'publish'
+    reviewer2
+    rewind :if => '${f:review} == fix'
+    publisher
+  end
+<% end %>
+
+h4. jump
+
+Jump is probably the most powerful of the cursor commands. It allows to
+jump to a specified expression that is a direct child of the cursor.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  cursor do
+    author
+    reviewer
+    jump :to => 'author', :if => '${f:review} == fix'
+    jump :to => 'publisher', :if => '${f:review} == publish'
+    reviewer2
+    jump :to => 'author', :if => '${f:review} == fix'
+    publisher
+  end
+<% end %>
+
+Note that the :to accepts the name of an expression or the value of
+its :ref attribute or the value of its :tag attribute.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  cursor do
+    participant :ref => 'author'
+    participant :ref => 'reviewer'
+    jump :to => 'author', :if => '${f:review} == fix'
+    participant :ref => 'publisher'
+  end
+<% end %>
+
+h3. repeat (loop)
+
+A 'cursor' expression exits implicitely as soon as its last child replies
+to it.
+a 'repeat' expression will apply (again) the first child after the last
+child replied. A 'break' cursor command might be necessary to exit the loop
+(or a cancel_process, but that exits the whole process instance).
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    repeat do
+      author
+      reviewer
+      break :if => '${f:review} == ok'
+    end
+    publisher
+  end
+<% end %>

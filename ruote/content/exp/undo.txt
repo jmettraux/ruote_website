@@ -1,0 +1,24 @@
+---
+title: undo expression
+filter:
+  - erb
+  - textile
+---
+
+h2. undo
+
+
+Undoes (cancels) another expression referred by its tag.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  pdef = Ruote.process_definition do
+    concurrence do
+      alpha :tag => 'kilroy'
+      undo :ref => 'kilroy'
+    end
+  end
+<% end %>
+
+This example is rather tiny, but it shows a process branch (undo) cancelling
+another (alpha).
+

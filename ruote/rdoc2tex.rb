@@ -11,55 +11,70 @@ def print_usage
   puts
 end
 
+class Translation
+
+  def initialize (lines)
+
+    @a = []
+    @in_code = false
+
+    lines.each { |l| self.ingest(l) }
+  end
+
+  def to_a
+
+    if @in_code
+      if @a[-1] == ''
+        @a[-1] = "<% end %>"
+      else
+        @a << "<% end %>"
+      end
+    end
+
+    @a
+  end
+
+  protected
+
+  def ingest (l)
+
+    if @in_code == false && l.match(/^  [^ ]/)
+
+      @in_code = true
+      @a << "<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>"
+      @a << l
+
+    elsif @in_code == true && l.match(/^[^ ]/)
+
+      @in_code = false
+      if @a.last.match(/^$/)
+        @a[-1] = "<% end %>"
+        @a << ""
+      else
+        @a << "<% end %>"
+      end
+      #@a << l
+      ingest(l)
+
+    elsif m = l.match(/^(=+) (.+)$/)
+
+      @a << "h#{m[1].length + H_OFFSET}. #{m[2]}"
+
+    else
+
+      @a << l
+
+    end
+  end
+end
+
 def translate (path, indent=2)
 
   lines = File.readlines(path)
   lines = lines.select { |l| l.match /^#{ ' ' * indent}#/ }
   lines = lines.collect { |l| l[indent + 2..-1] }
 
-  in_code = false
-
-  result = lines.inject([]) do |a, l|
-
-    if in_code == false && l.match(/^  [^ ]/)
-
-      in_code = true
-      a << "<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>"
-      a << l
-
-    elsif in_code == true && l.match(/^[^ ]/)
-
-      in_code = false
-      if a.last.match(/^$/)
-        a[-1] = "<% end %>"
-        a << ""
-      else
-        a << "<% end %>"
-      end
-      a << l
-
-    elsif m = l.match(/^(=+) (.+)$/)
-
-      a << "h#{m[1].length + H_OFFSET}. #{m[2]}"
-
-    else
-
-      a << l
-
-    end
-
-    a
-  end
-
-  if in_code
-    if result[-1] == ''
-      result[-1] = "<% end %>"
-    else
-      result << "<% end %>"
-    end
-  end
-
-  result
+  Translation.new(lines).to_a
 end
 
 if $0 == __FILE__

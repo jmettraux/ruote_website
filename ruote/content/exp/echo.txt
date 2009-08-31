@@ -1,0 +1,18 @@
+---
+title: echo expression
+filter:
+  - erb
+  - textile
+---
+
+h2. echo
+
+An expression for echoing text to STDOUT or to a :s_tracer service
+(if there is one bound in the engine context).
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant :ref => 'toto'
+    echo 'toto replied'
+  end
+<% end %>

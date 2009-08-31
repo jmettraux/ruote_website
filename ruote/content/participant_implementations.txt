@@ -11,6 +11,8 @@ h3. participants and listeners
 
 h3. participants found in ruote
 
+* "block participant":part/block_participant.html - a Ruby block as a ruote participant
+
 h3. participants found in ruote-dm
 
 h3. participants found in ruote-amqp

@@ -1,0 +1,19 @@
+---
+title: sequence expression
+filter:
+  - erb
+  - textile
+---
+
+h2. sequence
+
+
+The plain 'sequence' expression.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant 'alpha'
+    participant 'bravo'
+    participant 'charly'
+  end
+<% end %>

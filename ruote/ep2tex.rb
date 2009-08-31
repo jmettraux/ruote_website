@@ -24,9 +24,34 @@ paths = paths + Dir.glob(File.join(src, "*_participant.rb"))
 
 paths.each do |path|
 
+  puts "..#{path}"
+
   lines = translate(path, 2)
 
-  File.open(File.join('tex', "#{File.basename(path)}.txt"), 'w') do |f|
+  fname = File.basename(path)
+
+  type, item = if m = fname.match(/^(.+\_participant)\.rb$/)
+    [ '', m[1] ]
+  else
+    [ 'expression', fname[3..-4] ]
+  end
+
+  target = "#{fname[0..-4]}.txt"
+  target = target[3..-1] if target.match(/^fe\_/)
+
+  File.open(File.join('tex', target), 'w') do |f|
+
+    f.puts(%{---
+title: #{item} #{type}
+filter:
+  - erb
+  - textile
+---
+
+h2. #{item}
+
+})
+
     lines.each do |l|
       f.puts(l)
     end

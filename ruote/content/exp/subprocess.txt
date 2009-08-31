@@ -1,0 +1,121 @@
+---
+title: subprocess expression
+filter:
+  - erb
+  - textile
+---
+
+h2. subprocess
+
+
+An expression for invoking a subprocess.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  pdef = Ruote.process_definition do
+    sequence do
+      subprocess :ref => 'delivering'
+      subprocess 'invoicing'
+      refill_stock :if => '${v:stock_size} < 10'
+    end
+    define 'delivering' do
+      # ...
+    end
+    define 'invoicing' do
+      # ...
+    end
+    define 'refill_stock' do
+      # ...
+    end
+  end
+
+<% end %>
+
+h3. passing attributes as variables
+
+The attributes of the subprocess expression are passed as variables of
+the new subprocess instance.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition do
+    subprocess 'sub0', :a => 'A', :b => 'B'
+    define :sub0 do
+      echo '${v:a}:${v:b}'
+    end
+  end
+<% end %>
+
+This example (and useless) process example will output "A:B" to STDOUT.
+
+
+h3. passing 'blocks' to subprocesses
+
+When the subprocess expression has children, the first of them is passed
+to the subprocess instance as the 'tree' variable, readily available for
+an 'apply' expression.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition :name => 'double review' do
+    sequence do
+      sub0 do
+        review_board
+      end
+      sub0 do
+        review_board
+      end
+    end
+    define 'sub0' do
+      concurrence do
+        apply :i => 0
+        apply :i => 1
+        apply :i => 2
+      end
+    end
+  end
+<% end %>
+
+This example will send 2 x 3 concurrent workitems to the participant
+named 'review_board' (note that it could also be the name of another
+subprocess).
+
+
+h3. passing 'parameters' to subprocess
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition :name => 'whatever' do
+
+    call :who => 'the cops', :when => 'if I\'m not back at 3'
+
+    process_definition 'call' do
+      participant :ref => '${v:who}', :msg => 'this is a call'
+    end
+  end
+<% end %>
+
+This binds the variables 'who' and 'when' in the subprocess instance.
+
+Of course you can combine parameters and blocks passing.
+
+
+h3. pointing to subprocesses via their URI
+
+It's OK to invoke subprocesses via a URI
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  subprocess :ref => 'pdefs/definition1.rb'
+<% end %>
+
+or
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  subprocess :ref => 'http://pdefs.example.org/account/def1.xml'
+<% end %>
+
+Remember that the :remote_definition_allowed option of the engine has
+to be set to true for the latter to work, else the engine will refuse
+to load definitions over HTTP.
+
+Shorter :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  subprocess 'http://pdefs.example.org/account/def1.xml'
+<% end %>

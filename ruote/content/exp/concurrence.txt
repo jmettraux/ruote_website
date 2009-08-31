@@ -1,0 +1,121 @@
+---
+title: concurrence expression
+filter:
+  - erb
+  - textile
+---
+
+h2. concurrence
+
+
+The 'concurrence' expression applies its child branches in parallel
+(well it makes a best effort to make them run in parallel).
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrence do
+    alpha
+    bravo
+  end
+<% end %>
+
+h3. attributes
+
+The concurrence expression takes a number of attributes that allow for
+sophisticated control (especially at merge time).
+
+h4. :count
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrence :count => 1 do
+    alpha
+    bravo
+  end
+<% end %>
+
+in that example, the concurrence will terminate as soon as 1 (count) of
+the branches replies. The other branch will get cancelled.
+
+h4. :remaining
+
+As said for :count, the remaining branches get cancelled. By setting
+:remaining to :forget (or 'forget'), the remaining branches will continue
+their execution, forgotten.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrence :count => 1, :remaining => :forget do
+    alpha
+    bravo
+  end
+<% end %>
+
+h4. :merge
+
+By default, the workitems override each others. By default, the first
+workitem to reply will win.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    concurrence do
+      alpha
+      bravo
+    end
+    charly
+  end
+<% end %>
+
+In that example, if 'alpha' replied first, the workitem that reaches
+'charly' once 'bravo' replied will have the payload as seen/modified by
+'alpha'.
+
+The :merge attribute determines which branch wins the merge.
+
+* first (default)
+* last
+* highest
+* lowest
+
+highest and lowest refer to the position in the list of branch. It's useful
+to set a fixed winner.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrence :merge => highest do
+    alpha
+    bravo
+  end
+<% end %>
+
+makes sure that alpha's version of the workitem wins.
+
+h4. :merge_type
+
+By default, the merge type is set to 'override', which means that the
+'winning' workitem's payload supplants all other workitems' payloads.
+
+Setting :merge_type to :mix, will actually attempt to merge field by field,
+making sure that the field value of the winner(s) are used.
+
+:isolate will rearrange the resulting workitem payload so that there is
+a new field for each branch. The name of each field is the index of the
+branch from '0' to ...
+
+
+h4. :over_if (and :over_unless)
+
+Like the :count attribute controls how many branches have to reply before
+a concurrence ends, the :over attribute is used to specify a condition
+upon which the concurrence will [prematurely] end.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrence :over_if => '${f:over}'
+    alpha
+    bravo
+    charly
+  end
+<% end %>
+
+will end the concurrence as soon as one of the branches replies with a
+workitem whose field 'over' is set to true. (the remaining branches will
+get cancelled unless :remaining => :forget is set).
+
+:over_unless needs no explanation.
+

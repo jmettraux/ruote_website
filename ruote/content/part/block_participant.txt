@@ -1,0 +1,50 @@
+---
+title: block_participant 
+filter:
+  - erb
+  - textile
+---
+
+h2. block_participant
+
+
+One of the simplest participants. Simply passes a workitem to a block
+of ruby code.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.register_participant :alpha do |workitem|
+    workitem.fields['time'] = Time.now
+  end
+<% end %>
+
+This participant implicitely replies to the engine when the block execution
+is over.
+
+You can pass the flow_expression (participant expression) as well.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.register_participant :alpha do |workitem, flow_exp|
+    workitem.fields['amount'] = flow_exp.lookup_variable('amount')
+  end
+
+<% end %>
+
+h3. do_not_thead
+
+By default, this participant (like most other participants) is executed
+in its own thread (in a Ruby runtime where EventMachine is running,
+EM.next_tick is used instead of a new thread).
+
+You can change that behaviour (beware block thats monopolises the whole
+engine !) by doing
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  alpha = engine.register_participant :alpha do |workitem|
+    workitem.fields['time'] = Time.now
+  end
+
+  alpha.do_not_thread = true
+<% end %>
+
+(you could also override do_not_thread, the method ...)
+

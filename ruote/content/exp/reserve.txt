@@ -1,0 +1,31 @@
+---
+title: reserve expression
+filter:
+  - erb
+  - textile
+---
+
+h2. reserve
+
+
+Prevents two process branches from executing at the same time.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  pdef = Ruote.process_definition :name => 'test' do
+    concurrence do
+      reserve :mutex => 'a' do
+        alpha
+      end
+      reserve 'a' do
+        alpha
+      end
+    end
+  end
+<% end %>
+
+(Nice and tiny example, turns a concurrence into a sequence...)
+
+
+A FlowMutex, keeps track of the reserve expression waiting on a mutex to
+unlock...
+

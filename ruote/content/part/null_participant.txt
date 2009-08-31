@@ -1,0 +1,14 @@
+---
+title: null_participant 
+filter:
+  - erb
+  - textile
+---
+
+h2. null_participant
+
+A /dev/null participant, simply discards the workitems it receives,
+without doing anything.
+
+For testing purposes only.
+

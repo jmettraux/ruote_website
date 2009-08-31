@@ -1,0 +1,13 @@
+---
+title: listen expression
+filter:
+  - erb
+  - textile
+---
+
+h2. listen
+
+
+Listens for activity (incoming or outgoing workitems) on a (set of)
+participant(s).
+
