@@ -71,6 +71,6 @@ Participants are usually expected to reply to the engine with an updated version
 
 h3. see also
 
-* the "participant expression":expressions.html#exp_participant
-* "participant implementations":participant_implementations.html
+* the "participant expression":exp/participant.html
+* "participant implementations":part_implementations.html
 
