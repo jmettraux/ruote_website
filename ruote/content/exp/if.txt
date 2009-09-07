@@ -7,3 +7,45 @@ filter:
 
 h2. if
 
+
+Here are examples of the 'if' expression in use :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  _if do
+    equals :field_value => 'customer', :other_value => 'British Petroleum'
+    participant :ref => 'Allister'
+  end
+<% end %>
+
+and :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  _if :test => '${f:customer} == British Petroleum' do
+    participant :ref => 'Allister'
+  end
+<% end %>
+
+An else clause is accepted :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  _if do
+    equals :field_value => 'customer', :other_value => 'British Petroleum'
+    participant :ref => 'Allister'
+    participant :ref => 'Bernardo'
+  end
+<% end %>
+
+or :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  _if :test => '${f:customer} == British Petroleum' do
+    participant :ref => 'Allister'
+    participant :ref => 'Bernardo'
+  end
+<% end %>
+
+Note that any expression accepts an :if attribute :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  participant :ref => 'Al', :if => '${f:customer} == British Petroleum'
+<% end %>
