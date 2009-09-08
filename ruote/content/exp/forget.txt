@@ -8,7 +8,40 @@ filter:
 h2. forget
 
 
-NOTE : deprecate in favour of 'forget' or 'orphan' attribute ?
-
 Forgets all of its children.
+
+This expression is somehow deprecated in favour of the :forget attribute
+that any expression understands.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant 'alpha'
+    forget do
+      sequence do
+        participant 'bravo'
+        participant 'charly'
+      end
+    end
+    participant 'delta'
+  end
+<% end %>
+
+In this example above, the flow goes from alpha to bravo and delta. The
+bravo-charly segment is independent of the main process flow. Charly's
+reply will be forgotten.
+
+Now the equivalent process definition, but using the :forget attribute :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant 'alpha'
+    sequence :forget => true do
+      participant 'bravo'
+      participant 'charly'
+    end
+    participant 'delta'
+  end
+<% end %>
+
+This expression can be useful for fire-and-forget parallelism in processes.
 

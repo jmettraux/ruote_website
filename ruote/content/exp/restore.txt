@@ -20,3 +20,6 @@ or
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
   restore :from_f => 'customer.address.street', :to_f => 'delivery.street'
 <% end %>
+
+TODO : merge strategies
+

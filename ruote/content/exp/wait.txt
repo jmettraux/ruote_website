@@ -17,3 +17,12 @@ Waits (sleeps) for a given period of time before resuming the flow.
     accounting :task => 'check if customer paid'
   end
 <% end %>
+
+'_sleep' is also OK
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  _sleep '7d10h' # 7 days and 10 hours
+<% end %>
+
+(the underscore prevents collision with Ruby's sleep method)
+
