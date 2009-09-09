@@ -40,6 +40,3 @@ All are equivalent to
   echo 'nada'
 
 <% end %>
-
-TODO : maybe accept directly ruby and xml (and json)
-

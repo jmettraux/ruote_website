@@ -39,7 +39,11 @@ paths.each do |path|
   target = "#{fname[0..-4]}.txt"
   target = target[3..-1] if target.match(/^fe\_/)
 
-  File.open(File.join('tex', target), 'w') do |f|
+  target = type == 'expression' ?
+    File.join('content', 'exp', target) :
+    File.join('content', 'part', target)
+
+  File.open(target, 'w') do |f|
 
     f.puts(%{---
 title: #{item} #{type}
