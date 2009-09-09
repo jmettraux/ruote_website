@@ -64,6 +64,11 @@ class Translation
 
       @a << l
 
+      #if l != '' && @a[-1] && @a[-1] != ''
+      #  @a[-1] = "#{@a[-1]} #{l}"
+      #else
+      #  @a << l
+      #end
     end
   end
 end

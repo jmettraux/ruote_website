@@ -42,10 +42,10 @@ filter:    erb
        open source ruby workflow engine
      </div>
      <div class="column span-10 align-right last">
-       <a title="documentation" href="documentation.html">doc</a>
-       <a title="source code" href="source.html">source</a>
-       <a title="download" href="download.html">download</a>
-       <a title="mailing lists and irc" href="lists.html">lists</a>
+       <a title="documentation" href="/documentation.html">doc</a>
+       <a title="source code" href="/source.html">source</a>
+       <a title="download" href="/download.html">download</a>
+       <a title="mailing lists and irc" href="/lists.html">lists</a>
        <a title="blog" href="http://jmettraux.wordpress.com">blog</a>
        <a title="ruote 1.0 (OpenWFEru)" href="http://openwferu.rubyforge.org/">1.0</a>
      </div>
