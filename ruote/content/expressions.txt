@@ -16,6 +16,7 @@ h3. basic expressions
 * "concurrence":exp/concurrence.html - parallel orchestration
 * "concurrent_iterator":exp/concurrent_iterator.html - a bit like a parallel 'for'
 * "cursor":exp/cursor.html - a sequence, but with rewind / jump / exit ...
+* "loop/repeat":exp/cursor.html - a cursor, with an implicit rewind
 * "define":exp/define.html - used to define a process or a subprocess
 * "equals":exp/equals.html - comparing values (used with 'if')
 * "if":exp/if.html - 'if' branching

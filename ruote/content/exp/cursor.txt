@@ -110,7 +110,38 @@ its :ref attribute or the value of its :tag attribute.
   end
 <% end %>
 
-h3. repeat (loop)
+h3. IMPORTANT note about cursor commands
+
+Those commands are "interpreted" each time the cursor is replied to, not
+when they are applied themselves.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  cursor do
+    author
+    reviewer
+    rewind :if => '${f:not_ok}'
+    publisher
+  end
+<% end %>
+
+will behave as expected, while
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  cursor do
+    author
+    reviewer
+    sequence do
+      rewind :if => '${f:not_ok}'
+      wait '1d'
+    end
+    publisher
+  end
+<% end %>
+
+will only rewind after 1 day, when the sequence containing the rewind and
+the wait will have replied to the cursor.
+
+h2. repeat (loop)
 
 A 'cursor' expression exits implicitely as soon as its last child replies
 to it.
