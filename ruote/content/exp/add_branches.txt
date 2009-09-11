@@ -1,0 +1,60 @@
+---
+title: add_branches expression
+filter:
+  - erb
+  - textile
+---
+
+h2. add_branches
+
+
+The 'add_branches'/'add_branch' expression can be used to add branches
+to a concurrent-iterator while it is running.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrent_iterator :on => 'a, b, c' do
+    sequence do
+      participant :ref => 'worker_${v:i}'
+      add_branches 'd, e', :if => '${v:/not_sufficient}'
+    end
+  end
+<% end %>
+
+In this example, if the process level variable 'not_sufficient' is set to
+true, workers d and e will be added to the iterated elements.
+
+'add_branches' understand comma-separated list of values or direcltly
+array of values, like the concurrent_iterator does. The :sep or :separator
+attribute can be used for custom separators :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  add_branches 'd|e|f', :sep => '|'
+
+<% end %>
+
+h3. :ref
+
+By default, add_branches looks up the first parent expression that is
+concurrent_iterator. This is all well, but what when you have nested
+concurrent_iterator and want to hit the enclosing one from inside the
+enclosed one ? Or when you want to add branches from somewhere else
+in the process instance, outside of the concurrent_iterator ?
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrence do
+
+    concurrent_iterator :on => 'a, b, c', :tag => 'main' do
+      subprocess :ref => 'perform_work'
+    end
+
+    sequence do
+      subprocess :ref => 'supervise_work'
+      add_branches 'd, e', :ref => 'main', :if => '${f:more_steam}'
+      rewind :if => '${f:more_steam}'
+    end
+  end
+<% end %>
+
+The add_branches expression refers to the 'main' concurrent_iterator via
+the :ref => 'main' attribute.
+

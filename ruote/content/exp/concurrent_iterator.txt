@@ -74,3 +74,23 @@ brother, the concurrence expression.
 :count, :merge (override, mix, isolate), remaining (cancel, forget) and
 :over.
 
+
+h3. add branches
+
+The 'add_branches'/'add_branch' expression can be used to add branches
+to a concurrent-iterator while it is running.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrent_iterator :on => 'a, b, c' do
+    sequence do
+      participant :ref => 'worker_${v:i}'
+      add_branches 'd, e', :if => '${v:/not_sufficient}'
+    end
+  end
+<% end %>
+
+In this example, if the process level variable 'not_sufficient' is set to
+true, workers d and e will be added to the iterated elements.
+
+Read more at the 'add_branches' expression description.
+
