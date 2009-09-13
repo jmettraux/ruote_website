@@ -58,7 +58,7 @@ Exits the cursor.
     author
     reviewer
     rewind :if => '${f:review} == fix'
-    break :if => '${f:review} == abort'
+    _break :if => '${f:review} == abort'
     publisher
   end
 <% end %>
@@ -74,7 +74,7 @@ of children to skip.
     author
     reviewer
     rewind :if => '${f:review} == fix'
-    skip 2 :if => '${f:reviwer} == 'publish'
+    skip 2 :if => '${f:review} == publish'
     reviewer2
     rewind :if => '${f:review} == fix'
     publisher
@@ -110,36 +110,9 @@ its :ref attribute or the value of its :tag attribute.
   end
 <% end %>
 
-h3. IMPORTANT note about cursor commands
+h3. cursor command with :ref
 
-Those commands are "interpreted" each time the cursor is replied to, not
-when they are applied themselves.
-
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  cursor do
-    author
-    reviewer
-    rewind :if => '${f:not_ok}'
-    publisher
-  end
-<% end %>
-
-will behave as expected, while
-
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  cursor do
-    author
-    reviewer
-    sequence do
-      rewind :if => '${f:not_ok}'
-      wait '1d'
-    end
-    publisher
-  end
-<% end %>
-
-will only rewind after 1 day, when the sequence containing the rewind and
-the wait will have replied to the cursor.
+TODO
 
 h2. repeat (loop)
 
@@ -154,7 +127,7 @@ child replied. A 'break' cursor command might be necessary to exit the loop
     repeat do
       author
       reviewer
-      break :if => '${f:review} == ok'
+      _break :if => '${f:review} == ok'
     end
     publisher
   end
