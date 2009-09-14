@@ -58,3 +58,10 @@ in the process instance, outside of the concurrent_iterator ?
 The add_branches expression refers to the 'main' concurrent_iterator via
 the :ref => 'main' attribute.
 
+
+h3. missing concurrent_iterator
+
+If :ref points to nothing or add_branch has no :ref and is not placed
+inside of a concurrent_iterator, the expression will silently have no
+effect.
+
