@@ -1,0 +1,25 @@
+---
+title: error expression
+filter:
+  - erb
+  - textile
+---
+
+h2. error
+
+
+Triggers an error directly from the process definition.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition :name => 'log1' do
+    sequence do
+      perform_inventory
+      error 'inventory issue', :if => '${f:level} < 1'
+      order_new_stuff
+      store_new_stuff
+    end
+  end
+<% end %>
+
+Replaying the error will 'unlock' the process.
+
