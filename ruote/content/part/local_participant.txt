@@ -7,3 +7,9 @@ filter:
 
 h2. local_participant
 
+
+Provides methods for 'local' participants.
+
+Assumes the class that includes this module has an 'engine' method
+which returns the ruote engine.
+

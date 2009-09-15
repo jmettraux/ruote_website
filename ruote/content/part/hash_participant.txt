@@ -7,3 +7,7 @@ filter:
 
 h2. hash_participant
 
+
+Storing workitems in-memory. Mainly used for testing purposes, but could
+prove useful for a transient ruote engine.
+

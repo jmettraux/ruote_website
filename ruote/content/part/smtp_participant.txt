@@ -1,0 +1,73 @@
+---
+title: smtp_participant 
+filter:
+  - erb
+  - textile
+---
+
+h2. smtp_participant
+
+
+A very stupid SMTP participant, doesn't even care about formatting its
+messages. This class is meant as a base for more complex email participants.
+
+h3. options
+
+* :server - the IP address or hostname of the SMTP server/gateway (defaults to '127.0.0.1')
+* :port - the port of the SMTP server/gateway (defaults to 25)
+* :from - the from mail address (mandatory)
+* :to - the to mail address[es]
+* :template - a String template for the mail message
+* :notification - when set to true, the flow will resume immediately after having sent the email
+
+h3. :template
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  @engine.register_participant(
+    :no_good_notification
+    Ruote::SmtpParticipant,
+    :server => 'smtp.example.com'
+    :port => 25,
+    :to => 'toto@example.com',
+    :from => 'john@example.com',
+    :notification => true,
+    :template => "Subject: ${f:email_subject}\n\nno good.")
+<% end %>
+
+Process variable / workitem field substitution works the same as in
+process definitions (in this example, the workitem field email_subject will
+be used as the subject of the email...)
+
+h3. block template
+
+Whereas the :template option accepts a String, the block template may
+be useful when more complex templates are to be computed.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  @engine.register_participant(
+    :no_good_notification
+    Ruote::SmtpParticipant,
+    :server => 'smtp.example.com'
+    :port => 25,
+    :to => 'toto@example.com',
+    :from => 'john@example.com',
+    :notification => true
+  ) do
+
+    s = []
+    s << "From: the boss"
+    s << "Date: ${r:Time.now.rfc2822}"
+    s << "Subject: ${f:email_subject}\n"
+    s << ""
+    3.times { s << "this is no good." }
+
+    s.join("\n")
+  end
+
+<% end %>
+
+h3. mail listener
+
+This participant cannot read POP/IMAP accounts for you. You have to
+use a mail listener or get a web reply by placing a link in the message...
+
