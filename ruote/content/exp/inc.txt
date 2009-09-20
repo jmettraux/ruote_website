@@ -1,0 +1,113 @@
+---
+title: inc expression
+filter:
+  - erb
+  - textile
+---
+
+h2. inc
+
+
+Increments or decrements the value found in a process variable or
+a workitem field.
+
+One points to a var or a field in these various ways :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    inc :var => 'counter'
+    inc :field => 'counter'
+    inc 'v:counter'
+    inc 'f:counter'
+  end
+<% end %>
+
+'inc' and 'dec' work with two types of values : numbers (the default) and
+arrays.
+
+
+h3. numbers
+
+The vanilla case of inc/dec is increasing/decreasing a value by 1.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  dec :var => 'x'
+<% end %>
+
+will decrease the value in variable 'x' by 1.
+
+inc/dec works with two kind of numbers, integers and floats.
+
+If the target var or field is not set, it will be assumed to be at zero.
+
+The default increment is 1 (or 1.0 for floats). It can be changed by
+passing a value to the inc/dec expression.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  inc 'v:x', :val => 3
+  inc 'v:y', :val => 2.4
+
+<% end %>
+
+h3. arrays
+
+inc/dec can be used to push/pop elements in arrays held in process variables
+or workitem fields.
+
+This fragment of process definition
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    set 'v:x' => %w[ a b c d ]
+    repeat do
+      dec 'v:x', :pos => 'head'
+      _break :unless => '${v:d}'
+      participant '${v:d}'
+    end
+  end
+<% end %>
+
+is equivalent to
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  iterator :on => 'a, b, c, d', :to_var => 'x' do
+    participant '${v:x}'
+  end
+<% end %>
+
+More details : the inc expression expects a value and it will place it
+at the end of the current array. The :pos or :position attribute can
+be set to 'head' to let the inc expression place the value at the head
+of the array.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  set 'v:x' => [ 'alfred', 'bryan' ]
+  set 'v:customer_name' => 'charles'
+
+  inc 'v:x', :val => '${v:customer_name}'
+    # the variable 'x' now holds [ 'alfred', 'bryan', 'charles' ]
+  inc 'v:y', :val => '${v:customer_name}', :pos => 'head'
+    # the variable 'x' now holds [ 'charles', 'alfred', 'bryan', 'charles' ]
+<% end %>
+
+The 'dec' / 'decrement' variant of the expression will remove the tail
+value (by default) of the array, or the head value if :pos is set to 'head'.
+
+It's also possible to remove a specific value by passing it to 'dec' :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  set 'v:x' => [ 'alfred', 'bryan', 'carl' ]
+  dec 'v:x', :val => 'bryan'
+    # the variable 'x' now holds [ 'alfred', 'carl' ]
+<% end %>
+
+'dec' places the removed value in the local variable named 'd'. This trick
+was used in the above iterator example.
+
+A specific variable or field can be specified via the :to_var / :to_field
+attributes :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  dec 'v:x', :to_v => 'a'
+  participant :ref => '${v:a}'
+<% end %>
