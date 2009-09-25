@@ -10,7 +10,7 @@ h2. flow expressions
 Flow expressions are the building blocks of process definitions.
 
 
-h3. basic expressions
+h3(#basic). basic expressions
 
 * "cancel_process":exp/cancel_process.html - cancelling (aborting) a whole process instance
 * "concurrence":exp/concurrence.html - parallel orchestration
@@ -29,7 +29,7 @@ h3. basic expressions
 * "wait":exp/wait.html - waits (sleeps) for a given amount of time
 
 
-h3. advanced expressions
+h3(#advanced). advanced expressions
 
 * "add_branches":exp/add_branches.html - adds new branches to a running 'concurrent_iterator'
 * "apply":exp/apply.html - used to leverage a segment of process passed to a subprocess (like block/yield in Ruby)
@@ -43,7 +43,7 @@ h3. advanced expressions
 * "undo":exp/undo.html - undoes a tagged segment of process
 
 
-h3. other expressions
+h3(#other). other expressions
 
 Expressions used in debug time or that have become slightly obsolete
 
@@ -51,7 +51,12 @@ Expressions used in debug time or that have become slightly obsolete
 * "forget":exp/equals.html - forgetting a segment of process (supplanted by the :forget attribute common to all expressions)
 
 
-h3. attributes common to all expressions
+h3(#attributes). attributes common to all expressions
+
+TODO
+
+
+h3(#dollar). dollar notation : variable/fields extrapolation
 
 TODO
 

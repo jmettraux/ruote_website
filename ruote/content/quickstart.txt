@@ -1,0 +1,82 @@
+---
+title: quickstart
+filter:
+  - erb
+  - textile
+---
+
+h2. ruote 2.0 quickstart
+
+Ruote 2.0 is mainly tested with Ruby 1.9.1 but seems to run fine with Ruby 1.8.7.
+
+This quickstart aims at showing a minimal process instance run. It's a limited example.
+
+
+h3. getting ruote 2.0
+
+Provided that you have a recent version of "git":http://progit.org/book/ch1-4.html, you can do from your command line :
+
+<pre>
+git clone git://github.com/jmettraux/ruote.git
+cd ruote
+git checkout --track origin/ruote2.0 
+rake deps:install
+</pre>
+
+Tracking the ruote2.0 is currently required. We will however turn this branch into the master branch soon.
+
+The rake call will install the gems that ruote 2.0 requires for proper operation.
+
+
+h3. first run
+
+This piece of code passes a workitem from participant Alpha to participant Bravo :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+$:.unshift('lib') # running from ruote/ probably
+
+require 'rubygems'
+require 'ruote/engine'
+
+# preparing the engine
+
+engine = Ruote::FsPersistedEngine.new
+
+# registering participants
+
+engine.register_participant :alpha do |workitem|
+  workitem.fields['message'] = { 'text' => 'hello !', 'author' => 'Alice' }
+end
+
+engine.register_participant :bravo do |workitem|
+  puts "I received a message from #{workitem.fields['message']['author']}"
+end
+
+# defining a process
+
+pdef = Ruote.process_definition :name => 'test' do
+  sequence do
+    participant :alpha
+    participant :bravo
+  end
+end
+
+# launching, creating a process instance
+
+pid = engine.launch(pdef)
+
+sleep 1
+
+# => 'I received a message from Alice'
+<% end %>
+
+This quickstart can be found in examples/ruote_quickstart.rb
+
+Run it with :
+
+<pre>
+ruby examples/ruote_quickstart.rb
+</pre>
+
+It will exit after 1 second, having run 1 process instance.
+

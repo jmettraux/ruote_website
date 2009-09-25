@@ -7,32 +7,18 @@ filter:
 
 h3. ruote
 
-<strong>Ruote</strong> is a workflow engine written in Ruby.
+<strong>Ruote</strong> is a workflow engine written in Ruby. Ruote is "not":http://jmettraux.wordpress.com/2009/07/03/state-machine-workflow-engine/ a state machine library.
 
 It could be described as an 'operating system for business processes'.
 
-A ruote engine may execute multiple <strong>process instances</strong> at a time. Processes are instantiated from <strong>process definitions</strong> written in a Ruby DSL or in XML (or directly as JSON).
+A ruote engine may execute multiple <strong>process instances</strong> at a time. Processes are instantiated from <strong>process definitions</strong> written in a Ruby DSL or in XML (or directly as JSON). Process definitions describe the flow of work among <strong>participants</strong>. Participants stand for users, groups of users, services, legacy systems, etc.
 
-Process definitions describe the flow of work among <strong>participants</strong>. Participants stand for users, groups of users, services, legacy systems, etc.
-
-Ruote is "not":http://jmettraux.wordpress.com/2009/07/03/state-machine-workflow-engine/ a state machine library.
 
 Ruote is available under the "MIT":http://en.wikipedia.org/wiki/MIT_License open source license.
 
 Ruote used to be named 'openwfe-ruby' then 'openwferu'. The name is now 'ruote' (pronounce it 'ru-o-te' or 'route', as you wish).
 
-
-h3. ruote 2.0
-
-Ruote 2.0 is a rewrite of Ruote. Less code, simpler and all.
-
-Some differences with ruote 1.0 :
-
-* Namespace changed from OpenWFE to Ruote
-* extras have been removed from core, the two first being "ruote-dm":http://github.com/jmettraux/ruote-dm/ and "ruote-amqp":http://github.com/asm/ruote-amqp/
-* Generalization of the :timeout attribute (you can set a timeout on any expression)
-* a 'jump to tag' feature for the cursor (and the loop) expression
-* ...
+The small "quickstart":quickstart.html might help.
 
 
 h3. community
