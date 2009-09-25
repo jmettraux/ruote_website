@@ -12,7 +12,7 @@ bits and pieces of documentation.
 
 h3. quickstarts
 
-* the source code "README.rdoc":http://github.com/jmettraux/ruote/tree/ruote2.0/ contains a tiny quickstart
+* a "quickstart":quickstart.html with instructions on how to get ruote 2.0 and its dependencies
 
 
 h3. basic documentation
