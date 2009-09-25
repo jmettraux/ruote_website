@@ -15,7 +15,7 @@ Each pattern is illustrated with a Ruby DSL implementation (or approximation). X
 
 Participant expressions have been supplemented with an :activity attribute to give a better feel about an hypothetical context for the application of the pattern.
 
-* "Basic Control Flow Patterns":#basic
+*(#top) "Basic Control Flow Patterns":#basic
 ** "sequence":#ba_sequence
 ** "parallel split":#ba_parallel_split
 ** "synchronization":#ba_synchronization
@@ -47,7 +47,7 @@ Chaining activities in sequence. Uses the "sequence":exp/sequence.html expressio
   end
 <% end %>
 
-"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp1.php
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp1.php | "top":#top
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -62,11 +62,15 @@ The "concurrence":exp/concurrence.html expression is the main tool for 'parallel
   end
 <% end %>
 
-"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp2.php
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp2.php | "top":#top
 
 <!-- ----------------------------------------------------------------------- -->
 
 h3(#ba_synchronization). synchronization
+
+Synchronization is "supported implicitely":#ba_parallel_split by the "concurrence":exp/concurrence.html expression. Note that this expression can be tuned via its attributes for behaviours different than the vanilla "wait before all child expressions have replied" one.
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp3.php | "top":#top
 
 <!-- ----------------------------------------------------------------------- -->
 
