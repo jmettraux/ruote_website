@@ -13,6 +13,8 @@ Described here are ways to implement each of those patterns with ruote. Some of 
 
 Each pattern is illustrated with a Ruby DSL implementation (or approximation). XML implementations are easily derivable from their Ruby counterparts. There is also a link to the original pattern explanation and its flash animation.
 
+Participant expressions have been supplemented with an :activity attribute to give a better feel about an hypothetical context for the application of the pattern.
+
 * "Basic Control Flow Patterns":#basic
 ** "sequence":#ba_sequence
 ** "parallel split":#ba_parallel_split
@@ -32,6 +34,7 @@ Each pattern is illustrated with a Ruby DSL implementation (or approximation). X
 
 h2(#basic). Basic Control Flow Patterns
 
+<!-- ----------------------------------------------------------------------- -->
 
 h3(#ba_sequence). sequence
 
@@ -46,13 +49,34 @@ Chaining activities in sequence. Uses the "sequence":exp/sequence.html expressio
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp1.php
 
+<!-- ----------------------------------------------------------------------- -->
+
 h3(#ba_parallel_split). parallel split
+
+The "concurrence":exp/concurrence.html expression is the main tool for 'parallel splits'.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrence do
+    participant :ref => 'alpha', :activity => 'write introduction'
+    participant :ref => 'bravo', :activity => 'write postface'
+  end
+<% end %>
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp2.php
+
+<!-- ----------------------------------------------------------------------- -->
 
 h3(#ba_synchronization). synchronization
 
+<!-- ----------------------------------------------------------------------- -->
+
 h3(#ba_exclusive_choice). exclusive choice
 
+<!-- ----------------------------------------------------------------------- -->
+
 h3(#ba_simple_merge). simple merge
+
+<!-- ----------------------------------------------------------------------- -->
 
 <hr/>
 
