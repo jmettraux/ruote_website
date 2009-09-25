@@ -7,5 +7,85 @@ filter:
 
 h2. workflow control patterns
 
-Coming soon.
+The "Workflow Patterns":http://workflowpatterns.com/patterns/control/index.php are a catalog of various building blocks for workflow execution.
+
+Described here are ways to implement each of those patterns with ruote. Some of them are not directly realizable with ruote, approximations are proposed.
+
+Each pattern is illustrated with a Ruby DSL implementation (or approximation). XML implementations are easily derivable from their Ruby counterparts. There is also a link to the original pattern explanation and its flash animation.
+
+* "Basic Control Flow Patterns":#basic
+** "sequence":#ba_sequence
+** "parallel split":#ba_parallel_split
+** "synchronization":#ba_synchronization
+** "exclusive choice":#ba_exclusive_choice
+** "simple merge":#ba_simple_merge
+
+* "Advanced Branching and Synchronization Patterns":#advanced
+* "Structural Patterns":#structural
+* "Multiple Instance Patterns":#multiple
+* "State-based Patterns":#state
+* "Cancellation Patterns":#cancellation
+* "New Control Flow Patterns":#new
+
+<hr/>
+
+
+h2(#basic). Basic Control Flow Patterns
+
+
+h3(#ba_sequence). sequence
+
+Chaining activities in sequence. Uses the "sequence":exp/sequence.html expression. The "cursor":exp/cursor.html expression might also be used.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant :ref => 'alpha', :activity => 'write'
+    participant :ref => 'bravo', :activity => 'fix typos'
+  end
+<% end %>
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp1.php
+
+h3(#ba_parallel_split). parallel split
+
+h3(#ba_synchronization). synchronization
+
+h3(#ba_exclusive_choice). exclusive choice
+
+h3(#ba_simple_merge). simple merge
+
+<hr/>
+
+
+h2(#advanced). Advanced Branching and Synchronization Patterns
+
+
+<hr/>
+
+
+h2(#structural). Structural Patterns
+
+
+<hr/>
+
+
+h2(#multiple). Multiple Instance Patterns
+
+
+<hr/>
+
+
+h2(#state). State-based Patterns
+
+
+<hr/>
+
+
+h2(#cancellation). Cancellation Patterns
+
+
+<hr/>
+
+
+h2(#new). New Control Flow Patterns
 
