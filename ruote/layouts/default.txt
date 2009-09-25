@@ -72,9 +72,11 @@ filter:    erb
 <script type="text/javascript" src="http://www.google-analytics.com/ga.js">
 </script>
 <script type="text/javascript">
-  var pageTracker=_gat._getTracker('UA-138748-2');
-  pageTracker._initData();
-  pageTracker._trackPageview();
+  if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+    var pageTracker=_gat._getTracker('UA-138748-2');
+    pageTracker._initData();
+    pageTracker._trackPageview();
+  }
 </script>
 
 </body>
