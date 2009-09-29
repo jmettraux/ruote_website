@@ -48,4 +48,16 @@ Note that any expression accepts an :if attribute :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
   participant :ref => 'Al', :if => '${f:customer} == British Petroleum'
+
+<% end %>
+
+h3. shorter
+
+It's ok to shortcircuit the _if expression like this :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  _if '${f:customer.name} == Fred' do
+    subprocess 'premium_course'
+    subprocess 'regular_course'
+  end
 <% end %>

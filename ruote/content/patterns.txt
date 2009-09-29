@@ -76,6 +76,56 @@ Synchronization is "supported implicitely":#ba_parallel_split by the "concurrenc
 
 h3(#ba_exclusive_choice). exclusive choice
 
+Exclusive 'routing' within the process : the flow will go one way or the other, but not both.
+
+The "if":exp/if.html is usually in charge when implementing this pattern (the underscore '_' prefixing the if prevents collision with the 'if' Ruby keyword).
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  _if '${f:decision} == accepted' do
+    participant :ref => 'alpha', :activity => 'request further info'
+    participant :ref => 'alpha', :activity => 'send refusal note'
+  end
+<% end %>
+
+(this if example forwards the flow to the same 'alpha' participant, but with different activities).
+
+One could rewrite this as :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant 'alpha', :activity => 'request further info', :if => '${f:decision} == accepted'
+    participant 'alpha', :activity => 'send refusal note', :if => '${f:decision} == refused'
+  end
+<% end %>
+
+But this is not strictly equivalent
+
+With a bit of imagination, exclusive choices may be found beyond ifs :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition :name => 'request processing' do
+
+    sequence do
+      # ... 
+      participant :ref => 'editor' # decision : accepted or refused
+      subprocess :ref => 'request_${f:decision}'
+      # ...
+    end
+
+    define 'request_accepted' do
+      participant :ref => 'alpha', :activity => 'request further info'
+    end
+
+    define 'request_refused' do
+      participant :ref => 'alpha', :activity => 'send refusal note'
+    end
+  end
+<% end %>
+
+The name of the "subprocess":exp/subprocess.html is extrapolated at runtime and the flow is routed accordingly.
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp4.php | "top":#top
+
 <!-- ----------------------------------------------------------------------- -->
 
 h3(#ba_simple_merge). simple merge
