@@ -23,11 +23,32 @@ Participant expressions have been supplemented with an :activity attribute to gi
 ** "simple merge":#ba_simple_merge
 
 * "Advanced Branching and Synchronization Patterns":#advanced
+** "multi choice":#ad_multi_choice
+** "structured synchronizing merge":#ad_structured_syncrhonizing_merge
+** "multi merge":#ad_multi_merge
+** "structured discriminator":#ad_structured_discriminator
+
 * "Structural Patterns":#structural
+** "arbitrary cycles":#st_arbitrary_cycles
+** "implicit termination":#st_implicit_termination
+
 * "Multiple Instance Patterns":#multiple
+** "multiple instances without synchronization":#mu_multiple_instances_without_synchronization
+** "multiple instances with a priori design time knowledge":#mu_multiple_instances_with_a_priori_design_time_knowledge
+** "multiple instances with a priori run time knowledge":#mu_multiple_instances_with_a_priori_run_time_knowledge
+** "multiple instances without a priori run time knowledge":#mu_multiple_instances_without_a_priori_run_time_knowledge
+
 * "State-based Patterns":#state
+** "deferred choice":#sa_deferred_choice
+** "interleaved parallel routing":#sa_interleaved_parallel_routing
+** "milestone":#sa_milestone
+
 * "Cancellation Patterns":#cancellation
+** "cancel task":#ca_cancel_task
+** "cancel case":#ca_cancel_case
+
 * "New Control Flow Patterns":#new
+** coming soon
 
 <hr/>
 
@@ -129,6 +150,10 @@ The name of the "subprocess":exp/subprocess.html is extrapolated at runtime and 
 <!-- ----------------------------------------------------------------------- -->
 
 h3(#ba_simple_merge). simple merge
+
+A simple merge occur when two (or more) exclusive branch converge. As seen in "exclusive choice":#ba_exclusive_choice this pattern is implicitely supported. It simply occurs when the 'then' or the 'else' clause of an 'if' terminates and the flow resumes.
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp5.php | "top":#top
 
 <!-- ----------------------------------------------------------------------- -->
 
