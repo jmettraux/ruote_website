@@ -24,7 +24,7 @@ Participant expressions have been supplemented with an :activity attribute to gi
 
 * "Advanced Branching and Synchronization Patterns":#advanced
 ** "multi choice":#ad_multi_choice
-** "structured synchronizing merge":#ad_structured_syncrhonizing_merge
+** "structured synchronizing merge":#ad_structured_synchronizing_merge
 ** "multi merge":#ad_multi_merge
 ** "structured discriminator":#ad_structured_discriminator
 
@@ -162,6 +162,36 @@ A simple merge occur when two (or more) exclusive branch converge. As seen in "e
 
 h2(#advanced). Advanced Branching and Synchronization Patterns
 
+h3(#ad_multi_choice). multi choice
+
+Combining the "concurrence":exp/concurrence.html expression and :if attributes makes for an easy implementation of this pattern :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrence do
+    participant 'regular service', :if => '${f:price} < 50'
+    participant 'premium service', :if => '${f:price} > 40'
+    participant 'extra service', :if => '${f:extra_ordered}'
+  end
+<% end -%>
+
+In this example, if the price is between 40 and 50, regular service and premium service are triggered, extra could be triggerd as well if the field 'extra_ordered' has the value 'true'.
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp6.php | "top":#top
+
+<!-- ----------------------------------------------------------------------- -->
+
+h3(#ad_structured_synchronizing_merge). structured synchronizing merge
+
+<!-- ----------------------------------------------------------------------- -->
+
+h3(#ad_multi_merge). multi merge
+
+<!-- ----------------------------------------------------------------------- -->
+
+h3(#ad_structured_discriminator). structured discriminator
+
+<!-- ----------------------------------------------------------------------- -->
+
 
 <hr/>
 
@@ -191,4 +221,6 @@ h2(#cancellation). Cancellation Patterns
 
 
 h2(#new). New Control Flow Patterns
+
+coming soon.
 
