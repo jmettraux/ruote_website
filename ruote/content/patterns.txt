@@ -250,6 +250,24 @@ With this process definition, each time a team participant replies, the particip
 
 h3(#ad_structured_discriminator). structured discriminator
 
+As soon as one of two concurrent branches replies, the flow resumes and the other branch is 'forgotten' (continues its execution without the parent process caring for its outcome).
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  sequence do
+    concurrence :count => 1, :remaining => :forget do
+      test_batch_a
+      test_batch_b
+    end
+    final_test_batch
+  end
+<% end -%>
+
+As soon as an initial test batch is completed, the final test batch is triggered. The remaining test batch continues, unhindered (but forgotten).
+
+The attributes :count and :remaining of the "concurrence":exp/concurrence.html are used.
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp9.php | "top":#top
+
 <!-- ----------------------------------------------------------------------- -->
 
 
