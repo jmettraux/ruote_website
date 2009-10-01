@@ -82,6 +82,22 @@ h3. :to and :on
 
 The :to attribute has already been seen, it can be replaced by the :on one.
 
+Those two attributes are expected to hold regular expressions, so it's OK to
+write things like :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  listen :to => "^user\_.+"
+<% end %>
+
+or
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  listen :to => /^user\_.+/
+<% end %>
+
+To listen for workitems for all the participant whose name start with
+"user_".
+
 h3. :wfid
 
 By default, a listen expression listens for any workitem/participant event

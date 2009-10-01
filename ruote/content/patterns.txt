@@ -9,7 +9,7 @@ h2. workflow control patterns
 
 The "Workflow Patterns":http://workflowpatterns.com/patterns/control/index.php are a catalog of various building blocks for workflow execution.
 
-Described here are ways to implement each of those patterns with ruote. Some of them are not directly realizable with ruote, approximations are proposed.
+Described here are ways to implement each of those patterns with ruote. Some of them are not directly realizable with ruote, approximations are proposed. This is a self-evaluation, for an authoritative voice, the workflow patterns website and its "mailing list":http://groups.google.com/group/workflow-patterns are here.
 
 Each pattern is illustrated with a Ruby DSL implementation (or approximation). XML implementations are easily derivable from their Ruby counterparts. There is also a link to the original pattern explanation and its flash animation.
 
@@ -182,9 +182,69 @@ In this example, if the price is between 40 and 50, regular service and premium 
 
 h3(#ad_structured_synchronizing_merge). structured synchronizing merge
 
+The "multi choice":#ad_multi_choice pattern implementation implicitely support this 'structured synchronizing merge'. The "concurrence":exp/concurrence.html expression waits for all its children expression to reply before resuming the flow.
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp7.php | "top":#top
+
 <!-- ----------------------------------------------------------------------- -->
 
 h3(#ad_multi_merge). multi merge
+
+<em>The convergence of two or more branches into a single subsequent branch such that each enablement of an incoming branch results in the thread of control being passed to the subsequent branch.</em>
+
+The flash animation for this pattern is worth a "look":http://workflowpatterns.com/patterns/control/advanced_branching/wcp8_animation.php.
+
+Basically, what comes after the multi-merge will be executed once for each incoming replies.
+
+Certainly, ruote doesn't support that out of the box, but there are approximations to it :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition :name => 'multi merge' do
+
+    concurrence do
+      sequence do
+        team_a
+        after
+      end
+      sequence do
+        team_b
+        after
+      end
+      sequence :if => '${f:more_capacity_needed}' do
+        extra_team
+        after
+      end
+    end
+
+    define 'after' do
+      participant 'supervisor', :activity => 'assess work'
+    end
+  end
+<% end -%>
+
+Here, a subprocess ("define":exp/define.html 'after') is used after each concurrent branch. Before replying to its parent (the concurrence), each branch calls it. (team_a, team_b and extra_team could be participant or subprocess names).
+
+Leveraging the "listen":exp/listen.html expression is another option :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition :name => 'multi merge' do
+
+    concurrence :count => 3, :remaining => :forget do
+
+      team_a
+      team_b
+      team_extra :if => '${f:more_capacity_needed}'
+
+      listen :to => /^team\_.+/, :upon => :reply do
+        participant 'supervisor', :activity => 'assess work'
+      end
+    end
+  end
+<% end -%>
+
+With this process definition, each time a team participant replies, the participant 'supervisor' is sent a workitem. Please note that this works only with participants. In the above subprocess example, 'team_a' could point either to a participant, either to a subprocess.
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp8.php | "top":#top
 
 <!-- ----------------------------------------------------------------------- -->
 
