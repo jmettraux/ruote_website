@@ -52,13 +52,9 @@ Participant expressions have been supplemented with an :activity attribute to gi
 
 <hr/>
 
-<!-- ----------------------------------------------------------------------- -->
-<!-- ----------------------------------------------------------------------- -->
-
-
 h2(#basic). Basic Control Flow Patterns
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#ba_sequence). sequence
 
@@ -73,7 +69,7 @@ Chaining activities in sequence. Uses the "sequence":exp/sequence.html expressio
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp1.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#ba_parallel_split). parallel split
 
@@ -88,7 +84,7 @@ The "concurrence":exp/concurrence.html expression is the main tool for 'parallel
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp2.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#ba_synchronization). synchronization
 
@@ -96,7 +92,7 @@ Synchronization is "supported implicitely":#ba_parallel_split by the "concurrenc
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp3.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#ba_exclusive_choice). exclusive choice
 
@@ -150,7 +146,7 @@ The name of the "subprocess":exp/subprocess.html is extrapolated at runtime and 
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp4.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#ba_simple_merge). simple merge
 
@@ -158,14 +154,11 @@ A simple merge occur when two (or more) exclusive branch converge. As seen in "e
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp5.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
-<!-- ----------------------------------------------------------------------- -->
-
 <hr/>
 
 h2(#advanced). Advanced Branching and Synchronization Patterns
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#ad_multi_choice). multi choice
 
@@ -183,7 +176,7 @@ In this example, if the price is between 40 and 50, regular service and premium 
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp6.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#ad_structured_synchronizing_merge). structured synchronizing merge
 
@@ -191,7 +184,7 @@ The "multi choice":#ad_multi_choice pattern implementation implicitely support t
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp7.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#ad_multi_merge). multi merge
 
@@ -251,7 +244,7 @@ With this process definition, each time a team participant replies, the particip
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp8.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#ad_structured_discriminator). structured discriminator
 
@@ -283,14 +276,11 @@ The attributes :count and :remaining of the "concurrence":exp/concurrence.html a
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp9.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
-<!-- ----------------------------------------------------------------------- -->
-
 <hr/>
 
 h2(#structural). Structural Patterns
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#st_arbitrary_cycles). arbitrary cycles
 
@@ -314,7 +304,7 @@ The "jump":exp/command.html expression understand participant names, subprocess 
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/structural/wcp10.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#st_implicit_termination). implicit termination
 
@@ -340,15 +330,12 @@ There is not much to say about this pattern. When there is no more work, the pro
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/structural/wcp11.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
-<!-- ----------------------------------------------------------------------- -->
-
 <hr/>
 
 
 h2(#multiple). Multiple Instance Patterns
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#mu_multiple_instances_without_synchronization). multiple instances without synchronization
 
@@ -378,7 +365,7 @@ The number of 'b' instances to fire is expected to be found in the workitem fiel
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp12.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#mu_multiple_instances_with_a_priori_design_time_knowledge). multiple instances with a priori design time knowledge
 
@@ -404,7 +391,7 @@ which can be rewritten as :
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp13.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#mu_multiple_instances_with_a_priori_run_time_knowledge). multiple instances with a priori run time knowledge
 
@@ -422,7 +409,7 @@ Here, the list of participant that will 'perform' concurrently is help in a work
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp14.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 h3(#mu_multiple_instances_without_a_priori_run_time_knowledge). multiple instances without a priori run time knowledge
 
@@ -450,26 +437,23 @@ The add_branches expression knows it has to add the supervisor to the concurrent
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp15.php | "top":#top
 
-<!-- ----------------------------------------------------------------------- -->
-<!-- ----------------------------------------------------------------------- -->
-
 <hr/>
 
 h2(#state). State-based Patterns
 
-<!-- ----------------------------------------------------------------------- -->
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 <hr/>
 
 h2(#cancellation). Cancellation Patterns
 
-<!-- ----------------------------------------------------------------------- -->
-<!-- ----------------------------------------------------------------------- -->
+<!-- H3 -->
 
 <hr/>
 
 h2(#new). New Control Flow Patterns
+
+<!-- H3 -->
 
 coming soon.
 
