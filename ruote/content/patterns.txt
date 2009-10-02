@@ -159,8 +159,9 @@ A simple merge occur when two (or more) exclusive branch converge. As seen in "e
 
 <hr/>
 
-
 h2(#advanced). Advanced Branching and Synchronization Patterns
+
+<!-- ----------------------------------------------------------------------- -->
 
 h3(#ad_multi_choice). multi choice
 
@@ -264,7 +265,17 @@ As soon as one of two concurrent branches replies, the flow resumes and the othe
 
 As soon as an initial test batch is completed, the final test batch is triggered. The remaining test batch continues, unhindered (but forgotten).
 
-The attributes :count and :remaining of the "concurrence":exp/concurrence.html are used.
+The attributes :count and :remaining of the "concurrence":exp/concurrence.html are used. Note that those attributes are understood by the "concurrent_iterator":exp/concurrent_iterator.html expression as well :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  sequence do
+    concurrent_iterator :on => 'a, b, c, d', :count => 1, :remaining => :forget do
+      subprocess :ref => 'test_batch_${v:i}'
+        # batches a, b, c and d will get triggered
+    end
+    final_test_batch
+  end
+<% end -%>
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp9.php | "top":#top
 
@@ -275,6 +286,38 @@ The attributes :count and :remaining of the "concurrence":exp/concurrence.html a
 
 
 h2(#structural). Structural Patterns
+
+<!-- ----------------------------------------------------------------------- -->
+
+h3(#st_arbitrary_cycles). arbitrary cycles
+
+<em>The ability to represent cycles in a process model that have more than one entry or exit point.</em>
+
+Thanks to the "cursor":exp/cursor.html expression, the process represented as "flash animation":http://workflowpatterns.com/patterns/control/structural/wcp10_animation.php on the Workflow Patterns site may be implemented as :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  cursor do
+    participant 'a'
+    participant 'b'
+    participant 'c'
+    jump :to => 'b', :if => '${f:back_to_b}'
+    participant 'd'
+    jump :to => 'c', :if => '${f:back_to_c}'
+    participant 'e'
+  end
+<% end -%>
+
+The "jump":exp/command.html expression understand participant names, subprocess names and :tag names in its :to attribute, making it easy to specify jump points.
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/structural/wcp10.php | "top":#top
+
+<!-- ----------------------------------------------------------------------- -->
+
+h3(#st_implicit_termination). implicit termination
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/structural/wcp11.php | "top":#top
+
+<!-- ----------------------------------------------------------------------- -->
 
 
 <hr/>
