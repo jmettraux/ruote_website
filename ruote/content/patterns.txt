@@ -345,6 +345,50 @@ There is not much to say about this pattern. When there is no more work, the pro
 
 h2(#multiple). Multiple Instance Patterns
 
+<!-- ----------------------------------------------------------------------- -->
+
+h3(#mu_multiple_instances_without_synchronization). multiple instances without synchronization
+
+<em>within a given process instance, multiple instances of an activity can be created. These instances are independent of each other and run concurrently. There is no requirement to synchronize them upon completion.</em>
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  concurrent_iterator :times => 10 do
+    activity :forget => true
+  end
+<% end -%>
+
+'activity' here could be a participant or a subprocess named 'activity'. :forget is set to true (no requirement to synchronize). The process will resume immediately after this iterator (since all its children are forgotten).
+
+The "flash animation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp12_animation.php could be translated to something like :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  sequence do
+    participant 'a'
+    concurrent_iterator :times => '${f:count}' do
+      participant 'b', :forget => true
+    end
+    participant 'c'
+  end
+<% end -%>
+
+The number of 'b' instances to fire is expected to be found in the workitem field named 'count' (value is perhaps chosen by participant 'a').
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp12.php | "top":#top
+
+<!-- ----------------------------------------------------------------------- -->
+
+h3(#mu_multiple_instances_with_a_priori_design_time_knowledge). multiple instances with a priori design time knowledge
+
+<!-- ----------------------------------------------------------------------- -->
+
+h3(#mu_multiple_instances_with_a_priori_run_time_knowledge). multiple instances with a priori run time knowledge
+
+<!-- ----------------------------------------------------------------------- -->
+
+h3(#mu_multiple_instances_without_a_priori_run_time_knowledge). multiple instances without a priori run time knowledge
+
+<!-- ----------------------------------------------------------------------- -->
+
 
 <hr/>
 
