@@ -315,6 +315,26 @@ The "jump":exp/command.html expression understand participant names, subprocess 
 
 h3(#st_implicit_termination). implicit termination
 
+Replicating the "flash animation of the pattern":http://workflowpatterns.com/patterns/control/structural/wcp11_animation.php, we obtain :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  sequence do
+    participant 'alpha'
+    concurrence do
+      sequence do
+        participant 'bravo'
+        participant 'delta'
+      end
+      sequence do
+        participant 'charly'
+        participant 'echo'
+      end
+    end
+  end
+<% end -%>
+
+There is not much to say about this pattern. When there is no more work, the process ends.
+
 "original pattern explanation":http://workflowpatterns.com/patterns/control/structural/wcp11.php | "top":#top
 
 <!-- ----------------------------------------------------------------------- -->
