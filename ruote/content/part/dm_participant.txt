@@ -120,4 +120,16 @@ the database table.
   DataMapper.repository(:my_repository) do
     Ruote::Dm::DmWorkitem.auto_upgrade!
   end
+
 <% end %>
+
+h3. dm repository
+
+By default, this participant uses the :default DataMapper repository.
+
+As seen above, this can be changed by setting the :dm_repository option at
+participant registration time.
+
+Else, the participant looks for the :participant_dm_repository or the
+:dm_repository option in the engine context (engine initialization options).
+
