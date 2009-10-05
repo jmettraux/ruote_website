@@ -437,17 +437,59 @@ The add_branches expression knows it has to add the supervisor to the concurrent
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp15.php | "top":#top
 
+<!-- H3 -->
+
 <hr/>
 
 h2(#state). State-based Patterns
 
 <!-- H3 -->
 
+h3(#sa_deferred_choice). deferred choice
+
+This pattern is difficult for ruote to implement. It requires some control over the state of the workitem as a task, and since ruote delegates task handling to participants...
+
+A set of participants is presented with a task, as soon as one of them starts working on it, the other instances of the task are withdrawn from the other participants.
+
+With a bit of help from the participant implementations, this could be a realization :
+
+<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+  sequence do
+
+    # presenting the task
+
+    concurrence :count => 1 do
+      participant 'a'
+      participant 'b'
+    end
+
+    # performing the task
+
+    participant '${f:winner}' # a or b
+  end
+<% end -%>
+
+As soon as 'a' or 'b' replies ("concurrence":exp/concurrence.html :count => 1), it is represented with the task. The other participant receives a cancel notification.
+
+Of course, the workitem/task presented is not strictly equivalent to the task to be performed...
+
+Perhaps the better way to implement this pattern is within the participant itself. The ruote engine could dispatch the task to participant 'x', a worklist handler managing access rights, escalation and so and so idependently.
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/state/wcp16.php | "top":#top
+
+<!-- H3 -->
+
+h3(#sa_interleaved_parallel_routing). interleaved parallel routing
+
+<!-- H3 -->
+
+h3(#sa_milestone). milestone
+
+<!-- H3 -->
+
 <hr/>
 
 h2(#cancellation). Cancellation Patterns
-
-<!-- H3 -->
 
 <hr/>
 
