@@ -18,7 +18,7 @@ Ruote is available under the "MIT":http://en.wikipedia.org/wiki/MIT_License open
 
 Ruote used to be named 'openwfe-ruby' then 'openwferu'. The name is now 'ruote' (pronounce it 'ru-o-te' or 'route', as you wish).
 
-For more, head to the "documentation":documentation.html or to the "quickstart":quickstart.html.
+For more, head to the "documentation":documentation.html or to the "quickstart":quickstart.html or have a look at a few "slides":presentations.html.
 
 
 h3. community

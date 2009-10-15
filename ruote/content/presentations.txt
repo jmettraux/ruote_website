@@ -1,0 +1,19 @@
+---
+title: presentations
+filter:
+  - erb
+  - textile
+---
+
+h2. presentations
+
+h3. ruote in 20 minutes
+
+"ruote in 20 minutes":http://www.opensourcery.co.za/2009/08/25/ruote-in-20-minutes-video/ by "Kenneth Kalmer":http://github.com/kennethkalmer
+
+<object type='application/x-shockwave-flash' wmode='transparent' data='http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=20090303-ruote-090304024427-phpapp01' width='700' height='574'><param name='movie' value='http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=20090303-ruote-090304024427-phpapp01' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /></object>
+
+h3. towards ruote 2.0
+
+<object type='application/x-shockwave-flash' wmode='transparent' data='http://static.slideshare.net/swf/ssplayer2.swf?id=2226153&#038;doc=towardsruote20-091015003740-phpapp02' width='700' height='574'><param name='movie' value='http://static.slideshare.net/swf/ssplayer2.swf?id=2226153&#038;doc=towardsruote20-091015003740-phpapp02' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /></object>
+

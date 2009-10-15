@@ -1,0 +1,85 @@
+---
+title: rel values for ruote-http / ruote-kit links
+filter:
+  - erb
+  - textile
+---
+
+h2. rel
+
+ruote-kit and ruote-http use URIs as rel values for their links. This page is the target of those URIs and contains explanations for those links.
+
+
+h3. general remarks about ruote-kit and ruote-http replies
+
+Blah
+
+
+<hr/>
+
+h3(#root). http://ruote.rubyforge.org/rel.html#root
+
+nada
+
+
+<hr/>
+
+
+h3(#process). http://ruote.rubyforge.org/rel.html#process
+
+Link to a specific process.
+
+
+h3(#processes). http://ruote.rubyforge.org/rel.html#processes
+
+Link to the list of all processes currently active in the engine.
+
+
+<hr/>
+
+
+h3(#all_errors). http://ruote.rubyforge.org/rel.html#errors
+
+All the errors for the active process instances.
+
+
+h3(#errors). http://ruote.rubyforge.org/rel.html#process_errors
+
+The errors for a process instance.
+
+
+h3(#error). http://ruote.rubyforge.org/rel.html#error
+
+Link to a given error.
+
+
+<hr/>
+
+
+h3(#history). http://ruote.rubyforge.org/rel.html#history
+
+The history of all process instances of a ruote engine (active or terminated).
+
+
+h3(#process_history). http://ruote.rubyforge.org/rel.html#process_history
+
+The history of a given process instance (active or terminated).
+
+
+<hr/>
+
+
+h3(#workitems). http://ruote.rubyforge.org/rel.html#workitems
+
+All the workitems currently available in an engine or worklist.
+
+
+h3(#process_workitems). http://ruote.rubyforge.org/rel.html#process_workitems
+
+The workitems belonging to an active process instance.
+
+
+h3(#workitem). http://ruote.rubyforge.org/rel.html#workitem
+
+A specific workitem.
+

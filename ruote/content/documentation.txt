@@ -33,7 +33,7 @@ h3. advanced documentation
 
 h3. presentations
 
-* "ruote in 20 minutes":http://www.opensourcery.co.za/2009/08/25/ruote-in-20-minutes-video/ by "Kenneth Kalmer":http://github.com/kennethkalmer
+* "presentations":presentations.html about ruote
 
 
 h3. blog excerpts
