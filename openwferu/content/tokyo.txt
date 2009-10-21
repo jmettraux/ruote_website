@@ -35,16 +35,6 @@ tar xzvf tokyotyrant-1.1.26.tar.gz
 (version numbers will probably change)
 
 
-h4. via github.com
-
-If you have "git" installed on your system, you can directly fetch the Tokyo sources, thanks to "Etrepum":http://github.com/etrepum
-
-<pre>
-git clone git://github.com/etrepum/tokyo-cabinet.git
-git clone git://github.com/etrepum/tokyo-tyrant.git
-</pre>
-
-
 h3(#installing). compiling and installing
 
 <pre>
