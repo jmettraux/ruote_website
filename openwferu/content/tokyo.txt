@@ -7,9 +7,9 @@ filter:
 
 h2. Tokyo Cabinet / Tyrant install
 
-"Tokyo Cabinet / Tyrant":http://tokyocabinet.sf.net/index.html are two nifty pieces of software. The simplest way of getting the latest of and best version of time is by downloading the source and compiling it.
+"Tokyo Cabinet / Tyrant":http://1978th.net/ are two nifty pieces of software. The simplest way of getting the latest of and best version of time is by downloading the source and compiling it.
 
-MacPorts come with an older version of Tokyo Cabinet and no copy of Tokyo Tyrant (well, at least the MacPorts on my mac). Since compiling is very easy (and fast). I tend to "go from the source":http://tokyocabinet.sourceforge.net/spex-en.html#installation instead of using a binary package. My debian box apt-get doesn't seem to know anything about Tyrant or Cabinet.
+MacPorts come with an older version of Tokyo Cabinet and no copy of Tokyo Tyrant (well, at least the MacPorts on my mac). Since compiling is very easy (and fast). I tend to "go from the source":http://1978th.net/tokyocabinet/spex-en.html#installation instead of using a binary package. My debian box apt-get doesn't seem to know anything about Tyrant or Cabinet.
 
 (Note for Mac users, the compiling step requires the installation of XCode, it's on the install CD/DVD that comes with the Mac).
 
@@ -22,10 +22,11 @@ There is also an excellent howto from Plurk/Lightcloud at "http://opensource.plu
 
 h3. getting the source 
 
-h4. via sourceforge.net
+h4. via http://1978th.net
 
-- "Tokyo Cabinet":http://sourceforge.net/project/showfiles.php?group_id=200242&package_id=237686
-- "Tokyo Tyrant":http://sourceforge.net/project/showfiles.php?group_id=200242&package_id=260026
+- "Tokyo Cabinet":http://1978th.net/tokyocabinet/#packages
+- "Tokyo Tyrant":http://1978th.net/tokyotyrant/#packages
+- "Tokyo Dystopia":http://1978th.net/tokyodystopia/#packages
 
 <pre>
 tar xzvf tokyocabinet-1.4.20.tar.gz
@@ -53,12 +54,12 @@ make
 sudo make install
 </pre>
 
-Once install is done, the Cabinet "tools":http://tokyocabinet.sourceforge.net/spex-en.html#tcadbapi_cli and the Tyrant "server":http://tokyocabinet.sourceforge.net/tyrantdoc/#serverprog and "tools":http://tokyocabinet.sourceforge.net/tyrantdoc/#clientprog will be present on your system.
+Once install is done, the Cabinet "tools":http://1978th.net/tokyocabinet/spex-en.html#tcadbapi_cli and the Tyrant "server":http://1978th.net/tokyotyrant/spex.html#serverprog and "tools":http://1978th.net/tokyotyrant/spex.html#clientprog will be present on your system.
 
 
 h3(#lua). Tyrant and Lua
 
-Lua is a very compact and attractive scripting language ("http://www.lua.org":http://www.lua.org). Hirabayashi-san has "integrated":http://tokyocabinet.sourceforge.net/tyrantdoc/#luaext it into Tokyo Tyrant.
+Lua is a very compact and attractive scripting language ("http://www.lua.org":http://www.lua.org). Hirabayashi-san has "integrated":http://1978th.net/tokyotyrant/spex.html#luaext it into Tokyo Tyrant.
 
 In order to enable those Lua extensions, you have to make sure Lua > 5.1.0 is available on your system. Then compile and install Tokyo Tyrant with :
 
