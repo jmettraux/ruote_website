@@ -19,7 +19,6 @@ Provided that you have a recent version of "git":http://progit.org/book/ch1-4.ht
 <pre>
 git clone git://github.com/jmettraux/ruote.git
 cd ruote
-git checkout --track origin/ruote2.0 
 rake deps:install
 </pre>
 

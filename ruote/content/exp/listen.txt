@@ -47,7 +47,7 @@ other processes :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
   Ruote.process_definition :name => 'stalker' do
-    listen :to => 'bob'
+    listen :to => 'bob' do
       participant :ref => 'charly'
     end
   end

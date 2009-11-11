@@ -22,15 +22,15 @@ There is also an excellent howto from Plurk/Lightcloud at "http://opensource.plu
 
 h3. getting the source 
 
-h4. via http://1978th.net
+h4. via "http://1978th.net":http://1978th.net
 
 - "Tokyo Cabinet":http://1978th.net/tokyocabinet/#packages
 - "Tokyo Tyrant":http://1978th.net/tokyotyrant/#packages
 - "Tokyo Dystopia":http://1978th.net/tokyodystopia/#packages
 
 <pre>
-tar xzvf tokyocabinet-1.4.20.tar.gz
-tar xzvf tokyotyrant-1.1.26.tar.gz
+tar xzvf tokyocabinet-1.4.36.tar.gz
+tar xzvf tokyotyrant-1.1.37.tar.gz
 </pre>
 
 (version numbers will probably change)

@@ -12,7 +12,7 @@ Much of the focus on 2.0 is on being lean, performant and easier to maintain ove
 
 The old <a href="http://github.com/jmettraux/ruote-rest">ruote-rest</a> project will be replaced by the <a href="http://github.com/kennethkalmer/ruote-kit">ruote-kit</a> project, providing an engine with a RESTful interface.
 
-From the outside little should change. The biggest visible change is the top-level namespace changing from <em>OpenWFE</em> to <em>Ruote</em>. <a href="expressions.html">Expressions</a> and <a href="definitions.html">definitions</a> will remain mostly unchanged, except that Ruby definitions will need to change from <em>OpeWFE::ProcessDefinition</em> to <em>Ruote::ProcessDefinition</em>. A lot of expressions have gained additional options.
+From the outside little should change. The biggest visible change is the top-level namespace changing from <em>OpenWFE</em> to <em>Ruote</em>. <a href="expressions.html">Expressions</a> and <a href="definitions.html">definitions</a> will remain mostly unchanged, except that Ruby definitions will need to change from <em>OpeWFE::ProcessDefinition</em> to <em>Ruote.process_definition</em> (class definition to method call). A lot of expressions have gained additional options.
 
 The following expressions have been removed:
 * Foo expression
@@ -29,3 +29,4 @@ h3. Progress
 To monitor the progress you can watch the <a href="http://github.com/jmettraux/ruote/tree/ruote2.0">ruote2.0</a> branch at Github. It contains a TODO.txt file that gets updated as work progresses. Hanging out in IRC is a great way to stay updated as well.
 
 As with all open source projects, we ask for your patience and help as we move towards this goal.
+

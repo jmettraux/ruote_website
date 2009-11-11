@@ -38,16 +38,6 @@ Link to the list of all processes currently active in the engine.
 <hr/>
 
 
-h3(#all_errors). http://ruote.rubyforge.org/rel.html#errors
-
-All the errors for the active process instances.
-
-
-h3(#errors). http://ruote.rubyforge.org/rel.html#process_errors
-
-The errors for a process instance.
-
-
 h3(#error). http://ruote.rubyforge.org/rel.html#error
 
 Link to a given error.
@@ -59,6 +49,16 @@ Link to a given error.
 h3(#history). http://ruote.rubyforge.org/rel.html#history
 
 The history of all process instances of a ruote engine (active or terminated).
+
+
+h3(#history). http://ruote.rubyforge.org/rel.html#history_last
+
+A link to the most recent day of history.
+
+
+h3(#history). http://ruote.rubyforge.org/rel.html#history_first
+
+A link to the oldest day of history.
 
 
 h3(#process_history). http://ruote.rubyforge.org/rel.html#process_history
