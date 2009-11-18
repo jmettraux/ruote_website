@@ -154,7 +154,7 @@ will store the expressions in the file work/expstorage.tct (and the table indexe
 
 <% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
   require 'openwfe/engine/tc_engine'
-  engine = OpenWFE::FsPersistedEngine.new(:expstorage_path => '/var/ruote/work/expressions.tct')
+  engine = OpenWFE::TcPersistedEngine.new(:expstorage_path => '/var/ruote/work/expressions.tct')
 <% end -%>
 
 will store the expressions in /var/ruote/work/expressions.tct
