@@ -25,7 +25,3 @@ Prevents two process branches from executing at the same time.
 
 (Nice and tiny example, turns a concurrence into a sequence...)
 
-
-A FlowMutex, keeps track of the reserve expression waiting on a mutex to
-unlock...
-

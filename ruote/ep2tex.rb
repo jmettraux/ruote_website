@@ -3,23 +3,24 @@
 require 'fileutils'
 require File.join(File.dirname(__FILE__), 'rdoc2tex')
 
-RUOTE = '../../ruota'
-
 FileUtils.mkdir('tex') rescue nil
 
 paths = []
 
-src = File.expand_path(File.join(*%w[ ~ w ruota lib ruote exp ]))
+src = File.expand_path(File.join(*%w[ ~ w ruote lib ruote exp ]))
 paths = paths + Dir.glob(File.join(src, "fe_*.rb"))
 
-src = File.expand_path(File.join(*%w[ ~ w ruota lib ruote part ]))
+src = File.expand_path(File.join(*%w[ ~ w ruote lib ruote part ]))
 paths = paths + Dir.glob(File.join(src, "*_participant.rb"))
 
-src = File.expand_path(File.join(*%w[ ~ w ruote-dm lib ruote dm part ]))
-paths = paths + Dir.glob(File.join(src, "*_participant.rb"))
+src = File.expand_path(File.join(*%w[ ~ w ruote lib ruote receiver ]))
+paths = paths + Dir.glob(File.join(src, "*_receiver.rb"))
 
-src = File.expand_path(File.join(*%w[ ~ w ruote-amqp lib ])) # :(
-paths = paths + Dir.glob(File.join(src, "*_participant.rb"))
+#src = File.expand_path(File.join(*%w[ ~ w ruote-dm lib ruote dm part ]))
+#paths = paths + Dir.glob(File.join(src, "*_participant.rb"))
+
+#src = File.expand_path(File.join(*%w[ ~ w ruote-amqp lib ])) # :(
+#paths = paths + Dir.glob(File.join(src, "*_participant.rb"))
 
 
 paths.each do |path|

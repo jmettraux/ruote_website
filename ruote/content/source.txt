@@ -9,16 +9,15 @@ h2. source
 
 Ruote's source code is located at the "github":http://github.com
 
-* "ruote 2.0":http://github.com/jmettraux/ruote/tree/ruote2.0 - the workflow engine
+* "ruote 2.1":http://github.com/jmettraux/ruote/tree/ruote2.1 - the workflow engine
 
-* "ruote-dm":http://github.com/jmettraux/ruote-dm/ - "DataMapper" extensions for ruote (mostly DmParticipant)
-* "ruote-activerecord":http://github.com/kennethkalmer/ruote-activerecord - ActiveRecord participants and co for ruote
-* "ruote-amqp":http://github.com/asm/ruote-amqp/ - AMQP participants and listeners for ruote (coming soon for ruote 2.0) (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/)
+* "ruote-couch":http://github.com/jmettraux/ruote-couch/ - "CouchDB" storage for ruote
+* "ruote-jig":http://github.com/tosch/ruote-jig/ - HTTP participants (by "Torsten":http://github.com/tosch)
+* "ruote-amqp":http://github.com/asm/ruote-amqp/ - AMQP participants and listeners for ruote (coming soon for ruote 2.1) (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/)
 
 * "ruote-fluo":http://github.com/jmettraux/ruote-fluo/ - some kind of a browser based editor for process definitions ("online demo":http://difference.openwfe.org:4567/?pdef=pdef.rb)
 
-* "ruote-kit":http://github.com/kennethkalmer/ruote-kit/ - RESTful wrapper for ruote (by "Kenneth":http://opensourcery.co.za)
-* "ruote-http":http://github.com/jmettraux/ruote-http/ - mini ruote-kit
+* "ruote-kit":http://github.com/kennethkalmer/ruote-kit/ - RESTful wrapper for ruote (by "Kenneth":http://opensourcery.co.za and "Torsten":http://github.com/tosch)
 
 See also "rufus":http://rufus.rubyforge.org, a set of ruby gems spun off of ruote.
 

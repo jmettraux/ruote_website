@@ -10,6 +10,6 @@ h2. local_participant
 
 Provides methods for 'local' participants.
 
-Assumes the class that includes this module has an 'engine' method
-which returns the ruote engine.
+Assumes the class that includes this module has a #context method
+that points to the worker or engine ruote context.
 

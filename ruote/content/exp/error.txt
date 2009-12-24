@@ -8,6 +8,10 @@ filter:
 h2. error
 
 
+This error is used by the 'error' expression, when an error is triggered
+from the process definition.
+
+
 Triggers an error directly from the process definition.
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>

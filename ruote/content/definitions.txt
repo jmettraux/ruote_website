@@ -75,7 +75,7 @@ One advantage of this 'notation' is that passing complex data structures from th
 <% end %>
 
 
-Not necessarily a good practice but can come in handy.
+Not necessarily a good practice but can come in handy, and remember that ruote will flatten that to something that is JSONifiable.
 
 
 h3. raw [JSON] process definitions
@@ -91,4 +91,48 @@ h3. raw [JSON] process definitions
 
 
 This raw representation of a process definition can also accomodate deep data structures like the Ruby DSL does.
+
+
+h3. process definition generation
+
+So we've seen nice "ruby process definition", but shouldn't we rather say "process definition generation via ruby" ?
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'ruote'
+
+pdef = Ruote.process_definition do
+  sequence do
+    alpha
+    bravo
+  end
+end
+
+p pdef
+  # =>
+  # ["define", {}, [
+  #   ["sequence", {}, [["alpha", {}, []], ["bravo", {}, []]]]]]
+<% end %>
+
+The class method "process_definition" is used to generate a process definiton (a tree of expressions).
+
+Maybe this piece of Ruby code makes the "generation" aspect more visible :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+pdef = Ruote.process_definition do
+  sequence do
+    %w[ alpha bravo charly doug ].each do |pa|
+      participant :ref => pa
+    end
+  end
+end
+
+p pdef
+  # =>
+  # ["define", {}, [
+  #   ["sequence", {}, [
+  #     ["participant", {"ref"=>"alpha"}, []],
+  #     ["participant", {"ref"=>"bravo"}, []],
+  #     ["participant", {"ref"=>"charly"}, []],
+  #     ["participant", {"ref"=>"doug"}, []]]]]]
+<% end %>
 

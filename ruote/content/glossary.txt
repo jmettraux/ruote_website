@@ -25,12 +25,7 @@ h3(#flow_expression_id). flow expression id
 An identifier for a flow expression. This same identifier is used to identify "workitems":#workitem
 
 
-h3(#launch_item). launch item
-
-todo
-
-
-h3(#listener). listener
+h3(#receiver). receiver
 
 todo
 

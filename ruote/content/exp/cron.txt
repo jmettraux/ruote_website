@@ -1,0 +1,80 @@
+---
+title: cron expression
+filter:
+  - erb
+  - textile
+---
+
+h2. cron
+
+
+This expression executes its children expression according to a cron
+schedule or at a given frequency.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  cron '15 4 * * sun' do # every sunday at 0415
+    subprocess :ref => 'refill_the_acid_baths'
+  end
+<% end %>
+
+or
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  every '10m' do
+    send_reminder # subprocess or participant
+  end
+<% end %>
+
+The 'tab' or 'interval' attributes may be used, this is a bit more verbose,
+but, for instance, in XML, it is quite necessary :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  <cron tab="15 4 * * sun">
+    <subprocess ref="refill_the_acid_baths" />
+  <cron>
+<% end %>
+
+Triggered children subprocesses are 'forgotten'. This implies they
+will never reply to the cron/every expression and they won't get cancelled
+when the cron/every expression gets cancelled (the cron/every schedule
+gets cancelled though, no new children will get cancelled).
+
+"man 5 crontab" in the command line of your favourite unix system might
+help you with the semantics of the string expected by the cron expression.
+
+
+h3. an example use case
+
+The cron/every expression appears often in scenarii like :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrence :count => 1 do
+
+    participant 'operator'
+
+    cron '0 9 * * 1-5' do # send a reminder every weekday at 0900
+      notify 'operator'
+    end
+  end
+<% end %>
+
+With a subprocess, this could become a bit more reusable :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_defintion :name => 'sample' do
+
+    sequence do
+      with_reminder :participant => 'operator1'
+      with_reminder :participant => 'operator2'
+    end
+
+    define 'with_reminder' do
+      concurrence :count => 1 do
+        participant '${v:participant}'
+        cron '0 9 * * 1-5' do # send a reminder every weekday at 0900
+          notify '${v:participant}'
+        end
+      end
+    end
+  end
+<% end %>

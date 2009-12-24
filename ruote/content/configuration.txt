@@ -1,0 +1,18 @@
+---
+title: configuration
+filter:
+  - erb
+  - textile
+---
+
+h2. configuration
+
+configuring ruote 2.1 engine, worker and storage.
+
+
+h3. storage
+
+h3. worker
+
+h3. engine
+

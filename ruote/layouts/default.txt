@@ -31,7 +31,7 @@ filter:    erb
      <div class="column span-20 first last" id="hheader">
        <div class="column span-10 first">
          <a href="/"><img src="/images/ruote.png" align="left"/></a>
-         <span id="ruote" onclick="location.href = '/'; return true;">ruote 2.0</span>
+         <span id="ruote" onclick="location.href = '/'; return true;">ruote 2.1</span>
        </div>
        <div class="column span-10 last align-right">
          <!-- search, maybe later -->
@@ -62,7 +62,7 @@ filter:    erb
          this website was created with <a href="http://webby.rubyforge.org">webby</a>
        </div>
        <div class="column span-10 align-right last">
-         &copy; 2005-2009 the ruote team
+         &copy; 2005-2010 the ruote team
        </div>
      </div>
    </div>

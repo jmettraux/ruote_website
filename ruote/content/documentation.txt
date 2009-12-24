@@ -12,7 +12,7 @@ bits and pieces of documentation.
 
 h3. quickstarts
 
-* a "quickstart":quickstart.html with instructions on how to get ruote 2.0 and its dependencies
+* a "quickstart":quickstart.html with instructions on how to get ruote 2.1 and its dependencies
 
 
 h3. basic documentation
@@ -20,14 +20,14 @@ h3. basic documentation
 * the "glossary":glossary.html enumerates concepts and terms used throughout Ruote and attempts at giving explanations for them
 * "process definitions":definitions.html describe the flow of work among participants
 * "participants":participants.html are handed workitems by the engine to perform tasks with them
-* there are various "participant implementations":part_implementations.html found in ruote itself and in its extensions, like ruote-dm and ruote-amqp
+* there are various "participant implementations":part_implementations.html found in ruote itself and in its extensions, like ruote-couch and ruote-amqp
 * "expressions":expressions.html are the building blocks of process definitions
 
 
 h3. advanced documentation
 
+* ruote "configuration":configuration.html
 * ruote "rdoc":http://ruote.rubyforge.org/ruote_rdoc/ (raw ruby documentation)
-* ruote-dm "rdoc":http://ruote.rubyforge.org/ruote_dm_rdoc/ (raw ruby documentation)
 * the "control flow patterns":patterns.html page details how ruote implements/approximates the control flow part of the "workflow patterns":http://workflowpatterns.com of Prof van der Aalst and Prof ter Hofstede and their research groups.
 
 
@@ -40,5 +40,5 @@ h3. blog excerpts
 
 a few links to blog posts about ruote.
 
-* "how does Ruote work ?":http://jmettraux.wordpress.com/2008/09/07/how-does-ruote-work/
+* "how does Ruote work ?":http://jmettraux.wordpress.com/2008/09/07/how-does-ruote-work/ (quite outdated but mostly OK)
 
