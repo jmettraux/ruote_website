@@ -13,6 +13,78 @@ It could be described as an 'operating system for business processes'.
 
 A ruote engine may execute multiple <strong>process instances</strong> at a time. Processes are instantiated from <strong>process definitions</strong> written in a Ruby DSL or in XML (or directly as JSON). Process definitions describe the flow of work among <strong>participants</strong>. Participants stand for users, groups of users, services, legacy systems, etc.
 
+a process definition
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'ruote'
+
+pdef = Ruote.process_definition :name => 'work' do
+  cursor do
+    concurrence do
+      reviewer1
+      reviewer2
+    end
+    editor
+    rewind :if => '${not_ok}' # back to the reviewers if editor not happy
+    publish # the document
+  end
+end
+<% end %>
+
+the engine and some participants
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+# engine
+
+require 'ruote/storage/fs_storage'
+
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::FsStorage.new('work')))
+
+# participants
+
+engine.register_participant 'reviewer.+' do |workitem|
+  puts "reviewing document #{workitem.fields['doc_url']}"
+  print "approve ?"
+  workitem.fields["#{workitem.participant_name}_reply"] = gets
+end
+
+engine.register_participant 'editor' do |workitem|
+  puts "doc : #{workitem.fields['doc_url']}"
+  puts "reviewers approval :"
+  workitem.fields.entries.each do |k, v|
+    puts "#{k} : #{v}" if k.match(/\_reply$/)
+  end
+  print "should we publish ?"
+  workitem.fields['not_ok'] = (gets.strip == 'no')
+end
+
+engine.register_participant 'publish' do |workitem|
+  PublicationService.post(workitem.fields['doc_url'])
+end
+<% end %>
+
+launching some process instances
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+wfid0 = engine.launch(pdef, 'doc_url' => 'http://en.wikipedia.org/wiki/File:Bundesbrief.jpg')
+wfid1 = engine.launch(pdef, 'doc_url' => 'http://en.wikipedia.org/wiki/File:Constitution_Pg1of4_AC.jpg')
+<% end %>
+
+later manipulations
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+# querying
+
+[ wfid0, wfid1 ].each do |wfid|
+  ps = engine.process(wfid)
+  puts "errors for #{wfid} ? #{ps.errors.size > 0}"
+end
+
+# cancelling a process instance
+
+engine.cancel_process(wfid1)
+<% end %>
+
 
 Ruote is available under the "MIT":http://en.wikipedia.org/wiki/MIT_License open source license.
 
