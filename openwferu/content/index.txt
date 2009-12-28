@@ -9,17 +9,7 @@ h2. ruote
 
 <strong>Ruote</strong> is a workflow engine written in Ruby.  It's a runtime for long running [business] processes.
 
-Ruote is available under the "MIT":http://en.wikipedia.org/wiki/MIT_License open source license.
+This website is about the ruote 0.9.x line, it's kept as an archive.
 
-<div class="home-progress">Ruote is heading towards <strong>2.0</strong>, <a href="2-0.html">learn more</a> about what is coming!</div>
-
-There is a small "quickstart":quickstart.html available, it focuses on the ruote 'gem'. For an example integration in Rails there is an online "demo":http://difference.openwfe.org:3000 (though it's still running an old version)
-
-Processes are explicitely defined and may be explicitely handled (start, pause, cancel, update).
-
-A process is started by handing a [business] process definition to the engine.  A <strong>process definition</strong> is expressed in ruote's own process definition language, which comes in two flavours : XML and a Ruby DSL.
-
-A process definition will describe the flow of work among <strong>participants</strong>.
-
-A ruote engine can handle simultaneously multiple <strong>process instances</strong>, created from one or more different process definitions. A process instance can be modified on the fly.
+Development has moved on and is now at "ruote 2.1":http://ruote.rubyforge.org. Meet you there.
 
