@@ -40,5 +40,6 @@ h3. blog excerpts
 
 a few links to blog posts about ruote.
 
+* "ruote 2.1 released":http://jmettraux.wordpress.com/2009/12/31/ruote-2-1-released/ with an explanation about storage and workers
 * "how does Ruote work ?":http://jmettraux.wordpress.com/2008/09/07/how-does-ruote-work/ (quite outdated but mostly OK)
 
