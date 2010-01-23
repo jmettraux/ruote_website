@@ -1,0 +1,136 @@
+---
+title: dollar notation
+filter:
+  - erb
+  - textile
+---
+
+h2. dollar notation
+
+Most of the examples features plainly named participant like :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant 'alfred'
+    participant 'bob'
+  end
+<% end -%>
+
+But the real world is more dynamic :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant '${f:patient}'
+    participant '${f:doctor}'
+  end
+<% end -%>
+
+In that mini process definition, the workitem is routed from the patient to the doctor. The actual participant name is held in the workitem field "patient" and then in the field named "doctor". Since it's a sequence, the value in the field doctor could have been set by the patient.
+
+The prefix 'f' comes for 'field', as in workitem field.
+
+
+h3. variables and workitem fields
+
+Two types of data are available to process instances : process variables and workitem fields.
+
+The most visible type is workitem fields. Each workitem has a dictionary of fields as payload. Workitem and their fields are visible to the participants (ie outside of the workflow engine itself).
+
+Process variables are not communicated outside of the engine (except if the "set":exp/set.html expression is used to copy a variable to a field). Variables are mainly used for routing decisions inside the process instance.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+Ruote.process_definition :name => 'loan_approval', :revision => '1' do
+  cursor do
+    participant 'planning team'
+    concurrence do
+      participant 'ceo' :if => '${f:total} > 100000' do
+      participant 'cfo'
+    end
+    rewind :unless => '${f:approved}'
+    participant 'execution team'
+  end
+end
+<% end -%>
+
+In this first example process definition, there are two fields visible from the process definition : 'total' and 'approved'. The total has been determined by the planning team, while the 'approved' field will be set by the cfo (and perhaps the ceo).
+
+Note that if the total is superior to 100'000, the ceo, concurrently with the cfo, will receive a workitem. Thus the workitem (and its fields) will get duplicated, one copy for each concurrence branch. Process variables never get "cloned" in this way.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+Ruote.process_definition :name => 'loan_approval', :revision => '2' do
+  cursor do
+    participant 'planning team'
+    concurrence do
+      participant 'ceo' :if => '${v:supervised}' do
+      participant 'cfo'
+    end
+    rewind :unless => '${f:approved}'
+    participant 'execution team'
+  end
+end
+<% end -%>
+
+In that example, if the process variable "supervised" is set to true, the ceo will have his say in the iterations. The information about whether or not the process instance is supervised is not passed to participants (well obviously the ceo will know).
+
+h3(#deep). deep lookup (composite keys)
+
+Imagine you have this process definition :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+Ruote.process_definition :name => 'contract preparation' do
+  sequence do
+
+    set "field:customer" => {
+      'name' => 'Dexter Shipping', 'address' => [ 'Orchard Road', 'Singapore' ]}
+        # setting some field f one way or the other
+
+    # ...
+    participant 'legal dept', :task => 'prepare contract for ${f:customer.name}'
+    # ...
+    participant 'asia supervisor', :if => '${f:customer.address.1} == Singapore'
+    # ...
+  end
+end
+<% end -%>
+
+It's OK to use dots and key names or integer indexes to look deep inside of a field or a variable (${v:partner.address.city}).
+
+
+h3(#initial). initial fields and initial variables
+
+Looking at the "above example":#deep, one thing should be clear : our customer information is hardcoded in the business process.
+
+Why not remove it ?
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+pdef = Ruote.process_definition :name => 'contract preparation' do
+  sequence do
+    participant 'legal dept', :task => 'prepare contract for ${f:customer.name}'
+    # ...
+    participant 'asia supervisor', :if => '${f:customer.address.1} == Singapore'
+    # ...
+  end
+end
+<% end -%>
+
+and pass the information in due time, i.e. at launch time ?
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+ruote_engine.launch(
+  pdef,
+  { 'customer' => { 'name' => 'Dexter Shipping', 'address' => [ 'Orchard Road', 'Singapore' ] } })
+<% end -%>
+
+The signature for the launch method looks like
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+def launch (process_definition, fields={}, variables={})
+<% end -%>
+
+Fields are the initial fields (payload) of the workitem and variables are the initial variables at the root of the process instance getting launched.
+
+
+h3(#eval). 'ruby_eval_allowed'
+
+TODO
+
