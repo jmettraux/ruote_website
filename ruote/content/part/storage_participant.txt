@@ -7,3 +7,9 @@ filter:
 
 h2. storage_participant
 
+
+A participant that stores the workitem in the same storage used by the
+engine and the worker(s).
+
+Does not thread by default.
+

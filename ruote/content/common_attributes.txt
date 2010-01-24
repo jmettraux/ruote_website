@@ -1,0 +1,77 @@
+---
+title: common attributes
+filter:
+  - erb
+  - textile
+---
+
+h2. attributes common to all expressions
+
+The attributes listed on this page may be used with any expression.
+
+* ":timeout":#timeout
+* ":if or :unless":#if_unless
+* ":forget":#forget
+* ":on_error":#on_error
+* ":on_cancel":#on_cancel
+* ":on_timeout":#on_timeout
+
+
+h3(#timeout). :timeout
+
+If after two days, the two reviewers couldn't do their work, the process instance will resume to the editor :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant :ref => 'author'
+    sequence :timeout => '2d' do
+      participant :ref => 'reviewer1'
+      participant :ref => 'reviewer2'
+    end
+    participant :ref => 'editor'
+  end
+<% end %>
+
+:timeout understands h, m, d, s (respectively hour, minute, day, second). It also understands y, M, w (for year, Month and week), but they are rarely used.
+
+It's OK to give an absolute date to the :timeout attribute :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  participant :ref => 'author', :timeout => 'Sun Jan 24 17:28:28 +0900 2010'
+<% end %>
+
+But most of the time absolute dates are fetched from process variables or workitem fields :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  participant :ref => 'author', :timeout => '${f:time_limit}'
+<% end %>
+
+Please note that "participants":exp/participant.html may have their say in their timeout.
+
+You might also have a look at the ":on_timeout":#on_timeout attribute.
+
+
+h3(#if_unless). :if / :unless
+
+TODO
+
+
+h3(#forget). :forget
+
+TODO
+
+
+h3(#on_error). :on_error
+
+TODO
+
+
+h3(#on_cancel). :on_cancel
+
+TODO
+
+
+h3(#on_timeout). :on_timeout
+
+TODO
+

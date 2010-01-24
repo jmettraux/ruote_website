@@ -16,6 +16,7 @@ h3. participants found in ruote
 * "Ruote::NoOpParticipant":part/no_op_participant.html - a participant that immediately replies to the engine
 * "Ruote::NullParticipant":part/null_participant.html - a '/dev/null' participant, never replies to the engine
 * "Ruote::SmtpParticipant":part/smtp_participant.html - a base for more elaborate email participants
+* "Ruote::EngineParticipant":part/engine_participant.html - a bridge to launch [segments of] processes on other ruote engines
 
 h3. see also
 

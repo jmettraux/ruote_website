@@ -127,7 +127,7 @@ timeout. When there is no child expression and the 'when' behaves in a
 
 h3. ${ruby:'hello'}
 
-Remember that, if the engine's :ruby_eval_allowed is set to true, the
+Remember that, if the engine's 'ruby_eval_allowed' is set to true, the
 condition may contain Ruby code.
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>

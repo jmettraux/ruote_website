@@ -31,7 +31,9 @@ paths.each do |path|
 
   fname = File.basename(path)
 
-  type, item = if m = fname.match(/^(.+\_participant)\.rb$/)
+  type, item = if fname.match(/fe_participant.rb$/)
+    [ 'expression', 'participant' ]
+  elsif m = fname.match(/^(.+\_participant)\.rb$/)
     [ '', m[1] ]
   else
     [ 'expression', fname[3..-4] ]
