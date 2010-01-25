@@ -53,7 +53,54 @@ You might also have a look at the ":on_timeout":#on_timeout attribute.
 
 h3(#if_unless). :if / :unless
 
-TODO
+These two attributes accept a condition string. If the condition evaluates to true (or false for :unless), the expression will get executed, else not.
+
+The CEO will receive a workitem / task only if the budget (stored in a workitem field) exceeds 23000 :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrence do
+    participant 'ceo', :if => '${f:budget} > 23000'
+    participant 'cfo'
+    participant '${f:bu_head}'
+  end
+<% end %>
+
+Any expression may use :if / :unless :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  cursor do
+    subprocess 'gather_data'
+    subprocess 'generate_graphs'
+    participant 'quality_control'
+    rewind :unless => '${f:sufficient_data}'
+    subprocess 'generate_pdfs'
+    # over
+  end
+<% end %>
+
+Really any :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    sequence :if => '${f:weather} == rainy' do
+      rent_tent
+      rent_heating_system
+    end
+    concurrence do
+      sequence do
+        emit_invitations
+        gather_responses :timeout => '3w'
+      end
+      cursor :if => '${f:orchestra}' do
+        gather_orchestra
+        decide_about_orchestra
+        reserve_orchestra
+        rewind :if => '${f:orchestra_already_taken}'
+      end
+      participant 'mayor', :task => 'notification'
+    end
+  end
+<% end %>
 
 
 h3(#forget). :forget

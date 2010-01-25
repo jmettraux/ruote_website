@@ -32,6 +32,9 @@ gem install yajl-ruby
 
 # if you're using JRuby :
 gem install json-jruby
+
+# on windows :
+gem install json_pure
 </pre>
 
 

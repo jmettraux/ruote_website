@@ -23,7 +23,11 @@ h3. basic documentation
 * there are various "participant implementations":part_implementations.html found in ruote itself and in its extensions, like ruote-couch and ruote-amqp
 * "expressions":expressions.html are the building blocks of process definitions
 
+
+h3. in-depth documentation
+
 * the "dollar notation":dollar.html is a short name for variable/field extrapolation techniques in process definitions
+* "common attributes":common_attributes.html can be used by any expression
 
 
 h3. advanced documentation
