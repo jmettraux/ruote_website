@@ -105,7 +105,27 @@ Really any :
 
 h3(#forget). :forget
 
-TODO
+An expression flagged with :forget => true or :forget => 'true' gets forgotten, it is considered has having replied immediately to its parent expression, though its 'execution' is resuming independently.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  concurrence do
+    participant 'alfred'
+    participant 'bob'
+    participant 'charly', :forget => true
+  end
+<% end %>
+
+Charly will receive a workitem, but the concurrence will receive a reply immediately, thus, the concurrence (and the rest of the process) will resume as soon as both Alfred and Bob have replied.
+
+It can be used for some kind of rough fire and forget concurrency :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant 'alfred', :forget => true
+    participant 'bob', :forget => true
+    participant 'charly', :forget => true
+  end
+<% end %>
 
 
 h3(#on_error). :on_error
