@@ -9,6 +9,8 @@ h2. participant implementations
 
 h3. participants and receivers
 
+* "ruote-amqp":http://github.com/kennethkalmer/ruote-amqp - An AMQP participant/receiver pair and remote process launcher
+
 h3. participants found in ruote
 
 * "block participant":part/block_participant.html - a Ruby block as a ruote participant
