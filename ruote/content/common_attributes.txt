@@ -130,7 +130,52 @@ It can be used for some kind of rough fire and forget concurrency :
 
 h3(#on_error). :on_error
 
-TODO
+By default, any error in a process instance gets logged and the segment of process where it occurred is stalled. It's then possible to replay_at_error() the issue.
+
+What if you want to specify the "on error" behaviour directly in the process definition ?
+
+:on_error is the closest thing to the begin/rescue, try/catch found in regular programming languages.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+Ruote.process_definition :name => 'x' do
+
+  sequence :on_error => 'handle_issue' do
+    participant 'alpha'
+    cursor do
+      # ...
+    end
+  end
+
+  define 'handle_issue' do
+    participant 'supervisor', :msg => 'process ${wfid} has gone ballistic'
+  end
+end
+<% end %>
+
+If there is an error (at any level/depth) inside of our sequence, the whole branch starting
+
+:on_error must point to a subprocess or a participant.
+
+If :redo or 'redo' is given, the process branch will get cancelled and retried :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence :on_error => :redo do
+    # ...
+  end
+<% end %>
+
+If :undo or 'undo' is passed, the branch will get cancelled and the flow will resume :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant 'notify_bu', :on_error => :undo
+      # we don't care if the notification fails
+    participant 'bu_head'
+      # business as usual
+  end
+<% end %>
+
+NOTE : there are plans for making the "listen":exp/listen.html expression listen to errors, stay tuned.
 
 
 h3(#on_cancel). :on_cancel
