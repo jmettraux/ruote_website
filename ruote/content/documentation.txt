@@ -13,6 +13,7 @@ bits and pieces of documentation.
 h3. quickstarts
 
 * a "quickstart":quickstart.html with instructions on how to get ruote 2.1 and its dependencies
+* "it's barley a task manager":http://jmettraux.wordpress.com/2010/01/29/barley/ in a "single file":http://github.com/jmettraux/ruote/blob/ruote2.1/examples/barley.rb sinatra webapp
 
 
 h3. basic documentation
