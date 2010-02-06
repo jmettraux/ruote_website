@@ -9,11 +9,12 @@ h2. source
 
 Ruote's source code is located at the "github":http://github.com
 
-* "ruote 2.1":http://github.com/jmettraux/ruote/tree/ruote2.1 - the workflow engine
+* "ruote":http://github.com/jmettraux/ruote/ - the workflow engine
 
+* "ruote-dm":http://github.com/jmettraux/ruote-dm/ - "DataMapper":http:datamapper.org based persistence
 * "ruote-couch":http://github.com/jmettraux/ruote-couch/ - "CouchDB" storage for ruote
 * "ruote-jig":http://github.com/tosch/ruote-jig/ - HTTP participants (by "Torsten":http://github.com/tosch)
-* "ruote-amqp":http://github.com/asm/ruote-amqp/ - AMQP participants and listeners for ruote (coming soon for ruote 2.1) (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/)
+* "ruote-amqp":http://github.com/asm/ruote-amqp/ - AMQP participants and listeners for ruote (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/)
 
 * "ruote-fluo":http://github.com/jmettraux/ruote-fluo/ - some kind of a browser based editor for process definitions ("online demo":http://difference.openwfe.org:4567/?pdef=pdef.rb)
 

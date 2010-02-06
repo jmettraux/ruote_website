@@ -95,7 +95,9 @@ For more, head to the "documentation":documentation.html or to the "quickstart":
 
 h3. community
 
-The mailing list is still the one 'openwferu' one at "http://groups.google.com/group/openwferu-users":http://groups.google.com/group/openwferu-users
+The mailing list is still the 'openwferu' one at "http://groups.google.com/group/openwferu-users":http://groups.google.com/group/openwferu-users
 
-The freenode.net channel is #ruote, feel free to stop by for a chat and a coffee.
+The freenode.net channel is #ruote, feel free to stop by for a chat and a coffee. The channel archives are available at "http://ruote.rubyforge.org/irclogs/":http://ruote.rubyforge.org/irclogs/
+
+See "source":source.html for a list of the ruote related projects on github.
 

@@ -7,5 +7,11 @@ filter:
 
 h2. download
 
-see "source":/source.html for now
+The "ruote gems":http://gemcutter.org/search?query=ruote is available via rubygems from "gemcutter.org":http://gemcutter.org
+
+Installing ruote boils down to
+
+<pre>
+  gem install ruote
+</pre>
 
