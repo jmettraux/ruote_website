@@ -15,7 +15,9 @@ The attributes listed on this page may be used with any expression.
 * ":on_error":#on_error
 * ":on_cancel":#on_cancel
 * ":on_timeout":#on_timeout
+* ":tag":#tag
 
+<hr/>
 
 h3(#timeout). :timeout
 
@@ -180,7 +182,30 @@ NOTE : there are plans for making the "listen":exp/listen.html expression listen
 
 h3(#on_cancel). :on_cancel
 
-TODO
+on_cancel is used to point at a subprocess or a participant that should be invoked / receive a workitem in case a [segment of a] process gets cancelled.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+pdef = Ruote.process_definition :name => 'aircraft carrier' do
+  cursor :on_cancel => 'decommission' do
+    concurrence do
+      participant 'naval team', :task => 'operate ship'
+      participant 'air team', :task => 'operate planes'
+    end
+  end
+  define 'decommission' do
+    concurrence do
+      participant 'naval team', :task => 'decom weapons'
+      participant 'air team', :task => 'decom aircrafts'
+    end
+  end
+end
+<% end %>
+
+In this process, the aircraft is operated. Upon cancelling, the subprocess 'decommission' is triggered, where the teams get different missions.
+
+Note that, unlike :on_error, when an expression inside an :on_cancel enabled expression is cancelled, that will not trigger the :on_cancel. For example, if the 'operate planes' activity is cancelled, that will not trigger 'decommission'. The trigger will occur if the cursor or the whole process instance is cancelled.
+
+(note as well that when a process get killed, its on_cancel attributes will not trigger)
 
 
 h3(#on_timeout). :on_timeout
