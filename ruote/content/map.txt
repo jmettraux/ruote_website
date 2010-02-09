@@ -58,6 +58,7 @@ h2. site map
 | |*|\2. "configuration":configuration.html|
 | |*|\2. "rdoc":http://ruote.rubyforge.org/ruote_rdoc/|
 | |*|\2. "control flow patterns":patterns.html|
+| |*|\2. "process administration":process_administration.html|
 | |*|\2. "presentations":presentations.html|
 |*|\3. "source":source.html|
 |*|\3. "download":download.html|
