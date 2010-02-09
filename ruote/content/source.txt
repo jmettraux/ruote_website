@@ -20,5 +20,7 @@ Ruote's source code is located at the "github":http://github.com
 
 * "ruote-kit":http://github.com/kennethkalmer/ruote-kit/ - RESTful wrapper for ruote (by "Kenneth":http://opensourcery.co.za and "Torsten":http://github.com/tosch)
 
+* "ruote-on-rails":http://github.com/tosch/ruote-on-rails is an example integration of ruote in a rails application thanks to ruote-kit
+
 See also "rufus":http://rufus.rubyforge.org, a set of ruby gems spun off of ruote.
 
