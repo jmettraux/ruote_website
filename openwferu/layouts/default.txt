@@ -55,6 +55,12 @@ filter:    erb
    </div>
 
    <div class="column span-20 prepend-2 first last">
+     <div style="background-color: #eeeeee; margin-bottom: 2em; margin-top: 2em;" >
+<strong>NOTE</strong> : the latest version of ruote (2.1) is documented at <a href="http://ruote.rubyforge.org">http://ruote.rubyforge.org</a>. Meet you there.
+     </div>
+   </div>
+
+   <div class="column span-20 prepend-2 first last">
      <%= @content %>
    </div>
 
