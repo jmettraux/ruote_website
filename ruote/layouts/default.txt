@@ -48,7 +48,6 @@ filter:    erb
        <a title="mailing lists and irc" href="/lists.html">lists</a>
        <a title="blog" href="http://jmettraux.wordpress.com">blog</a>
        <a title="map" href="/map.html">map</a>
-       <a title="ruote 1.0 (OpenWFEru)" href="http://openwferu.rubyforge.org/">1.0</a>
      </div>
 
    </div>
