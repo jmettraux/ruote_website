@@ -7,9 +7,11 @@ filter:
 
 h2. participant implementations
 
+
 h3. participants and receivers
 
 * "ruote-amqp":http://github.com/kennethkalmer/ruote-amqp - An AMQP participant/receiver pair and remote process launcher
+
 
 h3. participants found in ruote
 
@@ -19,6 +21,13 @@ h3. participants found in ruote
 * "Ruote::NullParticipant":part/null_participant.html - a '/dev/null' participant, never replies to the engine
 * "Ruote::SmtpParticipant":part/smtp_participant.html - a base for more elaborate email participants
 * "Ruote::EngineParticipant":part/engine_participant.html - a bridge to launch [segments of] processes on other ruote engines
+
+
+h3. other participants
+
+* "Ruote::Jig::JigParticipant":http://github.com/tosch/ruote-jig - a HTTP client participant
+* "Rufus::Decision::Participant":part/decision_participant.html - this participat implementation is located in "rufus-decision":http://github.com/jmettraux/rufus-decision it wraps a "decision table":http://jmettraux.wordpress.com/2009/04/25/rufus-decision-11-ruby-decision-tables/ inside of a ruote participant
+
 
 h3. see also
 

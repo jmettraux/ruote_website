@@ -22,6 +22,9 @@ paths = paths + Dir.glob(File.join(src, "*_receiver.rb"))
 #src = File.expand_path(File.join(*%w[ ~ w ruote-amqp lib ])) # :(
 #paths = paths + Dir.glob(File.join(src, "*_participant.rb"))
 
+paths <<
+  "#{ENV['HOME']}/w/rufus/rufus-decision/lib/rufus/decision/participant.rb"
+
 
 paths.each do |path|
 
@@ -31,7 +34,9 @@ paths.each do |path|
 
   fname = File.basename(path)
 
-  type, item = if fname.match(/fe_participant.rb$/)
+  type, item = if path.match(/decision/)
+    [ '', 'decision_participant' ]
+  elsif fname.match(/fe_participant.rb$/)
     [ 'expression', 'participant' ]
   elsif m = fname.match(/^(.+\_participant)\.rb$/)
     [ '', m[1] ]
@@ -41,6 +46,7 @@ paths.each do |path|
 
   target = "#{fname[0..-4]}.txt"
   target = target[3..-1] if target.match(/^fe\_/)
+  target = 'decision_participant.txt' if path.match(/decision/)
 
   target = type == 'expression' ?
     File.join('content', 'exp', target) :
