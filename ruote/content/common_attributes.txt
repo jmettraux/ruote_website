@@ -210,7 +210,23 @@ Note that, unlike :on_error, when an expression inside an :on_cancel enabled exp
 
 h3(#on_timeout). :on_timeout
 
-TODO
+On top of this page figures the description of the <a href="#timeout">:timeout</a> attribute. The :on_timeout attribute is a complement. It indicates what to do (participant or subprocess) when the timeout does trigger.
+
+Apart from the name of a subprocess or a participant, :on_timeout can also take the 'redo' or the 'error' value.
+
+The 'redo' value indicates that on timeout, the flagged expression should get cancelled (along with any children it may have) and be re-applied.
+
+The 'error' value forces the process into error upon timeout (whereas the default timeout behaviour is to resume the flow). A process segment in error is blocked and requires an admin interventation (see <a href="process_administration.html">process administration</a>).
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant 'author'
+    participant 'reviewer', :timeout => '3d', :on_timeout => 'redo'
+    participant 'editor'
+  end
+<% end %>
+
+In this example, the reviewer will receive a fresh workitem every 3 days, until he replies by himself to the flow (which will resume to the editor participant).
 
 
 h3(#tag). :tag
