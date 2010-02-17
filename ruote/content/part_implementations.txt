@@ -21,6 +21,7 @@ h3. participants found in ruote
 * "Ruote::NullParticipant":part/null_participant.html - a '/dev/null' participant, never replies to the engine
 * "Ruote::SmtpParticipant":part/smtp_participant.html - a base for more elaborate email participants
 * "Ruote::EngineParticipant":part/engine_participant.html - a bridge to launch [segments of] processes on other ruote engines
+* "Ruote::StorageParticipant":part/storage_participant.html - storing the workitems in the engine storage
 
 
 h3. other participants
