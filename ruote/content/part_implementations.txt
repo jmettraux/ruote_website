@@ -25,6 +25,7 @@ h3. participants found in ruote
 
 h3. other participants
 
+* "RuoteAmqp::Participant":http://github.com/kennethkalmer/ruote-amqp/blob/ruote2.1/lib/ruote-amqp/participant.rb - places workitems in an AMQP queue (there is also an assorted "listener":http://github.com/kennethkalmer/ruote-amqp/blob/ruote2.1/lib/ruote-amqp/workitem_listener.rb)
 * "Ruote::Jig::JigParticipant":http://github.com/tosch/ruote-jig - a HTTP client participant
 * "Rufus::Decision::Participant":part/decision_participant.html - this participat implementation is located in "rufus-decision":http://github.com/jmettraux/rufus-decision it wraps a "decision table":http://jmettraux.wordpress.com/2009/04/25/rufus-decision-11-ruby-decision-tables/ inside of a ruote participant
 
