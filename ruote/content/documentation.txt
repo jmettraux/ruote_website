@@ -14,6 +14,7 @@ h3. quickstarts
 
 * a "quickstart":quickstart.html with instructions on how to get ruote 2.1 and its dependencies
 * "it's barley a task manager":http://jmettraux.wordpress.com/2010/01/29/barley/ in a "single file":http://github.com/jmettraux/ruote/blob/ruote2.1/examples/barley.rb sinatra webapp ("online demo":http://freezing-stone-20.heroku.com/)
+* "ruote and decision tables":http://jmettraux.wordpress.com/2010/02/17/ruote-and-decision-tables/ explains how to integrate ruote and "decision tables":http://github.com/jmettraux/rufus-decision/, here is the "result":http://github.com/jmettraux/rufus-decision/blob/master/examples/reimbursement.rb.
 
 * not really a quickstart but "Torsten":http://github.com/tosch has pusblished an example of ruote in rails integration via ruote-kit, it's called "ruote on rails":http://github.com/tosch/ruote-on-rails (there is a "rails3 branch":http://github.com/tosch/ruote-on-rails/tree/rails3).
 
