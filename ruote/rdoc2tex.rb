@@ -60,6 +60,10 @@ class Translation
 
       @a << "h#{m[1].length + H_OFFSET}. #{m[2]}"
 
+    elsif m = l.match(/^(http:\/\/.+)$/) # links
+
+      @a << "\"#{m[1]}\":#{m[1]}"
+
     else
 
       @a << l

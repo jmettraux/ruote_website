@@ -13,6 +13,17 @@ Decision participants were named 'CSV participants' prior to ruote 2.1.
 Make sure you have the gem "rufus-decision" installed in order to
 use this decision participant.
 
+
+h3. blog post
+
+This Rufus::Decision::Participant was introduced in the "ruote and
+decision tables" blog post :
+
+"http://jmettraux.wordpress.com/2010/02/17/ruote-and-decision-tables/":http://jmettraux.wordpress.com/2010/02/17/ruote-and-decision-tables/
+
+
+h3. example
+
 In this example, a participant named 'decide_team_member' is bound in the
 ruote engine and, depending on the value of the workitem fields 'topic'
 and region, sets the value of the field named 'team_member' :
@@ -57,9 +68,10 @@ would thus get routed to Gilbert.
 
 To learn more about decision tables :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  http://github.com/jmettraux/rufus-decision
-<% end %>
+"http://github.com/jmettraux/rufus-decision":http://github.com/jmettraux/rufus-decision
+
+
+h3. pointing to a table via a URI
 
 Note that you can reference the table by its URI :
 
