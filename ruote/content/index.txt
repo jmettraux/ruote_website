@@ -17,7 +17,7 @@ a process definition
 
 <div style="width: 100%; position: relative;">
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-require 'ruote'
+require 'ruote' # gem install ruote
 
 pdef = Ruote.process_definition :name => 'work' do
   cursor do
@@ -31,8 +31,8 @@ pdef = Ruote.process_definition :name => 'work' do
   end
 end
 <% end %>
-  <div style="position: absolute; top: -30px; right: -25px;">
-    <img src="/images/pdef0.png" width="90%"/>
+  <div style="position: absolute; top: -40px; right: -15px;">
+    <img src="/images/pdef0.png" width="95%"/>
   </div>
 </div>
 
