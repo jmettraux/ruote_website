@@ -15,6 +15,7 @@ A ruote engine may execute multiple <strong>process instances</strong> at a time
 
 a process definition
 
+<div style="width: 100%; position: relative;">
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
 require 'ruote'
 
@@ -30,6 +31,10 @@ pdef = Ruote.process_definition :name => 'work' do
   end
 end
 <% end %>
+  <div style="position: absolute; top: -30px; right: -25px;">
+    <img src="/images/pdef0.png" width="90%"/>
+  </div>
+</div>
 
 the engine and some participants
 
