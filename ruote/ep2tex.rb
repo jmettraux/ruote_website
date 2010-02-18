@@ -52,6 +52,8 @@ paths.each do |path|
     File.join('content', 'exp', target) :
     File.join('content', 'part', target)
 
+  puts "   --> #{target}"
+
   File.open(target, 'w') do |f|
 
     f.puts(%{---
