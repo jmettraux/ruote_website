@@ -14,15 +14,14 @@ h2. site map
 | |*|\2. "process definitions":definitions.html|
 | |*|\2. "participants":participants.html|
 | |*|\2. "participant implementations":part_implementations.html|
-| | |*| "block_participant":part/block_participant.txt|
-| | |*| "engine_participant":part/engine_participant.txt|
-| | |*| "hash_participant":part/hash_participant.txt|
-| | |*| "local_participant":part/local_participant.txt|
-| | |*| "no_op_participant":part/no_op_participant.txt|
-| | |*| "null_participant":part/null_participant.txt|
-| | |*| "participant":part/participant.txt|
-| | |*| "smtp_participant":part/smtp_participant.txt|
-| | |*| "storage_participant":part/storage_participant.txt|
+| | |*| "block_participant":part/block_participant.html|
+| | |*| "engine_participant":part/engine_participant.html|
+| | |*| "hash_participant":part/hash_participant.html|
+| | |*| "local_participant":part/local_participant.html|
+| | |*| "no_op_participant":part/no_op_participant.html|
+| | |*| "null_participant":part/null_participant.html|
+| | |*| "smtp_participant":part/smtp_participant.html|
+| | |*| "storage_participant":part/storage_participant.html|
 | |*|\2. "expressions":expressions.html|
 | | |*| "add_branches":exp/add_branches.html|
 | | |*| "apply":exp/apply.html|
