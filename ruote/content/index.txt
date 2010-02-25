@@ -106,3 +106,5 @@ The freenode.net channel is #ruote, feel free to stop by for a chat and a coffee
 
 See "source":source.html for a list of the ruote related projects on github.
 
+Here is a "list":users.html of organizations using ruote.
+

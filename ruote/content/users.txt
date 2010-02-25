@@ -1,0 +1,32 @@
+---
+title: ruote users
+filter:
+  - erb
+  - textile
+---
+
+h2. ruote users
+
+A list of organizations/companies using ruote.
+
+Some of these are service integrators, don't hesitate to contact them if you need support / advice. If you'd like to be mentioned, please say so on the "mailing list":http://groups.google.com/group/openwferu-users or on IRC (freenode.net #ruote).
+
+h3. africa
+
+* "ISP in a box":http://www.ispinabox.co.za/ (South Africa)
+
+h3. america
+
+* "real travel":http://realtravel.com/ (USA)
+* "vightel":http://www.vightel.com/ ("geobliki":http://geobliki.com) for its "SensorWeb 3G":http://esto.nasa.gov/news/news_SensorWeb3G_Mandl.html (USA)
+* the Fermilab is "using":http://super.bu.edu/~brower/scidacFNAL2008/slides/WorkflowStatus-NOV-07-2008.pdf ruote (USA)
+
+h3. asia
+
+* "Macnica Networks":http://www.macnica.net/ (Japan)
+
+h3. europe
+
+* "abstra.cc":http://abstra.cc/ of "ruedas y cerverzas":http://jmettraux.wordpress.com/2009/10/15/ruedas-y-cervezas-first-instance/ fame (Spain)
+* "Planquadrat Software-Integration":http://www.planquadrat-software.de/ (Germany)
+
