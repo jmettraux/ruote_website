@@ -78,7 +78,7 @@ highest and lowest refer to the position in the list of branch. It's useful
 to set a fixed winner.
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  concurrence :merge => highest do
+  concurrence :merge => :highest do
     alpha
     bravo
   end
@@ -97,6 +97,34 @@ making sure that the field value of the winner(s) are used.
 :isolate will rearrange the resulting workitem payload so that there is
 a new field for each branch. The name of each field is the index of the
 branch from '0' to ...
+
+:stack will stack the workitems coming back from the concurrence branches
+in an array whose order is determined by the :merge attributes. The array
+is placed in the 'stack' field of the resulting workitem.
+Note that the :stack merge_type also creates a 'stack_attributes' field
+and populates it with the expanded attributes of the concurrence.
+
+Thus
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    concurrence :merge => :highest, :merge_type => :stack do
+      reviewer1
+      reviewer2
+    end
+    editor
+  end
+<% end %>
+
+will see the 'editor' receive a workitem whose fields look like :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  { 'stack' => [{ ... reviewer1 fields ... }, { ... reviewer2 fields ... }],
+    'stack_attributes' => { 'merge'=> 'highest', 'merge_type' => 'stack' } }
+<% end %>
+
+This could prove useful for participant having to deal with multiple merge
+strategy results.
 
 
 h4. :over_if (and :over_unless)
