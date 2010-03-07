@@ -52,5 +52,6 @@ h3. blog excerpts
 a few links to blog posts about ruote.
 
 * "ruote 2.1 released":http://jmettraux.wordpress.com/2009/12/31/ruote-2-1-released/ with an explanation about storage and workers
+* "it's barley a task manager":http://jmettraux.wordpress.com/2010/01/29/barley/ in a "single file":http://github.com/jmettraux/ruote/blob/ruote2.1/examples/barley.rb sinatra webapp ("online demo":http://freezing-stone-20.heroku.com/)
 * "how does Ruote work ?":http://jmettraux.wordpress.com/2008/09/07/how-does-ruote-work/ (quite outdated but mostly OK)
 
