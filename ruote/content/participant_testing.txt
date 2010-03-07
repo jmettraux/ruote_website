@@ -1,0 +1,16 @@
+---
+title: participant testing
+filter:
+  - erb
+  - textile
+---
+
+h2. participant testing
+
+testing participant implementations
+
+
+h3. test/unit
+
+h3. cucumber
+

@@ -136,3 +136,8 @@ p pdef
   #     ["participant", {"ref"=>"doug"}, []]]]]]
 <% end %>
 
+
+h3. see also
+
+* "process testing":process_testing.html - testing process definitions
+

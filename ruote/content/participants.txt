@@ -69,8 +69,10 @@ In some cases, no task is expected and workitems are mere notifications.
 
 Participants are usually expected to reply to the engine with an updated version of the workitem [payload].
 
+
 h3. see also
 
 * the "participant expression":exp/participant.html
 * "participant implementations":part_implementations.html
+* "participant testing":participant_testing.html
 

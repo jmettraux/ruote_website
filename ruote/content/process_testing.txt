@@ -1,0 +1,16 @@
+---
+title: process testing
+filter:
+  - erb
+  - textile
+---
+
+h2. process testing
+
+testing process definitions
+
+
+h3. classical way
+
+h3. cucumber way
+
