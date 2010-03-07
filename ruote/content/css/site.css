@@ -74,7 +74,7 @@ p.quiet { color: <%= @page.color['quiet'] %>; }
   color: <%= @page.color['ruote'] %>;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 2em;
-  margin-left: 4px;
+  margin-left: 12px;
   cursor: pointer;
 }
 
