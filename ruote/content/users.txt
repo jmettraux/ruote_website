@@ -7,7 +7,7 @@ filter:
 
 h2. ruote users
 
-A list of organizations/companies using ruote.
+A non-exhaustive list of organizations/companies using ruote.
 
 Some of these are service integrators, don't hesitate to contact them if you need support / advice. If you'd like to be mentioned, please say so on the "mailing list":http://groups.google.com/group/openwferu-users or on IRC (freenode.net #ruote).
 
