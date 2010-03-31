@@ -1,0 +1,131 @@
+---
+title: process administration
+filter:
+  - erb
+  - textile
+---
+
+h2. [business] process administration
+
+The model of a business process usually focuses on a "happy path", everything happening according to the plan.
+
+A few alternative paths may be added explicitely. Provisions for errors and timeouts may explicitely be added, thanks to ":on_error":common_attributes.html#on_error and ":on_timeout":common_attributes.html#on_timeout.
+
+Sometimes, this is not enough. Processes may fall into errors, may stall (a participant reply got lost and there is no timeout) or they may simply become obsolete due to changes in their context.
+
+Deciding whether an exception (error, timeout, ...) is dealt explicitely in the process definition often requires experience.
+
+This page is about manipulating process instances.
+
+Here is the span of possible actions :
+
+* "querying":#query the engine about running process instances. Not an action, rather an observation
+
+* "cancelling":#cancelling processes or segments of processes
+* "cancelling process instances":#cancelling_process
+* "cancelling expressions":#cancelling_expression
+* "killing vs cancelling":#killing
+
+* "re_applying":#re_applying a stalled piece of process instance
+
+* "errors":#errors
+* "replaying":#errors_replay
+* "cancelling":#errors_cancel
+
+***
+
+h3(#query). querying the engine about running process instances
+
+To list all the processes currently running in the engine ("rdoc":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#processes-instance_method) :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  statuses = engine.processes
+<% end %>
+
+To query about a process, known by its "wfid" (workflow instance id) ("rdoc":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#process-instance_method) :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  status = engine.process(wfid)
+<% end %>
+
+Those two methods return "ProcessStatus":http://ruote.rubyforge.org/rdoc/Ruote/ProcessStatus.html instances.
+
+***
+
+h3(#cancelling). cancelling
+
+Cancelling is about terminating the execution of a process instance or of a branch of it.
+
+Cancelling cannot occur in one operation. The engine traverses the tree of execution and cancels alive expressions one by one. Active participants receive a cancel message indicating which the id of the workitem to cancel.
+
+h4(#cancelling_process). cancelling : process instances
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.cancel_process(wfid)
+<% end %>
+
+Warning : as explained cancelling a process or a branch of a process isn't instantaneous.
+
+h4(#cancelling_expression). cancelling : expressions
+
+Perhaps, the most common use case for "cancelling an expression" is cancelling a participant expression.
+
+Let's say you have this process :
+
+<div style="width: 100%; position: relative;">
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition do
+    sequence do
+      logistics
+      delivery
+      accounting
+    end
+  end
+<% end %>
+  <div style="position: absolute; top: -20px; right: 75px;">
+    <img src="/images/cancelling_expression.png" width="100%"/>
+  </div>
+</div>
+
+For some reason, this process was triggered for an online product, which was downloaded successfully. The delivery is not necessary, but the delivery participant has already received the workitem for this process instance.
+
+Cancelling the delivery participant expression would let the flow continue to "aaccounting". Programmatically that would look like :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  status = engine.process(wfid)
+
+  exp = status.expressions.first
+
+  engine.cancel_process(exp.fei)
+<% end %>
+
+Warning : as explained cancelling a process or a branch of a process isn't instantaneous.
+
+h4(#killing). killing vs cancelling
+
+TODO
+
+(link to :on_cancel)
+
+***
+
+h3(#re_applying). re_applying a stalled expressions
+
+TODO
+
+***
+
+h3(#errors). process errors
+
+TODO
+
+(For now, have a look at "this thread":http://groups.google.com/group/openwferu-users/browse_thread/thread/fbe9785b26d9aa40)
+
+h4(#errors_replay). errors : replaying
+
+TODO
+
+h4(#errors_cancel). errors : cancelling
+
+TODO
+
