@@ -61,6 +61,7 @@ h2. site map
 | |*|\2. "process testing":process_testing.html|
 | |*|\2. "participant testing":participant_testing.html|
 | |*|\2. "presentations":presentations.html|
+| |*|\2. "resources":resources.html|
 |*|\3. "source":source.html|
 |*|\3. "download":download.html|
 |*|\3. "lists":lists.html|
