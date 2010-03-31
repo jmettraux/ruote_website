@@ -7,7 +7,7 @@ filter:
 
 h2. download
 
-The "ruote gems":http://gemcutter.org/search?query=ruote is available via rubygems from "gemcutter.org":http://gemcutter.org
+The "ruote gems":http://gemcutter.org/search?query=ruote are available via rubygems from "gemcutter.org":http://gemcutter.org
 
 Installing ruote boils down to
 
