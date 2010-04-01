@@ -16,10 +16,10 @@ h3. participants as abstractions
   Ruote.process_definition :name => 'accident investigation case' do
     sequence do
       concurrence do
-        participant 'reporter 1', :activity => 'gather info on accident site'
-        participant 'reporter 2', :activity => 'gather info about customer'
+        participant 'reporter 1', :task => 'gather info on accident site'
+        participant 'reporter 2', :task => 'gather info about customer'
       end
-      participant 'hq', :activity => 'handle case'
+      participant 'hq', :task => 'handle case'
     end
   end
 <% end %>
@@ -38,7 +38,7 @@ Process definitions are in most cases pointed at to the engine right at the laun
 Participant implementations are usually bound in the engine when it is started. The term is to "register a participant in the engine". The engine is then equipped with a directory of participants that it looks up by name when a participant expression is applied, signifying that its workitem has to be despatched to a real participant.
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  engine.register_participant 'reporter 1', Ruote::Dm::DmParticipant
+  engine.register_participant 'reporter 1', Ruote::StorageParticipant
 <% end %>
 
 Here, the participant named "reporter 1" is registered in the engine. We trust the engine with the actual instantiation and thus pass only the class : Ruote::Dm::DmParticipant (yes, it's a ruote-dm DataMapper participant, the workitem will be placed in a database)
@@ -46,7 +46,7 @@ Here, the participant named "reporter 1" is registered in the engine. We trust t
 In order to avoid writing too much code for binding participants, it's OK to leverage <strong>regular expressions</strong>. Here is something that can cope with 'reporter 1' and 'reporter 2' and many more :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-  engine.register_participant /^reporter /, Ruote::Dm::DmParticipant
+  engine.register_participant /^reporter /, Ruote::StorageParticipant
 <% end %>
 
 Don't worry about the participant implementation mixing the workitems,
@@ -61,17 +61,9 @@ Don't worry about the participant implementation mixing the workitems,
 in our example, the attribute 'participant' of the top workitem while be 'reporter 1' vs 'reporter 2' for the bottom one, though the same participant implementation consumed the workitem.
 
 
-h3. to reply or not
-
-TODO
-
-In some cases, no task is expected and workitems are mere notifications.
-
-Participants are usually expected to reply to the engine with an updated version of the workitem [payload].
-
-
 h3. see also
 
+* "implementing participants":exp/implementing_participants.html
 * the "participant expression":exp/participant.html
 * "participant implementations":part_implementations.html
 * "participant testing":participant_testing.html

@@ -1,0 +1,9 @@
+---
+title: implementing participants
+filter:
+  - erb
+  - textile
+---
+
+h2. implementing participants
+

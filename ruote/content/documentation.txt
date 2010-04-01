@@ -36,8 +36,9 @@ h3. in-depth documentation
 
 h3. advanced documentation
 
-* ruote "configuration":configuration.html
-* ruote "rdoc":http://ruote.rubyforge.org/ruote_rdoc/ (raw ruby documentation)
+* ruote "configuration":configuration.html, the engine, the workers and the storage[s]
+* "implementing participants":implementing_participants.html
+* ruote "rdoc":http://ruote.rubyforge.org/rdoc/ (raw ruby documentation)
 * the "control flow patterns":patterns.html page details how ruote implements/approximates the control flow part of the "workflow patterns":http://workflowpatterns.com of Prof van der Aalst and Prof ter Hofstede and their research groups
 * "process administration":process_administration.html or how to query, cancel or modify process instances
 * "process testing":process_testing.html along with "participant testing":participant_testing.html

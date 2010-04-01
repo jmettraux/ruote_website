@@ -7,12 +7,34 @@ filter:
 
 h2. configuration
 
-configuring ruote 2.1 engine, worker and storage.
+Before evoking configuration it's perhaps a good idea to have a look at the "post announcing ruote 2.1":http://jmettraux.wordpress.com/2009/12/31/ruote-2-1-released/, it's detailing the design decisions behind ruote 2.1. It helps understand the 3 objects detailed in this page, "engine":#engine, "worker":#worker and "storage":#storage.
 
+In ruote 2.1, the engine _class_ became shallow, just a few methods that insert launch and reply orders in the storage and read it when querying for process statuses.
 
-h3. storage
+The _real_ engine is composed of a storage (persistent core) and of one or more workers.
 
-h3. worker
+This is the ruote configuration you can see in the "entry page":index.html of this documentation :
 
-h3. engine
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'ruote'
+require 'ruote/storage/fs_storage'
+
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::FsStorage.new('work')))
+<% end %>
+
+***
+
+h3(#engine). engine
+
+***
+
+h3(#worker). worker
+
+***
+
+h3(#storage). storage
+
+* Ruote::HashStorage
+* Ruote::FsStorage
+* composite storage
 
