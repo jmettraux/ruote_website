@@ -7,3 +7,5 @@ filter:
 
 h2. implementing participants
 
+h3. stateless vs stateful participants
+

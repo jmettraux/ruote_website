@@ -13,6 +13,10 @@ In ruote 2.1, the engine _class_ became shallow, just a few methods that insert 
 
 The _real_ engine is composed of a storage (persistent core) and of one or more workers.
 
+Storage implementations are meant to be process/thread safe, ie they can be used by multiple worker processes and engines.
+
+The engine _class_ is nothing more than a dashboard, with indicators and a few knobs.
+
 This is the ruote configuration you can see in the "entry page":index.html of this documentation :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
@@ -21,6 +25,8 @@ require 'ruote/storage/fs_storage'
 
 engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::FsStorage.new('work')))
 <% end %>
+
+This is a super-vanilla configuration. Packaging the engine, a worker a the storage together.
 
 ***
 
@@ -36,5 +42,8 @@ h3(#storage). storage
 
 * Ruote::HashStorage
 * Ruote::FsStorage
+* Ruote::Dm::DmStorage
+* Ruote::Couch::CouchStorage
+* Ruote::Redis::RedisStorage
 * composite storage
 
