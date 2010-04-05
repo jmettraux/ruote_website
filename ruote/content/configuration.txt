@@ -26,11 +26,16 @@ require 'ruote/storage/fs_storage'
 engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::FsStorage.new('work')))
 <% end %>
 
-This is a super-vanilla configuration. Packaging the engine, a worker a the storage together.
+This is a super-vanilla configuration. Packaging the engine, a worker, and the storage together.
 
 ***
 
 h3(#engine). engine
+
+h4(#engine_options). options
+
+* 'remote_definition_allowed' : blah
+* 'ruby_eval_allowed' : blah
 
 ***
 
@@ -40,10 +45,72 @@ h3(#worker). worker
 
 h3(#storage). storage
 
-* Ruote::HashStorage
-* Ruote::FsStorage
-* Ruote::Dm::DmStorage
-* Ruote::Couch::CouchStorage
-* Ruote::Redis::RedisStorage
-* composite storage
+Workflows / business processes usually involve real persons, humans. They are slower than computers. These days processes also imply multiple systems / services. These two things imply that workflows / processes may last a long time. Persistence is necessary, this is done with the storage.
+
+Since workers share the storage, it has not only to provide reliable persistence but also helpers to avoid worker collisions.
+
+The following table summarizes the various storage implementations.
+
+*multiple workers* tells if yes or no the storage supports multiple workers;
+*remote worker* indicates if workers not on the same host as the storage are possible;
+*speed* is a relative indication of the speed of the storage.
+
+|_.storage|_.multiple workers ?|_.remote worker ?|_.speed|_. |
+|"Ruote::HashStorage":#hash_storage          | no | no | best | in-memory storage, limited to the current ruby process, totally transient|
+|"Ruote::FsStorage":#fs_storage              | yes (2) | no | 1st | hierarchy of JSON files, uses file locks to prevent collisions when multiple workers|
+|"Ruote::Dm::DmStorage":#dm_storage          | no (1) | yes | 3rd | "DataMapper":http://datamapper.org based persistence|
+|"Ruote::Couch::CouchStorage":#couch_storage | no (1) | yes | slowest | "Apache CouchDB":http://couchdb.apache.org/ based persistence, remote, very slow|
+|"Ruote::Redis::RedisStorage":#redis_storage | yes | yes | 2nd | "Redis":http://code.google.com/p/redis/ based persistence, fast and remote|
+
+(1) not yet hardened
+(2) multiple workers, but not on Windows
+
+h4(#hash_storage). Ruote::HashStorage
+
+"source":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/storage/hash_storage.rb
+
+h4(#fs_storage). Ruote::FsStorage
+
+"source":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/storage/fs_storage.rb
+
+h4(#dm_storage). Ruote::Dm::DmStorage
+
+"source":http://github.com/jmettraux/ruote-dm/blob/ruote2.1/lib/ruote/dm/storage.rb
+
+h4(#couch_storage). Ruote::Couch::CouchStorage
+
+"source":http://github.com/jmettraux/ruote-couch/tree/ruote2.1/lib/ruote/couch/
+
+h4(#redis_storage). Ruote::Redis::RedisStorage
+
+"source":http://github.com/jmettraux/ruote-redis/blob/master/lib/ruote/redis/storage.rb
+
+h4(#composite_storage). composite storage
+
+"source":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/storage/composite_storage.rb
+
+The "composite" storage lets you select which storage to use for which category of object to be persisted. Here is a table detailing those 'categories' :
+
+|_.type         |_.description|
+|expressions    |the atomic pieces of process instance|
+|msgs           |'messages' to apply/reply to expressions|
+|schedules      |msgs scheduled for later processing|
+|errors         |errors that occured during process execution (msgs processing)|
+|variables      |engine (global) variables|
+|configurations |engine configurations|
+|workitems      |"StorageParticipant":part/storage_participant.html workitems|
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  opts = {
+    'remote_definition_allowed' => true,
+    'ruby_eval_allowed' => true
+  }
+
+  engine =
+    Ruote::Engine.new(
+      Ruote::Worker.new(
+        Ruote::CompositeStorage.new(
+          Ruote::FsStorage.new('ruote_work', opts),
+          'msgs' => Ruote::HashStorage.new(opts))))
+<% end %>
 
