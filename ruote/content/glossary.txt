@@ -7,7 +7,7 @@ filter:
 
 h2. glossary
 
-An attempt at defining or explaining terms.
+An attempt at defining or explaining terms in ruote and about workflow engines in general.
 
 
 h3(#fei). fei
@@ -32,20 +32,27 @@ todo
 
 h3(#participant). participant
 
-todo
+A participant takes part in a process instance. "Participants":participants.html are registered in the engine. A participant may take part in multiple process instances and especially instances of various process definitions.
+
+For example the participant "Al" may take part in instances of the "enter and filter new motherboards" and the "perform test batches" processes.
+
+
+h3(#process). process
+
+Depending on the context, this word can be used for process definition or for process instance.
 
 
 h3(#process_definition). process definition
 
-todo
+A template for a process. "Process definitions":http://ruote.rubyforge.org/definitions.html are the result of process modelling.
 
 
 h3(#process_instance). process instance
 
-todo
+A process definition, turned into an instance for execution.
 
 
 h3(#workitem). workitem
 
-todo
+A token of execution in a process instance. They are usually visible when handed to participants.
 

@@ -29,7 +29,6 @@ In that mini process definition, the workitem is routed from the patient to the 
 
 The prefix 'f' comes for 'field', as in workitem field.
 
-
 h3. variables and workitem fields
 
 Two types of data are available to process instances : process variables and workitem fields.
@@ -71,6 +70,26 @@ end
 <% end -%>
 
 In that example, if the process variable "supervised" is set to true, the ceo will have his say in the iterations. The information about whether or not the process instance is supervised is not passed to participants (well obviously the ceo will know).
+
+
+h3(#default). by default ${key} points to the field 'key'
+
+For ruote 2.1, this two process definitions are equivalent :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant '${f:patient}'
+    participant '${field:doctor}'
+  end
+<% end -%>
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant '${patient}'
+    participant '${doctor}'
+  end
+<% end -%>
+
 
 h3(#deep). deep lookup (composite keys)
 
@@ -130,7 +149,65 @@ def launch (process_definition, fields={}, variables={})
 Fields are the initial fields (payload) of the workitem and variables are the initial variables at the root of the process instance getting launched.
 
 
-h3(#eval). 'ruby_eval_allowed'
+h3(#wfid). ${fei}, ${wfid}, ${sub_wfid} and ${expid}
+
+This tiny program :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'rubygems'
+require 'ruote'
+
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new()))
+
+engine.register_participant :wrongdoer do |workitem|
+  raise "I did something wrong"
+end
+
+pdef = Ruote.process_definition do
+  sequence do
+    echo 'fei       : ${fei}'
+    echo 'wfid      : ${wfid}'
+    echo 'expid     : ${expid}'
+    echo 'sub_wfid  : ${sub_wfid}'
+  end
+end
+
+wfid = engine.launch(pdef)
+
+engine.wait_for(wfid)
+<% end -%>
+
+will emit to the standard output something like :
+
+<pre>
+fei       : 0_0_0!!20100407-bipopopizu
+wfid      : 20100407-bipopopizu
+expid     : 0_0_2
+sub_wfid  :
+</pre>
+
+These are not the content of the fields 'fei', 'wfid', 'expid', 'sub_wfid'. It's the flow expression id, the workflow instance id, the expression id and the sub workflow instance id.
+
+The 'fei' is a compound of the three others.
+
+The 'sub_wfid' is empty since our test process is very simple and the echo is not part of a sub-workflow.
+
+This technique can be used in various ways. Here is an example :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+Ruote.process_definition :name => 'new batch' do
+  sequence do
+    set 'batch_id' => 'batch--${wfid}'
+    team :task => 'input new batch'
+    testers :task => 'schedule tests for new batch'
+  end
+end
+<% end -%>
+
+The field 'batch_id' is set to something like 'batch--20100407-barakuraba'.
+
+
+h3(#ruby_eval_allowed). 'ruby_eval_allowed'
 
 TODO
 
