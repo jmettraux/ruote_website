@@ -32,10 +32,59 @@ This is a super-vanilla configuration. Packaging the engine, a worker, and the s
 
 h3(#engine). engine
 
+Engine options are in fact passed to the storage at initialization time.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'ruote'
+require 'ruote/storage/fs_storage'
+
+engine = Ruote::Engine.new(
+  Ruote::Worker.new(
+    Ruote::FsStorage.new(
+      'work',
+      'remote_definition_allowed' => true, 'ruby_eval_allowed' => true)))
+<% end %>
+
+They can also be set directly in the storage (document type 'configurations', key 'engine'), but that's an advanced technique (and you don't want/need to change it at runtime).
+
 h4(#engine_options). options
 
-* 'remote_definition_allowed' : blah
-* 'ruby_eval_allowed' : blah
+* *remote_definition_allowed* :
+
+remote definitions are process definitions reachable via HTTP. Since process definition are 'code', ruote, by default, prevents you from doing things like
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition :name => 'main process' do
+    sequence do
+      subprocess 'http://example.com/definitions/head_process.rb'
+      subprocess 'http://example.com/definitions/tail_process.rb'
+    end
+  end
+
+# or
+
+  engine.variables['head'] = 'http://example.com/definitions/head_process.rb'
+  engine.variables['tail'] = 'http://example.com/definitions/tail_process.rb'
+
+  Ruote.process_definition :name => 'main process' do
+    sequence do
+      head
+      tail
+    end
+  end
+
+# or simply
+
+  engine.launch('http://example.com/definitions/main.xml')
+
+<% end %>
+
+You have to explicitely set 'remote_definition_allowed' to true.
+
+
+* *ruby_eval_allowed* :
+
+TODO
 
 ***
 
@@ -99,6 +148,8 @@ The "composite" storage lets you select which storage to use for which category 
 |variables      |engine (global) variables|
 |configurations |engine configurations|
 |workitems      |"StorageParticipant":part/storage_participant.html workitems|
+
+An example where everything is handled by a FsStorage while the 'msgs' are stored in a HashStorage :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
   opts = {

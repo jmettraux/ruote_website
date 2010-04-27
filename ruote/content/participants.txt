@@ -63,7 +63,7 @@ in our example, the attribute 'participant' of the top workitem while be 'report
 
 h3. see also
 
-* "implementing participants":exp/implementing_participants.html
+* "implementing participants":implementing_participants.html
 * the "participant expression":exp/participant.html
 * "participant implementations":part_implementations.html
 * "participant testing":participant_testing.html

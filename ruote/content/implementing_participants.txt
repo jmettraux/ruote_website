@@ -7,5 +7,51 @@ filter:
 
 h2. implementing participants
 
-h3. stateless vs stateful participants
+Participant receive workitems, do something about/to them. Then, if necessary, they reply to ruote with the [updated] workitem.
+
+Sometimes, while a participant is holding / consuming a workitem, it might receive a "cancel" order from ruote, telling it to discard the corresponding workitem (and not to reply).
+
+
+h3(#stateless). stateless participants
+
+Perhaps state{less|full} is a poor wording. It should be OK for now (suggestions on the "mailing list":http://groups.google.com/group/openwferu-users are welcome).
+
+*Stateless participants are the preferred approach*. They can be used by any worker, while stateful participants can only be used by the worker in the Ruby runtime where they got instantiated.
+
+Stateless participants are instantiated for each workitem dispatch by the worker.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+class WakeUpParticipant
+  include Ruote::LocalParticipant
+  def initialize (opts)
+    @opts = opts
+  end
+  def consume (workitem)
+    City::Notifications.wake_up(:mayor, @opts['city'], workitem.fields['message'])
+    reply_to_engine(workitem)
+  end
+  def cancel (fei, flavour)
+    # no need for an implementation, since consume replies immediately,
+    # never 'holding' a workitem
+  end
+end
+
+engine.register_participant 'beijing', WakeUpParticipant, 'city' => 'Beijing'
+<% end %>
+
+In this example. The WakeUpParticipant wraps an City::Notifications service call. The participant is instantiated each time, with the options passed in the implicit hash (last parameter of the register_participant method).
+
+
+h3(#stateful). stateful participants
+
+Stateful participants are instantiated at registration time. They thus work/exist only in the Ruby runtime that saw their instantiation.
+
+TODO
+
+
+h3(#block). block participants
+
+Block participants are stateful participants. They are easy to understand and are very practical, in simple settings (1 worker, 1 engine), they are OK.
+
+TODO
 
