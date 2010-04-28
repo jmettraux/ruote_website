@@ -24,13 +24,15 @@ Here is the span of possible actions :
 * "cancelling":#cancelling processes or segments of processes
 * "cancelling process instances":#cancelling_process
 * "cancelling expressions":#cancelling_expression
+* "on_cancel":#on_cancel
 * "killing vs cancelling":#killing
 
 * "re_applying":#re_applying a stalled piece of process instance
 
 * "errors":#errors
-* "replaying":#errors_replay
-* "cancelling":#errors_cancel
+* "replaying at errors":#errors_replay
+* "cancelling at errors":#errors_cancel
+* "on_error":#on_error
 
 ***
 
@@ -89,27 +91,45 @@ Let's say you have this process :
 
 For some reason, this process was triggered for an online product, which was downloaded successfully. The delivery is not necessary, but the delivery participant has already received the workitem for this process instance.
 
-Cancelling the delivery participant expression would let the flow continue to "aaccounting". Programmatically that would look like :
+Cancelling the delivery participant expression would let the flow continue to "accounting". Programmatically that would look like :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
   status = engine.process(wfid)
 
   exp = status.expressions.first
 
-  engine.cancel_process(exp.fei)
+  engine.cancel_expression(exp.fei)
 <% end %>
 
 Warning : as explained cancelling a process or a branch of a process isn't instantaneous.
 
+
+h4(#on_cancel). on_cancel
+
+Most of the time, the process definition attempts to model the "happy path", the process as it occurs 95% of the time. One may want to go a step further and incclude provisions for errors (see "on_error":#on_error) and for cancellations.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition do
+    sequence :on_cancel => 'admin' do
+      logistics
+      delivery
+      accounting
+    end
+  end
+<% end %>
+
+In this process definition, if the process or the sequence gets cancelled, the 'admin' subprocess (or the participant 'admin') will be applied (or simply receive a workitem).
+
+More info about "on_cancel":common_attributes.html#on_cancel.
+
+
 h4(#killing). killing vs cancelling
 
-TODO
-
-(link to :on_cancel)
+Processes (and expressions) can be cancelled or they can be killed. Killing looks much like cancelling, except that any "on_cancel":common_attributes.html#on_cancel will be ignored.
 
 ***
 
-h3(#re_applying). re_applying a stalled expressions
+h3(#re_applying). re_applying a stalled expression
 
 TODO
 
@@ -126,6 +146,10 @@ h4(#errors_replay). errors : replaying
 TODO
 
 h4(#errors_cancel). errors : cancelling
+
+TODO
+
+h4(#on_error). on_error
 
 TODO
 
