@@ -11,19 +11,21 @@ Ruote's source code is located at the "github":http://github.com
 
 * "ruote":http://github.com/jmettraux/ruote/ - the workflow engine
 
-* "ruote-dm":http://github.com/jmettraux/ruote-dm/ - "DataMapper":http:datamapper.org based persistence
-* "ruote-couch":http://github.com/jmettraux/ruote-couch/ - "CouchDB" storage for ruote
-* "ruote-redis":http://github.com/jmettraux/ruote-redis/ - Redis storage for ruote
-* "ruote-jig":http://github.com/tosch/ruote-jig/ - HTTP participants (by "Torsten":http://github.com/tosch)
 * "ruote-amqp":http://github.com/asm/ruote-amqp/ - AMQP participants and listeners for ruote (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/)
+* "ruote-beanstalk":http://github.com/jmettraux/ruote-beanstalk/ - "Beanstalk":http://kr.github.com/beanstalkd/ participant and receiver, with a storage (fs_storage with Beanstalk as middleware)
+* "ruote-couch":http://github.com/jmettraux/ruote-couch/ - "CouchDB":http://couchdb.apache.org/ storage for ruote
+* "ruote-dm":http://github.com/jmettraux/ruote-dm/ - "DataMapper":http://datamapper.org based persistence
+* "ruote-jig":http://github.com/tosch/ruote-jig/ - HTTP participants (by "Torsten":http://github.com/tosch)
+* "ruote-redis":http://github.com/jmettraux/ruote-redis/ - "Redis":http://code.google.com/p/redis/ storage for ruote
 
 * "ruote-fluo":http://github.com/jmettraux/ruote-fluo/ - some kind of a browser based editor for process definitions ("online demo":http://difference.openwfe.org:4567/?pdef=pdef.rb)
 
 * "ruote-kit":http://github.com/kennethkalmer/ruote-kit/ - RESTful wrapper for ruote (by "Kenneth":http://opensourcery.co.za and "Torsten":http://github.com/tosch)
 
-* "ruote-on-rails":http://github.com/tosch/ruote-on-rails is an example integration of ruote in a rails application thanks to ruote-kit
+* "ruote-on-rails":http://github.com/tosch/ruote-on-rails is an example integration of ruote in a "Rails":http://rubyonrails.org/ application thanks to ruote-kit
+* "ruote-rails-example":http://github.com/threetee/ruote-rails-example - a test app integrating ruote, ruote-amqp, ruote-kit and ruote-on-rails, by "Eric Dennis":http://github.com/threetee
 
-* "ruote-cukes":http://github.com/jmettraux/ruote-cukes - a set of step definitions for testing ruote process definitions from cucumber
+* "ruote-cukes":http://github.com/jmettraux/ruote-cukes - a set of step definitions for testing ruote process definitions from "Cucumber":http://cukes.info/
 
 See also "rufus":http://rufus.rubyforge.org, a set of ruby gems spun off of ruote.
 
