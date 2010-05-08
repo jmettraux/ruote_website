@@ -107,9 +107,10 @@ The following table summarizes the various storage implementations.
 |_.storage|_.multiple workers ?|_.remote worker ?|_.speed|_. |
 |"Ruote::HashStorage":#hash_storage          | no (1) | no | best | in-memory storage, limited to the current ruby process, totally transient|
 |"Ruote::FsStorage":#fs_storage              | yes (2) | no | 1st | hierarchy of JSON files, uses file locks to prevent collisions when multiple workers|
-|"Ruote::Dm::DmStorage":#dm_storage          | no (3) | yes | 3rd | "DataMapper":http://datamapper.org based persistence|
+|"Ruote::Dm::DmStorage":#dm_storage          | no (3) | yes | 4th | "DataMapper":http://datamapper.org based persistence|
 |"Ruote::Couch::CouchStorage":#couch_storage | no (3) | yes | slowest | "Apache CouchDB":http://couchdb.apache.org/ based persistence, remote, very slow|
-|"Ruote::Redis::RedisStorage":#redis_storage | yes | yes | 2nd | "Redis":http://code.google.com/p/redis/ based persistence, fast and remote|
+|"Ruote::Redis::RedisStorage":#redis_storage | yes | yes | 2nd | "Redis":http://code.google.com/p/redis/ based persistence, fast and remote. Limited in max size|
+|"Ruote::Beanstalk::BsStorage":#beanstalk_storage | yes | yes | 3rd | FsStorage based persistence with a "Beanstalk":http://kr.github.com/beanstalkd/ front, fast and remote|
 
 (1) well, it's 'yes' but there isn't much to gain from one more worker in the same Ruby runtime
 (2) multiple workers, but not on Windows
@@ -134,6 +135,10 @@ h4(#couch_storage). Ruote::Couch::CouchStorage
 h4(#redis_storage). Ruote::Redis::RedisStorage
 
 "source":http://github.com/jmettraux/ruote-redis/blob/master/lib/ruote/redis/storage.rb
+
+h4(#beanstalk_storage). Ruote::Beanstalk::BsStorage
+
+"source":http://github.com/jmettraux/ruote-beanstalk/blob/ruote2.1/lib/ruote/beanstalk/storage.rb
 
 h4(#composite_storage). composite storage
 
