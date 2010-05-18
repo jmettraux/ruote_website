@@ -47,6 +47,42 @@ XML may be advantageous for some people as it looks enterprisey. Perhaps a bette
   </process-definition>
 <% end %>
 
+You can use the parser to turn XML into a Ruote tree :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'rubygems'
+require 'ruote/parser'
+
+tree = Ruote::Parser.parse(%{
+  <process-definition name="my_def">
+    <sequence>
+      <participant ref="alice" />
+      <participant ref="bob" />
+    </sequence>
+  </process-definition>
+})
+
+p tree
+  # =>
+  # ["process_definition", {"name"=>"my_def"}, [
+  #   ["sequence", {}, [
+  #     ["participant", {"ref"=>"alice"}, []],
+  #     ["participant", {"ref"=>"bob"}, []]]]]]
+<% end %>
+
+Or directly pass the XML as a String to the engine :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+engine.launch(%{
+  <process-definition name="my_def">
+    <sequence>
+      <participant ref="alice" />
+      <participant ref="bob" />
+    </sequence>
+  </process-definition>
+})
+<% end %>
+
 
 h3. Ruby process definitions
 
@@ -80,7 +116,9 @@ Not necessarily a good practice but can come in handy, and remember that ruote w
 
 h3. raw [JSON] process definitions
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+In JSON, they would look like :
+
+<% coderay(:lang => 'javascript', :line_numbers => 'inline') do -%>
   [ 'process-definition', { 'name': 'my_def' }, [
     [ 'sequence', {}, [
       [ 'participant', { 'ref': 'alice' }, [] ],
@@ -88,6 +126,32 @@ h3. raw [JSON] process definitions
     ] ] 
   ] ]
 <% end %>
+
+In Ruby, that translates to :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  [ 'process-definition', { 'name' => 'my_def' }, [
+    [ 'sequence', {}, [
+      [ 'participant', { 'ref' => 'alice' }, [] ],
+      [ 'participant', { 'ref' => 'bob' }, [] ] 
+    ] ] 
+  ] ]
+<% end %>
+
+The engine understands various formats :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.launch('[ "participant", { "ref" : "alpha" }, [] ]')
+    # JSON string
+
+  engine.launch(Rufus::Json.decode('[ "participant", { "ref" : "alpha" }, [] ]'))
+    # decoded JSON
+
+  engine.launch([ "participant", { "ref" => "alpha" }, [] ])
+    # Ruby raw process definition
+<% end %>
+
+
 
 
 This raw representation of a process definition can also accomodate deep data structures like the Ruby DSL does.
