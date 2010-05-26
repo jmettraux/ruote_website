@@ -18,8 +18,8 @@ h3. africa
 h3. america
 
 * "real travel":http://realtravel.com/ (USA)
-* "vightel":http://www.vightel.com/ ("geobliki":http://geobliki.com) for its "SensorWeb 3G":http://esto.nasa.gov/news/news_SensorWeb3G_Mandl.html (USA)
 * the Fermilab is "using":http://super.bu.edu/~brower/scidacFNAL2008/slides/WorkflowStatus-NOV-07-2008.pdf ruote (USA)
+* "fedora-workflow":http://github.com/cbeer/fedora-workflow (USA)
 
 h3. asia
 

@@ -139,7 +139,7 @@ h3(#errors). process errors
 
 TODO
 
-(For now, have a look at "this thread":http://groups.google.com/group/openwferu-users/browse_thread/thread/fbe9785b26d9aa40)
+(For now, have a look at "this thread":http://groups.google.com/group/openwferu-users/browse_thread/thread/fbe9785b26d9aa40 or "that one":http://groups.google.com/group/openwferu-users/browse_thread/thread/c788f462b2e2e2e)
 
 h4(#errors_replay). errors : replaying
 
