@@ -22,5 +22,5 @@ Saves the current workitem fields into a variable or into a field.
     # the root of the process
 <% end %>
 
-See also the 'restore' expression (Ruote::Exp::RestoreExpression).
+See also the '"restore":restore.html' expression (Ruote::Exp::RestoreExpression).
 
