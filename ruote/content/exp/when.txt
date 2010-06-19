@@ -88,17 +88,16 @@ h3. :frequency
 As said, the default 'check' frequency is 10 seconds. This can be changed
 by using the :frequency (or :freq) attribute.
 
-   sequence do
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  sequence do
+    participant 'logistic_unit'
+    _when '${v:/delivery_ok}', :frequency => '2d'
+      # block until delivery is OK (another branch of the process probably)
+      # check every two days
+    participant 'accounting_unit'
+  end
 
-     participant 'logistic_unit'
-
-     _when '${v:/delivery_ok}', :frequency => '2d'
-       # block until delivery is OK (another branch of the process probably)
-       # check every two days
-
-     participant 'accounting_unit'
-   end
-
+<% end %>
 
 h3. :frequency and cron notation
 

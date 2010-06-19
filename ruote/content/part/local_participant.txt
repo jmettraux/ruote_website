@@ -13,3 +13,5 @@ Provides methods for 'local' participants.
 Assumes the class that includes this module has a #context method
 that points to the worker or engine ruote context.
 
+It's "local" because it has access to the ruote storage.
+
