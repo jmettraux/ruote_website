@@ -22,10 +22,13 @@ Ruote's source code is located at the "github":http://github.com
 
 * "ruote-kit":http://github.com/kennethkalmer/ruote-kit/ - RESTful wrapper for ruote (by "Kenneth":http://opensourcery.co.za and "Torsten":http://github.com/tosch)
 
-* "ruote-on-rails":http://github.com/tosch/ruote-on-rails is an example integration of ruote in a "Rails":http://rubyonrails.org/ application thanks to ruote-kit
-* "ruote-rails-example":http://github.com/threetee/ruote-rails-example - a test app integrating ruote, ruote-amqp, ruote-kit and ruote-on-rails, by "Eric Dennis":http://github.com/threetee
-
 * "ruote-cukes":http://github.com/jmettraux/ruote-cukes - a set of step definitions for testing ruote process definitions from "Cucumber":http://cukes.info/
 
 See also "rufus":http://rufus.rubyforge.org, a set of ruby gems spun off of ruote.
+
+h3(#examples). demos and examples
+
+* "ruote-on-rails":http://github.com/tosch/ruote-on-rails is an example integration of ruote in a "Rails":http://rubyonrails.org/ application thanks to ruote-kit
+* "ruote-rails-example":http://github.com/threetee/ruote-rails-example - a test app integrating ruote, ruote-amqp, ruote-kit and ruote-on-rails, by "Eric Dennis":http://github.com/threetee
+* "meego-boss":http://meego.gitorious.org/meego-infrastructure-tools/boss - a "minimal-ish ruote-amqp setup":http://groups.google.com/group/openwferu-users/browse_frm/thread/3a30d322bfae7b0d using daemon-kit based remote participants, by "David Greaves":http://github.com/lbt
 
