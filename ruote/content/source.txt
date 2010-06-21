@@ -11,7 +11,7 @@ Ruote's source code is located at the "github":http://github.com
 
 * "ruote":http://github.com/jmettraux/ruote/ - the workflow engine
 
-* "ruote-amqp":http://github.com/asm/ruote-amqp/ - AMQP participants and listeners for ruote (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/)
+* "ruote-amqp":http://github.com/asm/ruote-amqp/ - AMQP participants and listeners for ruote (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/) (note : due to the world cup, Kenneth is out of reach and the latest version of ruote-amqp (>= 2.1.10) is at "http://github.com/jmettraux/ruote-amqp":http://github.com/jmettraux/ruote-amqp)
 * "ruote-beanstalk":http://github.com/jmettraux/ruote-beanstalk/ - "Beanstalk":http://kr.github.com/beanstalkd/ participant and receiver, with a storage (fs_storage with Beanstalk as middleware)
 * "ruote-couch":http://github.com/jmettraux/ruote-couch/ - "CouchDB":http://couchdb.apache.org/ storage for ruote
 * "ruote-dm":http://github.com/jmettraux/ruote-dm/ - "DataMapper":http://datamapper.org based persistence
