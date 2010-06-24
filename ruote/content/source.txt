@@ -22,6 +22,8 @@ Ruote's source code is located at the "github":http://github.com
 
 * "ruote-kit":http://github.com/kennethkalmer/ruote-kit/ - RESTful wrapper for ruote (by "Kenneth":http://opensourcery.co.za and "Torsten":http://github.com/tosch)
 
+* "ruote-amqp-pyclient":http://github.com/lbt/ruote-amqp-pyclient - a Python client for ruote-amqp, by "David Greaves":http://github.com/lbt.
+
 * "ruote-cukes":http://github.com/jmettraux/ruote-cukes - a set of step definitions for testing ruote process definitions from "Cucumber":http://cukes.info/
 
 See also "rufus":http://rufus.rubyforge.org, a set of ruby gems spun off of ruote.
