@@ -51,7 +51,7 @@ h3(#other). other expressions
 Expressions used in debug time or that have become slightly obsolete
 
 * "echo":exp/echo.html - echo some text to stdout (debug only)
-* "forget":exp/equals.html - forgetting a segment of process (supplanted by the :forget attribute common to all expressions)
+* "forget":exp/forget.html - forgetting a segment of process (supplanted by the :forget attribute common to all expressions)
 
 
 h3(#attributes). attributes common to all expressions
