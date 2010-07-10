@@ -49,7 +49,7 @@ Rewinds the cursor up to its first child expression.
   end
 <% end %>
 
-h4. break
+h4. stop, over & break
 
 Exits the cursor.
 
@@ -58,10 +58,12 @@ Exits the cursor.
     author
     reviewer
     rewind :if => '${f:review} == fix'
-    _break :if => '${f:review} == abort'
+    stop :if => '${f:review} == abort'
     publisher
   end
 <% end %>
+
+'_break' or 'over' can be used instead of 'stop'.
 
 h4. skip & back
 
