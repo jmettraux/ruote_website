@@ -39,6 +39,7 @@ h3(#advanced). advanced expressions
 * "inc / dec":exp/inc.html - {inc|dec}rementing variables or fields (numbers or arrays)
 * "listen":exp/listen.html - listen on a channel (a participant name) for incoming or outgoing events (workitems)
 * "redo":exp/redo.html - redoes a tagged segment of process
+* "ref":exp/ref.html - invokes a participant or a subprocess indifferently
 * "reserve":exp/reserve.html - ensures a segment of process instance is traversed in isolation (not in parallel with other branches of the same instance)
 * "restore":exp/restore.html - restores values from a previously saved workitem
 * "save":exp/save.html - saves the current workitem

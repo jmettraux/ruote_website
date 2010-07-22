@@ -1,0 +1,31 @@
+---
+title: ref expression
+filter:
+  - erb
+  - textile
+---
+
+h2. ref
+
+
+Sometimes you don't know at 'design time', if you want to trigger a
+participant or subprocess.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition do
+    sequence do
+      participant 'alice'
+      ref '${solver}'
+      participant 'charlie'
+    end
+  end
+<% end %>
+
+In this process, solver's name could be a participant name or a subprocess
+name.
+
+Subprocesses have the priority over participants.
+
+Note : this expression is used by the worker when substituting unknown
+expression names with participant or subprocess refs.
+
