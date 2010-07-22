@@ -27,7 +27,10 @@ Here is the span of possible actions :
 * "on_cancel":#on_cancel
 * "killing vs cancelling":#killing
 
-* "re_applying":#re_applying a stalled piece of process instance
+* "re_applying":#re_applying segments of process instances
+* "re_applying a stalled expression":#re_applying_stalled
+* "re_applying a tree":#re_applying_tree
+* "re_applying and changing the [workitem] fields":#re_applying_fields
 
 * "errors":#errors
 * "replaying at errors":#errors_replay
@@ -129,9 +132,150 @@ Processes (and expressions) can be cancelled or they can be killed. Killing look
 
 ***
 
-h3(#re_applying). re_applying a stalled expression
+h3(#re_applying). re_applying
 
-TODO
+The "Engine#re_apply(fei, options)":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#method-i-re_apply method cancels and expression and re_applies. It has a few options for dealing with some process repair tasks.
+
+Most of the technique described here are tested in ruote's "ft_14_re_apply.rb":http://github.com/jmettraux/ruote/blob/ruote2.1/test/functional/ft_14_re_apply.rb
+
+
+h4(#re_applying_stalled). re_applying a stalled [participant] expression
+
+Sometimes participants don't reply and the participant expression that emitted the workitem to them is stuck waiting. Or simply the engine could have been down when the participant answer came and the answer got lost.
+
+With a 're_apply', it's possible to re-apply the delivery and hopefully restart the interaction (though that could ultimately depend on the participant implementation).
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  pdef = Ruote.process_definition do
+    sequence do
+      alpha
+      bravo
+    end
+  end
+
+  wfid = engine.launch(pdef)
+
+  # ... process stalls at participant alpha ...
+
+  stalled_fexp = engine.process(wfid).expressions.last
+    #
+    # expressions in process status (as returned by Engine#process) are
+    # ordered with the root as the first and the leaves in the last positions
+
+  engine.re_apply(stalled_fexp.fei)
+    #
+    # will cancel the expression at 'alpha' and re_apply it, triggering
+    # a new dispatch to the participant alpha points to.
+<% end %>
+
+
+h4(#re_applying_tree). re_applying a process branch that went wrong
+
+If a process branch went wrong, it's sometimes necessary to redo it.
+
+Some process developers like to include those "something went wrong" paths as extension to the happy path and they use the "cursor":exp/cursor.html expression with some 'rewind' magic. But sometimes it's really necessary to rewind/redo manually.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'rubygems'
+require 'yajl'
+require 'ruote'
+
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new))
+
+pdef = Ruote.define do
+  sequence do
+    alpha
+    bravo
+    zebulon
+  end
+end
+
+class ThisParticipant
+  include Ruote::LocalParticipant
+  def consume (workitem)
+    puts "* #{workitem.participant_name}"
+    reply_to_engine(workitem)
+  end
+end
+class ThatParticipant
+  include Ruote::LocalParticipant
+  def consume (workitem)
+    puts ". #{workitem.participant_name}"
+    # no reply to engine
+  end
+  def cancel (fei, flavour)
+    # ok, let pass
+  end
+  def do_not_thread; true; end
+end
+
+engine.register_participant 'alpha', ThisParticipant
+engine.register_participant 'bravo', ThisParticipant
+engine.register_participant 'charlie', ThisParticipant
+engine.register_participant 'zebulon', ThatParticipant
+
+#engine.context.logger.noisy = true
+
+wfid = engine.launch(pdef)
+
+engine.wait_for(:zebulon)
+
+# ... process reached 'zebulon', but there something wrong
+#     we need to redo that sequence differently ...
+
+ps = engine.process(wfid)
+
+sequence = ps.expressions.find { |fexp| fexp.fei.expid == '0_0' }
+  # first child '0' after the root '0' => '0_0'
+
+puts "re_applying..."
+
+engine.re_apply(sequence.fei, :tree => Ruote.to_tree do
+  sequence do
+    charlie
+    bravo
+    alpha
+  end
+end)
+
+engine.wait_for(wfid)
+<% end %>
+(gist at "http://gist.github.com/485559":http://gist.github.com/485559)
+
+This self-containing example will output :
+
+<pre>
+* alpha
+* bravo
+. zebulon
+re_applying...
+* charlie
+* bravo
+* alpha
+</pre>
+
+The key here is the :tree option passed to re_apply, it gives that has to be applied instead of the target expression.
+
+
+h4(#re_applying_fields). re_applying and changing the [workitem] fields
+
+When re_applying, the workitem used for the re_apply is the one used to originally apply.
+
+The re_apply method accepts the :fields and :merge_in_fields options. :fields completely changes the workitem payload used for the re_apply, while the :merge_in_fields, allows to add new fields to the workitem payload.
+
+A few examples :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+
+engine.re_apply(fei, :fields => { 'customer' => 'Alfred' })
+
+engine.re_apply(fei, :merge_in_fields => { 'customer' => 'Alfred' })
+
+engine.re_apply(
+  fei,
+  :fields => { 'customer' => 'Alfred', 'items' => [ 124, 356, 798 ] },
+  :tree => Ruote.to_tree { sequence { print_invoice; package; ship } })
+<% end %>
 
 ***
 
