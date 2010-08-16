@@ -7,11 +7,22 @@ filter:
 
 h2. presentations
 
+h3(#houston_rb). ruote, a Ruby workflow engine
+
+"Houston.rb ruote presentation":http://jmettraux.wordpress.com/2010/08/16/houston-rb-ruote-wes-gamble/ by "Wes Gamble":http://www.linkedin.com/in/wesgamble
+
+<object type='application/x-shockwave-flash' wmode='transparent' data='http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=ruote-100812115339-phpapp01' width='700' height='574'><param name='movie' value='http://static.slidesharec
+dn.com/swf/ssplayer2.swf?doc=ruote-100812115339-phpapp01' /><param name
+='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always'
+ /></object>
+
+
 h3(#twenty_minutes). ruote in 20 minutes
 
 "ruote in 20 minutes":http://www.opensourcery.co.za/2009/08/25/ruote-in-20-minutes-video/ by "Kenneth Kalmer":http://github.com/kennethkalmer
 
 <object type='application/x-shockwave-flash' wmode='transparent' data='http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=20090303-ruote-090304024427-phpapp01' width='700' height='574'><param name='movie' value='http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=20090303-ruote-090304024427-phpapp01' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /></object>
+
 
 h3(#towards_twozero). towards ruote 2.0
 
