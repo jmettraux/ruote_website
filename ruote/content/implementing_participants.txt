@@ -55,3 +55,8 @@ Block participants are stateful participants. They are easy to understand and ar
 
 TODO
 
+
+h3(#threads). participants and threads
+
+TODO
+

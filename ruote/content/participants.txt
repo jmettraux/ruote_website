@@ -61,6 +61,100 @@ Don't worry about the participant implementation mixing the workitems,
 in our example, the attribute 'participant' of the top workitem while be 'reporter 1' vs 'reporter 2' for the bottom one, though the same participant implementation consumed the workitem.
 
 
+h4(#storage). the storage and the registered participants
+
+A bit of history, initially OpenWFE had no participant registration. The participant list was an XML document mapping regular expression to participant implementation. When porting OpenWFE to ruby, I went for the simple Engine#register_participant method, with a participant list held in memory.
+
+Now with ruote 2.1, its multiple workers and engines sharing a storage, the participant list is persisted as well. That means that registering participant once is sufficient, that also means you could have "leftovers", participants registered but not more needed.
+
+Two techniques against leftovers : register only the first time (when the participant list is empty) or register all at once (see "Engine#participant_list=":#list a few paragraphs below)
+
+
+h4. registering participants in a block
+
+Since ruote 2.1.11, thanks to the work of "Torsten":http://github.com/tosch/, it's possible to register participants in nice blocks :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.register do
+
+    notify MyApp::Participants::RemoteNotification, 'flavour' => 'normal'
+    alarm MyApp::Participants::RemoteNotification, 'flavour' => 'alarm'
+      # two participants for notification and alarms
+
+    catchall Ruote::StorageParticipant
+      # all the workitems for participants that are neither 'notify' or 'alarm'
+      # are caught by a storage participant
+  end
+<% end %>
+
+Note that simply stating "catchall" will redirect to a/the storage participant :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.register do
+    catchall
+  end
+<% end %>
+
+is thus equivalent to
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.register do
+    catchall Ruote::StorageParticipant
+  end
+<% end %>
+
+The first example above assumes the participant name is the first word encountered (the 'method' name in fact). If you want to pass a regular expression, use the 'participant' notation :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.register do
+    participant 'user-.+', Ruote::StorageParticipant
+    participant 'action-.+', MyApp::RemoteActionParticipant
+  end
+<% end %>
+
+
+h4(#list). registering participants as a list
+
+Starting with ruote 2.1.11, instead of using register_participant and register, you can pass the whole list of participants at once.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.participant_list = [
+    [ /^user-.+$/, 'Ruote::StorageParticipant', {} ],
+    [ /^action-.+$/, MyApp::RemoteActionParticipant, { 'server' => 'main' } ]
+  ]
+<% end %>
+
+Note that it's OK to pass the class name as an instance of Class (second line) or as a string (first line).
+
+Checking the current content of the participant list looks like :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.participant_list.each { |pe| puts pe.to_s }
+    #
+    #   /^user-.+$/ ==> Ruote::StorageParticipant {}
+    #   /^action-.+$/ ==> MyApp::RemoteActionParticipipant { 'server' => 'main' }
+<% end %>
+
+
+h3(#threads). participants and threads
+
+As you may have gleaned from this doc or from a blog post, ruote 2.1 tries to have only 1 thread per / for the worker, handling all the workflow activity (direct launch/apply orders or triggering schedules). So you end up with 1 extra thread per worker. Note that if you only have an engine (and let the worker run in another runtime, there is no extra thread used by ruote).
+
+(There is an exception with a worker bound to "ruote-couch":http://github.com/jmettraux/ruote-couch, it uses two extra threads to 'observe' CouchDB (instead of polling CouchDB))
+
+Since, most of the time, participant are IO bound, having the dispatching work performed in the worker thread would mean that each delivery to a participant monopolizes the worker. That's why, by default, ruote does each participant#consume call in a new thread.
+
+(Maybe we should have a switch to disable participant threading "en masse", it could be OK for small organization deployments, ping me on the "ML":http://groups.google.com/group/openwferu-users or on #ruote if you need this)
+
+A participant instance may inform ruote that it doesn't want/need to have its consume method called in a new thread each time. It does that by making sure it has a do_not_thread method and that this method returns true. Since it's a method, depending on its implementation, it might not always return true.
+
+As an illustration, the "Ruote::StorageParticipant class":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/part/storage_participant.rb returns true for do_not_thread (all the time). (trusting you not to have put your storage on Mars while your worker is on Earth).
+
+Some ruote users, have their own implementation of the "dispatch pool":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/part/dispatch_pool.rb that enforces an upper threshold for the thread count.
+
+The "dispatch" thread is discarded as soon as the delivery to the participant (or the participant consumption and reply) is done.
+
+
 h3. see also
 
 * "implementing participants":implementing_participants.html
