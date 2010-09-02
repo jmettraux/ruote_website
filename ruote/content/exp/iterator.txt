@@ -62,6 +62,19 @@ will be equivalent to
 
 <% end %>
 
+h3. the classical case
+
+Iterating over a workitem field :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  pdef = Ruote.process_definition :name => 'test' do
+    iterator :on_field => 'customers', :to_f => 'customer'
+      participant '${f:customer}'
+    end
+  end
+
+<% end %>
+
 h3. break/rewind/continue/skip/jump
 
 The 'iterator' expression understands a certain the following commands :

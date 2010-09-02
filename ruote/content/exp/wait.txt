@@ -28,5 +28,9 @@ Waits (sleeps) for a given period of time before resuming the flow.
 
 h3. :for and :until
 
-TODO
+'wait' accepts as well :
 
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  wait :for => '30d' # wait for 30 days
+  wait :until => '2011/12/10 12:00:00' # any parseable date/time format
+<% end %>

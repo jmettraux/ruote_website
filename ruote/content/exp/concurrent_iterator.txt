@@ -10,6 +10,9 @@ h2. concurrent_iterator
 
 This expression is a cross between 'concurrence' and 'iterator'.
 
+Please look at the documentation of 'iterator' to learn more about the
+common options between 'iterator' and 'concurrent-iterator'.
+
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
   pdef = Ruote.process_definition :name => 'test' do
     concurrent_iterator :on_val => 'alice, bob, charly', :to_var => 'v' do
