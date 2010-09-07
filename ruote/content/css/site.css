@@ -101,4 +101,8 @@ p.quiet { color: <%= @page.color['quiet'] %>; }
   margin-bottom: 1em;
 }
 
+a.nihongo {
+  font-size: 10.5px;
+}
+
 /* EOF */
