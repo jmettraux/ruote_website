@@ -38,6 +38,7 @@ h3. advanced documentation
 
 * ruote "configuration":configuration.html, the engine, the workers and the storage[s]
 * "implementing participants":implementing_participants.html
+* "implementing a storage":implementing_a_storage.html
 * ruote "rdoc":http://ruote.rubyforge.org/rdoc/ (raw ruby documentation)
 * the "control flow patterns":patterns.html page details how ruote implements/approximates the control flow part of the "workflow patterns":http://workflowpatterns.com of Prof van der Aalst and Prof ter Hofstede and their research groups
 * "process administration":process_administration.html or how to query, cancel or modify process instances

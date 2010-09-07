@@ -1,0 +1,15 @@
+---
+title: implementing a storage
+filter:
+  - erb
+  - textile
+---
+
+h2. implementing a storage
+
+TODO
+
+h3(#nada). nada
+
+TODO
+
