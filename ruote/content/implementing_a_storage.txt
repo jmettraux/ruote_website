@@ -7,9 +7,94 @@ filter:
 
 h2. implementing a storage
 
+Ruote comes with two storages an in-memory one and a file system based one. There are "other storages available":http://localhost:4331/configuration.html#storage each with its set of advantages and disadvantages.
+
+There is also a composite storage for choosing a different storage depending on the object to store (expression, workitem, error, schedules, ...).
+
+Sometimes one has to implement his own storage, this page ought to help (if it doesn't give a shout on the "mailing list":http://groups.google.com/group/openwferu-users).
+
+A storage implementation has to follow a contract : the storage interface.
+
+
+h3(#history). a bit of history
+
+Storages are at the heart of ruote 2.1.x. Simply look at :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+engine = Ruote::Engine.new(Ruote::Worker.new(ThatStorage.new(info)))
+  # or
+engine = Ruote::Engine.new(ThatStorage.new(info))
+<% end %>
+
+Workers and engines need a storage, they communicate via a shared storage.
+
+Ruote has an absolute need for persistence. Processes may outlive the engine runtime. When the engine(s) is/are down, the processes must sleep carefully in the storage, when workers are back, processes MUST resume.
+
+Ruote 2.1.x push for multiple workers (breaking the 1 Ruby runtime limit) brought a need for preventing workers from overriding / trashing each other's work.
+
+
+h3(#documents). documents
+
+Ruote 2.1.x storage design was strongly influenced by "CouchDB":http://couchdb.apache.org/, especially the concept of documents and their revisions.
+
+Ruote represents all of its data as documents, those documents are "JSON":http://json.org serializable hashes with an "_id", a "type" and a "_rev".
+
+The 'type' is a string like "expressions", "errors", "workitems", "schedules", ...
+
+The '_id' attribute is the document identifier.
+
 TODO
 
-h3(#nada). nada
+
+h3(#interface). interface
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+#--
+# core methods
+#++
+
+def put(doc, opts={})
+end
+
+def get(type, key)
+end
+
+def delete(doc)
+end
+
+def get_many(type, key=nil, opts={})
+end
+
+def ids(type)
+end
+
+#--
+# auxiliary methods
+#++
+
+def purge!
+end
+
+def add_type(type)
+end
+
+def purge_type!(type)
+end
+<% end %>
+
+TODO
+
+
+h3(#models). current implementations as models
+
+Like for example "hash_storage.rb":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/storage/hash_storage.rb
+
+TODO
+
+
+h3(#testing). testing
+
+unit, functional, concurrent...
 
 TODO
 
