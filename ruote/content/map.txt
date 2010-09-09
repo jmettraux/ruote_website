@@ -14,6 +14,7 @@ h2. site map
 | |*|\2. "process definitions":definitions.html|
 | |*|\2. "participants":participants.html|
 | |*|\2. "implementing participants":implementing_participants.html|
+| |*|\2. "implementing a storage":implementing_a_storage.html|
 | |*|\2. "participant implementations":part_implementations.html|
 | | |*| "block_participant":part/block_participant.html|
 | | |*| "engine_participant":part/engine_participant.html|
@@ -61,7 +62,6 @@ h2. site map
 | |*|\2. "process administration":process_administration.html|
 | |*|\2. "process testing":process_testing.html|
 | |*|\2. "participant testing":participant_testing.html|
-| |*|\2. "implementating a storage":implementing_a_storage.html|
 | |*|\2. "presentations":presentations.html|
 | |*|\2. "resources":resources.html|
 |*|\3. "source":source.html|
