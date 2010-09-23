@@ -266,7 +266,6 @@ The re_apply method accepts the :fields and :merge_in_fields options. :fields co
 A few examples :
 
 <% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-
 engine.re_apply(fei, :fields => { 'customer' => 'Alfred' })
 
 engine.re_apply(fei, :merge_in_fields => { 'customer' => 'Alfred' })

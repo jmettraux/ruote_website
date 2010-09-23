@@ -46,6 +46,8 @@ h3(#advanced). advanced expressions
 * "undo":exp/undo.html - undoes a tagged segment of process
 * "when":exp/when.html - waits for a condition to become true before triggering
 
+* "skip/back/jump/rewind/continue/break/stop":exp/command.html - mini expressions that give 'commands' to "cursor":exp/cursor.html and "iterator":exp/iterator.html
+
 
 h3(#other). other expressions
 
