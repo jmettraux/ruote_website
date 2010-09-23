@@ -1,0 +1,13 @@
+
+#
+# TO THE WEB
+
+task :upload do
+
+  account = 'jmettraux@rubyforge.org'
+  webdir = '/var/www/gforge-projects/ruote/'
+
+  sh "webby build"
+  sh "rsync -azv -e ssh --exclude '*.swp' output/ #{account}:#{webdir}"
+end
+
