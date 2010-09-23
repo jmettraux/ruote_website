@@ -19,6 +19,7 @@ about Workflow, BPM, Adaptive Case Management, ...
 * "dynamic vs adaptive":http://isismjpucher.wordpress.com/2010/03/30/dynamic-vs-adaptive-bpm/ - defining Adaptive, Ad-Hoc, Dynamic and so on...
 * "Does Unpredictable Work Exist?":http://kswenson.wordpress.com/2010/03/29/does-unpredictable-work-exist/ - a conversation between Keith Swenson and Jean-Jacques Dubray
 * "The Seven Fallacies of Business Process Execution":http://www.infoq.com/articles/seven-fallacies-of-bpm - worth the [re-]read
+# "Lifecycle example":http://www.ebpml.org/blog2/index.php/2010/09/14/soa-bpm-rest-lifecycle-example - "A key concept to understand is that the order lifecycle is independent of the business process that manipulates it"
 
 * "On systems thinking, workflow, and a better way to get things done":http://www.jroller.com/rickard/entry/on_systems_thinking_workflow_and - "where traditional workflow tools fail spectaculary"
 
