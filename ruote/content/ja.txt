@@ -1,0 +1,14 @@
+---
+title: 日本語
+filter:
+  - erb
+  - textile
+---
+
+h2. るおて
+
+ルオテの日本語のdocumentationがまだありません。
+
+ルオテの質問があれば、ぜひ日本語で "mailing list":http://groups.google.com/group/openwferu-users で聞いてください。
+
+
