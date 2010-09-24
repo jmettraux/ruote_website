@@ -20,3 +20,8 @@ task :autobuild do
   sh "webby autobuild"
 end
 
+task :rdoc do
+
+  #sh "./scripts/ep2tex.rb"
+  load 'scripts/ep2tex.rb'
+end
