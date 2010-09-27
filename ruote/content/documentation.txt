@@ -58,6 +58,8 @@ a few links to blog posts about ruote.
 * "it's barley a task manager":http://jmettraux.wordpress.com/2010/01/29/barley/ in a "single file":http://github.com/jmettraux/ruote/blob/ruote2.1/examples/barley.rb sinatra webapp ("online demo":http://barley-plain.torstenschoenebaum.de/work)
 * "how does ruote work ?":http://jmettraux.wordpress.com/2008/09/07/how-does-ruote-work/ (quite outdated but mostly OK)
 
+* "an investigation into ruote and AMQP":http://simplic.it/blog/view/an_investigiation_into_ruote_and_amqp by Hartog de Mik
+
 h3. resources
 
 * "selected resources":resources.html about workflow, BPM, Adaptive Case Management, ...
