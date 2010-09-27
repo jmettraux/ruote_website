@@ -154,9 +154,13 @@ Ruote.process_definition :name => 'x' do
 end
 <% end %>
 
-If there is an error (at any level/depth) inside of our sequence, the whole branch starting
+If there is an error (at any level/depth) inside of our sequence, the whole branch of the "sequence" will get cancelled and then replaced by the element indicated in :on_error.
 
-:on_error must point to a subprocess or a participant.
+There will be no error registered in the error journal (unless there is an error in the handling participant/subprocess itself).
+
+:on_error must point to a subprocess or a participant, or a command like "redo" or "undo".
+
+When it points to a subprocess, the branch in error gets replaced by an instance that subprocess. When it points to a participant branch gets replaced by a single workitem despatchement to the participant.
 
 If :redo or 'redo' is given, the process branch will get cancelled and retried :
 
