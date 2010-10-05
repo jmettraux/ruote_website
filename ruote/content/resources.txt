@@ -27,6 +27,8 @@ about Workflow, BPM, Adaptive Case Management, ...
 
 * "Warning! BPM is not accurate":http://isismjpucher.wordpress.com/2010/04/08/bpm-is-not-accurate/ - predefined routes on an inaccurate map
 
+* "The Problem with BPM Flowcharts":http://isismjpucher.wordpress.com/2010/10/04/the-problem-with-bpm-flowcharts/ - "The real-world process knowledge is however hidden in a) functions performed by different agents who influence state changes on business entities and b) patterns of entity states and attributes that cause different agents to perform certain functions, and c) a variety of complex business events that can change entity states at any time"
+
 
 
 h3(#blogs). blogs
