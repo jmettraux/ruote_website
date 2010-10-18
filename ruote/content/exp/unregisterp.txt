@@ -1,0 +1,31 @@
+---
+title: unregisterp expression
+filter:
+  - erb
+  - textile
+---
+
+h2. unregisterp
+
+
+(Since ruote 2.1.12)
+
+Unregisters a participant.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition do
+    unregisterp 'alfred'
+    unregisterp :name => 'bob'
+  end
+<% end %>
+
+Shows the same behaviour as
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.unregister_participant 'alfred'
+  engine.unregister_participant 'bob'
+<% end %>
+
+The expression 'registerp' can be used to register participants from
+a process definition.
+

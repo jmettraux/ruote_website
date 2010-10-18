@@ -1,0 +1,48 @@
+---
+title: registerp expression
+filter:
+  - erb
+  - textile
+---
+
+h2. registerp
+
+
+(Since ruote 2.1.12)
+
+This expressions lets one register participants directly from a process
+definition.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  pdef = Ruote.define do
+
+    registerp 'alpha', :class => 'MyParticipant', :target => 'mail'
+      # register participant named 'alpha' with the given class
+      # and some attributes
+
+    registerp /^user_.+/, :class => 'MyParticipant'
+    registerp :regex => '^user_.+', :class => 'MyParticipant'
+      # register participant with a given regular expression
+
+    registerp 'admin', :class => 'MyParticipant', :position => -2
+      # register participant 'admin' as second to last in participant list
+  end
+<% end %>
+
+Participant info can be given as attributes to the expression (see code
+above) or via the workitem.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  pdef = Ruote.define do
+
+    registerp :participant => 'participant'
+      # participant info is found in the field 'participant'
+
+    registerp :participants => 'participants'
+      # an array of participant info is found in the field 'participants'
+  end
+<% end %>
+
+The expression 'unregisterp' can be used to remove participants from the
+participant list.
+

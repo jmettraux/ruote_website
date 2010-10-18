@@ -40,6 +40,7 @@ h3(#advanced). advanced expressions
 * "listen":exp/listen.html - listen on a channel (a participant name) for incoming or outgoing events (workitems)
 * "redo":exp/redo.html - redoes a tagged segment of process
 * "ref":exp/ref.html - invokes a participant or a subprocess indifferently
+* "registerp":exp/registerp.html - registers participants from a process definition
 * "reserve":exp/reserve.html - ensures a segment of process instance is traversed in isolation (not in parallel with other branches of the same instance)
 * "restore":exp/restore.html - restores values from a previously saved workitem
 * "save":exp/save.html - saves the current workitem
@@ -47,6 +48,7 @@ h3(#advanced). advanced expressions
 * "when":exp/when.html - waits for a condition to become true before triggering
 
 * "skip/back/jump/rewind/continue/break/stop":exp/command.html - mini expressions that give 'commands' to "cursor":exp/cursor.html and "iterator":exp/iterator.html
+* "unregisterp":exp/unregisterp.html - unregisters participants from a process definition
 
 
 h3(#other). other expressions
