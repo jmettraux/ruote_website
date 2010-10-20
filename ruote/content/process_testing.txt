@@ -7,10 +7,76 @@ filter:
 
 h2. process testing
 
-testing process definitions
+A few notes about testing/specing process definitions
+
+h3. the bare way
+
+Testing a process definition without a test framework. Useful when demonstrating a ruote feature or making sure that this feature works for a person (I use this way all the time on the mailing list).
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'rubygems'
+require 'ruote' # gem install ruote
+
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new()))
+  # an engine + worker combo with an in-memory storage,
+  # ideal for process definition testing
+
+#engine.noisy = true
+  # when the engine/worker is not replying, uncomment this and restart the
+  # test, it the worker will then explain its activity in yellow chars
+  # in your console
+
+engine.register do
+  catchall
+end
+
+pdef = Ruote.process_definition do
+  alpha
+  bravo
+end
+
+wfid = engine.launch(pdef, { 'colour' => 'blue' })
+  # launching an instance of pdef, with a workitem whose initial fields
+  # contain 'colour' => 'blue'
+  #
+  # we keep the process instance id in the variable 'wfid' (workflow
+  # instance id)
+
+engine.wait_for(:alpha)
+  # waiting for a participant name as a symbol, this call will block until
+  # a workitem was delivered to participant 'alpha'
+
+workitem = engine.storage_participant.first
+  # grab the workitem from the storage participant
+
+#workitem.fields['colour'] = 'red'
+  # maybe alter the payload of the workitem
+
+engine.storage_participant.reply(workitem)
+  # hands back the workitem to the storage participant, it will erase it
+  # and hand it back to the engine so that the flow may resume
+
+engine.wait_for(:bravo)
+  # waiting for flow to pop a workitem up at the next step
+
+workitem = engine.storage_participant.first
+  # grab the workitem from the storage participant
+
+engine.storage_participant.reply(workitem)
+
+engine.wait_for(wfid)
+  # wait for our process to terminate (or to issue an error)
+
+raise "process not over" if engine.process(wfid)
+<% end %>
 
 
 h3. classical way
 
+TODO
+
+
 h3. cucumber way
+
+"ruote-cukes":http://github.com/jmettraux/ruote-cukes is a set of step definitions for testing ruote process definitions from "Cucumber":http://cukes.info/, unfortunately, it's not complete.
 
