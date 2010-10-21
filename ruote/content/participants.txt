@@ -150,7 +150,7 @@ A participant instance may inform ruote that it doesn't want/need to have its co
 
 As an illustration, the "Ruote::StorageParticipant class":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/part/storage_participant.rb returns true for do_not_thread (all the time). (trusting you not to have put your storage on Mars while your worker is on Earth).
 
-Some ruote users, have their own implementation of the "dispatch pool":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/part/dispatch_pool.rb that enforces an upper threshold for the thread count.
+Some ruote users, have their own implementation of the "dispatch pool":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/svc/dispatch_pool.rb that enforces an upper threshold for the thread count.
 
 The "dispatch" thread is discarded as soon as the delivery to the participant (or the participant consumption and reply) is done.
 
