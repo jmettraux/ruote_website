@@ -235,5 +235,35 @@ In this example, the reviewer will receive a fresh workitem every 3 days, until 
 
 h3(#tag). :tag
 
-TODO
+The tag attribute is used to tag a segment of a process.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+Ruote.process_definition do
+  sequence do
+    sequence :tag => 'phase 1' do
+      alice
+      bob
+    end
+    sequence :tag => 'phase 2' do
+      charly
+      david
+    end
+  end
+end
+<% end %>
+
+These tags then appear in the process variables :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+p engine.process(wfid).tags.keys
+  # => [ "phase 1" ]
+<% end %>
+
+In this way, :tag can be used to flag large segments of process instances. Eras, phases, chapter, ... Name it how you want.
+
+(ruote 2.1.12 will probably add a tags field to its workitems, that keeps track of the currently seen tags)
+
+The :tag is used as well by the "_redo":exp/redo.html and the "undo":exp/undo.html (cancel) expression.
+
+The "cursor / repeat":exp/cursor.html expressions can be tagged too, when the cursor/loop has to be manipulated from outside (of the cursor/loop).
 
