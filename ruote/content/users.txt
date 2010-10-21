@@ -33,4 +33,5 @@ h3. europe
 * "Universidad Politécnica de Madrid":http://www.upm.es/institucional
 * "Planquadrat Software-Integration":http://www.planquadrat-software.de/ (Germany)
 * "MeeGo":http://meego.com/ is using ruote for its "BOSS":http://wiki.meego.com/BOSS infrastructure
+* "xaop":http://www.xaop.com (Belgium) (check out their "open source projects":http://www.xaop.com/labs)
 
