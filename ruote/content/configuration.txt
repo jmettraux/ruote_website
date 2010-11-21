@@ -28,6 +28,19 @@ engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::FsStorage.new('work')))
 
 This is a super-vanilla configuration. Packaging the engine, a worker, and the storage together.
 
+Using "ruote-dm":http://github.com/jmettraux/ruote-dm "DataMapper":http://datamapper.org/ persistence, an engine/worker initalization would look like :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'ruote'
+require 'ruote/dm/storage'
+
+engine = Ruote::Engine.new(
+  Ruote::Worker.new(
+    Ruote::Dm::DmStorage.new(:default)))
+<% end %>
+
+Where :default simply indicates, we'll want to work with the default configured DataMapper repository.
+
 ***
 
 h3(#engine). engine
@@ -46,6 +59,17 @@ engine = Ruote::Engine.new(
 <% end %>
 
 They can also be set directly in the storage (document type 'configurations', key 'engine'), but that's an advanced technique (and you don't want/need to change it at runtime).
+
+Some people might prefer writing :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+engine = Ruote::Engine.new(
+  Ruote::Worker.new(
+    Ruote::FsStorage.new('work')))
+
+engine.configure('ruby_definition_allowed', true)
+engine.configure('ruby_eval_allowed', true)
+<% end %>
 
 h4(#engine_options). options
 
@@ -84,11 +108,14 @@ You have to explicitely set 'remote_definition_allowed' to true.
 
 * *ruby_eval_allowed* :
 
-TODO
+more about this option in the page about the "dollar notation":dollar.html#ruby_eval_allowed.
+
 
 ***
 
 h3(#worker). worker
+
+TODO
 
 ***
 
