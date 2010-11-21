@@ -30,7 +30,7 @@ h3. asia
 h3. europe
 
 * "abstra.cc":http://abstra.cc/ of "ruedas y cerverzas":http://jmettraux.wordpress.com/2009/10/15/ruedas-y-cervezas-first-instance/ fame (Spain)
-* "Universidad Politécnica de Madrid":http://www.upm.es/institucional
+* "Universidad Politécnica de Madrid":http://www.upm.es/institucional (Spain)
 * "Planquadrat Software-Integration":http://www.planquadrat-software.de/ (Germany)
 * "MeeGo":http://meego.com/ is using ruote for its "BOSS":http://wiki.meego.com/BOSS infrastructure
 * "xaop":http://www.xaop.com (Belgium) (check out their "open source projects":http://www.xaop.com/labs)
