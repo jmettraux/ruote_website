@@ -276,23 +276,159 @@ engine.re_apply(
   :tree => Ruote.to_tree { sequence { print_invoice; package; ship } })
 <% end %>
 
+&nbsp;
+
 ***
 
 h3(#errors). process errors
 
-TODO
+Each time a process encounters an error (most likely in a participant implementation), the process stops and 'documents' the error.
 
-(For now, have a look at "this thread":http://groups.google.com/group/openwferu-users/browse_thread/thread/fbe9785b26d9aa40 or "that one":http://groups.google.com/group/openwferu-users/browse_thread/thread/c788f462b2e2e2e)
+If a process is in two concurrent branches, only the execution of the branch with the error will stop. A process instance can have as many errors has it has concurrent branches.
 
-h4(#errors_replay). errors : replaying
+Here is a program that runs a process with a unreliable participant :
 
-TODO
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'rubygems'
+require 'ruote'
+
+class TestParticipant
+  include Ruote::LocalParticipant
+
+  def consume(workitem)
+    raise "Houston, something is wrong"
+  end
+end
+
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new))
+
+engine.register do
+  catchall TestParticipant
+end
+
+pdef = Ruote.process_definition do
+  bad
+end
+
+wfid = engine.launch(pdef)
+
+engine.wait_for(wfid)
+  # blocks until the process terminates or gets into an error
+
+err = engine.process(wfid).errors.first
+puts "intercepted an error : #{err.message}..."
+<% end %>
+
+It's possible to query the engine about the status of a process instance and its errors.
+
+Once a process got into an error, there are 3 possibilities :
+
+* "cancel":#errors_cancel_whole_process the whole process
+* "cancel the branch":#errors_cancel of the process that is in error
+* fix the cause and "replay":#errors_replay at the error
+
+plus one that has to be prepared in advance :
+
+* having acknowledged that such an error might occur, set an ":on_error":#errors_on_error attribute on the branch where the error might occur
+
+Which possibility to use depends on your process and context.
+
+
+h4(#errors_cancel_whole_process). errors : cancelling the whole process
+
+The car won't start ? Let's dump it.
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  engine.cancel_process(wfid)
+<% end %>
+
 
 h4(#errors_cancel). errors : cancelling
 
-TODO
+First variant, cancelling at the error point :
 
-h4(#on_error). on_error
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  ps = engine.process(wfid)
+  engine.cancel_expression(ps.errors.first.fei)
+<% end %>
 
-TODO
+This will make the flow resume right after the expression in error.
+
+Second variant, cancelling upstream. It sounds nice but it actually requires knowledge of the process definition.
+
+Consider this process definition :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+  Ruote.process_definition do
+    concurrence do
+      alpha
+      bravo
+      sequence do
+        charly
+        delta
+      end
+    end
+  end
+<% end %>
+
+If an error occurred at 'charly', you could cancel at charly directly, or the sequence, or the concurrence.
+
+Without looking at the process definition and knowing the participants involved, it's hard to cancel "upstreams".
+
+This alpha-bravo-charly example is expanded at "https://github.com/jmettraux/ruote/blob/ruote2.1/snips/where_to_cancel.rb":https://github.com/jmettraux/ruote/blob/ruote2.1/snips/where_to_cancel.rb
+
+
+h4(#errors_replay). errors : replaying
+
+Launching a process, intercepting the error, fixing its cause and replaying :
+
+<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+require 'rubygems'
+require 'ruote'
+
+$mode = :fail
+
+class TestParticipant
+  include Ruote::LocalParticipant
+
+  def consume(workitem)
+    raise "Houston, something is wrong" if $mode == :fail
+    reply_to_engine(workitem)
+  end
+end
+
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new))
+
+engine.register do
+  catchall TestParticipant
+end
+
+pdef = Ruote.process_definition do
+  bad
+end
+
+wfid = engine.launch(pdef)
+
+engine.wait_for(wfid)
+
+err = engine.process(wfid).errors.first
+puts "intercepted an error : #{err.message}... fixing..."
+
+$mode = :success
+  # fixing the cause of the error
+
+engine.replay_at_error(err)
+
+engine.wait_for(wfid)
+
+p engine.process(wfid)
+  # => nil (the process is over)
+<% end %>
+
+
+h4(#errors_on_error). on_error
+
+The ":on_error attribute":http://localhost:4331/common_attributes.html#on_error is explained in the "common attributes" page.
+
+(isn't prevention of errors better than dealing with them automatically ?)
 
