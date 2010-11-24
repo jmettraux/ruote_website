@@ -16,7 +16,7 @@ Ruote's source code is located at the "github":http://github.com
 * "ruote-couch":http://github.com/jmettraux/ruote-couch/ - "CouchDB":http://couchdb.apache.org/ storage for ruote ("rdoc":/ruote-couch_rdoc/README_rdoc.html)
 
 * "ruote-jig":http://github.com/tosch/ruote-jig/ - HTTP participants (by "Torsten":http://github.com/tosch)
-* "ruote-amqp":http://github.com/asm/ruote-amqp/ - AMQP participants and listeners for ruote (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/) (note : due to the world cup, Kenneth is out of reach and the latest version of ruote-amqp (>= 2.1.10) is at "http://github.com/jmettraux/ruote-amqp":http://github.com/jmettraux/ruote-amqp) ("rdoc":/ruote-amqp_rdoc/)
+* "ruote-amqp":http://github.com/jmettraux/ruote-amqp/ - AMQP participants and listeners for ruote (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/) ("rdoc":/ruote-amqp_rdoc/)
 * "ruote-beanstalk":http://github.com/jmettraux/ruote-beanstalk/ - "Beanstalk":http://kr.github.com/beanstalkd/ participant and receiver, with a storage (fs_storage with Beanstalk as middleware) ("rdoc":/ruote-beanstalk_rdoc/readme_rdoc.html)
 
 * "ruote-fluo":http://github.com/jmettraux/ruote-fluo/ - some kind of a browser based editor for process definitions ("online demo":http://difference.openwfe.org:4567/?pdef=pdef.rb)
