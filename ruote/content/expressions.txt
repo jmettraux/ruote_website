@@ -34,7 +34,7 @@ h3(#advanced). advanced expressions
 * "add_branches":exp/add_branches.html - adds new branches to a running 'concurrent_iterator'
 * "apply":exp/apply.html - used to leverage a segment of process passed to a subprocess (like block/yield in Ruby)
 * "cancel":exp/undo.html - an alias for the 'undo' expression
-* "cron":exp/cron.html - executes pieces of a process at given intervals
+* "cron / every":exp/cron.html - executes pieces of a process at given intervals
 * "error":exp/error.html - forces the process instance into error
 * "inc / dec":exp/inc.html - {inc|dec}rementing variables or fields (numbers or arrays)
 * "listen":exp/listen.html - listen on a channel (a participant name) for incoming or outgoing events (workitems)
