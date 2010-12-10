@@ -14,6 +14,7 @@ Ruote's source code is located at the "github":http://github.com
 * "ruote-dm":http://github.com/jmettraux/ruote-dm/ - "DataMapper":http://datamapper.org based persistence ("rdoc":/ruote-dm_rdoc/README_rdoc.html)
 * "ruote-redis":http://github.com/jmettraux/ruote-redis/ - "Redis":http://code.google.com/p/redis/ storage for ruote ("rdoc":/ruote-redis_rdoc/README_rdoc.html)
 * "ruote-couch":http://github.com/jmettraux/ruote-couch/ - "CouchDB":http://couchdb.apache.org/ storage for ruote ("rdoc":/ruote-couch_rdoc/README_rdoc.html)
+* "ruote-mongodb":http://github.com/PlasticLizard/ruote-mongodb/ - "MongoDB":http://www.mongodb.org/ storage for ruote
 
 * "ruote-jig":http://github.com/tosch/ruote-jig/ - HTTP participants (by "Torsten":http://github.com/tosch)
 * "ruote-amqp":http://github.com/jmettraux/ruote-amqp/ - AMQP participants and listeners for ruote (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/) ("rdoc":/ruote-amqp_rdoc/)
