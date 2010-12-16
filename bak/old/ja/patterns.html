@@ -1,0 +1,513 @@
+
+<html>
+  <head>
+    
+    <title>OpenWFEru - workflow control patterns</title>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="../xml.css" type="text/css" rel="stylesheet"/>
+    <link href="../ruby.css" type="text/css" rel="stylesheet"/>
+    <link href="../openwferu.css" type="text/css" rel="stylesheet"/>
+  </head>
+
+  <body class="composite">
+
+    <a name="top"></a>
+
+    <div id="banner">
+      <a href="../index.html"
+        ><img src="../images/openwfe-logo.png" alt="OpenWFEru"/></a>
+      <div id="siteSearch">
+        <!--siteSearch-->
+      </div>
+    </div>
+
+    <div id="breadcrumbs">
+        <div style="float:left">
+            open source ruby workflow and bpm engine
+        </div>
+        <div style="float:right">
+            <a href="/index.html">english</a> | <a href="/ja/index.html">japanese</a>
+        </div>
+    </div>
+
+    <div id="coreBox">
+
+      <div id="leftColumn">
+        <div id="navColumn">
+
+         <br/>
+         <ul>
+<li class='collapsed'><a href=../ja/index.html>index</a></li>
+<li class='collapsed'><a href=../ja/license.html>license</a></li>
+<li class='collapsed'><a href=../ja/quickstart.html>quickstart</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/download.html>download</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/documentation.html>documentation</a></li>
+<li class='collapsed'><a href=../ja/expressions.html>expressions</a></li>
+<li class='collapsed'><a href=../ja/participants.html>participants</a></li>
+<li class='collapsed'><strong>patterns</strong></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=source.html>source</a></li>
+<li class='collapsed'><a href=../rdoc/index.html>rdoc</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/activity.html>activity</a></li>
+<li class='collapsed'><a href=../ja/lists.html>mailing lists</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://jmettraux.wordpress.com>tech blog</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://github.com/jmettraux/ruote/tree/master/CREDITS.txt>credits</a></li>
+<li class='collapsed'><a href=http://rubyforge.org/projects/openwferu>on rubyforge</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/scheduler.html>the scheduler</a></li>
+<li class='collapsed'><a href=../ja/sqs.html>amazon sqs</a></li>
+<li class='collapsed'><a href=../ja/kotoba.html>kotoba</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://code.google.com/p/ruby-taskr/>Taskr</a></li>
+<li class='collapsed'><a href=http://rufus.rubyforge.org>Rufus</a></li>
+<li class='collapsed'><a href=http://rools.rubyforge.org>Rools</a></li>
+</ul>
+
+         <!--hostedOnRubyForge-->
+
+         <br/>
+         <br/>
+
+         <p align="right">
+             <span 
+                style='font-size: 7pt; color: #7c7c90'
+             >website<br/>generated with</span><br/>
+             <a href='http://rote.rubyforge.org/' target='_blank'
+                 ><img 
+                    src='../images/rote-tiny.png' 
+                    alt='Rote' /></a>
+         </p>
+
+         <!--fisheye?-->
+        </div>
+      </div>
+
+      <div id="rightColumn">
+        <script type="text/javascript"><!--
+google_ad_client = "pub-2190386866693134";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+        <script 
+            type="text/javascript" 
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        >
+        </script>
+      </div>
+
+      <div id="bodyColumn">
+        <h2>workflow control patterns(ワークフロー制御パターン)</h2>
+<p><a href="http://workflowpatterns.com/patterns/control/index.php">Workflow Patterns</a> はワークフロー実行のための様々なブロックのカタログです。</p>
+<p>ここにはそれらを OpenWFEru で実現する方法を述べます。</p>
+<p>それぞれ、XML と Ruby 両方のサンプルを示します。また、パターンに関する学術的なリンクも示しておきます。</p>
+<p><a href="#pat_a">Basic Control Flow Patterns</a> <br/><br />
+<a href="#pat_b">Advanced Branching and Synchronization Patterns</a> <br/><br />
+<a href="#pat_c">Structural Patterns</a> <br/><br />
+<a href="#pat_d">Multiple Instance Patterns</a> <br/><br />
+<a href="#pat_e">State-based Patterns</a> <br/><br />
+<a href="#pat_f">Cancellation Patterns</a> <br/><br />
+<a href="#pat_g">New Control Flow Patterns</a></p>
+<p><img src="images/ru-light.png" align="right"/><br />
+h2. <a name="pat_a"></a>Basic Control Flow Patterns</p>
+<h3><a name="pat_1_seqence"></a>Sequence</h3>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span></code></pre><pre class='ruby'><code class='ruby'>    <span class="ident">sequence</span> <span class="keyword">do</span>
+        <span class="ident">alpha</span>
+        <span class="ident">bravo</span>
+    <span class="keyword">end</span></code></pre>
+<p>(OpenWFEru は &#8216;alpha&#8217; and &#8216;bravo&#8217; に関して expression・subprocess とも定義が無い時には、自動的にそれらの participant をマッピングします。)</p>
+<p>他に何か ?</p>
+<p><a href="http://workflowpatterns.com/patterns/control/basic/wcp1.php">original explanation</a></p>
+<h3><a name="pat_2_parallel"></a>Parallel Split</h3>
+<p>プロセスインスタンスを2つの並列実行パスに分けます。</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">concurrence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">concurrence</span><span class="punct">&gt;</span></code></pre><pre class='ruby'><code class='ruby'>    <span class="ident">concurrence</span> <span class="keyword">do</span>
+        <span class="ident">alpha</span>
+        <span class="ident">bravo</span>
+    <span class="keyword">end</span></code></pre>
+<p><a href="expressions.html#exp_concurrence">concurrence</a><br />
+<a href="http://workflowpatterns.com/patterns/control/basic/wcp2.php">original explanation</a></p>
+<h3><a name="pat_3_synchronization"></a>Synchronization</h3>
+<p>Synchronization は暗黙のうちに <a href="#pat_2_parallel">concurrence</a> expression によってサポートています。</p>
+<p>しかし &#8216;concurrence&#8217; expression はさらなるパターン/シナリオを扱うことができます。 :  concurrence expression  はその全ての分岐からの返答を回復前に待つことができます (その親・そしてそれを含むexpression に返答する前に) 。</p>
+<p><a href="expressions.html#exp_concurrence">concurrence</a><br />
+<a href="http://workflowpatterns.com/patterns/control/basic/wcp3.php">original explanation</a></p>
+<h3><a name="pat_4_exclusive_choice"></a>Exclusive Choice</h3>
+<p>プロセス内での排他的ルーティング : 以下の例ではどちらか片方のパスを行きますが、両方には行きません。</p>
+<p>このパターンの実装に関して、OpenWFEru の2つの expression が使われます。 : &#8216;if&#8217; と &#8216;case&#8217; です。</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">if</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">equals</span> <span class="attribute">field-value</span><span class="punct">=&quot;</span><span class="string">x</span><span class="punct">&quot;</span> <span class="attribute">other-value</span><span class="punct">=&quot;</span><span class="string">y</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="comment">&lt;!-- then --&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">theodor</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="comment">&lt;!-- else --&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">emma</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">if</span><span class="punct">&gt;</span></code></pre><pre class='ruby'><code class='ruby'>    <span class="ident">_if</span> <span class="keyword">do</span>
+        <span class="ident">equals</span> <span class="symbol">:field_value</span> <span class="punct">=&gt;</span> <span class="symbol">:x</span><span class="punct">,</span> <span class="symbol">:other</span><span class="punct">-</span><span class="ident">value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">y</span><span class="punct">&quot;</span>
+        <span class="comment"># then</span>
+        <span class="ident">participant</span> <span class="symbol">:theodor</span>
+        <span class="comment"># else</span>
+        <span class="ident">participant</span> <span class="symbol">:emma</span>
+    <span class="keyword">end</span></code></pre>
+<p>(Ruby の &#8216;if&#8217; と混合しないよう、OpenWFEru の Ruby プロセス定義では &#8216;if&#8217; は先頭に &#8220;_&#8221; をつけます。&#8217;case&#8217; も同様です。)</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">case</span><span class="punct">&gt;</span>
+
+        <span class="punct">&lt;</span><span class="tag">equals</span> <span class="attribute">field-value</span><span class="punct">=&quot;</span><span class="string">x</span><span class="punct">&quot;</span> <span class="attribute">other-value</span><span class="punct">=&quot;</span><span class="string">y</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+
+        <span class="punct">&lt;</span><span class="tag">if</span> <span class="attribute">test</span><span class="punct">=&quot;</span><span class="string">${field:price} &gt; 12.0</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+
+        <span class="comment">&lt;!-- optional else --&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">emma</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+
+    <span class="punct">&lt;/</span><span class="tag">case</span><span class="punct">&gt;</span></code></pre>
+<p>(ここにはシンプルな条件分岐 expression で子供なしの &#8216;if&#8217; の使い方を書く予定)</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">_case</span> <span class="keyword">do</span>
+
+        <span class="ident">equals</span> <span class="symbol">:field_value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">x</span><span class="punct">&quot;,</span> <span class="symbol">:other_value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">y</span><span class="punct">&quot;</span>
+        <span class="ident">alpha</span>
+
+        <span class="ident">_if</span> <span class="symbol">:test</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">${field:price} &gt; 12.0</span><span class="punct">&quot;</span>
+        <span class="ident">bravo</span>
+
+        <span class="comment"># optional else :</span>
+        <span class="ident">emma</span>
+
+    <span class="keyword">end</span></code></pre>
+<p>(このRuby プロセス定義で、シンプルな一単語の名前のparticipant はそれらを使って直接参照されます。&#8217;participant ref=&quot;alpha&quot;&#8217; の構築はありません。)</p>
+<p><a href="expressions.html#exp_if">if</a><br />
+<a href="expressions.html#exp_case">case</a><br />
+<a href="http://workflowpatterns.com/patterns/control/basic/wcp4.php">original explanation</a></p>
+<h3><a name="pat_5_simple_merge"></a>Simple Merge</h3>
+<p>&#8216;simple merge&#8217; は、 &#8216;if&#8217; ・ &#8216;case&#8217; expression で暗黙的にサポートされています。</p>
+<p><a href="expressions.html#exp_if">if</a><br />
+<a href="expressions.html#exp_case">case</a><br />
+<a href="http://workflowpatterns.com/patterns/control/basic/wcp5.php">original explanation</a></p>
+<p><img src="images/ru-light.png" align="right"/><br />
+h2. <a name="pat_b"></a>Advanced Branching and Synchronization Patterns</p>
+<h3><a name="pat_6_multi_choice"></a>Multi-Choice</h3>
+<p>OpenWFE[ru] でのこのパターンの素直な実装方法は、 &#8216;concurrence&#8217; でネストされた &#8216;if&#8217;  を使うことです。:</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">concurrence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">if</span> <span class="attribute">test</span><span class="punct">=&quot;</span><span class="string">${field:price} &gt; 12.0</span><span class="punct">&quot;</span> <span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">if</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">if</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">equals</span> <span class="attribute">field</span><span class="punct">=&quot;</span><span class="string">price</span><span class="punct">&quot;</span> <span class="attribute">value</span><span class="punct">=&quot;</span><span class="string">0</span><span class="punct">&quot;&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">if</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">if</span> <span class="attribute">test</span><span class="punct">=&quot;</span><span class="string">${f:price} &gt; 100.0</span><span class="punct">&quot;</span> <span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">charly</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">if</span><span class="punct">&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">concurrence</span><span class="punct">&gt;</span></code></pre>
+<p>もし price が 100 以上なら、participant alpha と participant charly がフローを受け取るでしょう。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">concurrence</span> <span class="keyword">do</span>
+        <span class="ident">_if</span> <span class="symbol">:test</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">${field:price} &gt; 12.0</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+            <span class="ident">participant</span> <span class="symbol">:alpha</span>
+        <span class="keyword">end</span>
+        <span class="ident">_if</span> <span class="keyword">do</span>
+            <span class="ident">_equals</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">price</span><span class="punct">&quot;,</span> <span class="symbol">:value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">0</span><span class="punct">&quot;</span>
+            <span class="ident">participant</span> <span class="symbol">:ref</span> <span class="punct">=&gt;</span> <span class="symbol">:bravo</span>
+        <span class="keyword">end</span>
+        <span class="ident">_if</span> <span class="symbol">:test</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">${f:price} &gt; 100.0</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+            <span class="ident">participant</span> <span class="symbol">:ref</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">charly</span><span class="punct">&quot;</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<p>(participant expression はとてもフレキシブルなので、あなたにとってより見やすい方法を選んでください。)</p>
+<p><a href="expressions.html#exp_if">if</a><br />
+<a href="expressions.html#exp_concurrence">concurrence</a><br />
+<a href="http://workflowpatterns.com/patterns/control/advanced_branching/wcp6.php">original explanation</a></p>
+<h3><a name="pat_7_multi_choice"></a>Structured Synchronizing Merge</h3>
+<p>OpenWFEru での pattern 7 実装は、pattern 6 &#8216;Multi-Choice&#8217; 実装と同様です。  concurrence expression  はその全ての分岐からの返答を回復前に待つことができます (その親・そしてそれを含むexpression に返答する前に) 。</p>
+<p><a href="expressions.html#exp_concurrence">concurrence</a><br />
+<a href="http://workflowpatterns.com/patterns/control/advanced_branching/wcp7.php">original explanation</a></p>
+<h3><a name="pat_8_multi_merge"></a>Multi-Merge</h3>
+<p>このパターンは面白いですよ。グラフベースのワークフローと OpenWFEru の違いをお見せしましょう。</p>
+<p>このパターンでの &#8220;multi-choice&#8221; の後の &#8220;merge&#8221; は同期をとりません。前のパターンでは、 concurrence の後に並列パス上の workitem は再集結して 1つの workitem になります。ここで、それぞれの並列 workitem は独立して &#8216;track&#8217; を追います。</p>
+<p>以下が OpenWFE[ru] での実装方法です。:</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">process-definition</span> <span class="attribute">name</span><span class="punct">=&quot;</span><span class="string">pat8multimerge</span><span class="punct">&quot;</span> <span class="attribute">revision</span><span class="punct">=&quot;</span><span class="string">2</span><span class="punct">&quot;&gt;</span>
+
+        <span class="punct">&lt;</span><span class="tag">concurrence</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">if</span> <span class="attribute">test</span><span class="punct">=&quot;</span><span class="string">${field:price} &gt; 12.0</span><span class="punct">&quot;</span> <span class="punct">&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+                    <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+                    <span class="punct">&lt;</span><span class="tag">after</span><span class="punct">/&gt;</span>
+                <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;/</span><span class="tag">if</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">if</span><span class="punct">&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">equals</span> <span class="attribute">field</span><span class="punct">=&quot;</span><span class="string">price</span><span class="punct">&quot;</span> <span class="attribute">value</span><span class="punct">=&quot;</span><span class="string">0</span><span class="punct">&quot;&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+                    <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+                    <span class="punct">&lt;</span><span class="tag">after</span><span class="punct">/&gt;</span>
+                <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;/</span><span class="tag">if</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">if</span> <span class="attribute">test</span><span class="punct">=&quot;</span><span class="string">${f:price} &gt; 100.0</span><span class="punct">&quot;</span> <span class="punct">&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+                    <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">charly</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+                    <span class="punct">&lt;</span><span class="tag">after</span><span class="punct">/&gt;</span>
+                <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;/</span><span class="tag">if</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">concurrence</span><span class="punct">&gt;</span>
+
+        <span class="punct">&lt;</span><span class="tag">process-definition</span> <span class="attribute">name</span><span class="punct">=&quot;</span><span class="string">after</span><span class="punct">&quot;&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">delta</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">echo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">process-definition</span><span class="punct">&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">process-definition</span><span class="punct">&gt;</span></code></pre>
+<p>それぞれの並列の workitem は &#8216;after&#8217; サブプロセスの後の自分のインスタンスになるでしょう。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/def</span><span class="punct">'</span>
+
+    <span class="keyword">class </span><span class="class">Pat8MultiMerge2</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+
+        <span class="ident">concurrence</span> <span class="keyword">do</span>
+            <span class="ident">_if</span> <span class="symbol">:test</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">${field:price} &gt; 12.0</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+                <span class="ident">sequence</span> <span class="keyword">do</span>
+                    <span class="ident">alpha</span>
+                    <span class="ident">after</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="ident">_if</span> <span class="keyword">do</span>
+                <span class="ident">equals</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">price</span><span class="punct">&quot;,</span> <span class="symbol">:value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">0</span><span class="punct">&quot;</span>
+                <span class="ident">sequence</span> <span class="keyword">do</span>
+                    <span class="ident">bravo</span>
+                    <span class="ident">after</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="ident">_if</span> <span class="symbol">:test</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">${f:price} &gt; 100.0</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+                <span class="ident">sequence</span> <span class="keyword">do</span>
+                    <span class="ident">charly</span>
+                    <span class="ident">after</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="ident">process_definition</span> <span class="symbol">:name</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">after</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+            <span class="ident">sequence</span> <span class="keyword">do</span>
+                <span class="ident">delta</span>
+                <span class="ident">echo</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<p><a href="http://workflowpatterns.com/patterns/control/advanced_branching/wcp8.php">original explanation</a></p>
+<h3><a name="pat_9_structured_discriminator"></a>Structured Discriminator</h3>
+<p>並列した分岐の終了と同時に concurrence expression でフローを再開させます。</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">concurrence</span> <span class="attribute">count</span><span class="punct">=&quot;</span><span class="string">1</span><span class="punct">&quot;</span> <span class="attribute">remaining</span><span class="punct">=&quot;</span><span class="string">forget</span><span class="punct">&quot;&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">charly</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">concurrence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">delta</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span></code></pre>
+<p>1 の分岐が返答して残りの分岐は単純に忘れられた(それらの返答は無視されます)時、&quot;count&quot; 属性・ &#8220;remaining&#8221; 属性は並列実行が終わったことを示します。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">sequence</span> <span class="keyword">do</span>
+        <span class="ident">alpha</span>
+        <span class="ident">concurrence</span> <span class="symbol">:count</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">2</span><span class="punct">&quot;,</span> <span class="symbol">:remaining</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">forget</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+            <span class="ident">bravo</span>
+            <span class="ident">charly</span>
+            <span class="ident">delta</span>
+        <span class="keyword">end</span>
+        <span class="ident">echo</span>
+    <span class="keyword">end</span></code></pre>
+<p>Rubyで書かれたこの例では、2つの分岐が返答したらすぐフローは &#8216;echo&#8217; へと処理を再開します。</p>
+<p><a href="http://workflowpatterns.com/patterns/control/advanced_branching/wcp9.php">original explanation</a></p>
+<p><img src="images/ru-light.png" align="right"/><br />
+h2. <a name="pat_c"></a>Structural Patterns</p>
+<h3><a name="pat_10_arbitrary_cycles"></a>Arbitrary Cycles</h3>
+<p><em>1つ以上の入り口もしくは出口を持つプロセスモデルのサイクルの再提示の可能性</em></p>
+<a href="expressions.html#exp_cursor">cursor</a> expression がこのパターンで使われます。これには &quot;jump&quot;・ &#8220;skip&#8221; ・ &#8220;back&#8221; のコマンドがあります。
+<p>このプロセスは Workflow Patterns のサイトで <a href="http://workflowpatterns.com/patterns/control/structural/wcp10_animation.php">flash アニメーション</a> で提示されています。実装するとこんな感じです。 :</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">cursor</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">charly</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">if</span> <span class="attribute">test</span><span class="punct">=&quot;</span><span class="string">${condition}</span><span class="punct">&quot;&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">back</span> <span class="attribute">step</span><span class="punct">=&quot;</span><span class="string">2</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">if</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">delta</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">if</span> <span class="attribute">test</span><span class="punct">=&quot;</span><span class="string">${condition}</span><span class="punct">&quot;&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">back</span> <span class="attribute">step</span><span class="punct">=&quot;</span><span class="string">3</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">if</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">echo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">cursor</span><span class="punct">&gt;</span></code></pre>
+<p>しかし、これでは予期すべき複数の入り口にあたる強調符がありません。こうすべきです。:</p>
+<pre class='ruby'><code class='ruby'>    <span class="keyword">class </span><span class="class">Pat10Definition</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+
+        <span class="ident">sequence</span> <span class="keyword">do</span>
+            <span class="ident">jump</span> <span class="symbol">:step</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">1</span><span class="punct">&quot;</span>
+            <span class="ident">sub</span> <span class="comment"># will enter subprocess 'sub' at participant 'bravo'</span>
+
+            <span class="ident">jump</span> <span class="symbol">:step</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">0</span><span class="punct">&quot;</span>
+            <span class="ident">sub</span> <span class="comment"># will enter subprocess 'sub' at participant 'alpha' (useless)</span>
+
+            <span class="ident">jump</span> <span class="number">2</span>
+            <span class="ident">sub</span> <span class="comment"># will enter subprocess 'sub' at participant 'charly'</span>
+
+            <span class="comment">#</span>
+            <span class="comment"># as jump is used in a sequence, it has no direct effect, but as soon</span>
+            <span class="comment"># as a cursor spots it (here, when entering the 'sub'), the jump</span>
+            <span class="comment"># is performed</span>
+        <span class="keyword">end</span>
+
+        <span class="ident">process_definition</span> <span class="symbol">:name</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">sub</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+            <span class="ident">cursor</span> <span class="keyword">do</span>
+                <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span>
+                <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span>
+                <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">charly</span><span class="punct">&quot;</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<p>これはこのように書き直せます。</p>
+<pre class='ruby'><code class='ruby'>    <span class="keyword">class </span><span class="class">Pat10Definition</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+
+        <span class="ident">sequence</span> <span class="keyword">do</span>
+            <span class="ident">sub</span> <span class="symbol">:step</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">1</span><span class="punct">&quot;</span>
+            <span class="ident">sub</span> <span class="symbol">:step</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">0</span><span class="punct">&quot;</span>
+            <span class="ident">sub</span> <span class="symbol">:step</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">2</span><span class="punct">&quot;</span>
+        <span class="keyword">end</span>
+
+        <span class="ident">process_definition</span> <span class="symbol">:name</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">sub</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+            <span class="ident">sequence</span> <span class="keyword">do</span>
+                <span class="ident">jump</span> <span class="punct">&quot;</span><span class="string">${step}</span><span class="punct">&quot;</span>
+                <span class="ident">cursor</span> <span class="keyword">do</span>
+                    <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span>
+                    <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span>
+                    <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">charly</span><span class="punct">&quot;</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<p>(サブプロセス call の属性は変数として保存されます&#8230;)</p>
+<p><a href="http://workflowpatterns.com/patterns/control/structural/wcp10.php">original explanation</a></p>
+<h3><a name="pat_11_implicit_termination"></a>Implicit Termination</h3>
+<p>このパターンの <a href="http://workflowpatterns.com/patterns/control/structural/wcp11_animation.php">flash アニメーション</a> を実装するには… :</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">concurrence</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">delta</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">charly</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">echo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">concurrence</span><span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span></code></pre>
+<p>並列処理・順列処理の &#8216;暗示的な終端&#8217; となります。</p>
+<p>Ruby プロセス定義ではこんな感じです。:</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">sequence</span> <span class="keyword">do</span>
+        <span class="ident">alpha</span>
+        <span class="ident">concurrence</span> <span class="keyword">do</span>
+            <span class="ident">sequence</span> <span class="keyword">do</span>
+                <span class="ident">bravo</span>
+                <span class="ident">delta</span>
+            <span class="keyword">end</span>
+            <span class="ident">sequence</span> <span class="keyword">do</span>
+                <span class="ident">charly</span>
+                <span class="ident">echo</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+&#8220;明示的な終端受信&#8221; を使わない OpenWFE[ru] プロセス定義を書くこともできます。
+<p><a href="http://workflowpatterns.com/patterns/control/structural/wcp11.php">original explanation</a></p>
+<p><img src="images/ru-light.png" align="right"/><br />
+h2. <a name="pat_d"></a>Multiple Instance Patterns</p>
+<h3><a name="pat_12_multiple_instances_without_synchronization"></a>Multiple instances without synchronization</h3>
+<p>記述によると… : &#8220;与えられたプロセスインスタンス内でアクティビティな複数インスタンスが作られます。これらのインスタンスはそれぞれ独立して並列に実行します。それらは同期をとる必要はありません。&#8221;</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">concurrent-iterator</span> <span class="attribute">on-field</span><span class="punct">=&quot;</span><span class="string">count</span><span class="punct">&quot;</span> <span class="attribute">to-field</span><span class="punct">=&quot;</span><span class="string">f</span><span class="punct">&quot;</span> <span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">forget</span><span class="punct">&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;/</span><span class="tag">forget</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">concurrent-iterator</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">charly</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span></code></pre>
+<p>Ruby プロセス定義ではこんな感じです。 :</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">sequence</span> <span class="keyword">do</span>
+        <span class="ident">alpha</span>
+        <span class="ident">concurrent_iterator</span> <span class="symbol">:on_field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">count</span><span class="punct">&quot;,</span> <span class="symbol">:to_field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">f</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+            <span class="ident">forget</span> <span class="keyword">do</span>
+                <span class="ident">bravo</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+        <span class="ident">charly</span>
+    <span class="keyword">end</span></code></pre>
+<p>同期をとる必要がないということで、participant bravo は &#8216;forget&#8217; expression で包まれています。フローは participant &#8220;charly&#8221; へとダイレクトに続きます。</p>
+<p><a href="http://workflowpatterns.com/patterns/control/multiple_instance/wcp12.php">original explanation</a></p>
+<h3><a name="pat_13_multiple_instances_with_a_priori_design_time_knowledge"></a>Multiple instances with a priori design-time knowledge</h3>
+<p>&#8220;インスタンスの必要数はデザイン時に知らされます。これらのインスタンスはそれぞれ独立して並列に実行します。副次的なアクティビティが実行される前に、今アクティビティなインスタンスの完全な同期が必要になります。&#8221;</p>
+<p>この &#8216;平凡な&#8217; 実装はこうなるでしょう。 :</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">concurrence</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">concurrence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">charly</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span></code></pre>
+<p>このデザイン時、私たちはその動きすなわち participant &#8216;bravo&#8217; は並列に3 回実行されるということがわかっています。</p>
+<p>もちょっと、ライトに… :</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">concurrent-iterator</span> <span class="attribute">on-value</span><span class="punct">=&quot;</span><span class="string">a, b, c</span><span class="punct">&quot;</span> <span class="attribute">to-field</span><span class="punct">=&quot;</span><span class="string">index</span><span class="punct">&quot;&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">concurrent-iterator</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">charly</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span></code></pre>
+<p>Ruby プロセス定義ではこんな感じです。:</p>
+<pre class='ruby'><code class='ruby'><span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/def</span><span class="punct">'</span>
+
+<span class="keyword">class </span><span class="class">Pattern13</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+    <span class="ident">sequence</span> <span class="keyword">do</span>
+        <span class="ident">participant</span> <span class="symbol">:ref</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span>
+        <span class="ident">concurrent</span><span class="punct">-</span><span class="ident">iterator</span> <span class="symbol">:on_value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">a, b, c</span><span class="punct">&quot;,</span> <span class="symbol">:to_field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">index</span><span class="punct">&quot;</span>
+            <span class="ident">participant</span> <span class="symbol">:ref</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span>
+        <span class="keyword">end</span>
+        <span class="ident">participant</span> <span class="symbol">:ref</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">charly</span><span class="punct">&quot;</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span></code></pre>
+<p><a href="http://workflowpatterns.com/patterns/control/multiple_instance/wcp13.php">original explanation</a></p>
+<p><img src="images/ru-light.png" align="right"/><br />
+h2. <a name="pat_e"></a>State-based Patterns</p>
+<p><img src="images/ru-light.png" align="right"/><br />
+h2. <a name="pat_f"></a>Cancellation Patterns</p>
+<p><img src="images/ru-light.png" align="right"/><br />
+h2. <a name="pat_g"></a>New Control Flow Patterns</p>
+      </div>
+
+      <div id="footer">
+        <div class="xright">&#169;2005-2008 OpenWFE.org</div>
+        <div class="clear">
+          <hr/>
+        </div>
+      </div>
+
+    </div>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+var pageTracker=_gat._getTracker('UA-138748-2');
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>
+

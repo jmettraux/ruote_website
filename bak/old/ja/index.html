@@ -1,0 +1,144 @@
+
+<html>
+  <head>
+    
+    <title>OpenWFEru - open source ruby workflow engine</title>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="../xml.css" type="text/css" rel="stylesheet"/>
+    <link href="../ruby.css" type="text/css" rel="stylesheet"/>
+    <link href="../openwferu.css" type="text/css" rel="stylesheet"/>
+  </head>
+
+  <body class="composite">
+
+    <a name="top"></a>
+
+    <div id="banner">
+      <a href="../index.html"
+        ><img src="../images/openwfe-logo.png" alt="OpenWFEru"/></a>
+      <div id="siteSearch">
+        <!--siteSearch-->
+      </div>
+    </div>
+
+    <div id="breadcrumbs">
+        <div style="float:left">
+            open source ruby workflow and bpm engine
+        </div>
+        <div style="float:right">
+            <a href="/index.html">english</a> | <a href="/ja/index.html">japanese</a>
+        </div>
+    </div>
+
+    <div id="coreBox">
+
+      <div id="leftColumn">
+        <div id="navColumn">
+
+         <br/>
+         <ul>
+<li class='collapsed'><strong>index</strong></li>
+<li class='collapsed'><a href=../ja/license.html>license</a></li>
+<li class='collapsed'><a href=../ja/quickstart.html>quickstart</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/download.html>download</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/documentation.html>documentation</a></li>
+<li class='collapsed'><a href=../ja/expressions.html>expressions</a></li>
+<li class='collapsed'><a href=../ja/participants.html>participants</a></li>
+<li class='collapsed'><a href=../ja/patterns.html>patterns</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=source.html>source</a></li>
+<li class='collapsed'><a href=../rdoc/index.html>rdoc</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/activity.html>activity</a></li>
+<li class='collapsed'><a href=../ja/lists.html>mailing lists</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://jmettraux.wordpress.com>tech blog</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://github.com/jmettraux/ruote/tree/master/CREDITS.txt>credits</a></li>
+<li class='collapsed'><a href=http://rubyforge.org/projects/openwferu>on rubyforge</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/scheduler.html>the scheduler</a></li>
+<li class='collapsed'><a href=../ja/sqs.html>amazon sqs</a></li>
+<li class='collapsed'><a href=../ja/kotoba.html>kotoba</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://code.google.com/p/ruby-taskr/>Taskr</a></li>
+<li class='collapsed'><a href=http://rufus.rubyforge.org>Rufus</a></li>
+<li class='collapsed'><a href=http://rools.rubyforge.org>Rools</a></li>
+</ul>
+
+         <!--hostedOnRubyForge-->
+
+         <br/>
+         <br/>
+
+         <p align="right">
+             <span 
+                style='font-size: 7pt; color: #7c7c90'
+             >website<br/>generated with</span><br/>
+             <a href='http://rote.rubyforge.org/' target='_blank'
+                 ><img 
+                    src='../images/rote-tiny.png' 
+                    alt='Rote' /></a>
+         </p>
+
+         <!--fisheye?-->
+        </div>
+      </div>
+
+      <div id="rightColumn">
+        <script type="text/javascript"><!--
+google_ad_client = "pub-2190386866693134";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+        <script 
+            type="text/javascript" 
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        >
+        </script>
+      </div>
+
+      <div id="bodyColumn">
+        <h2>OpenWFEru</h2>
+<p>OpenWFEru は オープンソースの Ruby ワークフロー/<span class="caps">BPM</span> エンジンです。</p>
+<p>現在のバージョンは <a href="http://rubyforge.org/frs/?group_id=2609">0.9.15</a> です。</p>
+<p>OpenWFEru は デベロッパーの間では Rufus と呼ばれていました。オリジナルの Java OpenWFE も随時開発を続けています。</p>
+<p>まずは、こちらの <a href="http://en.wikipedia.org/wiki/Workflow">ワークフロー</a> ・ <a href="http://en.wikipedia.org/wiki/Business_Process_Management">bpm</a> を見てください。ビジネスプロセス定義やそのインスタンスをソフトウェアに組み込むのではなく、より身近に持たせたいというのがこのアイデアです。</p>
+<p>OpenWFEru ではプロセス定義は <span class="caps">XML</span> (OpenWFE プロセス定義言語を使って) または <a href="http://jmettraux.wordpress.com/2007/01/14/ruby-process-definitions/">Ruby クラス</a> で定義できます。</p>
+<h2>まず把握するためには…。</h2>
+<p><a href="quickstart.html">クイックスタート</a>.</p>
+<p>OpenWFEru ・OpenWFE は <a href="http://jmettraux.openwfe.org">tech blog</a> でフォローしています。常に更新しています。</p>
+<h2>入手するには…。</h2>
+<p><a href="/download.html">こちら</a> で gem を入手するか、最新ソースを svn で check out できます。</p>
+<h2>使うためには…。</h2>
+<p>OpenWFEru の使い方に関する幾つかの <a href="/examples/">例</a>  があります。</p>
+<p><a href="/examples/quotereporter.rb">最初の例</a> では quote の値を収集して atom でfeedします。</p>
+<p><a href="/examples/mano_tracker.rb">二番目の例</a> デザイナー・アナリストを含んだタスクトラッカーの実装です。</p>
+<p>他のサンプルもあります。</p>
+      </div>
+
+      <div id="footer">
+        <div class="xright">&#169;2005-2008 OpenWFE.org</div>
+        <div class="clear">
+          <hr/>
+        </div>
+      </div>
+
+    </div>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+var pageTracker=_gat._getTracker('UA-138748-2');
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>
+

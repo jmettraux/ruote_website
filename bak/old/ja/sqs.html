@@ -1,0 +1,252 @@
+
+<html>
+  <head>
+    
+    <title>OpenWFEru - Amazon SQS access library</title>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="../xml.css" type="text/css" rel="stylesheet"/>
+    <link href="../ruby.css" type="text/css" rel="stylesheet"/>
+    <link href="../openwferu.css" type="text/css" rel="stylesheet"/>
+  </head>
+
+  <body class="composite">
+
+    <a name="top"></a>
+
+    <div id="banner">
+      <a href="../index.html"
+        ><img src="../images/openwfe-logo.png" alt="OpenWFEru"/></a>
+      <div id="siteSearch">
+        <!--siteSearch-->
+      </div>
+    </div>
+
+    <div id="breadcrumbs">
+        <div style="float:left">
+            open source ruby workflow and bpm engine
+        </div>
+        <div style="float:right">
+            <a href="/index.html">english</a> | <a href="/ja/index.html">japanese</a>
+        </div>
+    </div>
+
+    <div id="coreBox">
+
+      <div id="leftColumn">
+        <div id="navColumn">
+
+         <br/>
+         <ul>
+<li class='collapsed'><a href=../ja/index.html>index</a></li>
+<li class='collapsed'><a href=../ja/license.html>license</a></li>
+<li class='collapsed'><a href=../ja/quickstart.html>quickstart</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/download.html>download</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/documentation.html>documentation</a></li>
+<li class='collapsed'><a href=../ja/expressions.html>expressions</a></li>
+<li class='collapsed'><a href=../ja/participants.html>participants</a></li>
+<li class='collapsed'><a href=../ja/patterns.html>patterns</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=source.html>source</a></li>
+<li class='collapsed'><a href=../rdoc/index.html>rdoc</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/activity.html>activity</a></li>
+<li class='collapsed'><a href=../ja/lists.html>mailing lists</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://jmettraux.wordpress.com>tech blog</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://github.com/jmettraux/ruote/tree/master/CREDITS.txt>credits</a></li>
+<li class='collapsed'><a href=http://rubyforge.org/projects/openwferu>on rubyforge</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/scheduler.html>the scheduler</a></li>
+<li class='collapsed'><strong>amazon sqs</strong></li>
+<li class='collapsed'><a href=../ja/kotoba.html>kotoba</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://code.google.com/p/ruby-taskr/>Taskr</a></li>
+<li class='collapsed'><a href=http://rufus.rubyforge.org>Rufus</a></li>
+<li class='collapsed'><a href=http://rools.rubyforge.org>Rools</a></li>
+</ul>
+
+         <!--hostedOnRubyForge-->
+
+         <br/>
+         <br/>
+
+         <p align="right">
+             <span 
+                style='font-size: 7pt; color: #7c7c90'
+             >website<br/>generated with</span><br/>
+             <a href='http://rote.rubyforge.org/' target='_blank'
+                 ><img 
+                    src='../images/rote-tiny.png' 
+                    alt='Rote' /></a>
+         </p>
+
+         <!--fisheye?-->
+        </div>
+      </div>
+
+      <div id="rightColumn">
+        <script type="text/javascript"><!--
+google_ad_client = "pub-2190386866693134";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+        <script 
+            type="text/javascript" 
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        >
+        </script>
+      </div>
+
+      <div id="bodyColumn">
+        <h2>openwferu-sqs</h2>
+<p>&#8220;openwferu-sqs&#8221; は、&quot;Amazon SQS&quot;:http://aws.amazon.com/sqs/ に <span class="caps">REST</span> <span class="caps">API</span> (256 KB 以上のメッセージをやり取りします) でアクセスするオープンソースライブラリ (<span class="caps">BSD</span>) です。</p>
+<p>ワークフローである OpenWFEru は <a href="http://jmettraux.wordpress.com/2007/03/13/openwferu-over-amazon-sqs/">Amazon <span class="caps">SQS</span> を使う</a> ために、オンライン worklist システム (queue for storing / transmitting workitemを保存したり交信するキュー)として設定することができます。それがこのライブラリの背景です。</p>
+<p>ここではTOpenWFEru のコンテキストの外側での openwferu-sqs の使用方法を説明します。</p>
+<h3>openwferu-sqs の入手方法</h3>
+<p>gem があります。 :</p>
+<pre>
+$ sudo gem install openwferu-sqs
+</pre>
+<p>この gem は <a href="http://rubyforge.org/frs/?group_id=2609">RubyForge</a> からもダウンロードできます。</p>
+<p>直接ソースを見るなら <a href="http://viewvc.rubyforge.mmmultiworks.com/cgi/viewvc.cgi/trunk/openwfe-ruby/lib/openwfe/util/sqs.rb?root=openwferu&amp;view=markup">こちら</a> を参照してください。</p>
+<h3>openwferu-sqs の使用方法(コマンドラインクライアントとして)</h3>
+<p>openwferu-sqs を使うには Amazon Acces Key Id と Amazon Secret Access Key Id がそれぞれ環境変数 $AMAZON_ACCESS_KEY_ID と $AMAZON_SECRET_ACCESS_KEY に設定ください。</p>
+<p>シンプルなコマンドラインクライアントを実行するには以下のように…。</p>
+<pre>
+$ ruby sqs.rb
+</pre>
+<p>または…。</p>
+<pre>
+$ ruby path/to/your/unpacked/sqs.rb
+</pre>
+<p>もしこんなメッセージが出るとしたら…。</p>
+<pre>
+env variables $AMAZON_ACCESS_KEY_ID and $AMAZON_SECRET_ACCESS_KEY are not set
+</pre>
+<p>上記2つの環境変数が設定していないからです。さもなければ以下のようなメッセージが表示されます。</p>
+<pre>
+
+Usage: sqs.rb [options] {action} [queue_name] [message_id]
+
+   known actions are :
+
+      - 'cq'  (create_queue)
+      - 'create_queue'  (create_queue)
+      - 'delete_message'  (delete_message)
+      - 'delete_queue'  (delete_queue)
+      - 'dm'  (delete_message)
+      - 'dq'  (delete_queue)
+      - 'flush_queue'  (flush_queue)
+      - 'fq'  (flush_queue)
+      - 'get_message'  (get_message)
+      - 'gm'  (get_message)
+      - 'list_queues'  (list_queues)
+      - 'lq'  (list_queues)
+      - 'pm'  (put_message)
+      - 'puts_message'  (put_message)
+
+   options are :
+
+    -H, --host                       AWS queue host
+    -h, --help                       displays this help / usage
+    -b, --base64                     encode/decode messages with base64
+
+</pre>
+<p>表示どおり、上記のオペレーションが可能です。 :</p>
+<pre>
+sonanda:~/openwfe-ruby mettraux$ ruby lib/openwfe/util/sqs.rb cq totoqueue
+create_queue...
+"http://queue.amazonaws.com/A2Y5DYCG8CQLUR/totoqueue"
+
+sonanda:~/openwfe-ruby mettraux$ ruby lib/openwfe/util/sqs.rb pm totoqueue
+put_message...
+welcome to SQS via OpenWFERU
+"0R2Y01B0DTE4WW9MPX48|C9345G3K6XDQVZ7R7FH1|RFZ53J3DZ6KQ18B66T50"
+
+sonanda:~/openwfe-ruby mettraux$ ruby lib/openwfe/util/sqs.rb lq          
+list_queues...
+[#&lt;SQS::Queue:0x6ec058
+  @host="queue.amazonaws.com",
+  @name="johntest0",
+  @path="/A225DYCG8CQLUR/johntest0",
+  @queue_service=
+   #&lt;SQS::QueueService:0x6f093c @queue_host="queue.amazonaws.com"&gt;&gt;,
+ #&lt;SQS::Queue:0x6ead70
+  @host="queue.amazonaws.com",
+  @name="totoqueue",
+  @path="/A225DYCG8CQLUR/totoqueue",
+  @queue_service=
+   #&lt;SQS::QueueService:0x6f093c @queue_host="queue.amazonaws.com"&gt;&gt;]
+
+sonanda:~/openwfe-ruby mettraux$ ruby lib/openwfe/util/sqs.rb gm totoqueue
+get_message...
+[#&lt;SQS::Message:0x6e670c
+  @message_body="welcome to SQS via OpenWFERU",
+  @message_id="0R2Y01B0DTEWW3SMPX48|C9445G3K2XDCVZ7R7FH1|RFZ5TJ3DZWKQ18B66T50",
+  @queue=
+   #&lt;SQS::Queue:0x6ec4b8
+    @host="queue.amazonaws.com",
+    @name="totoqueue",
+    @path="/A225DYCG8CQLUR/totoqueue",
+    @queue_service=
+     #&lt;SQS::QueueService:0x6f0900 @queue_host="queue.amazonaws.com"&gt;&gt;&gt;]
+sonanda:~/openwfe-ruby mettraux$ ruby lib/openwfe/util/sqs.rb fq totoqueue
+flush_queue...
+1
+
+sonanda:~/openwfe-ruby mettraux$ ruby lib/openwfe/util/sqs.rb dq totoqueue
+delete_queue...
+true
+</pre>
+<h3>openwferu-sqs の使用方法 (ライブラリとして)</h3>
+openwferu-sqs の <a href="http://openwferu.rubyforge.org/rdoc/classes/SQS.html">rdoc</a> がオンラインで見られます。そのメソッド名とパラメータはそこでわかるでしょう。以下は短いサンプルコードです。 :
+<pre class='ruby'><code class='ruby'>
+<span class="ident">require</span> <span class="punct">'</span><span class="string">rubygems</span><span class="punct">'</span>
+<span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/util/sqs</span><span class="punct">'</span>
+
+<span class="ident">qs</span> <span class="punct">=</span> <span class="constant">SQS</span><span class="punct">::</span><span class="constant">QueueService</span><span class="punct">.</span><span class="ident">new</span>
+    <span class="comment">#</span>
+    <span class="comment"># as for the command line client, openwferu-sqs expects the environment</span>
+    <span class="comment"># variables $AMAZON_ACCESS_KEY_ID and $AMAZON_SECRET_ACCESS_KEY to be set</span>
+    <span class="comment"># else an error will be raised</span>
+
+<span class="ident">qs</span><span class="punct">.</span><span class="ident">create_queue</span><span class="punct">(</span><span class="symbol">:myqueue</span><span class="punct">)</span>
+
+<span class="ident">msg_id</span> <span class="punct">=</span> <span class="ident">qs</span><span class="punct">.</span><span class="ident">put_message</span><span class="punct">(</span><span class="symbol">:myqueue</span><span class="punct">,</span> <span class="punct">&quot;</span><span class="string">my message</span><span class="punct">&quot;)</span>
+
+<span class="ident">msg</span> <span class="punct">=</span> <span class="ident">qs</span><span class="punct">.</span><span class="ident">get_message</span><span class="punct">(</span><span class="symbol">:yamltest</span><span class="punct">,</span> <span class="ident">msg_id</span><span class="punct">)</span></code></pre>
+<h3>フィードバック</h3>
+<p>openwferu-sqs のフィードバックには、OpenWFEru <a href="http://groups.google.com/group/openwferu-users">user mailing list</a> か、OpenWFEru <a href="http://rubyforge.org/tracker/?group_id=2609">trackers</a> を使ってください。</p>
+<h3>(openwferu-sqs のアンインストール)</h3>
+<p>もし必要ないならば…。 :</p>
+<pre>
+    $ sudo gem uninstall openwferu-sqs
+</pre>
+      </div>
+
+      <div id="footer">
+        <div class="xright">&#169;2005-2008 OpenWFE.org</div>
+        <div class="clear">
+          <hr/>
+        </div>
+      </div>
+
+    </div>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+var pageTracker=_gat._getTracker('UA-138748-2');
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>
+

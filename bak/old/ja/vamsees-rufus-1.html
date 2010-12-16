@@ -1,0 +1,209 @@
+
+<html>
+  <head>
+    
+    <title></title>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="../xml.css" type="text/css" rel="stylesheet"/>
+    <link href="../ruby.css" type="text/css" rel="stylesheet"/>
+    <link href="../openwferu.css" type="text/css" rel="stylesheet"/>
+  </head>
+
+  <body class="composite">
+
+    <a name="top"></a>
+
+    <div id="banner">
+      <a href="../index.html"
+        ><img src="../images/openwfe-logo.png" alt="OpenWFEru"/></a>
+      <div id="siteSearch">
+        <!--siteSearch-->
+      </div>
+    </div>
+
+    <div id="breadcrumbs">
+        <div style="float:left">
+            open source ruby workflow and bpm engine
+        </div>
+        <div style="float:right">
+            <a href="/index.html">english</a> | <a href="/ja/index.html">japanese</a>
+        </div>
+    </div>
+
+    <div id="coreBox">
+
+      <div id="leftColumn">
+        <div id="navColumn">
+
+         <br/>
+         <ul>
+<li class='collapsed'><a href=../ja/index.html>index</a></li>
+<li class='collapsed'><a href=../ja/license.html>license</a></li>
+<li class='collapsed'><a href=../ja/quickstart.html>quickstart</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/download.html>download</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/documentation.html>documentation</a></li>
+<li class='collapsed'><a href=../ja/expressions.html>expressions</a></li>
+<li class='collapsed'><a href=../ja/participants.html>participants</a></li>
+<li class='collapsed'><a href=../ja/patterns.html>patterns</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=source.html>source</a></li>
+<li class='collapsed'><a href=../rdoc/index.html>rdoc</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/activity.html>activity</a></li>
+<li class='collapsed'><a href=../ja/lists.html>mailing lists</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://jmettraux.wordpress.com>tech blog</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://github.com/jmettraux/ruote/tree/master/CREDITS.txt>credits</a></li>
+<li class='collapsed'><a href=http://rubyforge.org/projects/openwferu>on rubyforge</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/scheduler.html>the scheduler</a></li>
+<li class='collapsed'><a href=../ja/sqs.html>amazon sqs</a></li>
+<li class='collapsed'><a href=../ja/kotoba.html>kotoba</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://code.google.com/p/ruby-taskr/>Taskr</a></li>
+<li class='collapsed'><a href=http://rufus.rubyforge.org>Rufus</a></li>
+<li class='collapsed'><a href=http://rools.rubyforge.org>Rools</a></li>
+</ul>
+
+         <!--hostedOnRubyForge-->
+
+         <br/>
+         <br/>
+
+         <p align="right">
+             <span 
+                style='font-size: 7pt; color: #7c7c90'
+             >website<br/>generated with</span><br/>
+             <a href='http://rote.rubyforge.org/' target='_blank'
+                 ><img 
+                    src='../images/rote-tiny.png' 
+                    alt='Rote' /></a>
+         </p>
+
+         <!--fisheye?-->
+        </div>
+      </div>
+
+      <div id="rightColumn">
+        <script type="text/javascript"><!--
+google_ad_client = "pub-2190386866693134";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+        <script 
+            type="text/javascript" 
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        >
+        </script>
+      </div>
+
+      <div id="bodyColumn">
+        <h2>Vamsee&#8217;s Newbie Guide Part 1(Vamsee の初心者ガイド Part1)</h2>
+<h3>ようこそ!</h3>
+<p>こんにちは。OpenWFEru へようこそ。このドキュメントは  OpenWFE の <em>Vamsee&#8217;s Newbie Guide</em> の <em>translation</em> です。OpenWFEru がメインの目標になって、Javaである従兄弟(OpenWFEJa)とは異なるところもでてきました。<br />
+このドキュメントにはオリジナルガイドのチュートリアルの本質を保ちながらもその差異を反映しようと思います。<br />
+このドキュメントに間違いや誤りがあればお気軽にご指摘ください。</p>
+<h3>出発</h3>
+<p>もしあなたが初心者なら、&quot;OpenWFE book&quot;:http://www.openwfe.org/manual に飛び込まないようお奨めします。その理由は、ワークフローシステムは未だとても新しい物なのでその用語があなたにはわからないだろうということからです。私の意見では、最初は&quot;Technical Presentation&quot;:http://web.archive.org/web/20060213054749/http://www.openwfe.org/openwfe.pdf からスタートして、OpenWFEのいろいろな部分やそれらがお互いどのように影響しあっているかを理解するのが<br />
+よろしいかと。</p>
+<p>で、&quot;OpenWFE book&quot;:http://www.openwfe.org/manual  にざっと目を通すのがよろしいかと。全てを理解しようなんて固執しないでくださいね。その後でも一度<br />
+<a href="http://web.archive.org/web/20060213054749/http://www.openwfe.org/openwfe.pdf">Technical Presentation</a> に戻ってこれを眺めてください。<br />
+ちょっとはクリアになったと思います (ま、少なくとも私はそうでした)。さて、&quot;ここ&quot;:http://sourceforge.net/forum/forum.php?thread_id=1229863&amp;forum_id=181920 で議論されたサンプルプログラムを動かしてみてください。 このプログラムにある workitem に変数をセットする前に &#8220;alice&#8221; でログインして workitem を起動しなければならないことに注意してください。</p>
+<h3>例題(example) をやりましょう!</h3>
+<p>思うに、OpenWFEru 内部を知る一番の方法はいくつかのプロセスフローやソースコードを書いてそれを実行させることでしょう。ワークフローシステムとその可能性を理解するために、想像上の企業で計画された文書ワークフロー(&#8216;Documentation<br />
+Work Flow&#8217; ) を考えて見ましょう。</p>
+<p>このユースケースはいたってシンプルです。自分のチームの異なるプロジェクトのテクニカルドキュメントのフローをトレースしてみましょう。まず participant を定義しましょう。:</p>
+<p><strong>Participants</strong></p>
+<ol>
+	<li>Documentation Head (DH)</li>
+	<li>Project Leader (PL)</li>
+	<li>Developer</li>
+	<li>Technical Writer (TW)</li>
+</ol>
+<p>それぞれの participant の詳細についてはちょっと後でまた議論することとしますね。最初のポイントは…:</p>
+<ul>
+	<li>DH(Documentation Head) はプロジェクトのマニュアル・ドキュメント作業の前準備にOKを出す人です。* PL(Project Leader) は プロジェクトの責任者です。</li>
+	<li>Developer はチームのメンバーです。* TW(Technical Writer) は作られたソフトウェアに関するマニュアル・ユーザガイドを書く人です。</li>
+</ul>
+<h3>Documentation Process(文書化のプロセス)</h3>
+<p>このフローは簡単に言うとこうです…:</p>
+<ul>
+	<li>すべてのプロセスの始まりは developer または PL からのリクエストによります。<br />
+  .  リクエストによってはいくつものドキュメントが必要かもしれませんが、この例ではそれは無視することとします。<br />
+  .</li>
+	<li>次に、 <em>DH</em> と <em>TW</em>  の <strong>両方</strong> がそのリクエストとドキュメントを得て、<br />
+  .    <em>DH</em> がそれらをレビューして先に進めます。<br />
+  (もしくはルールの明確化のためにリクエストを戻します。) で、そこから <em>TW</em> は<br />
+  選んでユーザマニュアルを準備します。* 次に、 <em>TW</em> はレビューのリクエストを <em>DH</em> ・ <em>PL</em> と<br />
+  developer に準備したドキュメントとともに送ります。そして、 <em>DH</em> は編集に関するレビューを<br />
+  <em>PL</em> と developer が技術的なレビューをそれぞれ同時に行います。<br />
+  .</li>
+	<li><em>DH</em> と <em>PL</em> は変更を依頼でき、その変更が修正されます。  そして最後に、これが正しいユーザマニュアルとして承認されます。</li>
+</ul>
+<p>以下が  <em>DH</em> によって与えられたワークフローのイメージです。</p>
+<p><strong><span class="caps">INSERT</span> <span class="caps">IMAGE</span> <span class="caps">HERE</span></strong></p>
+<h3>ざっと手書きしてみよう!</h3>
+<p>えーと、始めるのに必要な物はそろったようですね。上のプロセスフローはちょっとばかり複雑かもしれませんが、一歩一歩行きましょう。最初は一番シンプルなことから… プロセスフロー定義の一部を書いてみましょう。完全ではありませんが、このステップではあなたに全てのセットアップ方法に関するアイデアを与えてくれます。よって、あなたはそれを段階的に改善していけばよいのです。じゃ、いきましょう:<br />
+<pre><br />
+<code>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt; 
+&lt;process-definition 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.openwfe.org/flowdef_r1.5.0.xsd"
+    name="docflow" 
+    revision="1.0"&gt;
+	
+	&lt;description language="default"&gt;
+		This just the complete flow definition of docflow process.</p>
+</description>
+<p><sequence><br />
+		<participant ref="developer"/><br />
+		<participant ref="project-leader"/></p>
+</sequence>
+<p></p>
+</process-definition>
+<p></code><br />
+</pre></p>
+<p>上のワークフロー定義はとてもシンプルです。私たちが定義したのは developer から PL へのフローのイベントの&quot;順番&quot; です。<br />
+これを OPENWFERU_HOME に docflow__1.0.xml のファイル名でセーブして、以下を入力してください。:<br />
+<pre><br />
+<code>
+bin/validate-workflow.rb docflow__1.0.xml
+</code><br />
+</pre><br />
+以下のような表示が得られるはずです。:<br />
+<pre><br />
+<code>
+Trying to validate docflow__1.0.xml...  PASSED
+</code><br />
+</pre><br />
+validation にパスしたら…、おめでとうございます!あなたは最初のワークフローを書きました。バリデーションするスクリプトは、http://www.openwfe.org/flowdef.xsd で定義されているXMLスキーマでワークフロー定義をバリデーションします。つまり、ワークフロー定義をバリデーションするにはネットワークが必要だということですね。</p>
+<p>じゃ、次のステップに行きましょう。ご覧の通り、上記プロセス定義には2つの &#8220;role&#8221; が定義されています。一つは <em>developer</em> で、もうひとつは <em>project-leader</em> ですね。さて、OpenWFEru での &#8220;role&#8221; について話す時が来ました。思い出してほしいのですが、これらは <strong>user</strong> (ユーザー) ではなく <strong>role</strong> (ロール…役割) だということです。ユーザ管理を後々単純にするために複数のユーザを一つのロールにアサインできます。ユーザをロールにアサインさせる方法は後ほど…。So, for now let&#8217;s add these lines at the bottom of</p>
+      </div>
+
+      <div id="footer">
+        <div class="xright">&#169;2005-2008 OpenWFE.org</div>
+        <div class="clear">
+          <hr/>
+        </div>
+      </div>
+
+    </div>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+var pageTracker=_gat._getTracker('UA-138748-2');
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>
+

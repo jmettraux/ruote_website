@@ -1,0 +1,471 @@
+
+<html>
+  <head>
+    
+    <title>OpenWFEru - expressions</title>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="../xml.css" type="text/css" rel="stylesheet"/>
+    <link href="../ruby.css" type="text/css" rel="stylesheet"/>
+    <link href="../openwferu.css" type="text/css" rel="stylesheet"/>
+  </head>
+
+  <body class="composite">
+
+    <a name="top"></a>
+
+    <div id="banner">
+      <a href="../index.html"
+        ><img src="../images/openwfe-logo.png" alt="OpenWFEru"/></a>
+      <div id="siteSearch">
+        <!--siteSearch-->
+      </div>
+    </div>
+
+    <div id="breadcrumbs">
+        <div style="float:left">
+            open source ruby workflow and bpm engine
+        </div>
+        <div style="float:right">
+            <a href="/index.html">english</a> | <a href="/ja/index.html">japanese</a>
+        </div>
+    </div>
+
+    <div id="coreBox">
+
+      <div id="leftColumn">
+        <div id="navColumn">
+
+         <br/>
+         <ul>
+<li class='collapsed'><a href=../ja/index.html>index</a></li>
+<li class='collapsed'><a href=../ja/license.html>license</a></li>
+<li class='collapsed'><a href=../ja/quickstart.html>quickstart</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/download.html>download</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/documentation.html>documentation</a></li>
+<li class='collapsed'><strong>expressions</strong></li>
+<li class='collapsed'><a href=../ja/participants.html>participants</a></li>
+<li class='collapsed'><a href=../ja/patterns.html>patterns</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=source.html>source</a></li>
+<li class='collapsed'><a href=../rdoc/index.html>rdoc</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/activity.html>activity</a></li>
+<li class='collapsed'><a href=../ja/lists.html>mailing lists</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://jmettraux.wordpress.com>tech blog</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://github.com/jmettraux/ruote/tree/master/CREDITS.txt>credits</a></li>
+<li class='collapsed'><a href=http://rubyforge.org/projects/openwferu>on rubyforge</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/scheduler.html>the scheduler</a></li>
+<li class='collapsed'><a href=../ja/sqs.html>amazon sqs</a></li>
+<li class='collapsed'><a href=../ja/kotoba.html>kotoba</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://code.google.com/p/ruby-taskr/>Taskr</a></li>
+<li class='collapsed'><a href=http://rufus.rubyforge.org>Rufus</a></li>
+<li class='collapsed'><a href=http://rools.rubyforge.org>Rools</a></li>
+</ul>
+
+         <!--hostedOnRubyForge-->
+
+         <br/>
+         <br/>
+
+         <p align="right">
+             <span 
+                style='font-size: 7pt; color: #7c7c90'
+             >website<br/>generated with</span><br/>
+             <a href='http://rote.rubyforge.org/' target='_blank'
+                 ><img 
+                    src='../images/rote-tiny.png' 
+                    alt='Rote' /></a>
+         </p>
+
+         <!--fisheye?-->
+        </div>
+      </div>
+
+      <div id="rightColumn">
+        <script type="text/javascript"><!--
+google_ad_client = "pub-2190386866693134";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+        <script 
+            type="text/javascript" 
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        >
+        </script>
+      </div>
+
+      <div id="bodyColumn">
+        <h2>OpenWFEru の expression(式表現)</h2>
+<p>OpenWFEru.にある各 expression についての説明と例です。</p>
+<p>それぞれの expression について, その &#8220;rdoc&#8221; をリンクしておきますね(多くが空白かもしれませんが)。</p>
+<p>使用例はXMLと(または)Ruby のプロセス定義で示します。</p>
+<p>Ruby プロセス定義での expression 名は  &#8216;_&#8217; (アンダースコア)で始まります。これは実際のRubyのキーワードおよび項目名と区別するためです。</p>
+<p>そして、OpenWFEru で実装された <a href="patterns.html">ワークフロー制御パターン</a> のそれぞれを見るととても勉強になりますよ。</p>
+<h3><a name="exp_cancel-process"></a>cancel-process(プロセスのキャンセル)</h3>
+<p>アルファベット順の最初の expression がこれ…。ワークフローエンジンがこの expression に出会ったら、これが含まれているプロセスを完全にキャンセルします。</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">before</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">cancel-process</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">after</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span></code></pre>
+<p>この例では、&quot;after&quot;という participant には決して到着しません。</p>
+<p>大体において、&quot;cancel-process&quot; は &#8220;if&#8221; expressionまたは自身の&#8217;if&#8217; attribute(属性)の結果として使われます。例えば…。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/def</span><span class="punct">'</span>
+
+    <span class="keyword">class </span><span class="class">TestDefinition1</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+        <span class="keyword">def </span><span class="method">make</span>
+            <span class="ident">process_definition</span> <span class="symbol">:name</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">25_cancel</span><span class="punct">&quot;,</span> <span class="symbol">:revision</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">1</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+                <span class="ident">sequence</span> <span class="keyword">do</span>
+                    <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">customer</span><span class="punct">&quot;</span>
+                    <span class="ident">_cancel_process</span> <span class="symbol">:if</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">${f:no_thanks} == true</span><span class="punct">&quot;</span>
+                    <span class="ident">concurrence</span> <span class="keyword">do</span>
+                        <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">accounting</span><span class="punct">&quot;</span>
+                        <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">logistics</span><span class="punct">&quot;</span>
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<p>もし、participant &#8220;customer&#8221; がフィールド &#8220;no_thanks&#8221; に &#8220;true&#8221; をセットしたら、フローは決して concurrence(条件一致時の処理) を実行しないでしょう。</p>
+<p><a href="rdoc/classes/OpenWFE/CancelProcessExpression.html">rdoc</a></p>
+<h3><a name="exp_case"></a>case</h3>
+<p><a href="rdoc/classes/OpenWFE/CaseExpression.html">rdoc</a></p>
+<h3><a name="exp_concurrence"></a>concurrence(条件一致)</h3>
+<p>プロセスフローで2つ以上の条件分岐をさせます。</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">process-definition</span> <span class="attribute">name</span><span class="punct">=&quot;</span><span class="string">exp_mydef</span><span class="punct">&quot;</span> <span class="attribute">revision</span><span class="punct">=&quot;</span><span class="string">0.1</span><span class="punct">&quot;&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">concurrence</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alice</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bob</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">charlie</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+                <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">doug</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">concurrence</span><span class="punct">&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">process-definition</span><span class="punct">&gt;</span></code></pre>
+<p>OpenWFEru ならこう書くこともできます。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/def</span><span class="punct">'</span>
+
+    <span class="keyword">class </span><span class="class">MyProcessDefinition01</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+        <span class="ident">_concurrence</span> <span class="keyword">do</span>
+            <span class="ident">_participant</span> <span class="symbol">:ref</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">alice</span><span class="punct">&quot;</span>
+            <span class="ident">_participant</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;</span>
+            <span class="ident">_sequence</span> <span class="keyword">do</span>
+                <span class="ident">charlie</span>
+                <span class="ident">doug</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<p>例で注意してほしいのは、participant が表示した &#8216;invoking&#8217;  には3つの異なる方法があることです。単独で使用する場合、participant 名はアンダースコアで始めてはいけません。</p>
+<p><a href="rdoc/classes/OpenWFE/ConcurrenceExpression.html">rdoc</a></p>
+<h3><a name="exp_concurrent_iterator"></a>concurrent-iterator</h3>
+<p>これは&quot;concurrence&quot;:#exp_concurrence(条件分岐) と <a href="#exp_iteratorの合いの子です。">iterator</a></p>
+iterator が子プロセスの並列コピーを発生させるのと同様、同じような属性を持ち同じような行動をすると理解してください。.
+<p><a href="rdoc/classes/OpenWFE/ConcurrentIteratorExpression.html">rdoc</a></p>
+<h3><a name="exp_cron"></a>cron</h3>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">cron</span> <span class="attribute">tab</span><span class="punct">=&quot;</span><span class="string">0 9-17 * * mon-fri</span><span class="punct">&quot;</span> <span class="attribute">name</span><span class="punct">=&quot;</span><span class="string">exp_//reminder</span><span class="punct">&quot;&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">send-reminder</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">cron</span><span class="punct">&gt;</span></code></pre>
+<p><a href="rdoc/classes/OpenWFE/CronExpression.html">rdoc</a></p>
+<h3><a name="exp_cursor"></a>cursor</h3>
+<p>&#8216;cursor&#8217; expression は拡張機能を持つ sequence(シーケンス)です。</p>
+<p>以下のコマンドが使えます。</p>
+<ul>
+	<li>back : &#8216;steps&#8217;  に指定された数のsequence(順)だけ戻ります。</li>
+	<li>break : cursor はすぐに終了します。</li>
+	<li>cancel : &#8216;break&#8217;  の alias(別名)です。</li>
+	<li>continue : cursor の残りをスキップして終了します (もし cursor がループならその最初に戻ります)。</li>
+	<li>jump :  cursor を決められた位置(ステップ)に位置づけます。</li>
+	<li>rewind : &#8216;continue&#8217; の alias(別名)です。</li>
+	<li>skip : &#8216;steps&#8217;  に指定された数だけスキップします。</li>
+</ul>
+<p><a href="#exp_loop">loop</a> expression は cursor をループさせます(ループから出るために &#8220;break&#8221; か &#8220;cancel&#8221; を指定してください)。</p>
+<p><a href="rdoc/classes/OpenWFE/CursorExpression.html">cursor rdoc</a></p>
+<p>&#8216;cursor&#8217; expression はワークフロー制御パターン 10(Arbitrary Cycles) の例で使われています。</p>
+<p><a href="patterns.html#pat_10_arbitrary_cycles">pattern</a></p>
+<h3><a name="exp_defined"></a>defined</h3>
+<p><a href="rdoc/classes/OpenWFE/DefinedExpression.html">rdoc</a></p>
+<h3><a name="exp_equals"></a>equals</h3>
+<p><a href="rdoc/classes/OpenWFE/EqualsExpression.html">rdoc</a></p>
+<h3><a name="exp_f"></a>f</h3>
+<p>これは &#8220;field&#8221; の短縮形です。</p>
+<h3><a name="exp_field"></a>field</h3>
+<p><a href="rdoc/classes/OpenWFE/FqvExpression.html">rdoc</a></p>
+<h3><a name="exp_filter"></a>filter</h3>
+<p><a href="#exp_participant">participant</a> expression には workitem 本体の入り口出口でフィルタリングするための &#8216;filter&#8217; attribute(属性) があります。</p>
+<p>またプロセスのsegment(セグメント)の入出力のデータをフィルタリングする&#8217;filter&#8217; expression もあります。</p>
+<pre class='ruby'><code class='ruby'>    <span class="keyword">class </span><span class="class">MyProcessDefinition001</span> <span class="punct">&lt;</span> <span class="constant">ProcessDefinition</span>
+        <span class="ident">sequence</span> <span class="keyword">do</span>
+
+            <span class="ident">set</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">readable</span><span class="punct">&quot;,</span> <span class="symbol">:value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">bible</span><span class="punct">&quot;</span>
+            <span class="ident">set</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">writable</span><span class="punct">&quot;,</span> <span class="symbol">:value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">sand</span><span class="punct">&quot;</span>
+            <span class="ident">set</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">randw</span><span class="punct">&quot;,</span> <span class="symbol">:value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">notebook</span><span class="punct">&quot;</span>
+            <span class="ident">set</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">hidden</span><span class="punct">&quot;,</span> <span class="symbol">:value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">playboy</span><span class="punct">&quot;</span>
+
+            <span class="ident">alice</span>
+
+            <span class="ident">filter</span> <span class="symbol">:name</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">filter0</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+                <span class="ident">sequence</span>
+                    <span class="ident">bob</span>
+                    <span class="ident">charly</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="ident">filter_definition</span> <span class="symbol">:name</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">filter0</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+            <span class="ident">field</span> <span class="symbol">:regex</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">readable</span><span class="punct">&quot;,</span> <span class="symbol">:permissions</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">r</span><span class="punct">&quot;</span>
+            <span class="ident">field</span> <span class="symbol">:regex</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">writable</span><span class="punct">&quot;,</span> <span class="symbol">:permissions</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">w</span><span class="punct">&quot;</span>
+            <span class="ident">field</span> <span class="symbol">:regex</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">randw</span><span class="punct">&quot;,</span> <span class="symbol">:permissions</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">rw</span><span class="punct">&quot;</span>
+            <span class="ident">field</span> <span class="symbol">:regex</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">hidden</span><span class="punct">&quot;,</span> <span class="symbol">:permissions</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string"></span><span class="punct">&quot;</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<p>上記例では, participant &#8216;alice&#8217; は workitem の全てのフィールドを参照・更新できます。そのため participant &#8216;bob&#8217; ・&#8217;charly&#8217; では&#8217;readable&#8217; ・ &#8216;randw&#8217; フィールドの参照や  &#8216;sand&#8217; ・ &#8216;randw&#8217; フィールドの更新が制限されます。</p>
+<p><a href="rdoc/classes/OpenWFE/FilterExpression.html">rdoc</a></p>
+<h3><a name="exp_filter_definition"></a>filter-definition(フィルター定義)</h3>
+<p>既に <a href="#exp_filter">filter</a> expression のところの記述にフィルター定義の例があります。</p>
+<p>フィルター定義は ビルドされた後OpenWFE の変数にバインドされます。なのでフィルターはローカルにも(プレフィックスなし)、プロセスレベル(プレフィックスは &#8220;/&#8221; )・エンジンレベル(プレフィックスは &#8220;//&#8221; )にもバインドできます。</p>
+<p>フィルター定義はプロセス定義内で行なわれます。プロセスの本体で直接設定しても、その外(そのプロセス定義内であれば)で設定してもかまいません。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">filter_definition</span> <span class="symbol">:name</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">filter0</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+        <span class="ident">field</span> <span class="symbol">:regex</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">readable</span><span class="punct">&quot;,</span> <span class="symbol">:permissions</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">r</span><span class="punct">&quot;</span>
+        <span class="ident">field</span> <span class="symbol">:regex</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">writable</span><span class="punct">&quot;,</span> <span class="symbol">:permissions</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">w</span><span class="punct">&quot;</span>
+        <span class="ident">field</span> <span class="symbol">:regex</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">randw</span><span class="punct">&quot;,</span> <span class="symbol">:permissions</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">rw</span><span class="punct">&quot;</span>
+        <span class="ident">field</span> <span class="symbol">:regex</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">hidden</span><span class="punct">&quot;,</span> <span class="symbol">:permissions</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string"></span><span class="punct">&quot;</span>
+    <span class="keyword">end</span></code></pre>
+<p><a href="rdoc/classes/OpenWFE/FilterDefinitionExpression.html">rdoc</a></p>
+<h3><a name="exp_forget"></a>forget</h3>
+<p><a href="rdoc/classes/OpenWFE/ForgetExpression.html">rdoc</a></p>
+<h3><a name="exp_if"></a>if</h3>
+<p><a href="rdoc/classes/OpenWFE/IfExpression.html">rdoc</a></p>
+<h3><a name="exp_iterator"></a>iterator</h3>
+<p><a href="rdoc/classes/OpenWFE/IteratorExpression.html">rdoc</a></p>
+<h3><a name="exp_loop"></a>loop</h3>
+<p>see <a href="#exp_cursor">cursor</a>.</p>
+<p><a href="rdoc/classes/OpenWFE/LoopExpression.html">rdoc</a></p>
+<h3><a name="exp_lose"></a>lose</h3>
+<p><a href="rdoc/classes/OpenWFE/LoseExpression.html">rdoc</a></p>
+<h3><a name="exp_parameter"></a>parameter</h3>
+<p>&#8216;parameter&#8217;  は実質、フローの expression ではありません。これが使われるのは workitem/launchitem のフィールドを提示したり、ある時点やフロー起動時にそれをチェックしたり検証したりするときです。</p>
+<pre class='xml'><code class='xml'><span class="punct">&lt;</span><span class="tag">process-definition</span> <span class="attribute">name</span><span class="punct">=&quot;</span><span class="string">exp_x</span><span class="punct">&quot;</span> <span class="attribute">revision</span><span class="punct">=&quot;</span><span class="string">0</span><span class="punct">&quot;&gt;</span>
+
+    <span class="comment">&lt;!-- required workitem fields --&gt;</span>
+
+    <span class="punct">&lt;</span><span class="tag">parameter</span> <span class="attribute">field</span><span class="punct">=&quot;</span><span class="string">customer</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;</span><span class="tag">parameter</span> <span class="attribute">field</span><span class="punct">=&quot;</span><span class="string">address</span><span class="punct">&quot;</span> <span class="attribute">default</span><span class="punct">=&quot;&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;</span><span class="tag">parameter</span> <span class="attribute">field</span><span class="punct">=&quot;</span><span class="string">zip</span><span class="punct">&quot;</span> <span class="attribute">type</span><span class="punct">=&quot;</span><span class="string">integer</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;</span><span class="tag">parameter</span> <span class="attribute">field</span><span class="punct">=&quot;</span><span class="string">town</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;</span><span class="tag">parameter</span> <span class="attribute">field</span><span class="punct">=&quot;</span><span class="string">phone</span><span class="punct">&quot;</span> <span class="attribute">match</span><span class="punct">=&quot;</span><span class="string">^[0-9]{3}-[0-9]{7}$</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;</span><span class="tag">parameter</span> <span class="attribute">field</span><span class="punct">=&quot;</span><span class="string">customer_type</span><span class="punct">&quot;</span> <span class="attribute">default</span><span class="punct">=&quot;</span><span class="string">2</span><span class="punct">&quot;</span> <span class="attribute">type</span><span class="punct">=&quot;</span><span class="string">int</span><span class="punct">&quot;/&gt;</span>
+
+    <span class="comment">&lt;!-- the body of the process definition --&gt;</span>
+
+    <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">service0</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">service1</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">play-the-music</span><span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+
+    <span class="comment">&lt;!-- subprocesses --&gt;</span>
+
+    <span class="punct">&lt;</span><span class="tag">process-definition</span> <span class="attribute">name</span><span class="punct">=&quot;</span><span class="string">exp_play-the-music</span><span class="punct">&quot;&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">musician</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">process-definition</span><span class="punct">&gt;</span>
+
+<span class="punct">&lt;/</span><span class="tag">process-definition</span><span class="punct">&gt;</span></code></pre>
+<p>パラメータ (&#8216;param&#8217; でも同意です) はプロセス定義本体の外側に置かれなくてはいけません (&#8216;process-definition&#8217; タグの直接の子のように)。.</p>
+<p>この例では、もし launchitem に &#8217;customer&#8217;・ &#8217;zip&#8217;・ &#8216;town&#8217; ・&#8217;phone&#8217; フィールド(属性)がなかったら、プロセスの起動はすぐに失敗します (起動が非同期だとしても)。もし &#8216;zip&#8217; フィールドに integer に変換できないものがセットされていたらプロセスの起動は失敗します。&#8217;phone&#8217; フィールドの値が与えられた正規表現にマッチしなかったらプロセスの起動は失敗します。&#8217;address&#8217; フィールドになにも設定されてなければ、空白文字列(フィールドのデフォルトの値)に置き換えられます。&#8217;customer_type&#8217; フィールドに明白に設定されていなければ、その値は integer の &#8216;2&#8217; になります。</p>
+<p>Ruby プロセス定義ではこんな感じです…。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/def</span><span class="punct">'</span>
+
+    <span class="keyword">class </span><span class="class">MyProcessDefinition_01</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+
+        <span class="comment">#</span>
+        <span class="comment"># required fields in the launchitem</span>
+
+        <span class="ident">param</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">customer</span><span class="punct">&quot;</span>
+        <span class="ident">param</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">address</span><span class="punct">&quot;,</span> <span class="ident">default</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string"></span><span class="punct">&quot;</span>
+        <span class="ident">param</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">zip</span><span class="punct">&quot;,</span> <span class="ident">type</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">integer</span><span class="punct">&quot;</span>
+        <span class="ident">param</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">town</span><span class="punct">&quot;</span>
+        <span class="ident">param</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">phone</span><span class="punct">&quot;,</span> <span class="ident">match</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">^[0-9]{3}-[0-9]{7}$</span><span class="punct">&quot;</span>
+        <span class="ident">param</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">customer_type</span><span class="punct">&quot;,</span> <span class="ident">default</span> <span class="punct">=&gt;</span> <span class="number">2</span><span class="punct">,</span> <span class="ident">type</span> <span class="punct">=&gt;</span> <span class="symbol">:int</span>
+
+        <span class="comment">#</span>
+        <span class="comment"># process definition body</span>
+
+        <span class="ident">sequence</span> <span class="keyword">do</span>
+            <span class="ident">service0</span>
+            <span class="ident">service1</span>
+            <span class="ident">play_the_music</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">#</span>
+        <span class="comment"># subprocesses</span>
+
+        <span class="ident">process_definition</span> <span class="symbol">:name</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">play_the_music</span><span class="punct">&quot;</span>
+            <span class="ident">musician</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<h3><a name="exp_participant"></a>participant</h3>
+<p><a href="rdoc/classes/OpenWFE/ParticipantExpression.html">rdoc</a></p>
+<h3><a name="exp_process-definition"></a>process-definition</h3>
+<p><a href="rdoc/classes/OpenWFE/DefineExpression.html">rdoc</a></p>
+<h3><a name="exp_print"></a>print</h3>
+<p><a href="rdoc/classes/OpenWFE/PrintExpression.html">rdoc</a></p>
+<h3><a name="exp_q"></a>q</h3>
+<p>これは &#8220;quote&#8221; の短縮形です。</p>
+<h3><a name="exp_quote"></a>quote</h3>
+<p><a href="rdoc/classes/OpenWFE/FqvExpression.html">rdoc</a></p>
+<h3><a name="exp_redo"></a>redo</h3>
+<p>全ての expression は暗黙に &#8216;tag&#8217; attribute を受け入れます。これは評価前の expression のコピーの名前を定義するもので、 (タグで示された expression で受け取るように)適用する workitem 内に保持されます。</p>
+<p>この名前 (タグ) はa &#8216;redo&#8217; や &#8216;<a href="#exp_undo">undo</a>&#8217; expression に使われます。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">sequence</span> <span class="keyword">do</span>
+        <span class="ident">sequence</span> <span class="symbol">:tag</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">core_job</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+            <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">alice</span><span class="punct">&quot;</span>
+            <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;</span>
+        <span class="keyword">end</span>
+        <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">charly</span><span class="punct">&quot;</span>
+        <span class="ident">_if</span> <span class="symbol">:test</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">${f:charly_not_happy} == true</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+            <span class="ident">_redo</span> <span class="symbol">:ref</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">core_job</span><span class="punct">&quot;</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<p>たぶんこの例は以下のように実装されるでしょう。</p>
+<p><a href="rdoc/classes/OpenWFE/RedoExpression.html">rdoc</a></p>
+<h3><a name="exp_reserve"></a>reserve</h3>
+<p>この expression でプロセスインスタンスのセグメントを同時に実行しないようにさせます。</p>
+<p>これは mutex な変数として使います。この変数はエンジンレベル (プレフィックスが &#8220;//&#8221;) でバインドされ、まったく違う複数プロセスのセグメントが同時に実行されるのを防ぐために使います。</p>
+<p><a href="rdoc/classes/OpenWFE/ReserveExpression.html">rdoc</a></p>
+<h3><a name="exp_restore"></a>restore</h3>
+<p>これは workitem 本体の最上位の値同様、(サブ)フィールドの値をコピーしたり、前もって&quot;save&quot;:#exp_save したworkitem の本体をリストアしたりするのに使います。</p>
+<p>この expression にはたくさんのオプションがあります。詳細な説明は以下の rdoc を参照してください。</p>
+<p><a href="rdoc/classes/OpenWFE/RestoreWorkItemExpression.html">rdoc</a></p>
+<h3><a name="exp_reval"></a>reval</h3>
+<p>この expression はネストされた Ruby のコードを評価します。</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">reval</span><span class="punct">&gt;</span>$i = 0<span class="punct">&lt;/</span><span class="tag">reval</span><span class="punct">&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">loop</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">toto</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">reval</span><span class="punct">&gt;</span>$i = $i + 1<span class="punct">&lt;/</span><span class="tag">reval</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">break</span> <span class="attribute">if</span><span class="punct">=&quot;</span><span class="string">${r:$i == 10}</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="comment">&lt;!-- a variant :
+            &lt;break rif=&quot;$i == 10&quot; /&gt;
+            --&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">loop</span><span class="punct">&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span></code></pre>
+<p>&#8216;reval&#8217; されたコード中において、エンジン内部で hook される2つのprincipalは、RawExpression インスタンス自身と<tt>workitem</tt> を指す<tt>self</tt> です。</p>
+<pre class='ruby'><code class='ruby'>    <span class="keyword">class </span><span class="class">Reval4</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+        <span class="ident">sequence</span> <span class="keyword">do</span>
+            <span class="ident">reval</span> <span class="punct">&quot;</span><span class="string"></span><span class="punct">&quot;&quot;</span><span class="string">
+                engine = self.application_context['__tracer']
+
+                workitem.currently_active_processes =
+                    engine.list_processes.join('<span class="escape">\n</span>')
+
+                'done' # will be placed in the workitem field '__result__'
+            </span><span class="punct">&quot;&quot;</span><span class="string"></span><span class="punct">&quot;</span>
+            <span class="ident">participant</span> <span class="symbol">:toto</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<p>&#8216;reval&#8217; の結果は <pre><i>result</i></pre> というフィールドに String でセットされます。</p>
+<p>コードは <span class="caps">SAFE</span> level 3 ( <a href="http://www.rubycentral.com/book/taint.html">http://www.rubycentral.com/book/taint.html</a>  にこの level に関する詳しい情報があります) で評価されます。</p>
+<p>エンジンの application context で <tt>:ruby_eval_allowed</tt> パラメータに &#8220;true&#8221; を設定しなければなりません。さもないと &#8216;reval&#8217; expression は例外を発生させます。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">engine</span><span class="punct">.</span><span class="ident">application_context</span><span class="punct">[</span><span class="symbol">:ruby_eval_allowed</span><span class="punct">]</span> <span class="punct">=</span> <span class="constant">true</span></code></pre>
+<p><a href="rdoc/classes/OpenWFE/RevalExpression.html">rdoc</a></p>
+<h3><a name="exp_save"></a>save</h3>
+<p>この expression は workitem に変数を保存したり、同一workitem の フィールドにある attribute を保存するのに使います。</p>
+<p><a href="#exp_restore">restore</a> と共同で使われます。</p>
+<p><a href="rdoc/classes/OpenWFE/SaveWorkItemExpression.html">rdoc</a></p>
+<h3><a name="exp_sequence"></a>sequence</h3>
+<p>単純に他のフローの expression と繋げるために使います。</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">process-definition</span> <span class="attribute">name</span><span class="punct">=&quot;</span><span class="string">exp_my_definition</span><span class="punct">&quot;</span> <span class="attribute">revision</span><span class="punct">=&quot;</span><span class="string">0</span><span class="punct">&quot;&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">charly</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">process-definition</span><span class="punct">&gt;</span></code></pre><pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/def</span><span class="punct">'</span>
+
+    <span class="keyword">class </span><span class="class">MyDefinition0</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+        <span class="ident">sequence</span> <span class="keyword">do</span>
+            <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span>
+            <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">bravo</span><span class="punct">&quot;</span>
+            <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">charly</span><span class="punct">&quot;</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<p><a href="patterns.html#pat_1_sequence">pattern</a><br />
+<a href="rdoc/classes/OpenWFE/SequenceExpression.html">rdoc</a></p>
+<h3><a name="exp_set"></a>set</h3>
+<p>これは変数に値をセットしたり、 workitem のフィールド(attribute) に値をセットするのに使います。</p>
+<p>これはプロセス定義本体の外側に置かれ、本体が適用(実行)される前に評価されます。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/def</span><span class="punct">'</span>
+
+    <span class="keyword">class </span><span class="class">MyDefinition0</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+        <span class="ident">sequence</span> <span class="keyword">do</span>
+            <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">alpha</span><span class="punct">&quot;</span>
+        <span class="keyword">end</span>
+
+        <span class="ident">set</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">city</span><span class="punct">&quot;,</span> <span class="symbol">:value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Kyoto</span><span class="punct">&quot;</span>
+        <span class="ident">set</span> <span class="symbol">:field</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">country</span><span class="punct">&quot;,</span> <span class="symbol">:value</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Japan</span><span class="punct">&quot;</span>
+    <span class="keyword">end</span></code></pre>
+<p>participant である &#8216;alpha&#8217; は &#8216;city&#8217; ・ &#8216;country&#8217; フィールドにそれぞれ &#8216;Kyoto&#8217; ・ &#8216;Japan&#8217;  とセットされた  workitem を受け取ります。このテクニックはプロセスのロジック自体と関係ない長期の設定に便利です。</p>
+<p><a href="#exp_unset">unset</a> はプロセス本体の外側には置けません。&quot;Filter definitions&quot;:#exp_filter_definition は置けます。</p>
+<p><a href="rdoc/classes/OpenWFE/SetValueExpression.html">rdoc</a></p>
+<h3><a name="exp_sleep"></a>sleep</h3>
+<p><a href="rdoc/classes/OpenWFE/SleepExpression.html">rdoc</a></p>
+<h3><a name="exp_subprocess"></a>subprocess</h3>
+<p><a href="rdoc/classes/OpenWFE/SubProcessRefExpression.html">rdoc</a></p>
+<h3><a name="exp_undefined"></a>undefined</h3>
+<p><a href="rdoc/classes/OpenWFE/DefinedExpression.html">rdoc</a></p>
+<h3><a name="exp_undo"></a>undo</h3>
+<p>全ての expression は暗黙に &#8216;tag&#8217; attribute を受け入れます。これは評価前の expression のコピーの名前を定義するもので、 (タグで示された expression で受け取るように)適用する workitem 内に保持されます。</p>
+<p>この名前 (タグ) はa &#8216;redo&#8217; や &#8216;<a href="#exp_undo">undo</a>&#8217; expression に使われます。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">concurrence</span> <span class="keyword">do</span>
+        <span class="ident">sequence</span> <span class="symbol">:tag</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">side_job</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+            <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">alice</span><span class="punct">&quot;</span>
+            <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;</span>
+        <span class="keyword">end</span>
+        <span class="ident">sequence</span> <span class="keyword">do</span>
+            <span class="ident">participant</span> <span class="punct">&quot;</span><span class="string">charly</span><span class="punct">&quot;</span>
+            <span class="ident">_undo</span> <span class="symbol">:ref</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">side_job</span><span class="punct">&quot;</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span></code></pre>
+<p>この例で、participant の &#8216;charly&#8217; が自分の仕事をした後で、最初の sequence (&#8216;side_job&#8217; というタグ) はキャンセルされます (そして親に当たる &#8216;concurrence&#8217; にトリガーとなるよう返します)。</p>
+<p><a href="rdoc/classes/OpenWFE/UndoExpression.html">rdoc</a></p>
+<h3><a name="exp_unset"></a>unset</h3>
+<p><a href="rdoc/classes/OpenWFE/UnsetValueExpression.html">rdoc</a></p>
+<h3><a name="exp_v"></a>v</h3>
+<p>&#8220;variable&#8221; の短縮形です。</p>
+<h3><a name="exp_variable"></a>variable</h3>
+<p><a href="rdoc/classes/OpenWFE/FqvExpression.html">rdoc</a></p>
+<h3><a name="exp_when"></a>when</h3>
+<p><a href="rdoc/classes/OpenWFE/WhenExpression.html">rdoc</a></p>
+<h3><a name="exp_wait"></a>wait</h3>
+<p><a href="rdoc/classes/OpenWFE/WaitExpression.html">rdoc</a></p>
+      </div>
+
+      <div id="footer">
+        <div class="xright">&#169;2005-2008 OpenWFE.org</div>
+        <div class="clear">
+          <hr/>
+        </div>
+      </div>
+
+    </div>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+var pageTracker=_gat._getTracker('UA-138748-2');
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>
+

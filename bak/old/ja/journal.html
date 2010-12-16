@@ -1,0 +1,195 @@
+
+<html>
+  <head>
+    
+    <title>OpenWFEru - business process journaling</title>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="../xml.css" type="text/css" rel="stylesheet"/>
+    <link href="../ruby.css" type="text/css" rel="stylesheet"/>
+    <link href="../openwferu.css" type="text/css" rel="stylesheet"/>
+  </head>
+
+  <body class="composite">
+
+    <a name="top"></a>
+
+    <div id="banner">
+      <a href="../index.html"
+        ><img src="../images/openwfe-logo.png" alt="OpenWFEru"/></a>
+      <div id="siteSearch">
+        <!--siteSearch-->
+      </div>
+    </div>
+
+    <div id="breadcrumbs">
+        <div style="float:left">
+            open source ruby workflow and bpm engine
+        </div>
+        <div style="float:right">
+            <a href="/index.html">english</a> | <a href="/ja/index.html">japanese</a>
+        </div>
+    </div>
+
+    <div id="coreBox">
+
+      <div id="leftColumn">
+        <div id="navColumn">
+
+         <br/>
+         <ul>
+<li class='collapsed'><a href=../ja/index.html>index</a></li>
+<li class='collapsed'><a href=../ja/license.html>license</a></li>
+<li class='collapsed'><a href=../ja/quickstart.html>quickstart</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/download.html>download</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/documentation.html>documentation</a></li>
+<li class='collapsed'><a href=../ja/expressions.html>expressions</a></li>
+<li class='collapsed'><a href=../ja/participants.html>participants</a></li>
+<li class='collapsed'><a href=../ja/patterns.html>patterns</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=source.html>source</a></li>
+<li class='collapsed'><a href=../rdoc/index.html>rdoc</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/activity.html>activity</a></li>
+<li class='collapsed'><a href=../ja/lists.html>mailing lists</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://jmettraux.wordpress.com>tech blog</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://github.com/jmettraux/ruote/tree/master/CREDITS.txt>credits</a></li>
+<li class='collapsed'><a href=http://rubyforge.org/projects/openwferu>on rubyforge</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/scheduler.html>the scheduler</a></li>
+<li class='collapsed'><a href=../ja/sqs.html>amazon sqs</a></li>
+<li class='collapsed'><a href=../ja/kotoba.html>kotoba</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://code.google.com/p/ruby-taskr/>Taskr</a></li>
+<li class='collapsed'><a href=http://rufus.rubyforge.org>Rufus</a></li>
+<li class='collapsed'><a href=http://rools.rubyforge.org>Rools</a></li>
+</ul>
+
+         <!--hostedOnRubyForge-->
+
+         <br/>
+         <br/>
+
+         <p align="right">
+             <span 
+                style='font-size: 7pt; color: #7c7c90'
+             >website<br/>generated with</span><br/>
+             <a href='http://rote.rubyforge.org/' target='_blank'
+                 ><img 
+                    src='../images/rote-tiny.png' 
+                    alt='Rote' /></a>
+         </p>
+
+         <!--fisheye?-->
+        </div>
+      </div>
+
+      <div id="rightColumn">
+        <script type="text/javascript"><!--
+google_ad_client = "pub-2190386866693134";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+        <script 
+            type="text/javascript" 
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        >
+        </script>
+      </div>
+
+      <div id="bodyColumn">
+        <h2>business process journaling(ビジネス プロセス ジャーナリング)</h2>
+<p>デフォルトでは、OpenWFEru は起動しているビジネスプロセスの形式的なジャーナル(ログ)を保持しません。もしプロセスが壊れた場合、再度ビジネスプロセスを確立させるのは可能ですが、 expression pool (./work/expool/) 中のファイルを修復するあるレベルの専門性なしでは難しいことと言えます。</p>
+<p>Journaling(ジャーナリング) は ビジネスプロセスを構成する全てのイベントの記録を保持する技術で、完全にもしくはある時点までの再実行を可能にするものです。</p>
+<p>また、 journal(ジャーナル) は システム移行時(一つの動いているエンジン上のビジネスプロセスを他システムに)にも使えます。</p>
+<h3>activating journaling(ジャーナリングの活性化)</h3>
+<pre class='ruby'><code class='ruby'>    <span class="ident">engine</span><span class="punct">.</span><span class="ident">init_service</span><span class="punct">(&quot;</span><span class="string">journal</span><span class="punct">&quot;,</span> <span class="constant">Journal</span><span class="punct">)</span></code></pre>
+<p>デフォルトでは、Journal は <tt>work/journal/</tt> ディレクトリに置かれます。</p>
+<p>プロセスが終了した時点で、その journal は削除されます。</p>
+<p>journals は イベントをシリアライズされた順番のYAML で、人間の読める形式となっていますが J.K.Rowlingじゃありません.。</p>
+<h3>keeping all the journals(全てのジャーナルの保存)</h3>
+<p>デフォルトでは、正式な OpenWFEru での journaling の実装では終了したビジネスプロセスの journal は廃棄します。</p>
+<p>ただし、エンジンに指定した古い journal を保持するように指示できます。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">engine</span><span class="punct">.</span><span class="ident">application_context</span><span class="punct">[</span><span class="symbol">:keep_journals</span><span class="punct">]</span> <span class="punct">=</span> <span class="constant">true</span></code></pre>
+<p>終了した journals はデフォルトで <tt>work/journal/done/</tt> に置かれます。</p>
+<p>(サジェスチョン : 古い終了した journal を圧縮するcron job)</p>
+<h3>browsing journals(ジャーナルの閲覧)</h3>
+journal はこんな感じです。 :
+
+<pre>
+
+--- 
+- :update
+- 2007-03-26 17:40:16.054666 +09:00
+- &amp;id001 !ruby/OpenWFE::FlowExpressionId 
+  s: (fei 0.9.8 engine/engine field:__definition Test 0 20070326-gobadayopa environment 0)
+- !ruby/object:OpenWFE::Environment 
+  apply_time: 
+  attributes: 
+  environment_id: 
+  fei: *id001
+  parent_id: 
+  variables: {}
+
+--- 
+- :update
+- 2007-03-26 17:40:16.057057 +09:00
+- &amp;id001 !ruby/OpenWFE::FlowExpressionId 
+  s: (fei 0.9.8 engine/engine field:__definition Test 0 20070326-gobadayopa environment 0)
+- !ruby/object:OpenWFE::Environment 
+  apply_time: 
+  attributes: 
+  environment_id: 
+  fei: *id001
+  parent_id: 
+  variables: {}
+
+--- 
+- :reply
+- 2007-03-26 17:40:16.058434 +09:00
+- &amp;id001 !ruby/OpenWFE::FlowExpressionId 
+  s: (fei 0.9.8 engine/engine field:__definition Test 0 20070326-gobadayopa participant 0.0.0)
+- !ruby/object:OpenWFE::InFlowWorkItem 
+  attributes: 
+    ___map_type: smap
+    __result__: |
+      alpha
+
+  flow_expression_id: *id001
+  last_modified: 
+  participant_name: alpha
+
+</pre>
+<p>退屈だし、要約するのも大変だし…。</p>
+<p>もっと簡単に journal を閲覧する (そして指定した journal を &#8216;replay&#8217; する)ツールがあります。</p>
+<h3>replaying journals(ジャーナルのリプレイ)</h3>
+<p>&#8230;</p>
+<p><i>( page under construction )</i></p>
+      </div>
+
+      <div id="footer">
+        <div class="xright">&#169;2005-2008 OpenWFE.org</div>
+        <div class="clear">
+          <hr/>
+        </div>
+      </div>
+
+    </div>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+var pageTracker=_gat._getTracker('UA-138748-2');
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>
+

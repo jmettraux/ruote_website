@@ -1,0 +1,219 @@
+
+<html>
+  <head>
+    
+    <title>OpenWFEru - quickstart</title>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="../xml.css" type="text/css" rel="stylesheet"/>
+    <link href="../ruby.css" type="text/css" rel="stylesheet"/>
+    <link href="../openwferu.css" type="text/css" rel="stylesheet"/>
+  </head>
+
+  <body class="composite">
+
+    <a name="top"></a>
+
+    <div id="banner">
+      <a href="../index.html"
+        ><img src="../images/openwfe-logo.png" alt="OpenWFEru"/></a>
+      <div id="siteSearch">
+        <!--siteSearch-->
+      </div>
+    </div>
+
+    <div id="breadcrumbs">
+        <div style="float:left">
+            open source ruby workflow and bpm engine
+        </div>
+        <div style="float:right">
+            <a href="/index.html">english</a> | <a href="/ja/index.html">japanese</a>
+        </div>
+    </div>
+
+    <div id="coreBox">
+
+      <div id="leftColumn">
+        <div id="navColumn">
+
+         <br/>
+         <ul>
+<li class='collapsed'><a href=../ja/index.html>index</a></li>
+<li class='collapsed'><a href=../ja/license.html>license</a></li>
+<li class='collapsed'><strong>quickstart</strong></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/download.html>download</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/documentation.html>documentation</a></li>
+<li class='collapsed'><a href=../ja/expressions.html>expressions</a></li>
+<li class='collapsed'><a href=../ja/participants.html>participants</a></li>
+<li class='collapsed'><a href=../ja/patterns.html>patterns</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=source.html>source</a></li>
+<li class='collapsed'><a href=../rdoc/index.html>rdoc</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/activity.html>activity</a></li>
+<li class='collapsed'><a href=../ja/lists.html>mailing lists</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://jmettraux.wordpress.com>tech blog</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://github.com/jmettraux/ruote/tree/master/CREDITS.txt>credits</a></li>
+<li class='collapsed'><a href=http://rubyforge.org/projects/openwferu>on rubyforge</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/scheduler.html>the scheduler</a></li>
+<li class='collapsed'><a href=../ja/sqs.html>amazon sqs</a></li>
+<li class='collapsed'><a href=../ja/kotoba.html>kotoba</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://code.google.com/p/ruby-taskr/>Taskr</a></li>
+<li class='collapsed'><a href=http://rufus.rubyforge.org>Rufus</a></li>
+<li class='collapsed'><a href=http://rools.rubyforge.org>Rools</a></li>
+</ul>
+
+         <!--hostedOnRubyForge-->
+
+         <br/>
+         <br/>
+
+         <p align="right">
+             <span 
+                style='font-size: 7pt; color: #7c7c90'
+             >website<br/>generated with</span><br/>
+             <a href='http://rote.rubyforge.org/' target='_blank'
+                 ><img 
+                    src='../images/rote-tiny.png' 
+                    alt='Rote' /></a>
+         </p>
+
+         <!--fisheye?-->
+        </div>
+      </div>
+
+      <div id="rightColumn">
+        <script type="text/javascript"><!--
+google_ad_client = "pub-2190386866693134";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+        <script 
+            type="text/javascript" 
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        >
+        </script>
+      </div>
+
+      <div id="bodyColumn">
+        <h2>OpenWFEru クイックスタート</h2>
+<p>Ruby 1.8.5 以上を使うので確認してください。</p>
+<pre>
+   $ sudo gem install -y openwferu
+</pre>
+<p>(Windows システムでは、もし gem インストール時に &#8220;libxml-ruby&#8221; をいっしょにインストールするか訊かれるときに &#8220;no&#8221; と応えることができます。そうするととてもスムーズにインストールできます。)</p>
+<h3>最初の OpenWFEru を使ったプログラム</h3>
+<p>&#8216;<a href="/examples/openwferu.rb">openwferu.rb</a>&#8217; という名のファイルを編集してください。</p>
+<pre class='ruby'><code class='ruby'><span class="ident">require</span> <span class="punct">'</span><span class="string">rubygems</span><span class="punct">'</span>
+<span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/def</span><span class="punct">'</span>
+<span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/workitem</span><span class="punct">'</span>
+<span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/engine/engine</span><span class="punct">'</span>
+
+<span class="comment">#</span>
+<span class="comment"># instantiating an engine</span>
+
+<span class="ident">engine</span> <span class="punct">=</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">Engine</span><span class="punct">.</span><span class="ident">new</span>
+
+<span class="comment">#</span>
+<span class="comment"># adding some participants</span>
+
+<span class="ident">engine</span><span class="punct">.</span><span class="ident">register_participant</span> <span class="symbol">:alice</span> <span class="keyword">do</span> <span class="punct">|</span><span class="ident">workitem</span><span class="punct">|</span>
+    <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">alice got a workitem...</span><span class="punct">&quot;</span>
+    <span class="ident">workitem</span><span class="punct">.</span><span class="ident">alice_comment</span> <span class="punct">=</span> <span class="punct">&quot;</span><span class="string">this thing looks interesting</span><span class="punct">&quot;</span>
+<span class="keyword">end</span>
+
+<span class="ident">engine</span><span class="punct">.</span><span class="ident">register_participant</span> <span class="symbol">:bob</span> <span class="keyword">do</span> <span class="punct">|</span><span class="ident">workitem</span><span class="punct">|</span>
+    <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">bob got a workitem...</span><span class="punct">&quot;</span>
+    <span class="ident">workitem</span><span class="punct">.</span><span class="ident">bob_comment</span> <span class="punct">=</span> <span class="punct">&quot;</span><span class="string">not for me, I prefer VB</span><span class="punct">&quot;</span>
+    <span class="ident">workitem</span><span class="punct">.</span><span class="ident">bob_comment2</span> <span class="punct">=</span> <span class="punct">&quot;</span><span class="string">Bob rules</span><span class="punct">&quot;</span>
+<span class="keyword">end</span>
+
+<span class="ident">engine</span><span class="punct">.</span><span class="ident">register_participant</span> <span class="symbol">:summarize</span> <span class="keyword">do</span> <span class="punct">|</span><span class="ident">workitem</span><span class="punct">|</span>
+    <span class="ident">puts</span> 
+    <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">summary of process <span class="expr">#{workitem.fei.workflow_instance_id}</span></span><span class="punct">&quot;</span>
+    <span class="ident">workitem</span><span class="punct">.</span><span class="ident">attributes</span><span class="punct">.</span><span class="ident">each</span> <span class="keyword">do</span> <span class="punct">|</span><span class="ident">k</span><span class="punct">,</span> <span class="ident">v</span><span class="punct">|</span>
+        <span class="keyword">next</span> <span class="keyword">unless</span> <span class="ident">k</span><span class="punct">.</span><span class="ident">match</span> <span class="punct">&quot;</span><span class="string">.*_comment$</span><span class="punct">&quot;</span>
+        <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string"> - <span class="expr">#{k}</span> : '<span class="expr">#{v}</span>'</span><span class="punct">&quot;</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">#</span>
+<span class="comment"># a process definition</span>
+
+<span class="keyword">class </span><span class="class">TheProcessDefinition0</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+    <span class="ident">sequence</span> <span class="keyword">do</span>
+        <span class="ident">concurrence</span> <span class="keyword">do</span>
+            <span class="ident">participant</span> <span class="symbol">:alice</span>
+            <span class="ident">participant</span> <span class="symbol">:bob</span>
+        <span class="keyword">end</span>
+        <span class="ident">participant</span> <span class="symbol">:summarize</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">#</span>
+<span class="comment"># launching the process</span>
+
+<span class="ident">li</span> <span class="punct">=</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">LaunchItem</span><span class="punct">.</span><span class="ident">new</span><span class="punct">(</span><span class="constant">TheProcessDefinition0</span><span class="punct">)</span>
+
+<span class="ident">li</span><span class="punct">.</span><span class="ident">initial_comment</span> <span class="punct">=</span> <span class="punct">&quot;</span><span class="string">please give your impressions about http://ruby-lang.org</span><span class="punct">&quot;</span>
+
+<span class="ident">fei</span> <span class="punct">=</span> <span class="ident">engine</span><span class="punct">.</span><span class="ident">launch</span> <span class="ident">li</span>
+    <span class="comment">#</span>
+    <span class="comment"># 'fei' means FlowExpressionId, the fei returned here is the</span>
+    <span class="comment"># identifier for the root expression of the newly launched process</span>
+
+<span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">started process '<span class="expr">#{fei.workflow_instance_id}</span>'</span><span class="punct">&quot;</span>
+
+<span class="ident">engine</span><span class="punct">.</span><span class="ident">wait_for</span> <span class="ident">fei</span>
+    <span class="comment">#</span>
+    <span class="comment"># blocks until the process terminates</span></code></pre>
+<p>これを実行してください。</p>
+<pre>
+    $ ruby openwferu.rb
+</pre>
+<p>こんな感じで出力が表示されるでしょう。 :</p>
+<pre>
+    alice got a workitem...
+    bob got a workitem...
+    
+    summary of process 1173232330251
+     - bob_comment : 'not for me, I prefer VB'
+     - alice_comment : 'this thing looks interesting'
+     - initial_comment : 'please give your impressions about http://ruby-lang.org'
+
+</pre>
+<h3>(openwferu のアンインストール)</h3>
+<p>OpenWFEru はあなたのためにはならなかったかも… :</p>
+<pre>
+    $ sudo gem uninstall openwferu
+</pre>
+      </div>
+
+      <div id="footer">
+        <div class="xright">&#169;2005-2008 OpenWFE.org</div>
+        <div class="clear">
+          <hr/>
+        </div>
+      </div>
+
+    </div>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+var pageTracker=_gat._getTracker('UA-138748-2');
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>
+

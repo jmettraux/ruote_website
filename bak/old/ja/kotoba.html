@@ -1,0 +1,231 @@
+
+<html>
+  <head>
+    
+    <title>OpenWFEru - the 'kotoba' library</title>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="../xml.css" type="text/css" rel="stylesheet"/>
+    <link href="../ruby.css" type="text/css" rel="stylesheet"/>
+    <link href="../openwferu.css" type="text/css" rel="stylesheet"/>
+  </head>
+
+  <body class="composite">
+
+    <a name="top"></a>
+
+    <div id="banner">
+      <a href="../index.html"
+        ><img src="../images/openwfe-logo.png" alt="OpenWFEru"/></a>
+      <div id="siteSearch">
+        <!--siteSearch-->
+      </div>
+    </div>
+
+    <div id="breadcrumbs">
+        <div style="float:left">
+            open source ruby workflow and bpm engine
+        </div>
+        <div style="float:right">
+            <a href="/index.html">english</a> | <a href="/ja/index.html">japanese</a>
+        </div>
+    </div>
+
+    <div id="coreBox">
+
+      <div id="leftColumn">
+        <div id="navColumn">
+
+         <br/>
+         <ul>
+<li class='collapsed'><a href=../ja/index.html>index</a></li>
+<li class='collapsed'><a href=../ja/license.html>license</a></li>
+<li class='collapsed'><a href=../ja/quickstart.html>quickstart</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/download.html>download</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/documentation.html>documentation</a></li>
+<li class='collapsed'><a href=../ja/expressions.html>expressions</a></li>
+<li class='collapsed'><a href=../ja/participants.html>participants</a></li>
+<li class='collapsed'><a href=../ja/patterns.html>patterns</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=source.html>source</a></li>
+<li class='collapsed'><a href=../rdoc/index.html>rdoc</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/activity.html>activity</a></li>
+<li class='collapsed'><a href=../ja/lists.html>mailing lists</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://jmettraux.wordpress.com>tech blog</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://github.com/jmettraux/ruote/tree/master/CREDITS.txt>credits</a></li>
+<li class='collapsed'><a href=http://rubyforge.org/projects/openwferu>on rubyforge</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/scheduler.html>the scheduler</a></li>
+<li class='collapsed'><a href=../ja/sqs.html>amazon sqs</a></li>
+<li class='collapsed'><strong>kotoba</strong></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://code.google.com/p/ruby-taskr/>Taskr</a></li>
+<li class='collapsed'><a href=http://rufus.rubyforge.org>Rufus</a></li>
+<li class='collapsed'><a href=http://rools.rubyforge.org>Rools</a></li>
+</ul>
+
+         <!--hostedOnRubyForge-->
+
+         <br/>
+         <br/>
+
+         <p align="right">
+             <span 
+                style='font-size: 7pt; color: #7c7c90'
+             >website<br/>generated with</span><br/>
+             <a href='http://rote.rubyforge.org/' target='_blank'
+                 ><img 
+                    src='../images/rote-tiny.png' 
+                    alt='Rote' /></a>
+         </p>
+
+         <!--fisheye?-->
+        </div>
+      </div>
+
+      <div id="rightColumn">
+        <script type="text/javascript"><!--
+google_ad_client = "pub-2190386866693134";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+        <script 
+            type="text/javascript" 
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        >
+        </script>
+      </div>
+
+      <div id="bodyColumn">
+        <h2>openwferu-kotoba</h2>
+<p>&#8220;kotoba&#8221; (言葉) means &#8216;word&#8217; in Japanese.</p>
+<p>openwferu-kotoba は、大きい integer の数字を日本語のように聞こえる単語みたいなもの に変換(これはどんな日本語でも integer に変換するわけではありませんが)します。</p>
+<p>詳しくは、私の Blog エントリ <a href="http://jmettraux.wordpress.com/2007/03/18/kotoba/">initial blog post</a> を参照してください。</p>
+<p>ヒューマンフレンドリーなワークフローインスタンスIDを生成するために、OpenWFEru は&quot; kotoba を使っています&quot;:http://jmettraux.wordpress.com/2007/03/22/workflow-instance-id/ 。</p>
+<h3>openwferu-kotoba の入手…。</h3>
+<p>gem があります。 :</p>
+<pre>
+$ sudo gem install openwferu-kotoba
+</pre>
+<p>この gem は <a href="http://rubyforge.org/frs/?group_id=2609">RubyForge</a> からもダウンロードできます。</p>
+<p>直接 <a href="http://viewvc.rubyforge.mmmultiworks.com/cgi/viewvc.cgi/trunk/openwfe-ruby/lib/openwfe/util/kotoba.rb?root=openwferu&amp;view=markup">ソースを見る</a> こともできます。</p>
+<h3>コマンドラインからの openwferu-kotoba の使用方法 (from the command line)</h3>
+<p>&#8216;kotoba.rb&#8217; と同じディレクトリで、以下のように…。</p>
+<pre>
+
+$ ruby kotoba.rb
+
+ruby kotoba.rb {arg}
+
+  If the arg is a 'Kotoba' word, will turn it into the equivalent
+  integer.
+  Else, it will consider the arg as an integer and attempt at
+  turning it into a Kotoba [word].
+
+  Kotoba uses 70 syllables.
+
+$ ruby kotoba.rb tsunashima
+20412170
+$ ruby kotoba.rb 20412170  
+tsunashima
+$ ruby kotoba.rb 20412171
+tsunashime
+$ ruby kotoba.rb matsu   
+2159
+$ ruby kotoba.rb machi
+2157
+$ ruby kotoba.rb 2157 
+machi
+$ ruby kotoba.rb sushi
+3832
+$ ruby kotoba.rb sashimi
+248672
+$ ruby kotoba.rb yokohama
+23462280
+$ ruby kotoba.rb 23433534234
+gowayujozusu
+$ ruby kotoba.rb 234335342  
+dusogonishi
+$ ruby kotoba.rb 1      
+be
+$ ruby kotoba.rb 1973
+kogo
+$ ruby kotoba.rb kogo
+1973
+
+</pre>
+<h3>ライブラリとしての openwferu-kotoba の使用方法  (as a library)</h3>
+&#8220;openwferu-kotoba の rdoc &quot;:http://openwferu.rubyforge.org/rdoc/classes/Kotoba.html もできました。
+<p>openwferu-kotoba を使った小さなプログラム例が以下です。</p>
+<pre class='ruby'><code class='ruby'><span class="ident">require</span> <span class="punct">'</span><span class="string">pp</span><span class="punct">'</span>
+<span class="ident">require</span> <span class="punct">'</span><span class="string">rubygems</span><span class="punct">'</span>
+<span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/util/kotoba</span><span class="punct">'</span>
+
+<span class="number">3</span><span class="punct">.</span><span class="ident">times</span> <span class="keyword">do</span>
+
+    <span class="ident">i</span> <span class="punct">=</span> <span class="punct">(</span><span class="ident">rand</span> <span class="punct">*</span> <span class="number">1000000</span><span class="punct">).</span><span class="ident">to_i</span>
+    <span class="ident">s</span> <span class="punct">=</span> <span class="constant">Kotoba</span><span class="punct">::</span><span class="ident">from_integer</span> <span class="ident">i</span>
+
+    <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string"><span class="expr">#{i}</span> =&gt; <span class="expr">#{s}</span></span><span class="punct">&quot;</span>
+    <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string"><span class="expr">#{s}</span> =&gt; <span class="expr">#{Kotoba::to_integer(s)}</span></span><span class="punct">&quot;</span>
+        <span class="comment"># forth and back</span>
+
+    <span class="ident">a</span> <span class="punct">=</span> <span class="constant">Kotoba</span><span class="punct">::</span><span class="ident">split</span> <span class="ident">s</span>
+
+    <span class="ident">print</span> <span class="punct">&quot;</span><span class="string"><span class="expr">#{s}</span> =&gt; </span><span class="punct">&quot;;</span> <span class="ident">pp</span> <span class="ident">a</span>
+        <span class="comment"># showing how the 'word' is split</span>
+
+    <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">.</span><span class="punct">&quot;</span>
+<span class="keyword">end</span></code></pre>
+<p>この例での出力は例えばこんな感じです…。</p>
+<pre>
+sonanda:~/openwfe-ruby mettraux$ ruby -I lib examples/kotoba.rb 
+201371 =&gt; pedese
+pedese =&gt; 201371
+pedese =&gt; ["pe", "de", "se"]
+.
+687109 =&gt; bibahatsu
+bibahatsu =&gt; 687109
+bibahatsu =&gt; ["bi", "ba", "ha", "tsu"]
+.
+948993 =&gt; bisoribo
+bisoribo =&gt; 948993
+bisoribo =&gt; ["bi", "so", "ri", "bo"]
+.
+</pre>
+<h3>フィードバック</h3>
+<p>openwferu-kotoba のフィードバックには、OpenWFEru <a href="http://groups.google.com/group/openwferu-users">user mailing list</a> か、OpenWFEru <a href="http://rubyforge.org/tracker/?group_id=2609">trackers</a> を使ってください。</p>
+<h3>(uninstalling openwferu-kotoba)openwferu-kotoba のアンインストール</h3>
+<p>もしいらないとかきらいとかなら…。</p>
+<pre>
+    $ sudo gem uninstall openwferu-kotoba
+</pre>
+      </div>
+
+      <div id="footer">
+        <div class="xright">&#169;2005-2008 OpenWFE.org</div>
+        <div class="clear">
+          <hr/>
+        </div>
+      </div>
+
+    </div>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+var pageTracker=_gat._getTracker('UA-138748-2');
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>
+

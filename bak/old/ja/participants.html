@@ -1,0 +1,307 @@
+
+<html>
+  <head>
+    
+    <title>OpenWFEru - participants</title>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="../xml.css" type="text/css" rel="stylesheet"/>
+    <link href="../ruby.css" type="text/css" rel="stylesheet"/>
+    <link href="../openwferu.css" type="text/css" rel="stylesheet"/>
+  </head>
+
+  <body class="composite">
+
+    <a name="top"></a>
+
+    <div id="banner">
+      <a href="../index.html"
+        ><img src="../images/openwfe-logo.png" alt="OpenWFEru"/></a>
+      <div id="siteSearch">
+        <!--siteSearch-->
+      </div>
+    </div>
+
+    <div id="breadcrumbs">
+        <div style="float:left">
+            open source ruby workflow and bpm engine
+        </div>
+        <div style="float:right">
+            <a href="/index.html">english</a> | <a href="/ja/index.html">japanese</a>
+        </div>
+    </div>
+
+    <div id="coreBox">
+
+      <div id="leftColumn">
+        <div id="navColumn">
+
+         <br/>
+         <ul>
+<li class='collapsed'><a href=../ja/index.html>index</a></li>
+<li class='collapsed'><a href=../ja/license.html>license</a></li>
+<li class='collapsed'><a href=../ja/quickstart.html>quickstart</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/download.html>download</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/documentation.html>documentation</a></li>
+<li class='collapsed'><a href=../ja/expressions.html>expressions</a></li>
+<li class='collapsed'><strong>participants</strong></li>
+<li class='collapsed'><a href=../ja/patterns.html>patterns</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=source.html>source</a></li>
+<li class='collapsed'><a href=../rdoc/index.html>rdoc</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/activity.html>activity</a></li>
+<li class='collapsed'><a href=../ja/lists.html>mailing lists</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://jmettraux.wordpress.com>tech blog</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://github.com/jmettraux/ruote/tree/master/CREDITS.txt>credits</a></li>
+<li class='collapsed'><a href=http://rubyforge.org/projects/openwferu>on rubyforge</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/scheduler.html>the scheduler</a></li>
+<li class='collapsed'><a href=../ja/sqs.html>amazon sqs</a></li>
+<li class='collapsed'><a href=../ja/kotoba.html>kotoba</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://code.google.com/p/ruby-taskr/>Taskr</a></li>
+<li class='collapsed'><a href=http://rufus.rubyforge.org>Rufus</a></li>
+<li class='collapsed'><a href=http://rools.rubyforge.org>Rools</a></li>
+</ul>
+
+         <!--hostedOnRubyForge-->
+
+         <br/>
+         <br/>
+
+         <p align="right">
+             <span 
+                style='font-size: 7pt; color: #7c7c90'
+             >website<br/>generated with</span><br/>
+             <a href='http://rote.rubyforge.org/' target='_blank'
+                 ><img 
+                    src='../images/rote-tiny.png' 
+                    alt='Rote' /></a>
+         </p>
+
+         <!--fisheye?-->
+        </div>
+      </div>
+
+      <div id="rightColumn">
+        <script type="text/javascript"><!--
+google_ad_client = "pub-2190386866693134";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+        <script 
+            type="text/javascript" 
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        >
+        </script>
+      </div>
+
+      <div id="bodyColumn">
+        <h2>OpenWFEru の participant</h2>
+<p>通常、プロセス定義は participant でできたworkitemの軌道を作ります。</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">process-definition</span> <span class="attribute">name</span><span class="punct">=&quot;</span><span class="string">def0</span><span class="punct">&quot;</span> <span class="attribute">revision</span><span class="punct">=&quot;</span><span class="string">0.1</span><span class="punct">&quot;&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">accounting</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+                <span class="comment">&lt;!-- send invoice --&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">participant</span> <span class="attribute">ref</span><span class="punct">=&quot;</span><span class="string">logistics</span><span class="punct">&quot;</span> <span class="punct">/&gt;</span>
+                <span class="comment">&lt;!-- deliver items --&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">process-definition</span><span class="punct">&gt;</span></code></pre>
+<p>ご覧の通り、participant は &#8216;participant&#8217; expression を起動します。こうも書けます。</p>
+<pre class='xml'><code class='xml'>    <span class="punct">&lt;</span><span class="tag">process-definition</span> <span class="attribute">name</span><span class="punct">=&quot;</span><span class="string">def0</span><span class="punct">&quot;</span> <span class="attribute">revision</span><span class="punct">=&quot;</span><span class="string">0.1</span><span class="punct">&quot;&gt;</span>
+        <span class="punct">&lt;</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">accounting</span> <span class="punct">/&gt;</span>
+            <span class="punct">&lt;</span><span class="tag">logistics</span> <span class="punct">/&gt;</span>
+        <span class="punct">&lt;/</span><span class="tag">sequence</span><span class="punct">&gt;</span>
+    <span class="punct">&lt;/</span><span class="tag">process-definition</span><span class="punct">&gt;</span></code></pre>
+<p>あなたの participant 名が <span class="caps">XML</span> と混合しないようにしてください。</p>
+<p>OpenWFEru では、Ruby の Class を使ってプロセス定義することもできます。</p>
+<pre class='ruby'><code class='ruby'>    <span class="keyword">class </span><span class="class">MyProcessDefinition</span> <span class="punct">&lt;</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">ProcessDefinition</span>
+        <span class="keyword">def </span><span class="method">make</span>
+            <span class="ident">process_definition</span> <span class="symbol">:name</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">def0</span><span class="punct">&quot;,</span> <span class="symbol">:revision</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">0.2</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+                <span class="ident">sequence</span> <span class="keyword">do</span>
+                    <span class="ident">accounting</span>
+                    <span class="ident">logistics</span>
+                    <span class="comment">#</span>
+                    <span class="comment"># sometimes you'll prefer the more explicit :</span>
+                    <span class="comment">#</span>
+                    <span class="comment"># participant :ref =&gt; &quot;accounting&quot;</span>
+                    <span class="comment"># participant :ref =&gt; &quot;logistics&quot;</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span></code></pre>
+<p>participant はエンジンではこのように登録されます。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/engine/engine</span><span class="punct">'</span>
+    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/worklist/storeparticipants</span><span class="punct">'</span>
+
+    <span class="punct">(...)</span>
+
+    <span class="ident">engine</span> <span class="punct">=</span> <span class="constant">Engine</span><span class="punct">.</span><span class="ident">new</span>
+
+    <span class="ident">hpAlice</span> <span class="punct">=</span> <span class="constant">HashParticipant</span><span class="punct">.</span><span class="ident">new</span>
+    <span class="ident">hpBob</span> <span class="punct">=</span> <span class="constant">HashParticipant</span><span class="punct">.</span><span class="ident">new</span>
+
+    <span class="ident">engine</span><span class="punct">.</span><span class="ident">register_participant</span><span class="punct">(</span><span class="symbol">:alice</span><span class="punct">,</span> <span class="ident">hpAlice</span><span class="punct">)</span>
+    <span class="ident">engine</span><span class="punct">.</span><span class="ident">register_participant</span><span class="punct">(</span><span class="symbol">:bob</span><span class="punct">,</span> <span class="ident">hpBob</span><span class="punct">)</span>
+
+    <span class="punct">(...)</span></code></pre>
+<p>OpenWFEru リリース時の participant 実装は以下のとおりです。</p>
+<ul>
+	<li><a href="#AtomParticipant">AtomParticipant</a>  &#8211; workitem を  Atom feed で出力します。</li>
+	<li><a href="#BlockParticipant">BlockParticipant</a>  &#8211; ビジネスプロセス の participant としての単純な Ruby block</li>
+	<li><a href="#CsvParticipant">CsvParticipant</a>  &#8211; デシジョンテーブル participant</li>
+	<li><a href="#EmailNotificationParticipant">EmailNotificationParticipant</a>  &#8211; participant を通過した各 workitem に関してのメール[notification] 送信</li>
+	<li><a href="#FileParticipant">FileParticipant</a>  &#8211; workitems のファイルへのダンプ出力</li>
+	<li><a href="#HashParticipant">HashParticipant</a>  &#8211; インメモリー・ハッシュへの workitem の格納</li>
+	<li><a href="#NoOperationParticipant">NoOperationParticipant</a>  &#8211; エンジンへの直接返答(オペレーションなし)</li>
+	<li><a href="#NullParticipant">NullParticipant</a>  &#8211;  /dev/null に似たこの participant は単に workitem を受け取って破棄、エンジンにも返答しません。</li>
+	<li><a href="#SoapParticipant">SoapParticipant</a>  &#8211; プロセスインスタンスから webservices を invoke</li>
+	<li><a href="#SocketParticipant">SocketParticipant</a>  &#8211; workitem を <span class="caps">TCP</span> ソケットとディスパッチ</li>
+	<li><a href="#SqsParticipant">SqsParticipant</a>  &#8211; worktiem を <a href="http://aws.amazon.com">Amazon <span class="caps">SQS</span></a> とディスパッチ</li>
+	<li><a href="#YamlParticipant">YamlParticipant</a>  &#8211; workitems を 永続的 worklist に格納</li>
+</ul>
+<p>詳細 :</p>
+<h3><a name="AtomParticipant"></a>AtomParticipant</h3>
+AtomParticipant に到達した workitem それぞれが、participant が保持するatom feed のエントリを生成します。
+<p>さらにこのコンセプトのいいところは、 atom ・ rss のフィードからの情報を取得したり待機する participant も含まれているところです。</p>
+<p>この初期値の atom の実装は人間・コンピュータ両方にとってとてもエレガントな worklist となっています。</p>
+<p><a href="rdoc/classes/OpenWFE/AtomParticipant.html">rdoc</a></p>
+<p>この participant は OpenWFEru の&quot;examples/&quot;:/examples/ フォルダにあるサンプルの中の <a href="/examples/quotereporter.rb">最初の例</a> で使われています。</p>
+<h3><a name="BlockParticipant"></a>BlockParticipant</h3>
+<p>この participant  はRubyっぽいですね。</p>
+<p>このアイデアはRubyの block をparticipant  としてワークフローに直接マッピングすることです。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">engine</span><span class="punct">.</span><span class="ident">register_participant</span><span class="punct">(</span><span class="symbol">:vat</span><span class="punct">)</span> <span class="keyword">do</span> <span class="punct">|</span><span class="ident">workitem</span><span class="punct">|</span>
+        <span class="ident">price</span> <span class="punct">=</span> <span class="constant">Integer</span><span class="punct">(</span><span class="ident">workitem</span><span class="punct">.</span><span class="ident">price</span><span class="punct">)</span>
+        <span class="ident">price</span> <span class="punct">=</span> <span class="ident">price</span> <span class="punct">+</span> <span class="ident">price</span> <span class="punct">*</span> <span class="global">$vat</span>
+        <span class="ident">workitem</span><span class="punct">.</span><span class="ident">net_price</span> <span class="punct">=</span> <span class="ident">price</span>
+    <span class="keyword">end</span></code></pre>
+<p>エンジンへの返答は明白で、Block 中の状態ではありません。</p>
+<p>この participant は OpenWFEru の&quot;examples/&quot;:/examples/ フォルダにあるサンプルの中の <a href="/examples/quotereporter.rb">最初の例</a> で使われています。この例では、単に入ってきた workitem のダンプを標準出力に表示します。</p>
+<p>引数のないblock・ workitem を引数にする block 、flow expression と workitem を引数にする block  を participant に渡すようにもできます。</p>
+<p>OpenWFEru 0.9.8 からは、 block の最後の値(その戻り値) が 通過する workitemの &#8216;<i>result</i>&#8217; フィールドに設定するようになりました。注意! : ここにシリアライズできない値(複雑なオブジェクトへのリファレンスとかそういうもの)をセットしないでください。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">engine</span><span class="punct">.</span><span class="ident">register_participant</span><span class="punct">(</span><span class="symbol">:my_participant</span><span class="punct">)</span> <span class="keyword">do</span> <span class="punct">|</span><span class="ident">flow_expression</span><span class="punct">,</span> <span class="ident">workitem</span><span class="punct">|</span>
+        <span class="ident">workitem</span><span class="punct">.</span><span class="ident">attributes</span><span class="punct">[&quot;</span><span class="string">parent</span><span class="punct">&quot;]</span> <span class="punct">=</span> <span class="ident">flow_expression</span><span class="punct">.</span><span class="ident">parent_id</span><span class="punct">.</span><span class="ident">to_s</span>
+            <span class="comment">#</span>
+            <span class="comment"># just storing the parent expression of the participant expression</span>
+            <span class="comment"># that sent the workitem, as a string in the workitem</span>
+            <span class="comment">#</span>
+            <span class="comment"># you could do more complicated and dangerous things with</span>
+            <span class="comment"># handle on the flow expression (but that's an advanced topic)</span>
+    <span class="keyword">end</span></code></pre>
+<p><a href="rdoc/classes/OpenWFE/BlockParticipant.html">rdoc</a></p>
+<h3><a name="CsvParticipant"></a>CsvParticipant</h3>
+<p>Java OpenWFE では CsvParticipants は &#8220;デシジョンテーブル&#8221; または &#8220;decision participant&#8221; と呼ばれています。</p>
+<p>これが decision participant に隠れた&quot;CSV tables&quot;:http://jmettraux.wordpress.com/2007/02/11/ruby-decision-tables/に関する blog のエントリです。</p>
+<p><a href="rdoc/classes/OpenWFE/CsvParticipant.html">rdoc</a></p>
+<p><a href="rdoc/classes/OpenWFE/CsvTable.html">rdoc</a> (<span class="caps">CSV</span> table)</p>
+<h3><a name="EmailNotificationParticipant"></a>EmailNotificationParticipant</h3>
+<p>この participant は メール単位で notification を送ります。メールのテキストは workitem 本体にあるデータをテンプレートとして生成されます。</p>
+<p><a href="rdoc/classes/OpenWFE/EmailNotificationParticipant.html">rdoc</a></p>
+<h3><a name="FileParticipant"></a>FileParticipant</h3>
+<p>この participant  は workitem をファイルにダンプ出力します。デフォルトでは workitem を <span class="caps">YAML</span> 文字列で出力しますが、encode_workitem() メソッドをオーバーライドさせることもできます。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/participants/participants</span><span class="punct">'</span>
+
+    <span class="ident">engine</span><span class="punct">.</span><span class="ident">register_participant</span><span class="punct">(&quot;</span><span class="string">Fedor</span><span class="punct">&quot;,</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">FileParticipant</span><span class="punct">)</span></code></pre>
+<p>この例では、 &#8216;Fedor&#8217; participant の workitems は /work/out/ ディレクトリにディスパッチ(ダンプ出力) されます。</p>
+<p><a href="rdoc/classes/OpenWFE/FileParticipant.html">rdoc</a></p>
+<p>FileParticipant には相棒がいます。 <a href="rdoc/classes/OpenWFE/FileListener.html">FileListener</a> です。これは入ってくる &#8216;file&#8217; workitems の ディレクトリを監視します。</p>
+<h3><a name="HashParticipant"></a>HashParticipant</h3>
+<p>OpenWFEja では worklist コンポーネント機能があります。OpenWFEru (0.9.3) ではまだですが、この &#8216;HashParticipant&#8217; は worklist への最初のステップになります。</p>
+<p>その扱いを待つ workitem の格納のためのハッシュとparticipant を直接マッピングします。</p>
+<p>この participant は OpenWFEru の&quot;examples/&quot;:/examples/ フォルダにあるサンプルの中の <a href="/examples/quotereporter.rb">最初の例</a> で使われています。</p>
+<p><a href="rdoc/classes/OpenWFE/HashParticipant.html">rdoc</a></p>
+<p>しかし、 HashParticipant を実装したモジュールの一つ <a href="rdoc/classes/OpenWFE/StoreParticipantMixin.html">StoreParticipantMixin</a> を見たほうがいいかもしれません。</p>
+<h3><a name="NoOperationParticipant"></a>NoOperationParticipant</h3>
+<p>エンジンに直接返答し、 workitem (オペレーションなし) には触りません。.</p>
+<p><a href="rdoc/classes/OpenWFE/NoOperationParticipant.html">rdoc</a></p>
+<h3><a name="NullParticipant"></a>NullParticipant</h3>
+<p>workitem を廃棄し(オペレーションなし)、エンジンには返答しません。いわばBPM における /dev/null のようなものですね。</p>
+<p><a href="rdoc/classes/OpenWFE/NullParticipant.html">rdoc</a></p>
+<h3><a name="SoapParticipant"></a>SoapParticipant</h3>
+<p>participant 内でのwebサービスの call のwrapperです。workitem にある &#8216;<i>result</i>&#8217; フィールドに call の結果が設定されます。</p>
+<p>これは最低限の実装ですが、これは Ruby で書かれているので拡張性はばっちりです。</p>
+<p><a href="rdoc/classes/OpenWFE/SoapParticipant.html">rdoc</a></p>
+<p>この participant は OpenWFEru の&quot;examples/&quot;:/examples/ フォルダにあるサンプルの中の <a href="/examples/quotereporter.rb">最初の例</a> で使われています。</p>
+<h3><a name="SocketParticipant"></a>SocketParticipant</h3>
+<p>本当に素直な participant です。TCP コネクション経由で workitem をダンプ出力します。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/participants/socketparticipants</span><span class="punct">'</span>
+
+    <span class="ident">sp</span> <span class="punct">=</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">SocketParticipant</span><span class="punct">.</span><span class="ident">new</span><span class="punct">(&quot;</span><span class="string">localhost</span><span class="punct">&quot;,</span> <span class="number">7007</span><span class="punct">)</span>
+
+    <span class="ident">engine</span><span class="punct">.</span><span class="ident">register_participant</span><span class="punct">(</span><span class="symbol">:stuart</span><span class="punct">,</span> <span class="ident">sp</span><span class="punct">)</span></code></pre>
+<p><a href="rdoc/classes/OpenWFE/SocketParticipant.html">rdoc</a></p>
+<p>拡張 : <a href="rdoc/classes/OpenWFE/SocketParticipant.html">XmlSocketParticipant</a> はエンコードされた workitem を <span class="caps">XML</span> として (OpenWFEja が理解できるように) ディスパッチします。</p>
+<p>もちろん、&quot;SocketListener&quot;:rdoc/classes/OpenWFE/SocketListener.html もあります。</p>
+<h3><a name="SqsParticipant"></a>SqsParticipant</h3>
+<p><span class="caps">SQS</span> は Amazon の web サービスです。&#8217;Amazon Simple Queue Service (Amazon <span class="caps">SQS</span>) は信頼性・スケーラビリティに優れたコンピュータ間を行き来するメッセージを格納するキューをホスティングします。詳しくは <a href="http://aws.amazon.com">http://aws.amazon.com</a> を。</p>
+<p>SqsParticipant は 他アプリケーションで読めるSQS キューに workitem を預けます。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/participants/sqsparticipants</span><span class="punct">'</span>
+
+    <span class="ident">engine</span><span class="punct">.</span><span class="ident">register_participant</span><span class="punct">(</span><span class="symbol">:queue</span><span class="punct">,</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">SqsParticipant</span><span class="punct">.</span><span class="ident">new</span><span class="punct">(&quot;</span><span class="string">workqueue0</span><span class="punct">&quot;))</span></code></pre>
+<p>デフォルトでは、この participant はキューに置かれる前に、そのハッシュのバージョンでYAML でダンプ出力し、Base64でエンコードされます。encode_workitem() に オーバーライドするだけで簡単に変更できます。例えば…。 :</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/participants/sqsparticipants</span><span class="punct">'</span>
+
+    <span class="ident">sp</span> <span class="punct">=</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">SqsParticipant</span><span class="punct">.</span><span class="ident">new</span><span class="punct">(&quot;</span><span class="string">workqueue0</span><span class="punct">&quot;)</span>
+    <span class="keyword">class </span><span class="punct">&lt;&lt;</span> <span class="ident">sp</span>
+        <span class="comment">#</span>
+        <span class="comment"># instead of extending SqsParticipant, we simply modify the </span>
+        <span class="comment"># method implementation just for that sp instance</span>
+        <span class="comment">#</span>
+        <span class="keyword">def </span><span class="method">encode_workitem</span> <span class="punct">(</span><span class="ident">wi</span><span class="punct">)</span>
+            <span class="ident">msg</span> <span class="punct">=</span> <span class="punct">&quot;</span><span class="string"></span><span class="punct">&quot;</span>
+            <span class="ident">msg</span> <span class="punct">&lt;&lt;</span> <span class="ident">wi</span><span class="punct">.</span><span class="ident">fei</span><span class="punct">.</span><span class="ident">to_s</span>
+            <span class="ident">msg</span> <span class="punct">&lt;&lt;</span> <span class="punct">&quot;</span><span class="string"><span class="escape">\n</span></span><span class="punct">&quot;</span>
+            <span class="ident">msg</span> <span class="punct">&lt;&lt;</span> <span class="ident">wi</span><span class="punct">.</span><span class="ident">attributes</span><span class="punct">[&quot;</span><span class="string">task_description</span><span class="punct">&quot;]</span>
+            <span class="ident">msg</span> <span class="punct">&lt;&lt;</span> <span class="punct">&quot;</span><span class="string"><span class="escape">\n</span></span><span class="punct">&quot;</span>
+            <span class="ident">msg</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="ident">engine</span><span class="punct">.</span><span class="ident">register_participant</span><span class="punct">(</span><span class="symbol">:queue</span><span class="punct">,</span> <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">SqsParticipant</span><span class="punct">.</span><span class="ident">new</span><span class="punct">(&quot;</span><span class="string">workqueue0</span><span class="punct">&quot;))</span></code></pre>
+<p><a href="rdoc/classes/OpenWFE/SqsParticipant.html">rdoc</a></p>
+<p>SqsParticipant  には相棒がいます。:  <a href="rdoc/classes/OpenWFE/SqsListener.html">SqsListener</a> です。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/listeners/sqslisteners</span><span class="punct">'</span>
+
+    <span class="ident">engine</span><span class="punct">.</span><span class="ident">add_workitem_listener</span><span class="punct">(</span>
+        <span class="constant">OpenWFE</span><span class="punct">::</span><span class="constant">SqsListener</span><span class="punct">.</span><span class="ident">new</span><span class="punct">(</span><span class="symbol">:wiqueue3</span><span class="punct">,</span> <span class="ident">engine</span><span class="punct">.</span><span class="ident">application_context</span><span class="punct">),</span>
+        <span class="punct">&quot;</span><span class="string">2m15s</span><span class="punct">&quot;)</span>
+            <span class="comment">#</span>
+            <span class="comment"># will poll our SQS queue named &quot;wiqueue3&quot; for workitems</span>
+            <span class="comment"># every 2 minutes and 15 seconds</span></code></pre>
+<p>listener は InFlowWorkItems に元々のプロセスインスタンスに戻って再開させるのを許可します。 (許されれば)それはまた LaunchItem を受け取り、そこにある情報によって新しいプロセスインスタンスを立ち上げます。</p>
+<p>SqsListener はデフォルトでは workitems (InFlowWorkItem ・ LaunchItem インスタンス) がハッシュでエンコードされていることを予想して、 <span class="caps">YAML</span> でダンプ出力し、Base64 (SqsParticipant がやるように) でエンコードされます。</p>
+<h3><a name="YamlParticipant"></a>YamlParticipant</h3>
+<p>この participant は HashParticipant の拡張で、YAML ファイル persistence の最上位に位置します。</p>
+<p>デフォルトでは、 workitems は &#8220;./work/participants/name_of_the_participant/&#8221; に格納されます。</p>
+<p>この participant  は サンプルコード <a href="/examples/mano_tracker.rb">ManoTracker</a> で使われています。</p>
+<p><a href="rdoc/classes/OpenWFE/YamlParticipant.html">rdoc</a></p>
+<p>HashParticipant と同様、 it&#8217;s interesting to browse the rdoc of the この participant が実装されているモジュール <a href="rdoc/classes/OpenWFE/StoreParticipantMixin.html">StoreParticipantMixin</a> のrdocを見ると面白いですよ。</p>
+      </div>
+
+      <div id="footer">
+        <div class="xright">&#169;2005-2008 OpenWFE.org</div>
+        <div class="clear">
+          <hr/>
+        </div>
+      </div>
+
+    </div>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+var pageTracker=_gat._getTracker('UA-138748-2');
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>
+

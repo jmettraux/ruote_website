@@ -1,0 +1,190 @@
+
+<html>
+  <head>
+    
+    <title>OpenWFEru - the scheduler</title>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="../xml.css" type="text/css" rel="stylesheet"/>
+    <link href="../ruby.css" type="text/css" rel="stylesheet"/>
+    <link href="../openwferu.css" type="text/css" rel="stylesheet"/>
+  </head>
+
+  <body class="composite">
+
+    <a name="top"></a>
+
+    <div id="banner">
+      <a href="../index.html"
+        ><img src="../images/openwfe-logo.png" alt="OpenWFEru"/></a>
+      <div id="siteSearch">
+        <!--siteSearch-->
+      </div>
+    </div>
+
+    <div id="breadcrumbs">
+        <div style="float:left">
+            open source ruby workflow and bpm engine
+        </div>
+        <div style="float:right">
+            <a href="/index.html">english</a> | <a href="/ja/index.html">japanese</a>
+        </div>
+    </div>
+
+    <div id="coreBox">
+
+      <div id="leftColumn">
+        <div id="navColumn">
+
+         <br/>
+         <ul>
+<li class='collapsed'><a href=../ja/index.html>index</a></li>
+<li class='collapsed'><a href=../ja/license.html>license</a></li>
+<li class='collapsed'><a href=../ja/quickstart.html>quickstart</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/download.html>download</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/documentation.html>documentation</a></li>
+<li class='collapsed'><a href=../ja/expressions.html>expressions</a></li>
+<li class='collapsed'><a href=../ja/participants.html>participants</a></li>
+<li class='collapsed'><a href=../ja/patterns.html>patterns</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=source.html>source</a></li>
+<li class='collapsed'><a href=../rdoc/index.html>rdoc</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=../ja/activity.html>activity</a></li>
+<li class='collapsed'><a href=../ja/lists.html>mailing lists</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://jmettraux.wordpress.com>tech blog</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://github.com/jmettraux/ruote/tree/master/CREDITS.txt>credits</a></li>
+<li class='collapsed'><a href=http://rubyforge.org/projects/openwferu>on rubyforge</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><strong>the scheduler</strong></li>
+<li class='collapsed'><a href=../ja/sqs.html>amazon sqs</a></li>
+<li class='collapsed'><a href=../ja/kotoba.html>kotoba</a></li>
+<li>&nbsp;</li>
+<li class='collapsed'><a href=http://code.google.com/p/ruby-taskr/>Taskr</a></li>
+<li class='collapsed'><a href=http://rufus.rubyforge.org>Rufus</a></li>
+<li class='collapsed'><a href=http://rools.rubyforge.org>Rools</a></li>
+</ul>
+
+         <!--hostedOnRubyForge-->
+
+         <br/>
+         <br/>
+
+         <p align="right">
+             <span 
+                style='font-size: 7pt; color: #7c7c90'
+             >website<br/>generated with</span><br/>
+             <a href='http://rote.rubyforge.org/' target='_blank'
+                 ><img 
+                    src='../images/rote-tiny.png' 
+                    alt='Rote' /></a>
+         </p>
+
+         <!--fisheye?-->
+        </div>
+      </div>
+
+      <div id="rightColumn">
+        <script type="text/javascript"><!--
+google_ad_client = "pub-2190386866693134";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+        <script 
+            type="text/javascript" 
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        >
+        </script>
+      </div>
+
+      <div id="bodyColumn">
+        <h2>OpenWFEru スケジューラー</h2>
+<p>ワークフロー / ビジネスプロセスエンジンであるOpenWFEru にはタスクを後で実行したり(<em>at</em>) 、繰り返し実行する(<em>cron</em>)ためのスケジューラーが必要です。</p>
+<p>このスケジューラーは OpenWFE の核心ではないので、ここでは OpenWFEru のコンテキストの外側での使用方法を説明します。</p>
+<p>OpenWFEru の他の部分同様、&quot;BSD&quot;:license.html ライセンスです。</p>
+<p>OpenWFEru スケジューラーは Ilya Grigorik&#8217;s blog post の <a href="http://www.igvita.com/blog/2007/03/29/scheduling-tasks-in-ruby-rails/">Scheduling tasks in Ruby / Rails</a> で説明されています。</p>
+<h3>単独での使用方法(gem)</h3>
+<p>スケジューラーを使うにあたっては、OpenWFEru 全てが必要ではありません。以下の2 つのファイルのみが必要となります。 :</p>
+<pre>
+
+    lib/openwfe/util/otime.rb
+    lib/openwfe/util/scheduler.rb
+
+</pre>
+<p>これらは OpenWFEru のサブディレクトリの <a href="http://rubyforge.org/viewvc/trunk/openwfe-ruby/lib/openwfe/util/?root=openwferu">util</a> にあります。</p>
+<p>2007 年4月1日より、, &#8220;openwferu-scheduler&#8221; 用の <strong>gem</strong> ができました。それを使えば以下のようにするだけです。</p>
+<pre>
+    [sudo] gem install openwferu-scheduler
+</pre>
+<p>ここまでいいですか?で、それを使うには、直接以下のように…</p>
+<pre class='ruby'><code class='ruby'>
+    <span class="ident">require</span> <span class="punct">'</span><span class="string">rubygems</span><span class="punct">'</span>
+    <span class="ident">require</span> <span class="punct">'</span><span class="string">openwfe/util/scheduler</span><span class="punct">'</span>
+
+    <span class="ident">include</span> <span class="constant">OpenWFE</span>
+
+    <span class="ident">scheduler</span> <span class="punct">=</span> <span class="constant">Scheduler</span><span class="punct">.</span><span class="ident">new</span>
+    <span class="ident">scheduler</span><span class="punct">.</span><span class="ident">start</span>
+
+    <span class="ident">scheduler</span><span class="punct">.</span><span class="ident">schedule_in</span><span class="punct">(&quot;</span><span class="string">1h12m</span><span class="punct">&quot;)</span> <span class="keyword">do</span>
+        <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">...taking out the garbage (as requested one hour and twelve minutes ago)</span><span class="punct">&quot;</span>
+    <span class="keyword">end</span>
+
+    <span class="comment"># ...</span></code></pre>
+<h3>rdoc</h3>
+<p>スケジューラーの <a href="http://openwferu.rubyforge.org/rdoc/classes/OpenWFE/Scheduler.html">rdoc</a> です。これはスケジューラーに関する最新の情報ソースです。</p>
+<h3>&#8220;at&#8221; ジョブ</h3>
+<p>&#8220;at&#8221; ジョブは、将来一度だけ実行されるジョブです。これはスケジューラーの schedule_in() メソッドや schedule_at() メソッドで登録されます。</p>
+<p>基本的な使い方は…。 :</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">scheduler</span><span class="punct">.</span><span class="ident">schedule_in</span><span class="punct">(&quot;</span><span class="string">1h12m</span><span class="punct">&quot;)</span> <span class="keyword">do</span>
+        <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">one hour and twelve minutes later...</span><span class="punct">&quot;</span>
+    <span class="keyword">end</span></code></pre>
+<p>&#8220;at&#8221; ジョブの <a href="/examples/scheduler_usage.rb">例</a> です。</p>
+<h3>&#8220;cron&#8221; ジョブ</h3>
+<p>&#8220;cron&#8221; ジョブは、Unix のそれと同等の機能です。なので、このRubyのスケジューラーもその <a href="http://en.wikipedia.org/wiki/Cron">従来どおりの指定</a> に従っています。</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">scheduler</span><span class="punct">.</span><span class="ident">schedule</span><span class="punct">(&quot;</span><span class="string">1-60/3 * * * mon-fri</span><span class="punct">&quot;)</span> <span class="keyword">do</span>
+        <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">...popping up every 3 minutes on weekdays...</span><span class="punct">&quot;</span>
+    <span class="keyword">end</span></code></pre>
+<p>&#8220;cron&#8221; ジョブの <a href="/examples/scheduler_cron_usage.rb">例</a> です。</p>
+<h3>&#8220;every&#8221; ジョブ</h3>
+<p>cron よりも柔軟性があります。:</p>
+<pre class='ruby'><code class='ruby'>    <span class="ident">scheduler</span><span class="punct">.</span><span class="ident">schedule_every</span><span class="punct">(&quot;</span><span class="string">12m45s</span><span class="punct">&quot;)</span> <span class="keyword">do</span>
+        <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">...popping up every 12 minutes and 45 seconds...</span><span class="punct">&quot;</span>
+    <span class="keyword">end</span></code></pre>
+<p>もしあなたのジョブに 2 秒かかるとして、それが10秒毎にスケジューリングされていたら、実際は12 秒毎に実行されるということに注意してください。(新しい実行スレッド内のコードをラップできます。)</p>
+<h3>スケジューラーと永続化</h3>
+<p>OpenWFEru のコンテキストでは、永続化はスケジューラーではなくエンジンの責任範囲です。</p>
+<h3>(openwferu-scheduler のアンインストール)</h3>
+<p>もし必要ないならば…。 :</p>
+<pre>
+    $ sudo gem uninstall openwferu-scheduler
+</pre>
+<p><em>(続く)</em></p>
+      </div>
+
+      <div id="footer">
+        <div class="xright">&#169;2005-2008 OpenWFE.org</div>
+        <div class="clear">
+          <hr/>
+        </div>
+      </div>
+
+    </div>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+var pageTracker=_gat._getTracker('UA-138748-2');
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+  </body>
+</html>
+
