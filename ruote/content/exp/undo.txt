@@ -10,14 +10,14 @@ h2. undo
 
 Undoes (cancels) another expression referred by its tag.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition do
     concurrence do
       alpha :tag => 'kilroy'
       undo :ref => 'kilroy'
     end
   end
-<% end %>
+</pre>
 
 This example is rather tiny, but it shows a process branch (undo) cancelling
 another (alpha).
@@ -26,6 +26,6 @@ h3. cancel
 
 This expression is aliased to 'cancel'
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   cancel :ref => 'invoicing_stage'
 <% end %>

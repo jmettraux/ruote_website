@@ -1,0 +1,75 @@
+---
+title: lose expression
+filter:
+  - erb
+  - textile
+---
+
+h2. lose
+
+
+Never replies to its parent expression. Simply applies its first child,
+if any, and just sits there.
+
+When cancelled, cancels its child (if any).
+
+In this example, the reminding sequence never replies to the concurrence.
+The concurrence is only over when "alfred" replies.
+
+<pre class="brush: ruby">
+  Ruote.process_definition do
+    concurrence :count => 1 do
+      alfred
+      lose do
+        sequence do
+          wait '2d'
+          send_reminder_to_alfred
+          wait '2h'
+          send_alarm_to_boss
+        end
+      end
+    end
+  end
+</pre>
+
+Maybe shorter :
+
+<pre class="brush: ruby">
+  Ruote.process_definition do
+    concurrence :count => 1 do
+      alfred
+      sequence do
+        wait '2d'
+        send_reminder_to_alfred
+        wait '2h'
+        send_alarm_to_boss
+        lose
+      end
+    end
+  end
+</pre>
+
+'lose' on its own acts like a dead-end.
+
+
+h3. the :lose attribute
+
+Every expression understands the 'lose' attribute :
+
+<pre class="brush: ruby">
+  Ruote.process_definition do
+    concurrence :count => 1 do
+      alfred
+      sequence :lose => true do
+        wait '2d'
+        send_reminder_to_alfred
+        wait '2h'
+        send_alarm_to_boss
+      end
+    end
+  end
+</pre>
+
+Probably produces definitions more compact than when using the 'lose'
+expression.
+

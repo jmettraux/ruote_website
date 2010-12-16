@@ -15,7 +15,7 @@ Ruote turns process definitions into an abstract syntax tree (a 'tree' for short
 
 A process definition contains 1 main process definition and may contain 1 or more sub-process definitions. For example.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'test'
     sequence do
       subprocess :ref => 'analysis'
@@ -31,25 +31,25 @@ A process definition contains 1 main process definition and may contain 1 or mor
       participant :ref => 'charly'
     end
   end
-<% end %>
+</pre>
 
 
 h3. XML process definitions
 
 XML may be advantageous for some people as it looks enterprisey. Perhaps a better reason for using it is the fact that libraries for generating XML documents abound, as well as other XML related tools.
 
-<% coderay(:lang => 'xml', :line_numbers => 'inline') do -%>
+<pre class="brush: xml">
   <process-definition name="my_def">
     <sequence>
       <participant ref="alice" />
       <participant ref="bob" />
     </sequence>
   </process-definition>
-<% end %>
+</pre>
 
 You can use the parser to turn XML into a Ruote tree :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 require 'rubygems'
 require 'ruote/parser'
 
@@ -68,11 +68,11 @@ p tree
   #   ["sequence", {}, [
   #     ["participant", {"ref"=>"alice"}, []],
   #     ["participant", {"ref"=>"bob"}, []]]]]]
-<% end %>
+</pre>
 
 Or directly pass the XML as a String to the engine :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 engine.launch(%{
   <process-definition name="my_def">
     <sequence>
@@ -81,26 +81,26 @@ engine.launch(%{
     </sequence>
   </process-definition>
 })
-<% end %>
+</pre>
 
 
 h3. Ruby process definitions
 
 Some kind of Ruby DSL can be used to define processes :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'my_def' do
     sequence do
       participant :ref => 'alice'
       participant :ref => 'bob'
     end
   end
-<% end %>
+</pre>
 
 
 One advantage of this 'notation' is that passing complex data structures from the process definition is possible :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'my_def' do
     sequence do
       set :field => 'items', :value => { 'cars' => 2, 'trucks' => 0 }
@@ -108,7 +108,7 @@ One advantage of this 'notation' is that passing complex data structures from th
       participant :ref => 'bravo'
     end
   end
-<% end %>
+</pre>
 
 
 Not necessarily a good practice but can come in handy, and remember that ruote will flatten that to something that is JSONifiable.
@@ -118,29 +118,29 @@ h3. raw [JSON] process definitions
 
 In JSON, they would look like :
 
-<% coderay(:lang => 'javascript', :line_numbers => 'inline') do -%>
+<pre class="brush: jscript">
   [ 'process-definition', { 'name': 'my_def' }, [
     [ 'sequence', {}, [
       [ 'participant', { 'ref': 'alice' }, [] ],
       [ 'participant', { 'ref': 'bob' }, [] ] 
     ] ] 
   ] ]
-<% end %>
+</pre>
 
 In Ruby, that translates to :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   [ 'process-definition', { 'name' => 'my_def' }, [
     [ 'sequence', {}, [
       [ 'participant', { 'ref' => 'alice' }, [] ],
       [ 'participant', { 'ref' => 'bob' }, [] ] 
     ] ] 
   ] ]
-<% end %>
+</pre>
 
 The engine understands various formats :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.launch('[ "participant", { "ref" : "alpha" }, [] ]')
     # JSON string
 
@@ -149,7 +149,7 @@ The engine understands various formats :
 
   engine.launch([ "participant", { "ref" => "alpha" }, [] ])
     # Ruby raw process definition
-<% end %>
+</pre>
 
 
 
@@ -161,7 +161,7 @@ h3. process definition generation
 
 So we've seen nice "ruby process definition", but shouldn't we rather say "process definition generation via ruby" ?
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 require 'ruote'
 
 pdef = Ruote.process_definition do
@@ -175,13 +175,13 @@ p pdef
   # =>
   # ["define", {}, [
   #   ["sequence", {}, [["alpha", {}, []], ["bravo", {}, []]]]]]
-<% end %>
+</pre>
 
 The class method "process_definition" is used to generate a process definiton (a tree of expressions).
 
 Maybe this piece of Ruby code makes the "generation" aspect more visible :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 pdef = Ruote.process_definition do
   sequence do
     %w[ alpha bravo charly doug ].each do |pa|
@@ -198,7 +198,7 @@ p pdef
   #     ["participant", {"ref"=>"bravo"}, []],
   #     ["participant", {"ref"=>"charly"}, []],
   #     ["participant", {"ref"=>"doug"}, []]]]]]
-<% end %>
+</pre>
 
 
 h3. see also

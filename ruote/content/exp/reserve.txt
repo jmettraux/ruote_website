@@ -10,7 +10,7 @@ h2. reserve
 
 Prevents two process branches from executing at the same time.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition :name => 'test' do
     concurrence do
       reserve :mutex => 'a' do
@@ -21,7 +21,7 @@ Prevents two process branches from executing at the same time.
       end
     end
   end
-<% end %>
+</pre>
 
 (Nice and tiny example, turns a concurrence into a sequence...)
 

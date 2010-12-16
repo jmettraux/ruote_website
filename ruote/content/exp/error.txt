@@ -14,7 +14,7 @@ from the process definition.
 
 Triggers an error directly from the process definition.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'log1' do
     sequence do
       perform_inventory
@@ -23,7 +23,7 @@ Triggers an error directly from the process definition.
       store_new_stuff
     end
   end
-<% end %>
+</pre>
 
 Replaying the error will 'unlock' the process.
 

@@ -11,12 +11,12 @@ h2. concurrence
 The 'concurrence' expression applies its child branches in parallel
 (well it makes a best effort to make them run in parallel).
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
     alpha
     bravo
   end
-<% end %>
+</pre>
 
 h3. attributes
 
@@ -25,12 +25,12 @@ sophisticated control (especially at merge time).
 
 h4. :count
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence :count => 1 do
     alpha
     bravo
   end
-<% end %>
+</pre>
 
 in that example, the concurrence will terminate as soon as 1 (count) of
 the branches replies. The other branch will get cancelled.
@@ -41,19 +41,19 @@ As said for :count, the remaining branches get cancelled. By setting
 :remaining to :forget (or 'forget'), the remaining branches will continue
 their execution, forgotten.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence :count => 1, :remaining => :forget do
     alpha
     bravo
   end
-<% end %>
+</pre>
 
 h4. :merge
 
 By default, the workitems override each others. By default, the first
 workitem to reply will win.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     concurrence do
       alpha
@@ -61,7 +61,7 @@ workitem to reply will win.
     end
     charly
   end
-<% end %>
+</pre>
 
 In that example, if 'alpha' replied first, the workitem that reaches
 'charly' once 'bravo' replied will have the payload as seen/modified by
@@ -77,12 +77,12 @@ The :merge attribute determines which branch wins the merge.
 highest and lowest refer to the position in the list of branch. It's useful
 to set a fixed winner.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence :merge => :highest do
     alpha
     bravo
   end
-<% end %>
+</pre>
 
 makes sure that alpha's version of the workitem wins.
 
@@ -114,7 +114,7 @@ and populates it with the expanded attributes of the concurrence.
 
 Thus
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     concurrence :merge => :highest, :merge_type => :stack do
       reviewer1
@@ -122,14 +122,14 @@ Thus
     end
     editor
   end
-<% end %>
+</pre>
 
 will see the 'editor' receive a workitem whose fields look like :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   { 'stack' => [{ ... reviewer1 fields ... }, { ... reviewer2 fields ... }],
     'stack_attributes' => { 'merge'=> 'highest', 'merge_type' => 'stack' } }
-<% end %>
+</pre>
 
 This could prove useful for participant having to deal with multiple merge
 strategy results.
@@ -141,13 +141,13 @@ Like the :count attribute controls how many branches have to reply before
 a concurrence ends, the :over attribute is used to specify a condition
 upon which the concurrence will [prematurely] end.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence :over_if => '${f:over}'
     alpha
     bravo
     charly
   end
-<% end %>
+</pre>
 
 will end the concurrence as soon as one of the branches replies with a
 workitem whose field 'over' is set to true. (the remaining branches will

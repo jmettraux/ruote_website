@@ -41,17 +41,17 @@ class Translation
     if @in_code == false && l.match(/^  [^ ]/)
 
       @in_code = true
-      @a << "<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>"
+      @a << '<pre class="brush: ruby">'
       @a << l
 
     elsif @in_code == true && l.match(/^[^ ]/)
 
       @in_code = false
       if @a.last.match(/^$/)
-        @a[-1] = "<% end %>"
+        @a[-1] = '</pre>'
         @a << ""
       else
-        @a << "<% end %>"
+        @a << '</pre>'
       end
       #@a << l
       ingest(l)

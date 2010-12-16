@@ -10,14 +10,14 @@ h2. redo
 
 Undoes and the redoes (re-applies) an expression identified by a tag.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition do
     sequence do
       alpha :tag => 'kilroy'
       _redo :ref => 'kilroy', :unless => '${f:ok} == true'
     end
   end
-<% end %>
+</pre>
 
 will redo at tag 'kilroy' if the field 'ok' is not set to true.
 
@@ -25,7 +25,7 @@ will redo at tag 'kilroy' if the field 'ok' is not set to true.
 
 Maybe this case is better served by a cursor/rewind combination
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition do
     cursor do
       alpha :tag => 'kilroy'

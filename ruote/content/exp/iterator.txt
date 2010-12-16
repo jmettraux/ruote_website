@@ -10,13 +10,13 @@ h2. iterator
 
 Iterating on a list of values
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition :name => 'test' do
     iterator :on_val => 'alice, bob, charly', :to_var => 'v' do
       participant '${v:v}'
     end
   end
-<% end %>
+</pre>
 
 This expression expects at list an 'on' attribute, which can be :on,
 :on_val, :on_value for a value (usually a comma separated list), :on_v,
@@ -41,17 +41,17 @@ The variables 'ii' contains the index (from 0 to ...) of the current value
 
 The 'on' attribute can be replaced by a :time or a :branches attribute.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition :name => 'test' do
     iterator :times => '3'
       participant 'accounting'
     end
   end
-<% end %>
+</pre>
 
 will be equivalent to
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition :name => 'test' do
     sequence do
       participant 'accounting'
@@ -60,20 +60,20 @@ will be equivalent to
     end
   end
 
-<% end %>
+</pre>
 
 h3. the classical case
 
 Iterating over a workitem field :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition :name => 'test' do
     iterator :on_field => 'customers', :to_f => 'customer'
       participant '${f:customer}'
     end
   end
 
-<% end %>
+</pre>
 
 h3. break/rewind/continue/skip/jump
 
@@ -85,7 +85,7 @@ The 'iterator' expression understands a certain the following commands :
 * skip : skips a certain number of steps (relative)
 * jump : jump to certain step (absolute)
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition :name => 'test' do
     iterator :times => '3'
       sequence do
@@ -94,14 +94,14 @@ The 'iterator' expression understands a certain the following commands :
       end
     end
   end
-<% end %>
+</pre>
 
 h3. iterator command in the workitem
 
 It's OK to issue a command to the iterator from a participant via the
 workitem.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition do
     iterator :times => 10
       sequence do
@@ -110,11 +110,11 @@ workitem.
       end
     end
   end
-<% end %>
+</pre>
 
 where
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   class Adjust
     include Ruote::LocalParticipant
     def consume (workitem)
@@ -124,7 +124,7 @@ where
     def cancel (fei, flavour)
     end
   end
-<% end %>
+</pre>
 
 A completely stupid example... The adjust participant will make the
 loop break if the amount reaches 10_000 (euros?).
@@ -138,7 +138,7 @@ from a break/rewind/continue/skip/jump command.
 It's very useful when iterators (and cursors/loops) are nested within each
 other or when one has to act on an iterator from outside of it.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
 
     iterator :on => 'alpha, bravo, charly', :tag => 'review' do
@@ -152,12 +152,12 @@ other or when one has to act on an iterator from outside of it.
       _break :ref => 'review', :if => '${f:cancel_review} == yes'
     end
   end
-<% end %>
+</pre>
 
 in this example, the participant 'main control program' may cancel the
 review.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   iterator :on => 'c1, c2, c3', :to_f => 'client', :tag => 'main' do
     cursor do
       participant :ref => '${f:client}'
@@ -166,7 +166,7 @@ review.
       participant :ref => 'salesclerk'
     end
   end
-<% end %>
+</pre>
 
 in this weird process, if one customer says "cancel everything" (set the
 workitem field "cancel_everything" to true), then the whole iterator

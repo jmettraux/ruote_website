@@ -11,7 +11,7 @@ h2. ref
 Sometimes you don't know at 'design time', if you want to trigger a
 participant or subprocess.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition do
     sequence do
       participant 'alice'
@@ -19,7 +19,7 @@ participant or subprocess.
       participant 'charlie'
     end
   end
-<% end %>
+</pre>
 
 In this process, solver's name could be a participant name or a subprocess
 name.

@@ -11,28 +11,28 @@ h2. equals
 This expression fell out of favour a long ago. At first it was used with
 the 'if' expression :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _if do
     equals :field_value => 'customer', :other_value => 'British Petroleum'
     participant :ref => 'Allister'
   end
-<% end %>
+</pre>
 
 but lately, the :test attribute of the 'if' expression is used :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _if :test => '${f:customer} == British Petroleum' do
     participant :ref => 'Allister'
   end
-<% end %>
+</pre>
 
 In some cases, the 'if' expression vanishes and the :if attribute shared
 by all expressions is used :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   participant :ref => 'Al', :if => '${f:customer} == British Petroleum'
 
-<% end %>
+</pre>
 
 h3. attributes
 

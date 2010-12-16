@@ -13,17 +13,17 @@ This expression is a cross between 'concurrence' and 'iterator'.
 Please look at the documentation of 'iterator' to learn more about the
 common options between 'iterator' and 'concurrent-iterator'.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition :name => 'test' do
     concurrent_iterator :on_val => 'alice, bob, charly', :to_var => 'v' do
       participant '${v:v}'
     end
   end
-<% end %>
+</pre>
 
 will be equivalent to
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition :name => 'test' do
     concurrence do
       participant 'alice'
@@ -31,7 +31,7 @@ will be equivalent to
       participant 'charly'
     end
   end
-<% end %>
+</pre>
 
 The 'on' and the 'to' attributes follow exactly the ones for the iterator
 expression.
@@ -51,17 +51,17 @@ h3. :times and :branches
 Similarly to the iterator expression, the :times or the :branches attribute
 may be used in stead of the 'on' attribute.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition :name => 'test' do
     concurrent_iterator :times => 3 do
       participant 'user${v:i}'
     end
   end
-<% end %>
+</pre>
 
 is equivalent to
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition :name => 'test' do
     concurrence do
       participant 'user0'
@@ -70,7 +70,7 @@ is equivalent to
     end
   end
 
-<% end %>
+</pre>
 
 h3. options
 
@@ -86,14 +86,14 @@ h3. add branches
 The 'add_branches'/'add_branch' expression can be used to add branches
 to a concurrent-iterator while it is running.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrent_iterator :on => 'a, b, c' do
     sequence do
       participant :ref => 'worker_${v:i}'
       add_branches 'd, e', :if => '${v:/not_sufficient}'
     end
   end
-<% end %>
+</pre>
 
 In this example, if the process level variable 'not_sufficient' is set to
 true, workers d and e will be added to the iterated elements.

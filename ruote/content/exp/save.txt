@@ -10,7 +10,7 @@ h2. save
 
 Saves the current workitem fields into a variable or into a field.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   save :to_field => 'old_workitem'
     #
     # saves a copy of the fields of the current workitem into itself,
@@ -20,7 +20,7 @@ Saves the current workitem fields into a variable or into a field.
     #
     # saves a copy of the current workitem in the varialbe 'wix' at
     # the root of the process
-<% end %>
+</pre>
 
 See also the 'restore' expression (Ruote::Exp::RestoreExpression).
 

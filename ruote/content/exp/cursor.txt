@@ -14,14 +14,14 @@ The cursor expression is a kind of enhanced 'sequence'. Like a sequence
 it will execute its child expression one by one, sequentially. Unlike a
 sequence though, it will obey 'commands'.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   cursor do
     author
     reviewer
     rewind :if => '${f:not_ok}'
     publisher
   end
-<% end %>
+</pre>
 
 In this simplistic example, the process will flow from author to reviewer
 and back until the reviewer sets the workitem field 'not_ok' to something
@@ -40,20 +40,20 @@ h4. rewind
 
 Rewinds the cursor up to its first child expression.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   cursor do
     author
     reviewer
     rewind :if => '${f:not_ok}'
     publisher
   end
-<% end %>
+</pre>
 
 h4. stop, over & break
 
 Exits the cursor.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   cursor do
     author
     reviewer
@@ -61,7 +61,7 @@ Exits the cursor.
     stop :if => '${f:review} == abort'
     publisher
   end
-<% end %>
+</pre>
 
 '_break' or 'over' can be used instead of 'stop'.
 
@@ -71,7 +71,7 @@ Those two commands jump forth and back respectively. By default, they
 skip 1 child, but they accept a numeric parameter holding the number
 of children to skip.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   cursor do
     author
     reviewer
@@ -81,14 +81,14 @@ of children to skip.
     rewind :if => '${f:review} == fix'
     publisher
   end
-<% end %>
+</pre>
 
 h4. jump
 
 Jump is probably the most powerful of the cursor commands. It allows to
 jump to a specified expression that is a direct child of the cursor.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   cursor do
     author
     reviewer
@@ -98,26 +98,26 @@ jump to a specified expression that is a direct child of the cursor.
     jump :to => 'author', :if => '${f:review} == fix'
     publisher
   end
-<% end %>
+</pre>
 
 Note that the :to accepts the name of an expression or the value of
 its :ref attribute or the value of its :tag attribute.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   cursor do
     participant :ref => 'author'
     participant :ref => 'reviewer'
     jump :to => 'author', :if => '${f:review} == fix'
     participant :ref => 'publisher'
   end
-<% end %>
+</pre>
 
 h3. cursor command with :ref
 
 It's OK to tag a cursor/repeat/loop with the :tag attribute and then
 point a command to it via :ref :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
 
     cursor :tag => 'main' do
@@ -133,12 +133,12 @@ point a command to it via :ref :
       rewind :ref => 'main', :if => '${f:stop}'
     end
   end
-<% end %>
+</pre>
 
 This :ref technique may also be used with nested cursor/loop/iterator
 constructs :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   cursor :tag => 'main' do
     cursor do
       author
@@ -150,7 +150,7 @@ constructs :
     rewind :if => '${f:not_ok}'
     publisher
   end
-<% end %>
+</pre>
 
 this example features two nested cursors. There is a "_break" in the inner
 cursor, but it will break the main 'cursor' (and thus break the whole
@@ -163,16 +163,16 @@ with an array value [ {command}, {arg} ].
 
 For example,
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   jump :to => 'author'
     # is equivalent to
   set 'field:__command__' => 'author'
-<% end %>
+</pre>
 
 It is entirely OK to have a participant implementation that sets __command__
 by itself.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   class Reviewer
     include Ruote::LocalParticipant
 
@@ -191,7 +191,7 @@ by itself.
       # cancel if review is still going on...
     end
   end
-<% end %>
+</pre>
 
 This example uses the Ruote::Workitem#command= method which can be fed
 strings like 'rewind', 'skip 2', 'jump to author' or the equivalent arrays
@@ -203,13 +203,13 @@ h3. :break_if / :rewind_if
 As an attribute of the cursor/repeat expression, you can set a :break_if.
 It tells the cursor (loop) if it has to break.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   cursor :break_if => '${f:completed}' do
     participant 'alpha'
     participant 'bravo'
     participant 'charly'
   end
-<% end %>
+</pre>
 
 If alpha or bravo replies and the field 'completed' is set to true, this
 cursor will break.
@@ -229,7 +229,7 @@ a 'repeat' expression will apply (again) the first child after the last
 child replied. A 'break' cursor command might be necessary to exit the loop
 (or a cancel_process, but that exits the whole process instance).
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     repeat do
       author

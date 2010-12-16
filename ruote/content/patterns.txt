@@ -60,12 +60,12 @@ h3(#ba_sequence). sequence
 
 Chaining activities in sequence. Uses the "sequence":exp/sequence.html expression. The "cursor":exp/cursor.html expression might also be used.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant :ref => 'alpha', :activity => 'write'
     participant :ref => 'bravo', :activity => 'fix typos'
   end
-<% end %>
+</pre>
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp1.php | "top":#top
 
@@ -75,12 +75,12 @@ h3(#ba_parallel_split). parallel split
 
 The "concurrence":exp/concurrence.html expression is the main tool for 'parallel splits'.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
     participant :ref => 'alpha', :activity => 'write introduction'
     participant :ref => 'bravo', :activity => 'write postface'
   end
-<% end %>
+</pre>
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/basic/wcp2.php | "top":#top
 
@@ -100,29 +100,29 @@ Exclusive 'routing' within the process : the flow will go one way or the other, 
 
 The "if":exp/if.html is usually in charge when implementing this pattern (the underscore '_' prefixing the if prevents collision with the 'if' Ruby keyword).
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _if '${f:decision} == accepted' do
     participant :ref => 'alpha', :activity => 'request further info'
     participant :ref => 'alpha', :activity => 'send refusal note'
   end
-<% end %>
+</pre>
 
 (this if example forwards the flow to the same 'alpha' participant, but with different activities).
 
 One could rewrite this as :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'alpha', :activity => 'request further info', :if => '${f:decision} == accepted'
     participant 'alpha', :activity => 'send refusal note', :if => '${f:decision} == refused'
   end
-<% end %>
+</pre>
 
 But this is not strictly equivalent
 
 With a bit of imagination, exclusive choices may be found beyond ifs :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'request processing' do
 
     sequence do
@@ -140,7 +140,7 @@ With a bit of imagination, exclusive choices may be found beyond ifs :
       participant :ref => 'alpha', :activity => 'send refusal note'
     end
   end
-<% end %>
+</pre>
 
 The name of the "subprocess":exp/subprocess.html is extrapolated at runtime and the flow is routed accordingly.
 
@@ -164,13 +164,13 @@ h3(#ad_multi_choice). multi choice
 
 Combining the "concurrence":exp/concurrence.html expression and :if attributes makes for an easy implementation of this pattern :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
     participant 'regular service', :if => '${f:price} < 50'
     participant 'premium service', :if => '${f:price} > 40'
     participant 'extra service', :if => '${f:extra_ordered}'
   end
-<% end -%>
+</pre>
 
 In this example, if the price is between 40 and 50, regular service and premium service are triggered, extra could be triggerd as well if the field 'extra_ordered' has the value 'true'.
 
@@ -196,7 +196,7 @@ Basically, what comes after the multi-merge will be executed once for each incom
 
 Certainly, ruote doesn't support that out of the box, but there are approximations to it :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'multi merge' do
 
     concurrence do
@@ -218,13 +218,13 @@ Certainly, ruote doesn't support that out of the box, but there are approximatio
       participant 'supervisor', :activity => 'assess work'
     end
   end
-<% end -%>
+</pre>
 
 Here, a subprocess ("define":exp/define.html 'after') is used after each concurrent branch. Before replying to its parent (the concurrence), each branch calls it. (team_a, team_b and extra_team could be participant or subprocess names).
 
 Leveraging the "listen":exp/listen.html expression is another option :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'multi merge' do
 
     concurrence :count => 3, :remaining => :forget do
@@ -238,7 +238,7 @@ Leveraging the "listen":exp/listen.html expression is another option :
       end
     end
   end
-<% end -%>
+</pre>
 
 With this process definition, each time a team participant replies, the participant 'supervisor' is sent a workitem. Please note that this works only with participants. In the above subprocess example, 'team_a' could point either to a participant, either to a subprocess.
 
@@ -250,7 +250,7 @@ h3(#ad_structured_discriminator). structured discriminator
 
 As soon as one of two concurrent branches replies, the flow resumes and the other branch is 'forgotten' (continues its execution without the parent process caring for its outcome).
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+<pre class="brush: ruby">
   sequence do
     concurrence :count => 1, :remaining => :forget do
       test_batch_a
@@ -258,13 +258,13 @@ As soon as one of two concurrent branches replies, the flow resumes and the othe
     end
     final_test_batch
   end
-<% end -%>
+</pre>
 
 As soon as an initial test batch is completed, the final test batch is triggered. The remaining test batch continues, unhindered (but forgotten).
 
 The attributes :count and :remaining of the "concurrence":exp/concurrence.html are used. Note that those attributes are understood by the "concurrent_iterator":exp/concurrent_iterator.html expression as well :
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+<pre class="brush: ruby">
   sequence do
     concurrent_iterator :on => 'a, b, c, d', :count => 1, :remaining => :forget do
       subprocess :ref => 'test_batch_${v:i}'
@@ -272,7 +272,7 @@ The attributes :count and :remaining of the "concurrence":exp/concurrence.html a
     end
     final_test_batch
   end
-<% end -%>
+</pre>
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/advanced_branching/wcp9.php | "top":#top
 
@@ -288,7 +288,7 @@ h3(#st_arbitrary_cycles). arbitrary cycles
 
 Thanks to the "cursor":exp/cursor.html expression, the process represented as "flash animation":http://workflowpatterns.com/patterns/control/structural/wcp10_animation.php on the Workflow Patterns site may be implemented as :
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+<pre class="brush: ruby">
   cursor do
     participant 'a'
     participant 'b'
@@ -298,7 +298,7 @@ Thanks to the "cursor":exp/cursor.html expression, the process represented as "f
     jump :to => 'c', :if => '${f:back_to_c}'
     participant 'e'
   end
-<% end -%>
+</pre>
 
 The "jump":exp/command.html expression understand participant names, subprocess names and :tag names in its :to attribute, making it easy to specify jump points.
 
@@ -310,7 +310,7 @@ h3(#st_implicit_termination). implicit termination
 
 Replicating the "flash animation of the pattern":http://workflowpatterns.com/patterns/control/structural/wcp11_animation.php, we obtain :
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'alpha'
     concurrence do
@@ -324,7 +324,7 @@ Replicating the "flash animation of the pattern":http://workflowpatterns.com/pat
       end
     end
   end
-<% end -%>
+</pre>
 
 There is not much to say about this pattern. When there is no more work, the process ends.
 
@@ -341,17 +341,17 @@ h3(#mu_multiple_instances_without_synchronization). multiple instances without s
 
 <em>within a given process instance, multiple instances of an activity can be created. These instances are independent of each other and run concurrently. There is no requirement to synchronize them upon completion.</em>
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+<pre class="brush: ruby">
   concurrent_iterator :times => 10 do
     activity :forget => true
   end
-<% end -%>
+</pre>
 
 'activity' here could be a participant or a subprocess named 'activity'. :forget is set to true (no requirement to synchronize). The process will resume immediately after this "concurrent_iterator":exp/concurrent_iterator.html (since all its children are forgotten).
 
 The "flash animation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp12_animation.php could be translated to something like :
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'a'
     concurrent_iterator :times => '${f:count}' do
@@ -359,7 +359,7 @@ The "flash animation":http://workflowpatterns.com/patterns/control/multiple_inst
     end
     participant 'c'
   end
-<% end -%>
+</pre>
 
 The number of 'b' instances to fire is expected to be found in the workitem field named 'count' (value is perhaps chosen by participant 'a').
 
@@ -373,21 +373,21 @@ h3(#mu_multiple_instances_with_a_priori_design_time_knowledge). multiple instanc
 
 The "concurrence":exp/concurrence.html or the "concurrent_iterator":exp/concurrent_iterator.html expressions can be used.
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+<pre class="brush: ruby">
   concurrence do
     participant 'alfred'
     participant 'bertha'
     participant 'charly'
   end
-<% end -%>
+</pre>
 
 which can be rewritten as :
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+<pre class="brush: ruby">
   concurrent_iterator :on => 'alfred, bertha, charly', :to_field => 'p' do
     participant :ref => '${f:p}'
   end
-<% end -%>
+</pre>
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/multiple_instance/wcp13.php | "top":#top
 
@@ -399,11 +399,11 @@ h3(#mu_multiple_instances_with_a_priori_run_time_knowledge). multiple instances 
 
 It's again a job for the "concurrent_iterator":exp/concurrent_iterator.html expression.
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+<pre class="brush: ruby">
   concurrent_iterator :on => '${f:reviewer_list}', :to_field => 'p' do
     participant :ref => '${f:p}'
   end
-<% end -%>
+</pre>
 
 Here, the list of participant that will 'perform' concurrently is help in a workitem field named 'reviewer_list' (a comma-separated list of participant names).
 
@@ -417,7 +417,7 @@ The number of activity is known at runtime and may change at any point during th
 
 The expression "add_branches":exp/add_branches.html which works in conjunction with the "concurrent_iterator":exp/concurrent_iterator.html expression is necessary for this pattern implementation.
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+<pre class="brush: ruby">
   concurrence :count => 1 do
 
     concurrent_iterator :on => '${f:reviewer_list}', :tag => 'review' do
@@ -429,7 +429,7 @@ The expression "add_branches":exp/add_branches.html which works in conjunction w
       add_branches '${f:new_supervisors}', :ref => 'review'
     end
   end
-<% end -%>
+</pre>
 
 The review work is performed in the concurrent_iterator tagged 'review'. Concurrently a participant supervisor is asked if more reviewers are needed. He has the opportunity to add more reviewers as long as the concurrent_iterator is not over. Since the wrapping concurrence has a :count of 1, as soon as the iterator is done, the concurrence will be over (the supervisor branch getting cancelled).
 
@@ -453,7 +453,7 @@ A set of participants is presented with a task, as soon as one of them starts wo
 
 With a bit of help from the participant implementations, this could be a realization :
 
-<% coderay(:lang => 'ruby', :line_numbers => "inline") do -%>
+<pre class="brush: ruby">
   sequence do
 
     # presenting the task
@@ -467,7 +467,7 @@ With a bit of help from the participant implementations, this could be a realiza
 
     participant '${f:winner}' # a or b
   end
-<% end -%>
+</pre>
 
 As soon as 'a' or 'b' replies ("concurrence":exp/concurrence.html :count => 1), it is represented with the task. The other participant receives a cancel notification.
 

@@ -20,11 +20,11 @@ h3(#history). a bit of history
 
 Storages are at the heart of ruote 2.1.x. Simply look at :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 engine = Ruote::Engine.new(Ruote::Worker.new(ThatStorage.new(info)))
   # or
 engine = Ruote::Engine.new(ThatStorage.new(info))
-<% end %>
+</pre>
 
 Workers and engines need a storage, they communicate via a shared storage.
 
@@ -48,7 +48,7 @@ TODO
 
 h3(#interface). interface
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 #--
 # core methods
 #++
@@ -80,7 +80,7 @@ end
 
 def purge_type!(type)
 end
-<% end %>
+</pre>
 
 TODO
 

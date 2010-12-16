@@ -13,7 +13,7 @@ Forgets all of its children.
 This expression is somehow deprecated in favour of the :forget attribute
 that any expression understands.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'alpha'
     forget do
@@ -24,7 +24,7 @@ that any expression understands.
     end
     participant 'delta'
   end
-<% end %>
+</pre>
 
 In this example above, the flow goes from alpha to bravo and delta. The
 bravo-charly segment is independent of the main process flow. Charly's
@@ -32,7 +32,7 @@ reply will be forgotten.
 
 Now the equivalent process definition, but using the :forget attribute :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'alpha'
     sequence :forget => true do
@@ -41,7 +41,7 @@ Now the equivalent process definition, but using the :forget attribute :
     end
     participant 'delta'
   end
-<% end %>
+</pre>
 
 This expression can be useful for fire-and-forget parallelism in processes.
 

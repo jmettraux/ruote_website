@@ -13,7 +13,7 @@ block and after 10 seconds it will check again.
 If true, it will resume or it will execute its child expression (before
 resuming).
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
 
     _when '${v:/invoice_status} == emitted' do
@@ -26,7 +26,7 @@ resuming).
       participant 'accounting 2'
     end
   end
-<% end %>
+</pre>
 
 Note the '_when' since 'when' is a Ruby keyword :-(
 
@@ -37,19 +37,19 @@ time.
 Without a child expression, this expression behaves in a 'blocking way', and
 it makes most sense in a 'sequence' or in a 'cursor'.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     first_stage
     _when '${v:ready_for_second_stage}'
     second_stage
   end
-<% end %>
+</pre>
 
 When there is a child expression, it will get triggered when the condition
 realizes. Only 1 child expression is accepted, there is no implicit
 'sequence'.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
     _when :test => '${v:go_on} == yes' do
       subprocess :ref => 'final_stage'
@@ -59,7 +59,7 @@ realizes. Only 1 child expression is accepted, there is no implicit
       set 'v:go_on' => 'yes'
     end
   end
-<% end %>
+</pre>
 
 h3. :test
 
@@ -68,27 +68,27 @@ directly after the expression name itself. In an XML process definition or
 if you prefer it this way, you can use the :test attribute to formulate the
 condition :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   <when test="${v:ready}">
     <participant ref="role_publisher" />
   </when>
-<% end %>
+</pre>
 
 In a Ruby process definition :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _when :test => '${v:ready}' do
     participant :ref => 'role_publisher'
   end
 
-<% end %>
+</pre>
 
 h3. :frequency
 
 As said, the default 'check' frequency is 10 seconds. This can be changed
 by using the :frequency (or :freq) attribute.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'logistic_unit'
     _when '${v:/delivery_ok}', :frequency => '2d'
@@ -97,17 +97,17 @@ by using the :frequency (or :freq) attribute.
     participant 'accounting_unit'
   end
 
-<% end %>
+</pre>
 
 h3. :frequency and cron notation
 
 It's OK to pass a 'cron string' to the :frequency attribute.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _when '${v:delivery_complete}', :freq => '5 0 * * *'
     # this 'when' will check its condition once per day, five minutes
     # after midnight
-<% end %>
+</pre>
 
 See "man 5 crontab" on your favourite unix system for the details of
 the 'cron string', but please note that ruote (thanks to the
@@ -129,9 +129,9 @@ h3. ${ruby:'hello'}
 Remember that, if the engine's 'ruby_eval_allowed' is set to true, the
 condition may contain Ruby code.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _when '${r:"hell" + "o"} == hello'
-<% end %>
+</pre>
 
 This Ruby code is checked before hand against malicious code, but beware...
 

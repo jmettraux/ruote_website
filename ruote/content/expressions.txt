@@ -68,7 +68,7 @@ h3(#dollar). dollar notation : variable/fields extrapolation
 
 The "dollar notation":dollar.html is used in expression attributes to enhance process definitions.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 participant :ref => '${field:author}'
   # the actual name of the participant is held in the workitem field 'author'
 <% end -%>

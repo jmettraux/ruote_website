@@ -28,7 +28,7 @@ In this example, a participant named 'decide_team_member' is bound in the
 ruote engine and, depending on the value of the workitem fields 'topic'
 and region, sets the value of the field named 'team_member' :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   require 'rufus/decision/participant'
 
   engine.register_participant(
@@ -52,17 +52,17 @@ and region, sets the value of the field named 'team_member' :
       participant :ref => '${team_member}'
     end
   end
-<% end %>
+</pre>
 
 A process instance about the election results in Venezuela :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.launch(
     pdef,
     'topic' => 'politics',
     'region' => 'america',
     'line' => 'election results in Venezuela')
-<% end %>
+</pre>
 
 would thus get routed to Gilbert.
 
@@ -75,17 +75,17 @@ h3. pointing to a table via a URI
 
 Note that you can reference the table by its URI :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.register_participant(
     :decide_team_member
     Rufus::Decision::Participant,
     :table => 'http://decisions.example.com/journalists.csv')
-<% end %>
+</pre>
 
 If the table were a Google Spreadsheet, it would look like (note the
 trailing &output=csv) :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.register_participant(
     :decide_team_member
     Rufus::Decision::Participant,

@@ -43,15 +43,15 @@ h3(#query). querying the engine about running process instances
 
 To list all the processes currently running in the engine ("rdoc":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#processes-instance_method) :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   statuses = engine.processes
-<% end %>
+</pre>
 
 To query about a process, known by its "wfid" (workflow instance id) ("rdoc":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#process-instance_method) :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   status = engine.process(wfid)
-<% end %>
+</pre>
 
 Those two methods return "ProcessStatus":http://ruote.rubyforge.org/rdoc/Ruote/ProcessStatus.html instances.
 
@@ -65,9 +65,9 @@ Cancelling cannot occur in one operation. The engine traverses the tree of execu
 
 h4(#cancelling_process). cancelling : process instances
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.cancel_process(wfid)
-<% end %>
+</pre>
 
 Warning : as explained cancelling a process or a branch of a process isn't instantaneous.
 
@@ -78,7 +78,7 @@ Perhaps, the most common use case for "cancelling an expression" is cancelling a
 Let's say you have this process :
 
 <div style="width: 100%; position: relative;">
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition do
     sequence do
       logistics
@@ -86,7 +86,7 @@ Let's say you have this process :
       accounting
     end
   end
-<% end %>
+</pre>
   <div style="position: absolute; top: -20px; right: 75px;">
     <img src="/images/cancelling_expression.png" width="100%"/>
   </div>
@@ -96,13 +96,13 @@ For some reason, this process was triggered for an online product, which was dow
 
 Cancelling the delivery participant expression would let the flow continue to "accounting". Programmatically that would look like :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   status = engine.process(wfid)
 
   exp = status.expressions.first
 
   engine.cancel_expression(exp.fei)
-<% end %>
+</pre>
 
 Warning : as explained cancelling a process or a branch of a process isn't instantaneous.
 
@@ -111,7 +111,7 @@ h4(#on_cancel). on_cancel
 
 Most of the time, the process definition attempts to model the "happy path", the process as it occurs 95% of the time. One may want to go a step further and incclude provisions for errors (see "on_error":#on_error) and for cancellations.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition do
     sequence :on_cancel => 'admin' do
       logistics
@@ -119,7 +119,7 @@ Most of the time, the process definition attempts to model the "happy path", the
       accounting
     end
   end
-<% end %>
+</pre>
 
 In this process definition, if the process or the sequence gets cancelled, the 'admin' subprocess (or the participant 'admin') will be applied (or simply receive a workitem).
 
@@ -145,7 +145,7 @@ Sometimes participants don't reply and the participant expression that emitted t
 
 With a 're_apply', it's possible to re-apply the delivery and hopefully restart the interaction (though that could ultimately depend on the participant implementation).
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition do
     sequence do
       alpha
@@ -166,7 +166,7 @@ With a 're_apply', it's possible to re-apply the delivery and hopefully restart 
     #
     # will cancel the expression at 'alpha' and re_apply it, triggering
     # a new dispatch to the participant alpha points to.
-<% end %>
+</pre>
 
 
 h4(#re_applying_tree). re_applying a process branch that went wrong
@@ -175,7 +175,7 @@ If a process branch went wrong, it's sometimes necessary to redo it.
 
 Some process developers like to include those "something went wrong" paths as extension to the happy path and they use the "cursor":exp/cursor.html expression with some 'rewind' magic. But sometimes it's really necessary to rewind/redo manually.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 require 'rubygems'
 require 'yajl'
 require 'ruote'
@@ -239,7 +239,7 @@ engine.re_apply(sequence.fei, :tree => Ruote.to_tree do
 end)
 
 engine.wait_for(wfid)
-<% end %>
+</pre>
 (gist at "http://gist.github.com/485559":http://gist.github.com/485559)
 
 This self-containing example will output :
@@ -265,7 +265,7 @@ The re_apply method accepts the :fields and :merge_in_fields options. :fields co
 
 A few examples :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 engine.re_apply(fei, :fields => { 'customer' => 'Alfred' })
 
 engine.re_apply(fei, :merge_in_fields => { 'customer' => 'Alfred' })
@@ -274,7 +274,7 @@ engine.re_apply(
   fei,
   :fields => { 'customer' => 'Alfred', 'items' => [ 124, 356, 798 ] },
   :tree => Ruote.to_tree { sequence { print_invoice; package; ship } })
-<% end %>
+</pre>
 
 &nbsp;
 
@@ -288,7 +288,7 @@ If a process is in two concurrent branches, only the execution of the branch wit
 
 Here is a program that runs a process with a unreliable participant :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 require 'rubygems'
 require 'ruote'
 
@@ -317,7 +317,7 @@ engine.wait_for(wfid)
 
 err = engine.process(wfid).errors.first
 puts "intercepted an error : #{err.message}..."
-<% end %>
+</pre>
 
 It's possible to query the engine about the status of a process instance and its errors.
 
@@ -338,19 +338,19 @@ h4(#errors_cancel_whole_process). errors : cancelling the whole process
 
 The car won't start ? Let's dump it.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.cancel_process(wfid)
-<% end %>
+</pre>
 
 
 h4(#errors_cancel). errors : cancelling
 
 First variant, cancelling at the error point :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   ps = engine.process(wfid)
   engine.cancel_expression(ps.errors.first.fei)
-<% end %>
+</pre>
 
 This will make the flow resume right after the expression in error.
 
@@ -358,7 +358,7 @@ Second variant, cancelling upstream. It sounds nice but it actually requires kno
 
 Consider this process definition :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition do
     concurrence do
       alpha
@@ -369,7 +369,7 @@ Consider this process definition :
       end
     end
   end
-<% end %>
+</pre>
 
 If an error occurred at 'charly', you could cancel at charly directly, or the sequence, or the concurrence.
 
@@ -382,7 +382,7 @@ h4(#errors_replay). errors : replaying
 
 Launching a process, intercepting the error, fixing its cause and replaying :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 require 'rubygems'
 require 'ruote'
 
@@ -423,7 +423,7 @@ engine.wait_for(wfid)
 
 p engine.process(wfid)
   # => nil (the process is over)
-<% end %>
+</pre>
 
 
 h4(#errors_on_error). on_error

@@ -11,14 +11,14 @@ h2. add_branches
 The 'add_branches'/'add_branch' expression can be used to add branches
 to a concurrent-iterator while it is running.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrent_iterator :on => 'a, b, c' do
     sequence do
       participant :ref => 'worker_${v:i}'
       add_branches 'd, e', :if => '${v:/not_sufficient}'
     end
   end
-<% end %>
+</pre>
 
 In this example, if the process level variable 'not_sufficient' is set to
 true, workers d and e will be added to the iterated elements.
@@ -27,10 +27,10 @@ true, workers d and e will be added to the iterated elements.
 array of values, like the concurrent_iterator does. The :sep or :separator
 attribute can be used for custom separators :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   add_branches 'd|e|f', :sep => '|'
 
-<% end %>
+</pre>
 
 h3. :ref
 
@@ -40,7 +40,7 @@ concurrent_iterator and want to hit the enclosing one from inside the
 enclosed one ? Or when you want to add branches from somewhere else
 in the process instance, outside of the concurrent_iterator ?
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
 
     concurrent_iterator :on => 'a, b, c', :tag => 'main' do
@@ -53,7 +53,7 @@ in the process instance, outside of the concurrent_iterator ?
       rewind :if => '${f:more_cowbell}'
     end
   end
-<% end %>
+</pre>
 
 The add_branches expression refers to the 'main' concurrent_iterator via
 the :ref => 'main' attribute.

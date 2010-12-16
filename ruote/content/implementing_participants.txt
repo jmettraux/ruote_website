@@ -20,7 +20,7 @@ Perhaps state{less|full} is a poor wording. It should be OK for now (suggestions
 
 Stateless participants are instantiated for each workitem dispatch by the worker.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 class WakeUpParticipant
   include Ruote::LocalParticipant
   def initialize (opts)
@@ -37,7 +37,7 @@ class WakeUpParticipant
 end
 
 engine.register_participant 'beijing', WakeUpParticipant, 'city' => 'Beijing'
-<% end %>
+</pre>
 
 In this example. The WakeUpParticipant wraps an City::Notifications service call. The participant is instantiated each time, with the options passed in the implicit hash (last parameter of the register_participant method).
 

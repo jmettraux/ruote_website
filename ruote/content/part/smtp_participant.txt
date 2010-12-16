@@ -22,7 +22,7 @@ h3. options
 
 h3. :template
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   @engine.register_participant(
     :no_good_notification,
     Ruote::SmtpParticipant,
@@ -32,7 +32,7 @@ h3. :template
     :from => 'john@example.com',
     :notification => true,
     :template => "Subject: ${f:email_subject}\n\nno good.")
-<% end %>
+</pre>
 
 Process variable / workitem field substitution works the same as in
 process definitions (in this example, the workitem field email_subject will

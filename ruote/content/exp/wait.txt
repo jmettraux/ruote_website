@@ -10,19 +10,19 @@ h2. wait
 
 Waits (sleeps) for a given period of time before resuming the flow.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     accounting :task => 'invoice'
     wait '30d' # 30 days
     accounting :task => 'check if customer paid'
   end
-<% end %>
+</pre>
 
 '_sleep' is also OK
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _sleep '7d10h' # 7 days and 10 hours
-<% end %>
+</pre>
 
 (the underscore prevents collision with Ruby's sleep method)
 
@@ -30,7 +30,7 @@ h3. :for and :until
 
 'wait' accepts as well :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   wait :for => '30d' # wait for 30 days
   wait :until => '2011/12/10 12:00:00' # any parseable date/time format
 <% end %>

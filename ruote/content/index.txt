@@ -16,7 +16,8 @@ A ruote engine may execute multiple <strong>process instances</strong> at a time
 a process definition
 
 <div style="width: 100%; position: relative;">
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+
+<pre class="brush: ruby">
 require 'ruote' # gem install ruote
 
 pdef = Ruote.process_definition :name => 'work' do
@@ -26,19 +27,20 @@ pdef = Ruote.process_definition :name => 'work' do
       reviewer2
     end
     editor
-    rewind :if => '${not_ok}' # back to the reviewers if editor not happy
+    rewind :if => '${not_ok}'
+      # back to the reviewers if editor not happy
     publish # the document
   end
 end
-<% end %>
-  <div style="position: absolute; top: -40px; right: -15px;">
+</pre>
+  <div style="position: absolute; top: -40px; right: -70px;">
     <img src="/images/pdef0.png" width="95%"/>
   </div>
 </div>
 
 the engine and some participants
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 # engine
 
 require 'ruote/storage/fs_storage'
@@ -66,18 +68,20 @@ end
 engine.register_participant 'publish' do |workitem|
   PublicationService.post(workitem.fields['doc_url'])
 end
-<% end %>
+</pre>
 
 launching some process instances
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
-wfid0 = engine.launch(pdef, 'doc_url' => 'http://en.wikipedia.org/wiki/File:Bundesbrief.jpg')
-wfid1 = engine.launch(pdef, 'doc_url' => 'http://en.wikipedia.org/wiki/File:Constitution_Pg1of4_AC.jpg')
-<% end %>
+<pre class="brush: ruby">
+wfid0 = engine.launch(
+  pdef, 'doc_url' => 'http://en.wikipedia.org/wiki/File:Bundesbrief.jpg')
+wfid1 = engine.launch(
+  pdef, 'doc_url' => 'http://en.wikipedia.org/wiki/File:Constitution_Pg1of4_AC.jpg')
+</pre>
 
 later manipulations
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 # querying
 
 [ wfid0, wfid1 ].each do |wfid|
@@ -88,7 +92,7 @@ end
 # cancelling a process instance
 
 engine.cancel_process(wfid1)
-<% end %>
+</pre>
 
 
 Ruote is available under the "MIT":http://en.wikipedia.org/wiki/MIT_License open source license.

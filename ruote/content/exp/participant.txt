@@ -17,12 +17,12 @@ the engine via its register_participant method.
 
 Here's an example of two concurrent participant expressions in use :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
     participant :ref => 'alice'
     participant :ref => 'bob'
   end
-<% end %>
+</pre>
 
 Upon encountering the two expressions, the engine will lookup their name
 in the participant map and hand the workitems to the participant instances
@@ -51,12 +51,12 @@ h3. simplified participant notation
 
 This process definition is equivalent to the one above. Less to write.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
     participant 'alice'
     bob
   end
-<% end %>
+</pre>
 
 Please note that 'bob' alone could stand for the participant 'bob' or
 the subprocess named 'bob'. Subprocesses do take precedence over
@@ -68,9 +68,9 @@ h3. participant defined timeout
 
 Usually, timeouts are given for an expression in the process definition.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   participant 'alice', :timeout => '2d'
-<% end %>
+</pre>
 
 where alice as two days to complete her task (send back the workitem).
 

@@ -13,7 +13,7 @@ h2. registerp
 This expressions lets one register participants directly from a process
 definition.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.define do
 
     registerp 'alpha', :class => 'MyParticipant', :target => 'mail'
@@ -27,12 +27,12 @@ definition.
     registerp 'admin', :class => 'MyParticipant', :position => -2
       # register participant 'admin' as second to last in participant list
   end
-<% end %>
+</pre>
 
 Participant info can be given as attributes to the expression (see code
 above) or via the workitem.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.define do
 
     registerp :participant => 'participant'
@@ -41,7 +41,7 @@ above) or via the workitem.
     registerp :participants => 'participants'
       # an array of participant info is found in the field 'participants'
   end
-<% end %>
+</pre>
 
 The expression 'unregisterp' can be used to remove participants from the
 participant list.

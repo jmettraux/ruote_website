@@ -42,7 +42,7 @@ h3. first run
 
 This piece of code passes a workitem from participant Alpha to participant Bravo :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 require 'rubygems'
 require 'ruote'
 require 'ruote/storage/fs_storage'
@@ -85,7 +85,7 @@ engine.wait_for(wfid)
   # blocks current thread until our process instance terminates
 
 # => 'I received a message from Alice'
-<% end %>
+</pre>
 
 This quickstart can be found in examples/ruote_quickstart.rb
 

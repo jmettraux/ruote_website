@@ -12,19 +12,19 @@ h2. unregisterp
 
 Unregisters a participant.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition do
     unregisterp 'alfred'
     unregisterp :name => 'bob'
   end
-<% end %>
+</pre>
 
 Shows the same behaviour as
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.unregister_participant 'alfred'
   engine.unregister_participant 'bob'
-<% end %>
+</pre>
 
 The expression 'registerp' can be used to register participants from
 a process definition.

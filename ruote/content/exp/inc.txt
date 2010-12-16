@@ -13,14 +13,14 @@ a workitem field.
 
 One points to a var or a field in these various ways :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     inc :var => 'counter'
     inc :field => 'counter'
     inc 'v:counter'
     inc 'f:counter'
   end
-<% end %>
+</pre>
 
 'inc' and 'dec' work with two types of values : numbers (the default) and
 arrays.
@@ -30,9 +30,9 @@ h3. numbers
 
 The vanilla case of inc/dec is increasing/decreasing a value by 1.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   dec :var => 'x'
-<% end %>
+</pre>
 
 will decrease the value in variable 'x' by 1.
 
@@ -43,11 +43,11 @@ If the target var or field is not set, it will be assumed to be at zero.
 The default increment is 1 (or 1.0 for floats). It can be changed by
 passing a value to the inc/dec expression.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   inc 'v:x', :val => 3
   inc 'v:y', :val => 2.4
 
-<% end %>
+</pre>
 
 h3. arrays
 
@@ -56,7 +56,7 @@ or workitem fields.
 
 This fragment of process definition
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     set 'v:x' => %w[ a b c d ]
     repeat do
@@ -65,22 +65,22 @@ This fragment of process definition
       participant '${v:d}'
     end
   end
-<% end %>
+</pre>
 
 is equivalent to
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   iterator :on => 'a, b, c, d', :to_var => 'x' do
     participant '${v:x}'
   end
-<% end %>
+</pre>
 
 More details : the inc expression expects a value and it will place it
 at the end of the current array. The :pos or :position attribute can
 be set to 'head' to let the inc expression place the value at the head
 of the array.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   set 'v:x' => [ 'alfred', 'bryan' ]
   set 'v:customer_name' => 'charles'
 
@@ -88,18 +88,18 @@ of the array.
     # the variable 'x' now holds [ 'alfred', 'bryan', 'charles' ]
   inc 'v:y', :val => '${v:customer_name}', :pos => 'head'
     # the variable 'x' now holds [ 'charles', 'alfred', 'bryan', 'charles' ]
-<% end %>
+</pre>
 
 The 'dec' / 'decrement' variant of the expression will remove the tail
 value (by default) of the array, or the head value if :pos is set to 'head'.
 
 It's also possible to remove a specific value by passing it to 'dec' :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   set 'v:x' => [ 'alfred', 'bryan', 'carl' ]
   dec 'v:x', :val => 'bryan'
     # the variable 'x' now holds [ 'alfred', 'carl' ]
-<% end %>
+</pre>
 
 'dec' places the removed value in the local variable named 'd'. This trick
 was used in the above iterator example.
@@ -107,7 +107,7 @@ was used in the above iterator example.
 A specific variable or field can be specified via the :to_var / :to_field
 attributes :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   dec 'v:x', :to_v => 'a'
   participant :ref => '${v:a}'
 <% end %>

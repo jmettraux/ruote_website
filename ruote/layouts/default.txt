@@ -7,68 +7,85 @@ filter:    erb
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-   <title>ruote - <%= @page.title %></title>
-   <meta name="author" content="<%= @page.author %>" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>ruote - <%= @page.title %></title>
+  <meta name="author" content="<%= @page.author %>" />
 
-   <!--- Blueprint CSS Framework -->
-   <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection" />
-   <link rel="stylesheet" href="/css/blueprint/plugins/css-classes/css-classes.css" type="text/css" media="screen, projection" />
-   <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print" />
+  <script
+   src="http://lambda.io/js/syntaxhighlighter/shCore.js"></script>
+  <script
+   src="http://lambda.io/js/syntaxhighlighter/shBrushRuby.js"></script>
+  <script
+   src="http://lambda.io/js/syntaxhighlighter/shBrushJScript.js"></script>
+  <script
+   src="http://lambda.io/js/syntaxhighlighter/shBrushXml.js"></script>
 
-   <!-- CodeRay syntax highlighting CSS -->
-   <link rel="stylesheet" href="/css/coderay.css" type="text/css" />
+  <link rel="stylesheet" href="/css/reset.css" type="text/css" />
 
-   <!-- Homepage CSS -->
-   <link rel="stylesheet" href="/css/site.css" type="text/css" media="screen, projection" />
+  <link
+   rel="stylesheet"
+   type="text/css"
+   href="http://lambda.io/js/syntaxhighlighter/shCore.css" />
+  <link
+   rel="stylesheet"
+   type="text/css"
+   href="http://lambda.io/js/syntaxhighlighter/shThemeDefault.css" />
+
+  <link rel="stylesheet" href="/css/ruote.css" type="text/css" />
 </head>
 <body>
 
-<div class="container">
+<div id="container">
 
-   <div class="column span-20 prepend-2 first last" id="header">
+   <div id="header">
 
-     <div class="column span-20 first last" id="hheader">
-       <div class="column span-10 first">
+     <div id="header-top">
+       <div id="header-left">
          <a href="/"><img src="/images/ruote.png" align="left"/></a>
          <span id="ruote" onclick="location.href = '/'; return true;">ruote 2.1</span>
        </div>
-       <div class="column span-10 last align-right">
+       <div id="header-right">
          <!-- search, maybe later -->
        </div>
      </div>
 
-     <div class="column span-10 first">
-       open source ruby workflow engine
-     </div>
-     <div class="column span-10 align-right last">
-       <a title="documentation" href="/documentation.html">doc</a>
-       <a title="source code" href="/source.html">source</a>
-       <a title="download" href="/download.html">download</a>
-       <a title="mailing lists and irc" href="/lists.html">lists</a>
-       <a title="blog" href="http://jmettraux.wordpress.com">blog</a>
-       <a title="map" href="/map.html">map</a>
-       <a class="nihongo" title="日本語" href="/ja.html">日本語</a>
+     <div id="header-bottom">
+
+       <div id="header-subtitle">
+         open source ruby workflow engine
+       </div>
+
+       <div id="header-menu">
+         <a title="documentation" href="/documentation.html">doc</a>
+         <a title="source code" href="/source.html">source</a>
+         <a title="download" href="/download.html">download</a>
+         <a title="mailing lists and irc" href="/lists.html">lists</a>
+         <a title="blog" href="http://jmettraux.wordpress.com">blog</a>
+         <a title="map" href="/map.html">map</a>
+         <a class="nihongo" title="日本語" href="/ja.html">日本語</a>
+       </div>
      </div>
 
    </div>
 
-   <div class="column span-20 prepend-2 first last">
+   <div id="content">
      <%= @content %>
    </div>
 
-   <div class="column span-20 prepend-2 first last">
-     <div class="column span-20 first last" id="footer">
-       <div class="column span-10 first">
-         this website was created with <a href="http://webby.rubyforge.org">webby</a>
-       </div>
-       <div class="column span-10 align-right last">
-         &copy; 2005-2010 the ruote team
-       </div>
+   <div id="footer">
+     <div id="footer-left">
+       this website was created with <a href="http://webby.rubyforge.org">webby</a> and <a href="http://alexgorbatchev.com/SyntaxHighlighter/">syntax highlighter</a>
+     </div>
+     <div id="footer-right">
+       &copy; 2005-2010 the ruote team
      </div>
    </div>
 
 </div>
+
+<script>
+  SyntaxHighlighter.all();
+</script>
 
 <script type="text/javascript" src="http://www.google-analytics.com/ga.js">
 </script>
@@ -82,3 +99,4 @@ filter:    erb
 
 </body>
 </html>
+

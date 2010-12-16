@@ -28,13 +28,13 @@ h3. blocking
 
 A blocking example :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'alice'
     listen :to => 'bob'
     participant 'charly'
   end
-<% end %>
+</pre>
 
 Once the listen expression got applied, this process will block until a
 workitem (in any other process instance in the same engine) is dispatched
@@ -45,13 +45,13 @@ h3. triggering
 This way of using 'listen' is useful for launching processes that "stalk"
 other processes :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'stalker' do
     listen :to => 'bob' do
       participant :ref => 'charly'
     end
   end
-<% end %>
+</pre>
 
 This small process will never exits and will send a workitem to charly
 each time the ruote engine sends a workitem to bob.
@@ -89,15 +89,15 @@ The :to attribute has already been seen, it can be replaced by the :on one.
 Those two attributes are expected to hold regular expressions, so it's OK to
 write things like :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   listen :to => "^user\_.+"
-<% end %>
+</pre>
 
 or
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   listen :to => /^user\_.+/
-<% end %>
+</pre>
 
 To listen for workitems for all the participant whose name start with
 "user_".

@@ -11,23 +11,23 @@ h2. block_participant
 One of the simplest participants. Simply passes a workitem to a block
 of ruby code.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.register_participant :alpha do |workitem|
     workitem.fields['time'] = Time.now
   end
-<% end %>
+</pre>
 
 This participant implicitely replies to the engine when the block execution
 is over.
 
 You can pass the flow_expression (participant expression) as well.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.register_participant :alpha do |workitem, flow_exp|
     workitem.fields['amount'] = flow_exp.lookup_variable('amount')
   end
 
-<% end %>
+</pre>
 
 h3. do_not_thread
 
@@ -38,13 +38,13 @@ EM.next_tick is used instead of a new thread).
 You can change that behaviour (beware block thats monopolises the whole
 engine !) by doing
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   alpha = engine.register_participant :alpha do |workitem|
     workitem.fields['time'] = Time.now
   end
 
   alpha.do_not_thread = true
-<% end %>
+</pre>
 
 (you could also override do_not_thread, the method ...)
 

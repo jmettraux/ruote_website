@@ -3,6 +3,9 @@ extension: css
 filter:    erb
 layout:    nil   # no layout
 
+dimensions:
+  width: '770px'
+
 color:
   ruote:       "#bbbbbb"
   border:      "#ddd"
@@ -17,28 +20,13 @@ color:
 ---
 
 body {
-  font-size: 87%;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 14px/20px "Helvetica Neue", Helvetica, Serif;
 }
 
-.CodeRay {
-  margin-bottom: 1em;
-}
-
-/* Headings
- * --------------------------------------------------------------------- */
 h1,h2,h3,h4,h5,h6 { color: <%= @page.color['header'] %>; }
-
-h3 { margin-top: 1.0em; }
-h4 { margin-top: 2.1em; }
-
-/* Lists
- * --------------------------------------------------------------------- */
 
 li { margin-bottom: 0.7em; }
 
-/* Text Elements
- * --------------------------------------------------------------------- */
 a                 { color: <%= @page.color['link'] %>; }
 a:hover           { color: <%= @page.color['link-hover'] %>; }
 blockquote        { color: <%= @page.color['blockquote'] %>; }
@@ -54,8 +42,6 @@ hr {
   color:      <%= @page.color['border'] %>;
 }
 
-/* Tables
- * --------------------------------------------------------------------- */
 table {
   border-top:     1px solid <%= @page.color['border'] %>;
   border-left:    1px solid <%= @page.color['border'] %>;
@@ -65,10 +51,25 @@ th,td {
   border-right:   1px solid <%= @page.color['border'] %>;
 }
 
-/* Default Classes
- * --------------------------------------------------------------------- */
+/*
 p.quiet { color: <%= @page.color['quiet'] %>; }
 .alt    { color: <%= @page.color['alt'] %>; }
+*/
+
+p {
+  margin-bottom: 1.0em;
+}
+h2 {
+  font-size: 200%;
+  margin-bottom: 2.0em;
+}
+h3 {
+  font-size: 140%;
+  margin-bottom: 1.0em;
+}
+ul {
+  list-style: circle inside;
+}
 
 #ruote {
   color: <%= @page.color['ruote'] %>;
@@ -79,15 +80,47 @@ p.quiet { color: <%= @page.color['quiet'] %>; }
 }
 
 #header {
-  margin-bottom: 2em;
+  width: <%= @page.dimensions['width'] %>;
+  margin: auto;
+  margin-top: 28px;
+  margin-bottom: 42px;
 }
-#hheader {
-  border-bottom: 1px solid #999;
+#header-top {
+  margin-bottom: 21px;
+}
+#header-bottom {
+  border-top: 1px solid #999;
+}
+#header-left {
+}
+#header-subtitle {
+  float: left;
+}
+#header-menu {
+  float: right;
+}
+
+a.nihongo {
+  font-size: 10.5px;
+}
+
+#content {
+  width: <%= @page.dimensions['width'] %>;
+  margin: auto;
 }
 
 #footer {
-  margin-top: 2em;
   border-top: 1px solid #999;
+  width: <%= @page.dimensions['width'] %>;
+  margin: auto;
+  margin-top: 42px;
+  margin-bottom: 42px;
+}
+#footer-left {
+  float: left;
+}
+#footer-right {
+  float: right;
 }
 
 .right-image {
@@ -95,14 +128,19 @@ p.quiet { color: <%= @page.color['quiet'] %>; }
   margin-right: 0;
 }
 
+/*
 .home-progress {
   border: 1px solid <%= @page.color['border'] %>;
   padding: 1em 0.5em;
   margin-bottom: 1em;
 }
+*/
 
-a.nihongo {
-  font-size: 10.5px;
+.syntaxhighlighter {
+  overflow: hidden !important;
+  font-size: 12px !important;
+}
+.toolbar {
+  display: none !important;
 }
 
-/* EOF */

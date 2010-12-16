@@ -13,7 +13,7 @@ h3. the bare way
 
 Testing a process definition without a test framework. Useful when demonstrating a ruote feature or making sure that this feature works for a person (I use this way all the time on the mailing list).
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 require 'rubygems'
 require 'ruote' # gem install ruote
 
@@ -68,7 +68,7 @@ engine.wait_for(wfid)
   # wait for our process to terminate (or to issue an error)
 
 raise "process not over" if engine.process(wfid)
-<% end %>
+</pre>
 
 
 h3. classical way

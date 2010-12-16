@@ -19,25 +19,25 @@ The engine _class_ is nothing more than a dashboard, with indicators and a few k
 
 This is the ruote configuration you can see in the "entry page":index.html of this documentation :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 require 'ruote'
 require 'ruote/storage/fs_storage'
 
 engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::FsStorage.new('work')))
-<% end %>
+</pre>
 
 This is a super-vanilla configuration. Packaging the engine, a worker, and the storage together.
 
 Using "ruote-dm":http://github.com/jmettraux/ruote-dm "DataMapper":http://datamapper.org/ persistence, an engine/worker initalization would look like :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 require 'ruote'
 require 'ruote/dm/storage'
 
 engine = Ruote::Engine.new(
   Ruote::Worker.new(
     Ruote::Dm::DmStorage.new(:default)))
-<% end %>
+</pre>
 
 Where :default simply indicates, we'll want to work with the default configured DataMapper repository.
 
@@ -47,7 +47,7 @@ h3(#engine). engine
 
 Engine options are in fact passed to the storage at initialization time.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 require 'ruote'
 require 'ruote/storage/fs_storage'
 
@@ -56,20 +56,20 @@ engine = Ruote::Engine.new(
     Ruote::FsStorage.new(
       'work',
       'remote_definition_allowed' => true, 'ruby_eval_allowed' => true)))
-<% end %>
+</pre>
 
 They can also be set directly in the storage (document type 'configurations', key 'engine'), but that's an advanced technique (and you don't want/need to change it at runtime).
 
 Some people might prefer writing :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 engine = Ruote::Engine.new(
   Ruote::Worker.new(
     Ruote::FsStorage.new('work')))
 
 engine.configure('ruby_definition_allowed', true)
 engine.configure('ruby_eval_allowed', true)
-<% end %>
+</pre>
 
 h4(#engine_options). options
 
@@ -77,7 +77,7 @@ h4(#engine_options). options
 
 remote definitions are process definitions reachable via HTTP. Since process definition are 'code', ruote, by default, prevents you from doing things like
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'main process' do
     sequence do
       subprocess 'http://example.com/definitions/head_process.rb'
@@ -101,7 +101,7 @@ remote definitions are process definitions reachable via HTTP. Since process def
 
   engine.launch('http://example.com/definitions/main.xml')
 
-<% end %>
+</pre>
 
 You have to explicitely set 'remote_definition_allowed' to true.
 
@@ -189,7 +189,7 @@ The "composite" storage lets you select which storage to use for which category 
 
 An example where everything is handled by a FsStorage while the 'msgs' are stored in a HashStorage :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   opts = {
     'remote_definition_allowed' => true,
     'ruby_eval_allowed' => true
@@ -201,5 +201,5 @@ An example where everything is handled by a FsStorage while the 'msgs' are store
         Ruote::CompositeStorage.new(
           Ruote::FsStorage.new('ruote_work', opts),
           'msgs' => Ruote::HashStorage.new(opts))))
-<% end %>
+</pre>
 

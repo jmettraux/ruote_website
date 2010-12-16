@@ -16,7 +16,7 @@ of the other engine.
 
 For instance :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine0 =
     Ruote::Engine.new(
       Ruote::Worker.new(
@@ -36,7 +36,7 @@ For instance :
     'storage_class' => Ruote::FsStorage,
     'storage_path' => 'ruote/storage/fs_storage',
     'storage_args' => 'work0')
-<% end %>
+</pre>
 
 In this example, two engines are created (note that their 'engine_id' is
 explicitely set (else it would default to 'engine')). Each engine is then
@@ -53,25 +53,25 @@ as a participant in the target engine (not need to answer back).
 
 There are then two variants for calling a subprocess
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   subprocess :ref => 'subprocess_name', :engine => 'engine1'
     # or
   participant :ref => 'engine1', :pdef => 'subprocess_name'
-<% end %>
+</pre>
 
 It's OK to go for the shorter versions :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   subprocess_name :engine => 'engine1'
     # or
   participant 'engine1', :pdef => 'subprocess_name'
   engine1 :pdef => 'subprocess_name'
-<% end %>
+</pre>
 
 The subprocess is defined in the current process, or it's given via its
 URL. The third variant is a subprocess bound as an engine variable.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.variables['variant_3'] = Ruote.process_definition do
     participant 'hello_world_3'
   end

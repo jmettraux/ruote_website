@@ -10,13 +10,13 @@ h2. set
 
 Setting a workitem field or a process variable.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     set :field => 'subject', :value => 'food and beverage'
     set :field => 'date', :val => 'tomorrow'
     participant :ref => 'attendees'
   end
-<% end %>
+</pre>
 
 :field can be abbreviated to :f or :fld. :variable can be abbreviated to
 :v or :var. Likewise, :val and :value are interchangeable.
@@ -25,16 +25,16 @@ h3. field_value, variable_value
 
 Usually, grabbing a value from a field or a value will look like
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   set :f => 'my_field', :value => '${v:my_variable}'
-<% end %>
+</pre>
 
 But doing those ${} substitutions always result in a string result. What
 if the variable or the field holds a non-string value ?
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   set :f => 'my_field', :var_value => 'my_variable'
-<% end %>
+</pre>
 
 Is the way to go then. 'set' understands v_value, var_value, variable_value
 and f_value, fld_value and field_value.
@@ -44,36 +44,36 @@ h3. :escape
 If the value to insert contains ${} stuff but this has to be preserved,
 setting the attribute :escape to true will do the trick.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   set :f => 'my_field', :value => 'oh and ${whatever}', :escape => true
-<% end %>
+</pre>
 
 h3. ruote 2.0's shorter form
 
 Ruote 2.0 introduces a shorter form for the 'set' expression :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     set :field => 'f', :value => 'val0'
     set :variable => 'v', :value => 'val1'
     set :field => 'f_${v:v}', :value => 'val2'
   end
-<% end %>
+</pre>
 
 can be rewritten as
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     set 'f:f' => 'val0'
     set 'v:v' => 'val1'
     set 'f:f_${v:v}' => 'val2'
   end
-<% end %>
+</pre>
 
 since 'f:' is the default for the 'dollar notation', the shortest form
 becomes
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     set 'f' => 'val0'
     set 'v:v' => 'val1'

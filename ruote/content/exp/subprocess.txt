@@ -10,7 +10,7 @@ h2. subprocess
 
 An expression for invoking a subprocess.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition do
     sequence do
       subprocess :ref => 'delivering'
@@ -28,21 +28,21 @@ An expression for invoking a subprocess.
     end
   end
 
-<% end %>
+</pre>
 
 h3. passing attributes as variables
 
 The attributes of the subprocess expression are passed as variables of
 the new subprocess instance.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition do
     subprocess 'sub0', :a => 'A', :b => 'B'
     define :sub0 do
       echo '${v:a}:${v:b}'
     end
   end
-<% end %>
+</pre>
 
 This example (and useless) process example will output "A:B" to STDOUT.
 
@@ -53,7 +53,7 @@ When the subprocess expression has children, the first of them is passed
 to the subprocess instance as the 'tree' variable, readily available for
 an 'apply' expression.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'double review' do
     sequence do
       sub0 do
@@ -71,7 +71,7 @@ an 'apply' expression.
       end
     end
   end
-<% end %>
+</pre>
 
 This example will send 2 x 3 concurrent workitems to the participant
 named 'review_board' (note that it could also be the name of another
@@ -80,7 +80,7 @@ subprocess).
 
 h3. passing 'parameters' to subprocess
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'whatever' do
 
     call :who => 'the cops', :when => 'if I\'m not back at 3'
@@ -89,7 +89,7 @@ h3. passing 'parameters' to subprocess
       participant :ref => '${v:who}', :msg => 'this is a call'
     end
   end
-<% end %>
+</pre>
 
 This binds the variables 'who' and 'when' in the subprocess instance.
 
@@ -100,15 +100,15 @@ h3. pointing to subprocesses via their URI
 
 It's OK to invoke subprocesses via a URI
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   subprocess :ref => 'pdefs/definition1.rb'
-<% end %>
+</pre>
 
 or
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   subprocess :ref => 'http://pdefs.example.org/account/def1.xml'
-<% end %>
+</pre>
 
 Remember that the 'remote_definition_allowed' option of the engine has
 to be set to true for the latter to work, else the engine will refuse
@@ -116,10 +116,10 @@ to load definitions over HTTP.
 
 Shorter :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   subprocess 'http://pdefs.example.org/account/def1.xml'
 
-<% end %>
+</pre>
 
 h3. subprocess URIs bound at engine level
 
@@ -129,18 +129,18 @@ mode : engine level variables.
 They can be set via the engine's initialization code (or later) like in
 this example :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.variables['inventory_check'] = 'http://pdefs.example.com/ic0.rb'
-<% end %>
+</pre>
 
 All the process instance in the engine may then trigger this process in
 these 3 ways :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   subprocess :ref => 'inventory_check'
   subprocess 'inventory_check'
   inventory_check
-<% end %>
+</pre>
 
 The latter may make process definitions quite readable (but blur the
 distinction between expressions, call to participants or to subprocesses).

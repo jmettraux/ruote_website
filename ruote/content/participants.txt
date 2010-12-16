@@ -12,7 +12,7 @@ Participants are handed workitems by the ruote engine and are expected to perfor
 
 h3. participants as abstractions
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'accident investigation case' do
     sequence do
       concurrence do
@@ -22,7 +22,7 @@ h3. participants as abstractions
       participant 'hq', :task => 'handle case'
     end
   end
-<% end %>
+</pre>
 
 In this process definition example, the 2 reporter participants are handed each a workitem by the engine and once their work got done, a merged single workitem continues in the flow and is presented to the 'hq' participant.
 
@@ -37,26 +37,26 @@ Process definitions are in most cases pointed at to the engine right at the laun
 
 Participant implementations are usually bound in the engine when it is started. The term is to "register a participant in the engine". The engine is then equipped with a directory of participants that it looks up by name when a participant expression is applied, signifying that its workitem has to be despatched to a real participant.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.register_participant 'reporter 1', Ruote::StorageParticipant
-<% end %>
+</pre>
 
 Here, the participant named "reporter 1" is registered in the engine. We trust the engine with the actual instantiation and thus pass only the class : Ruote::Dm::DmParticipant (yes, it's a ruote-dm DataMapper participant, the workitem will be placed in a database)
 
 In order to avoid writing too much code for binding participants, it's OK to leverage <strong>regular expressions</strong>. Here is something that can cope with 'reporter 1' and 'reporter 2' and many more :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.register_participant /^reporter /, Ruote::StorageParticipant
-<% end %>
+</pre>
 
 Don't worry about the participant implementation mixing the workitems,
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
     participant 'reporter 1', :activity => 'gather info on accident site'
     participant 'reporter 2', :activity => 'gather info about customer'
   end
-<% end %>
+</pre>
 
 in our example, the attribute 'participant' of the top workitem while be 'reporter 1' vs 'reporter 2' for the bottom one, though the same participant implementation consumed the workitem.
 
@@ -74,7 +74,7 @@ h4. registering participants in a block
 
 Since ruote 2.1.11, thanks to the work of "Torsten":http://github.com/tosch/, it's possible to register participants in nice blocks :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.register do
 
     notify MyApp::Participants::RemoteNotification, 'flavour' => 'normal'
@@ -85,55 +85,55 @@ Since ruote 2.1.11, thanks to the work of "Torsten":http://github.com/tosch/, it
       # all the workitems for participants that are neither 'notify' or 'alarm'
       # are caught by a storage participant
   end
-<% end %>
+</pre>
 
 Note that simply stating "catchall" will redirect to a/the storage participant :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.register do
     catchall
   end
-<% end %>
+</pre>
 
 is thus equivalent to
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.register do
     catchall Ruote::StorageParticipant
   end
-<% end %>
+</pre>
 
 The first example above assumes the participant name is the first word encountered (the 'method' name in fact). If you want to pass a regular expression, use the 'participant' notation :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.register do
     participant 'user-.+', Ruote::StorageParticipant
     participant 'action-.+', MyApp::RemoteActionParticipant
   end
-<% end %>
+</pre>
 
 
 h4(#list). registering participants as a list
 
 Starting with ruote 2.1.11, instead of using register_participant and register, you can pass the whole list of participants at once.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.participant_list = [
     [ /^user-.+$/, 'Ruote::StorageParticipant', {} ],
     [ /^action-.+$/, MyApp::RemoteActionParticipant, { 'server' => 'main' } ]
   ]
-<% end %>
+</pre>
 
 Note that it's OK to pass the class name as an instance of Class (second line) or as a string (first line).
 
 Checking the current content of the participant list looks like :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   engine.participant_list.each { |pe| puts pe.to_s }
     #
     #   /^user-.+$/ ==> Ruote::StorageParticipant {}
     #   /^action-.+$/ ==> MyApp::RemoteActionParticipipant { 'server' => 'main' }
-<% end %>
+</pre>
 
 
 h3(#threads). participants and threads

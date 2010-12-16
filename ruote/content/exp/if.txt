@@ -10,52 +10,52 @@ h2. if
 
 Here are examples of the 'if' expression in use :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _if do
     equals :field_value => 'customer', :other_value => 'British Petroleum'
     participant :ref => 'Allister'
   end
-<% end %>
+</pre>
 
 and :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _if :test => '${f:customer} == British Petroleum' do
     participant :ref => 'Allister'
   end
-<% end %>
+</pre>
 
 An else clause is accepted :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _if do
     equals :field_value => 'customer', :other_value => 'British Petroleum'
     participant :ref => 'Allister'
     participant :ref => 'Bernardo'
   end
-<% end %>
+</pre>
 
 or :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _if :test => '${f:customer} == British Petroleum' do
     participant :ref => 'Allister'
     participant :ref => 'Bernardo'
   end
-<% end %>
+</pre>
 
 Note that any expression accepts an :if attribute :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   participant :ref => 'Al', :if => '${f:customer} == British Petroleum'
 
-<% end %>
+</pre>
 
 h3. shorter
 
 It's ok to shortcircuit the _if expression like this :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   _if '${f:customer.name} == Fred' do
     subprocess 'premium_course'
     subprocess 'regular_course'

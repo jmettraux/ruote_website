@@ -23,7 +23,7 @@ h3(#timeout). :timeout
 
 If after two days, the two reviewers couldn't do their work, the process instance will resume to the editor :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant :ref => 'author'
     sequence :timeout => '2d' do
@@ -32,21 +32,21 @@ If after two days, the two reviewers couldn't do their work, the process instanc
     end
     participant :ref => 'editor'
   end
-<% end %>
+</pre>
 
 :timeout understands h, m, d, s (respectively hour, minute, day, second). It also understands y, M, w (for year, Month and week), but they are rarely used.
 
 It's OK to give an absolute date to the :timeout attribute :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   participant :ref => 'author', :timeout => 'Sun Jan 24 17:28:28 +0900 2010'
-<% end %>
+</pre>
 
 But most of the time absolute dates are fetched from process variables or workitem fields :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   participant :ref => 'author', :timeout => '${f:time_limit}'
-<% end %>
+</pre>
 
 Please note that "participants":exp/participant.html may have their say in their timeout.
 
@@ -59,17 +59,17 @@ These two attributes accept a condition string. If the condition evaluates to tr
 
 The CEO will receive a workitem / task only if the budget (stored in a workitem field) exceeds 23000 :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
     participant 'ceo', :if => '${f:budget} > 23000'
     participant 'cfo'
     participant '${f:bu_head}'
   end
-<% end %>
+</pre>
 
 Any expression may use :if / :unless :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   cursor do
     subprocess 'gather_data'
     subprocess 'generate_graphs'
@@ -78,11 +78,11 @@ Any expression may use :if / :unless :
     subprocess 'generate_pdfs'
     # over
   end
-<% end %>
+</pre>
 
 Really any :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     sequence :if => '${f:weather} == rainy' do
       rent_tent
@@ -102,32 +102,32 @@ Really any :
       participant 'mayor', :task => 'notification'
     end
   end
-<% end %>
+</pre>
 
 
 h3(#forget). :forget
 
 An expression flagged with :forget => true or :forget => 'true' gets forgotten, it is considered has having replied immediately to its parent expression, though its 'execution' is resuming independently.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence do
     participant 'alfred'
     participant 'bob'
     participant 'charly', :forget => true
   end
-<% end %>
+</pre>
 
 Charly will receive a workitem, but the concurrence will receive a reply immediately, thus, the concurrence (and the rest of the process) will resume as soon as both Alfred and Bob have replied.
 
 It can be used for some kind of rough fire and forget concurrency :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'alfred', :forget => true
     participant 'bob', :forget => true
     participant 'charly', :forget => true
   end
-<% end %>
+</pre>
 
 
 h3(#on_error). :on_error
@@ -138,7 +138,7 @@ What if you want to specify the "on error" behaviour directly in the process def
 
 :on_error is the closest thing to the begin/rescue, try/catch found in regular programming languages.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 Ruote.process_definition :name => 'x' do
 
   sequence :on_error => 'handle_issue' do
@@ -152,7 +152,7 @@ Ruote.process_definition :name => 'x' do
     participant 'supervisor', :msg => 'process ${wfid} has gone ballistic'
   end
 end
-<% end %>
+</pre>
 
 If there is an error (at any level/depth) inside of our sequence, the whole branch of the "sequence" will get cancelled and then replaced by the element indicated in :on_error.
 
@@ -164,22 +164,22 @@ When it points to a subprocess, the branch in error gets replaced by an instance
 
 If :redo or 'redo' is given, the process branch will get cancelled and retried :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence :on_error => :redo do
     # ...
   end
-<% end %>
+</pre>
 
 If :undo or 'undo' is passed, the branch will get cancelled and the flow will resume :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'notify_bu', :on_error => :undo
       # we don't care if the notification fails
     participant 'bu_head'
       # business as usual
   end
-<% end %>
+</pre>
 
 NOTE : there are plans for making the "listen":exp/listen.html expression listen to errors, stay tuned.
 
@@ -188,7 +188,7 @@ h3(#on_cancel). :on_cancel
 
 on_cancel is used to point at a subprocess or a participant that should be invoked / receive a workitem in case a [segment of a] process gets cancelled.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 pdef = Ruote.process_definition :name => 'aircraft carrier' do
   cursor :on_cancel => 'decommission' do
     concurrence do
@@ -203,7 +203,7 @@ pdef = Ruote.process_definition :name => 'aircraft carrier' do
     end
   end
 end
-<% end %>
+</pre>
 
 In this process, the aircraft is operated. Upon cancelling, the subprocess 'decommission' is triggered, where the teams get different missions.
 
@@ -222,13 +222,13 @@ The 'redo' value indicates that on timeout, the flagged expression should get ca
 
 The 'error' value forces the process into error upon timeout (whereas the default timeout behaviour is to resume the flow). A process segment in error is blocked and requires an admin interventation (see <a href="process_administration.html">process administration</a>).
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'author'
     participant 'reviewer', :timeout => '3d', :on_timeout => 'redo'
     participant 'editor'
   end
-<% end %>
+</pre>
 
 In this example, the reviewer will receive a fresh workitem every 3 days, until he replies by himself to the flow (which will resume to the editor participant).
 
@@ -237,7 +237,7 @@ h3(#tag). :tag
 
 The tag attribute is used to tag a segment of a process.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 Ruote.process_definition do
   sequence do
     sequence :tag => 'phase 1' do
@@ -250,14 +250,14 @@ Ruote.process_definition do
     end
   end
 end
-<% end %>
+</pre>
 
 These tags then appear in the process variables :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 p engine.process(wfid).tags.keys
   # => [ "phase 1" ]
-<% end %>
+</pre>
 
 In this way, :tag can be used to flag large segments of process instances. Eras, phases, chapter, ... Name it how you want.
 

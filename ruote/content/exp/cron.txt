@@ -11,28 +11,28 @@ h2. cron
 This expression executes its children expression according to a cron
 schedule or at a given frequency.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   cron '15 4 * * sun' do # every sunday at 0415
     subprocess :ref => 'refill_the_acid_baths'
   end
-<% end %>
+</pre>
 
 or
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   every '10m' do
     send_reminder # subprocess or participant
   end
-<% end %>
+</pre>
 
 The 'tab' or 'interval' attributes may be used, this is a bit more verbose,
 but, for instance, in XML, it is quite necessary :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   <cron tab="15 4 * * sun">
     <subprocess ref="refill_the_acid_baths" />
   <cron>
-<% end %>
+</pre>
 
 Triggered children subprocesses are 'forgotten'. This implies they
 will never reply to the cron/every expression and they won't get cancelled
@@ -47,7 +47,7 @@ h3. an example use case
 
 The cron/every expression appears often in scenarii like :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   concurrence :count => 1 do
 
     participant 'operator'
@@ -56,11 +56,11 @@ The cron/every expression appears often in scenarii like :
       notify 'operator'
     end
   end
-<% end %>
+</pre>
 
 With a subprocess, this could become a bit more reusable :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_defintion :name => 'sample' do
 
     sequence do

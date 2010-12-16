@@ -9,7 +9,7 @@ h2. dollar notation
 
 Most of the examples features plainly named participant like :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'alfred'
     participant 'bob'
@@ -18,7 +18,7 @@ Most of the examples features plainly named participant like :
 
 But the real world is more dynamic :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant '${f:patient}'
     participant '${f:doctor}'
@@ -37,7 +37,7 @@ The most visible type is workitem fields. Each workitem has a dictionary of fiel
 
 Process variables are not communicated outside of the engine (except if the "set":exp/set.html expression is used to copy a variable to a field). Variables are mainly used for routing decisions inside the process instance.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 Ruote.process_definition :name => 'loan_approval', :revision => '1' do
   cursor do
     participant 'planning team'
@@ -55,7 +55,7 @@ In this first example process definition, there are two fields visible from the 
 
 Note that if the total is superior to 100'000, the ceo, concurrently with the cfo, will receive a workitem. Thus the workitem (and its fields) will get duplicated, one copy for each concurrence branch. Process variables never get "cloned" in this way.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 Ruote.process_definition :name => 'loan_approval', :revision => '2' do
   cursor do
     participant 'planning team'
@@ -76,14 +76,14 @@ h3(#default). by default ${key} points to the field 'key'
 
 For ruote 2.1, this two process definitions are equivalent :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant '${f:patient}'
     participant '${field:doctor}'
   end
 <% end -%>
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant '${patient}'
     participant '${doctor}'
@@ -95,7 +95,7 @@ h3(#deep). deep lookup (composite keys)
 
 Imagine you have this process definition :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 Ruote.process_definition :name => 'contract preparation' do
   sequence do
 
@@ -121,7 +121,7 @@ Looking at the "above example":#deep, one thing should be clear : our customer i
 
 Why not remove it ?
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 pdef = Ruote.process_definition :name => 'contract preparation' do
   sequence do
     participant 'legal dept', :task => 'prepare contract for ${f:customer.name}'
@@ -134,7 +134,7 @@ end
 
 and pass the information in due time, i.e. at launch time ?
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 ruote_engine.launch(
   pdef,
   { 'customer' => { 'name' => 'Dexter Shipping', 'address' => [ 'Orchard Road', 'Singapore' ] } })
@@ -142,7 +142,7 @@ ruote_engine.launch(
 
 The signature for the launch method looks like
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 def launch (process_definition, fields={}, variables={})
 <% end -%>
 
@@ -153,7 +153,7 @@ h3(#wfid). ${fei}, ${wfid}, ${sub_wfid} and ${expid}
 
 This tiny program :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 require 'rubygems'
 require 'ruote'
 
@@ -194,7 +194,7 @@ The 'sub_wfid' is empty since our test process is very simple and the echo is no
 
 This technique can be used in various ways. Here is an example :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 Ruote.process_definition :name => 'new batch' do
   sequence do
     set 'batch_id' => 'batch--${wfid}'
@@ -211,7 +211,7 @@ h3(#ruby_eval_allowed). 'ruby_eval_allowed'
 
 When the engine is "configured":configuration.html#engine with 'ruby_eval_allowed' => true, which boils down to
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 engine = Ruote::Engine.new(
   Ruote::Worker.new(
     Ruote::HashStorage.new('ruby_eval_allowed' => true)))
@@ -219,7 +219,7 @@ engine = Ruote::Engine.new(
 
 a special (and dangerous) 'r' or 'ruby' prefix gets unlocked.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
 Ruote.process_definition :name => 'new batch' do
   sequence do
     set 'batch_id' => '${r:Operations.generate_batch_id}'

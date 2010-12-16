@@ -10,7 +10,7 @@ h2. sequence
 
 The plain 'sequence' expression.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   sequence do
     participant 'alpha'
     participant 'bravo'

@@ -11,15 +11,15 @@ h2. restore
 Restores the fields of the current workitem. That means usually copying
 them from a saved version in a variable or in a separate field.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   restore :from_var => 'v'
-<% end %>
+</pre>
 
 or
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   restore :from_f => 'customer.address.street', :to_f => 'delivery.street'
-<% end %>
+</pre>
 
 (yes, this sets the field 'street' inside of the field 'delivery')
 
@@ -28,7 +28,7 @@ h3. set_fields
 This expressions has a 'set_fields' alias. It can be handy (and readable)
 to set a bunch of workitem fields in one sweep somewhere in a process :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   Ruote.process_definition :name => 'working hard' do
     sequence do
       set_fields :val => { 'customer' => { 'name' => 'Fred', 'age' => 40 } }

@@ -15,7 +15,7 @@ or a variable or passed directly to the apply.
 
 These apply examples :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   apply :tree => [ 'echo', { 'nada' => nil }, [] ]
 
   sequence do
@@ -32,21 +32,21 @@ These apply examples :
     set :field => 't', :val => [ 'echo', { 'nada' => nil }, [] ]
     apply :tree_field => 't'
   end
-<% end %>
+</pre>
 
 All are equivalent to
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   echo 'nada'
 
-<% end %>
+</pre>
 
 h3. apply and subprocesses
 
 There is an interesting way of using 'apply', it's close to the way of
 the Ruby "yield" expression.
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition 'test' do
     sequence do
       handle do
@@ -64,7 +64,7 @@ the Ruby "yield" expression.
       end
     end
   end
-<% end %>
+</pre>
 
 With this process definition, the particpant alpha and bravo are handed
 a workitem in sequence, but each time, the data gets prepared and
@@ -75,7 +75,7 @@ re-arranged.
 
 Passing variables to applied trees is possible :
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition do
     handle do
       participant '${v:target}', :message => 'x'
@@ -90,13 +90,13 @@ Passing variables to applied trees is possible :
     end
   end
 
-<% end %>
+</pre>
 
 h3. on_error
 
 It's OK, to place an on_error on the apply
 
-<% coderay(:lang => 'ruby', :line_numbers => 'inline') do -%>
+<pre class="brush: ruby">
   pdef = Ruote.process_definition do
     handle do
       sequence do
