@@ -1,13 +1,9 @@
 
-= ruote / openwferu websites
+= ruote website
 
 this git repository contain the source for the website at
 
-  http://openwferu.rubyforge.org (ruote 1.0)
-
-and
-
-  http://ruote.rubyforge.org (ruote 2.0)
+  http://ruote.rubyforge.org
 
 
 == how to contribute ?

@@ -1,3 +1,0 @@
-
-http://ruote.rubyforge.org
-
