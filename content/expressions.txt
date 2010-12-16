@@ -71,5 +71,5 @@ The "dollar notation":dollar.html is used in expression attributes to enhance pr
 <pre class="brush: ruby">
 participant :ref => '${field:author}'
   # the actual name of the participant is held in the workitem field 'author'
-<% end -%>
+</pre>
 

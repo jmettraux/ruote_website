@@ -14,7 +14,7 @@ Most of the examples features plainly named participant like :
     participant 'alfred'
     participant 'bob'
   end
-<% end -%>
+</pre>
 
 But the real world is more dynamic :
 
@@ -23,7 +23,7 @@ But the real world is more dynamic :
     participant '${f:patient}'
     participant '${f:doctor}'
   end
-<% end -%>
+</pre>
 
 In that mini process definition, the workitem is routed from the patient to the doctor. The actual participant name is held in the workitem field "patient" and then in the field named "doctor". Since it's a sequence, the value in the field doctor could have been set by the patient.
 
@@ -49,7 +49,7 @@ Ruote.process_definition :name => 'loan_approval', :revision => '1' do
     participant 'execution team'
   end
 end
-<% end -%>
+</pre>
 
 In this first example process definition, there are two fields visible from the process definition : 'total' and 'approved'. The total has been determined by the planning team, while the 'approved' field will be set by the cfo (and perhaps the ceo).
 
@@ -67,7 +67,7 @@ Ruote.process_definition :name => 'loan_approval', :revision => '2' do
     participant 'execution team'
   end
 end
-<% end -%>
+</pre>
 
 In that example, if the process variable "supervised" is set to true, the ceo will have his say in the iterations. The information about whether or not the process instance is supervised is not passed to participants (well obviously the ceo will know).
 
@@ -81,14 +81,14 @@ For ruote 2.1, this two process definitions are equivalent :
     participant '${f:patient}'
     participant '${field:doctor}'
   end
-<% end -%>
+</pre>
 
 <pre class="brush: ruby">
   sequence do
     participant '${patient}'
     participant '${doctor}'
   end
-<% end -%>
+</pre>
 
 
 h3(#deep). deep lookup (composite keys)
@@ -110,7 +110,7 @@ Ruote.process_definition :name => 'contract preparation' do
     # ...
   end
 end
-<% end -%>
+</pre>
 
 It's OK to use dots and key names or integer indexes to look deep inside of a field or a variable (${v:partner.address.city}).
 
@@ -130,7 +130,7 @@ pdef = Ruote.process_definition :name => 'contract preparation' do
     # ...
   end
 end
-<% end -%>
+</pre>
 
 and pass the information in due time, i.e. at launch time ?
 
@@ -138,13 +138,13 @@ and pass the information in due time, i.e. at launch time ?
 ruote_engine.launch(
   pdef,
   { 'customer' => { 'name' => 'Dexter Shipping', 'address' => [ 'Orchard Road', 'Singapore' ] } })
-<% end -%>
+</pre>
 
 The signature for the launch method looks like
 
 <pre class="brush: ruby">
 def launch (process_definition, fields={}, variables={})
-<% end -%>
+</pre>
 
 Fields are the initial fields (payload) of the workitem and variables are the initial variables at the root of the process instance getting launched.
 
@@ -175,7 +175,7 @@ end
 wfid = engine.launch(pdef)
 
 engine.wait_for(wfid)
-<% end -%>
+</pre>
 
 will emit to the standard output something like :
 
@@ -202,7 +202,7 @@ Ruote.process_definition :name => 'new batch' do
     testers :task => 'schedule tests for new batch'
   end
 end
-<% end -%>
+</pre>
 
 The field 'batch_id' is set to something like 'batch--20100407-barakuraba'.
 
@@ -215,7 +215,7 @@ When the engine is "configured":configuration.html#engine with 'ruby_eval_allowe
 engine = Ruote::Engine.new(
   Ruote::Worker.new(
     Ruote::HashStorage.new('ruby_eval_allowed' => true)))
-<% end -%>
+</pre>
 
 a special (and dangerous) 'r' or 'ruby' prefix gets unlocked.
 
@@ -228,7 +228,7 @@ Ruote.process_definition :name => 'new batch' do
     clerks :task => 'schedule transport', :if => '${r:Operations.no_transport_available?}'
   end
 end
-<% end -%>
+</pre>
 
 This process definition calls to methods from the Operations module, one to generate a batch id and the second to check if transports are available.
 
