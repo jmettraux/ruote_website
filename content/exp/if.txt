@@ -60,4 +60,4 @@ It's ok to shortcircuit the _if expression like this :
     subprocess 'premium_course'
     subprocess 'regular_course'
   end
-<% end %>
+</pre>

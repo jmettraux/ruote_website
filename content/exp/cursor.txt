@@ -238,4 +238,4 @@ child replied. A 'break' cursor command might be necessary to exit the loop
     end
     publisher
   end
-<% end %>
+</pre>

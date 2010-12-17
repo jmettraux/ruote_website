@@ -36,4 +36,4 @@ to set a bunch of workitem fields in one sweep somewhere in a process :
       participant :ref => 'invoincing'
     end
   end
-<% end %>
+</pre>

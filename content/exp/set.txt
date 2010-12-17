@@ -79,4 +79,4 @@ becomes
     set 'v:v' => 'val1'
     set 'f_${v:v}' => 'val2'
   end
-<% end %>
+</pre>

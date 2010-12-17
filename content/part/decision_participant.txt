@@ -90,4 +90,4 @@ trailing &output=csv) :
     :decide_team_member
     Rufus::Decision::Participant,
     :table => 'http://spreadsheets.google.com/pub?key=pCZNVR1TQ&output=csv')
-<% end %>
+</pre>

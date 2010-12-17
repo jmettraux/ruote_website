@@ -110,4 +110,4 @@ attributes :
 <pre class="brush: ruby">
   dec 'v:x', :to_v => 'a'
   participant :ref => '${v:a}'
-<% end %>
+</pre>

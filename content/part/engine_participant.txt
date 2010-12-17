@@ -86,4 +86,4 @@ URL. The third variant is a subprocess bound as an engine variable.
       participant 'hello_world_1'
     end
   end
-<% end %>
+</pre>

@@ -16,4 +16,4 @@ An expression for echoing text to STDOUT or to a :s_tracer service
     participant :ref => 'toto'
     echo 'toto replied'
   end
-<% end %>
+</pre>

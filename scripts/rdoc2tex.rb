@@ -25,9 +25,9 @@ class Translation
 
     if @in_code
       if @a[-1] == ''
-        @a[-1] = "<% end %>"
+        @a[-1] = '</pre>'
       else
-        @a << "<% end %>"
+        @a << '</pre>'
       end
     end
 

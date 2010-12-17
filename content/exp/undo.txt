@@ -28,4 +28,4 @@ This expression is aliased to 'cancel'
 
 <pre class="brush: ruby">
   cancel :ref => 'invoicing_stage'
-<% end %>
+</pre>

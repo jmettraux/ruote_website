@@ -59,4 +59,4 @@ is equivalent to
     buy_food
     cook_food
   end
-<% end %>
+</pre>

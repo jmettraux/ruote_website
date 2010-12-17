@@ -32,4 +32,4 @@ Maybe this case is better served by a cursor/rewind combination
       rewind :unless => '${f:ok} == true'
     end
   end
-<% end %>
+</pre>

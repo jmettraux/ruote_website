@@ -16,4 +16,4 @@ The plain 'sequence' expression.
     participant 'bravo'
     participant 'charly'
   end
-<% end %>
+</pre>
