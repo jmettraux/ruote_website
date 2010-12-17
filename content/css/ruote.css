@@ -1,60 +1,18 @@
----
-extension: css
-filter:    erb
-layout:    nil   # no layout
-
-dimensions:
-  width: '770px'
-
-color:
-  ruote:       "#bbbbbb"
-  border:      "#ddd"
-  header:      "#111"
-  link:        "#125AA7"
-  link-hover:  "#000"
-  blockquote:  "#666"
-  box-bg:      "#eee"
-  highlight:   "#B2CCFF"
-  quiet:       "#666"
-  alt:         "#666"
----
 
 body {
   font: 14px/20px "Helvetica Neue", Helvetica, Serif;
 }
 
-h1,h2,h3,h4,h5,h6 { color: <%= @page.color['header'] %>; }
-
 li { margin-bottom: 0.7em; }
 
-a                 { color: <%= @page.color['link'] %>; }
-a:hover           { color: <%= @page.color['link-hover'] %>; }
-blockquote        { color: <%= @page.color['blockquote'] %>; }
-
-pre {
-  background: <%= @page.color['box-bg'] %>;
-  border:     1px solid <%= @page.color['border'] %>;
-  margin-bottom: 1em;
-}
-
-hr {
-  background: <%= @page.color['border'] %>;
-  color:      <%= @page.color['border'] %>;
-}
-
 table {
-  border-top:     1px solid <%= @page.color['border'] %>;
-  border-left:    1px solid <%= @page.color['border'] %>;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
 }
 th,td {
-  border-bottom:  1px solid <%= @page.color['border'] %>;
-  border-right:   1px solid <%= @page.color['border'] %>;
+  border-bottom:  1px solid black;
+  border-right:   1px solid black;
 }
-
-/*
-p.quiet { color: <%= @page.color['quiet'] %>; }
-.alt    { color: <%= @page.color['alt'] %>; }
-*/
 
 p {
   margin-bottom: 1.0em;
@@ -72,7 +30,6 @@ ul {
 }
 
 #ruote {
-  color: <%= @page.color['ruote'] %>;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 2em;
   margin-left: 12px;
@@ -80,7 +37,7 @@ ul {
 }
 
 #header {
-  width: <%= @page.dimensions['width'] %>;
+  width: 770px;
   margin: auto;
   margin-top: 28px;
   margin-bottom: 42px;
@@ -105,13 +62,13 @@ a.nihongo {
 }
 
 #content {
-  width: <%= @page.dimensions['width'] %>;
+  width: 770px;
   margin: auto;
 }
 
 #footer {
   border-top: 1px solid #999;
-  width: <%= @page.dimensions['width'] %>;
+  width: 770px;
   margin: auto;
   margin-top: 42px;
   margin-bottom: 42px;

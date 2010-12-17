@@ -1,25 +1,29 @@
 
+require 'nanoc3/tasks' rescue nil
+
+task :install_dependencies do
+
+  sh "gem install nanoc haml rack RedCloth mime-types"
+end
+
+#task :upload => :compile do
 #
-# TO THE WEB
+#  account = 'jmettraux@rubyforge.org'
+#  webdir = '/var/www/gforge-projects/ruote/'
+#  sh "rsync -azv -e ssh --exclude '*.swp' output/ #{account}:#{webdir}"
+#
+#  webdir = '/var/www/gforge-projects/openwferu/'
+#  sh "rsync -azv -e ssh --exclude '*.swp' output/ #{account}:#{webdir}"
+#end
 
-task :upload => :build do
+task :compile do
 
-  account = 'jmettraux@rubyforge.org'
-  webdir = '/var/www/gforge-projects/ruote/'
-  sh "rsync -azv -e ssh --exclude '*.swp' output/ #{account}:#{webdir}"
-
-  webdir = '/var/www/gforge-projects/openwferu/'
-  sh "rsync -azv -e ssh --exclude '*.swp' output/ #{account}:#{webdir}"
+  sh "nanoc co"
 end
 
-task :build do
+task :aco do
 
-  sh "webby build"
-end
-
-task :autobuild do
-
-  sh "webby autobuild"
+  sh "nanoc aco"
 end
 
 task :rdoc do

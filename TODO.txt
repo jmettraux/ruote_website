@@ -4,3 +4,5 @@
 
 [ ] fei, wfid, sub_wfid, expid in $ dollar.html (as request by Kiko)
 
+[ ] nanoc deploy
+
