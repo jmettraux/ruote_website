@@ -3,7 +3,7 @@ require 'nanoc3/tasks' rescue nil
 
 task :install_dependencies do
 
-  sh "gem install nanoc haml rack RedCloth mime-types"
+  sh "gem install nanoc haml rack RedCloth mime-types adsf"
 end
 
 #task :upload => :compile do
@@ -30,5 +30,11 @@ task :rdoc do
 
   #sh "./scripts/ep2tex.rb"
   load 'scripts/ep2tex.rb'
+end
+
+task :deploy do
+
+  sh 'rake deploy:rsync'
+  sh 'rake deploy:rsync config=openwferu'
 end
 
