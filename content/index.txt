@@ -1,11 +1,6 @@
 ---
 title: index
-filter:
-  - erb
-  - textile
 ---
-
-h3. ruote
 
 <strong>Ruote</strong> is a workflow engine written in Ruby. Ruote is "not":http://jmettraux.wordpress.com/2009/07/03/state-machine-workflow-engine/ a state machine library.
 

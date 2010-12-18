@@ -29,32 +29,34 @@ ul {
   list-style: circle inside;
 }
 
-#ruote {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 2em;
-  margin-left: 12px;
-  cursor: pointer;
-}
-
 #header {
   width: 770px;
   margin: auto;
-  margin-top: 28px;
-  margin-bottom: 42px;
+  padding-top: 28px;
+  padding-bottom: 42px;
+  background-color: #4776a8;
+  color: white;
+  margin-bottom: 28px;
+}
+#header a, #header a:visited {
+  color: silver;
 }
 #header-top {
-  margin-bottom: 21px;
 }
 #header-bottom {
-  border-top: 1px solid #999;
 }
 #header-left {
 }
+#header-left img {
+  margin-left: 4px;
+}
 #header-subtitle {
   float: left;
+  margin-left: 4px;
 }
 #header-menu {
   float: right;
+  margin-right: 4px;
 }
 
 a.nihongo {
@@ -70,14 +72,21 @@ a.nihongo {
   border-top: 1px solid #999;
   width: 770px;
   margin: auto;
-  margin-top: 42px;
-  margin-bottom: 42px;
+  padding-top: 42px;
+  padding-bottom: 42px;
+  background-color: #4776a8;
+  color: white;
+}
+#footer a, #footer a:visited {
+  color: silver;
 }
 #footer-left {
   float: left;
+  margin-left: 4px;
 }
 #footer-right {
   float: right;
+  margin-right: 4px;
 }
 
 .right-image {

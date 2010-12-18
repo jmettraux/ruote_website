@@ -21,6 +21,8 @@ task :compile do
   sh "nanoc co"
 end
 
+task :co => :compile
+
 task :aco do
 
   sh "nanoc aco"
