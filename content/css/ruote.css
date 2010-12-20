@@ -1,4 +1,7 @@
-/* @override file:///css/ruote.css */
+/* @override 
+	file:///css/ruote.css
+	http://localhost:3000/css/ruote.css
+*/
 
 #container, #footer {
 	width: 770px;
@@ -49,12 +52,16 @@ a:hover {
 a:visited {
 	color: #2f74bc;
 }
-h1 {
+h1, h2 {
 	color: #85939b;
 	font-size: 200%;
-	margin-bottom: .5em;
+	margin-bottom: 1em;
 	text-transform: capitalize;
 	text-shadow:  1px 1px 0 #fff;
+}
+h3 {
+	font-size: 125%;
+	line-height: 3em;
 }
 #container {
 	background: #f1f1f1;
@@ -100,7 +107,7 @@ h1 {
                 color-stop(1, #c5c5c5));
 	background: -moz-linear-gradient(top, #d9d9d9, #fff 20%, #fff 53%, #e2e2e2 54%, #c5c5c5 100%);
 }
-#nav ul {
+#nav span {
 	display: inline-block;
 	margin: 0;
 	padding: 0;
@@ -108,7 +115,7 @@ h1 {
 	border-right: 1px solid #e6c8cc;
 	white-space: nowrap;
 }
-#nav li {
+#nav a {
 	display: inline-block;
 	float: left;
 	border-left: 1px solid #e6c8cc;
@@ -156,28 +163,28 @@ h1 {
 }
 #content {
 	padding: 36px 24px;
-	margin-bottom: 96px;
+	padding-bottom: 132px;
 	border-top: 1px solid #fffeff;
 	background: #f1f1f1;
 	background: -webkit-gradient(linear, 0% 0%, 0% 64, from(#d9d9d9), to(#f1f1f1));
 	background: -moz-linear-gradient(top, #d9d9d9, #f1f1f1 64px);
 }
-.syntaxhighlighter {
+.syntaxhighlighter, pre {
 	width: auto;
+	padding: 12px 0;
+	background: #fff;
 	border: 1px solid #abb7c2;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
-	padding: 12px 0;
 }
 /* pre-existing styles */
 blockquote {
 	color: #666;
 }
 pre {
-	background: #eee;
-	border: 1px solid #ddd;
 	margin-bottom: 1em;
+	line-height: 1em;
 }
 hr {
 	background: #ddd;
@@ -196,14 +203,6 @@ p.quiet { color: #666; }
 .alt    { color: #666; }
 */
 p {
-	margin-bottom: 1.0em;
-}
-h2 {
-	font-size: 200%;
-	margin-bottom: 2.0em;
-}
-h3 {
-	font-size: 140%;
 	margin-bottom: 1.0em;
 }
 /*ul {
