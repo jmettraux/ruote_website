@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - when expression</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>when</h2>
+        <p>The &#8216;when&#8217; expression verifies if a condition is true, if not it will<br />
+        block and after 10 seconds it will check again.<br />
+        If true, it will resume or it will execute its child expression (before<br />
+        resuming).</p>
+        <pre class="brush: ruby">
+          concurrence do
+        
+            _when '${v:/invoice_status} == emitted' do
+              open_customer_support_account
+            end
+        
+            sequence do
+              participant 'accounting'
+              set 'v:/invoice_status' =&gt; 'emitted'
+              participant 'accounting 2'
+            end
+          end
+        </pre>
+        <p>Note the &#8216;_when&#8217; since &#8216;when&#8217; is a Ruby keyword :-(</p>
+        <p>The condition is usually something about variables, since the workitem that<br />
+        this expression has access to is always the one that reached it, at apply<br />
+        time.</p>
+        <p>Without a child expression, this expression behaves in a &#8216;blocking way&#8217;, and<br />
+        it makes most sense in a &#8216;sequence&#8217; or in a &#8216;cursor&#8217;.</p>
+        <pre class="brush: ruby">
+          sequence do
+            first_stage
+            _when '${v:ready_for_second_stage}'
+            second_stage
+          end
+        </pre>
+        <p>When there is a child expression, it will get triggered when the condition<br />
+        realizes. Only 1 child expression is accepted, there is no implicit<br />
+        &#8216;sequence&#8217;.</p>
+        <pre class="brush: ruby">
+          concurrence do
+            _when :test =&gt; '${v:go_on} == yes' do
+              subprocess :ref =&gt; 'final_stage'
+            end
+            sequence do
+              participant :ref =&gt; 'controller'
+              set 'v:go_on' =&gt; 'yes'
+            end
+          end
+        </pre>
+        <h3>:test</h3>
+        <p>Most of the example process definitions until now were placing the condition<br />
+        directly after the expression name itself. In an <span class="caps">XML</span> process definition or<br />
+        if you prefer it this way, you can use the :test attribute to formulate the<br />
+        condition :</p>
+        <pre class="brush: ruby">
+          &lt;when test="${v:ready}"&gt;
+            &lt;participant ref="role_publisher" /&gt;
+          &lt;/when&gt;
+        </pre>
+        <p>In a Ruby process definition :</p>
+        <pre class="brush: ruby">
+          _when :test =&gt; '${v:ready}' do
+            participant :ref =&gt; 'role_publisher'
+          end
+        
+        </pre>
+        <h3>:frequency</h3>
+        <p>As said, the default &#8216;check&#8217; frequency is 10 seconds. This can be changed<br />
+        by using the :frequency (or :freq) attribute.</p>
+        <pre class="brush: ruby">
+          sequence do
+            participant 'logistic_unit'
+            _when '${v:/delivery_ok}', :frequency =&gt; '2d'
+              # block until delivery is OK (another branch of the process probably)
+              # check every two days
+            participant 'accounting_unit'
+          end
+        
+        </pre>
+        <h3>:frequency and cron notation</h3>
+        <p>It&#8217;s OK to pass a &#8216;cron string&#8217; to the :frequency attribute.</p>
+        <pre class="brush: ruby">
+          _when '${v:delivery_complete}', :freq =&gt; '5 0 * * *'
+            # this 'when' will check its condition once per day, five minutes
+            # after midnight
+        </pre>
+        <p>See &#8220;man 5 crontab&#8221; on your favourite unix system for the details of<br />
+        the &#8216;cron string&#8217;, but please note that ruote (thanks to the<br />
+        rufus-scheduler (http://rufus.rubyforge.org/rufus-scheduler) accepts<br />
+        seconds as well.</p>
+        <h3>the :timeout attribute common to all expressions</h3>
+        <p>Don&#8217;t forget that this expression, like all the other expressions accepts<br />
+        the :timeout attribute. It&#8217;s perhaps better to use :timeout when there is<br />
+        a child expression, so that the child won&#8217;t get &#8216;triggered&#8217; in case of<br />
+        timeout. When there is no child expression and the &#8216;when&#8217; behaves in a<br />
+        &#8216;blocking way&#8217;, a timeout will unblock, as if the condition became true.</p>
+        <h3>${ruby:&#8217;hello&#8217;}</h3>
+        <p>Remember that, if the engine&#8217;s &#8216;ruby_eval_allowed&#8217; is set to true, the<br />
+        condition may contain Ruby code.</p>
+        <pre class="brush: ruby">
+          _when '${r:"hell" + "o"} == hello'
+        </pre>
+        <p>This Ruby code is checked before hand against malicious code, but beware&#8230;</p>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

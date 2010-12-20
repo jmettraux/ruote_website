@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - documentation</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img src='/images/ruote.png' />
+            </a>
+            <div id='header-subtitle'>
+              open source ruby workflow engine
+            </div>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='nav'>
+          <span>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </span>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>documentation</h2>
+        <p>bits and pieces of documentation.</p>
+        <h3>quickstarts</h3>
+        <ul>
+        	<li>a <a href="quickstart.html">quickstart</a> with instructions on how to get ruote 2.1 and its dependencies</li>
+        	<li><a href="http://jmettraux.wordpress.com/2010/01/29/barley/">it&#8217;s barley a task manager</a> in a <a href="http://github.com/jmettraux/ruote/blob/ruote2.1/examples/barley.rb">single file</a> sinatra webapp (<a href="http://barley-plain.torstenschoenebaum.de/work">online demo</a>)</li>
+        	<li><a href="http://jmettraux.wordpress.com/2010/02/17/ruote-and-decision-tables/">ruote and decision tables</a> explains how to integrate ruote and <a href="http://github.com/jmettraux/rufus-decision/">decision tables</a>, here is the <a href="http://github.com/jmettraux/rufus-decision/blob/master/examples/reimbursement.rb">result</a></li>
+        </ul>
+        <ul>
+        	<li>not really a quickstart but <a href="http://github.com/tosch">Torsten</a> has pusblished an example of ruote in rails integration via ruote-kit, it&#8217;s called <a href="http://github.com/tosch/ruote-on-rails">ruote on rails</a> (there is a <a href="http://github.com/tosch/ruote-on-rails/tree/rails3">rails3 branch</a>)</li>
+        </ul>
+        <h3>basic documentation</h3>
+        <ul>
+        	<li>the <a href="glossary.html">glossary</a> enumerates concepts and terms used throughout ruote and attempts at giving explanations for them</li>
+        	<li><a href="definitions.html">process definitions</a> describe the flow of work among participants</li>
+        	<li><a href="participants.html">participants</a> are handed workitems by the engine to perform tasks with them</li>
+        	<li>there are various <a href="part_implementations.html">participant implementations</a> found in ruote itself and in its extensions, like ruote-couch and ruote-amqp</li>
+        	<li><a href="expressions.html">expressions</a> are the building blocks of process definitions</li>
+        </ul>
+        <h3>in-depth documentation</h3>
+        <ul>
+        	<li>the <a href="dollar.html">dollar notation</a> is a short name for variable/field extrapolation techniques in process definitions</li>
+        	<li><a href="common_attributes.html">common attributes</a> can be used by any expression</li>
+        </ul>
+        <h3>advanced documentation</h3>
+        <ul>
+        	<li>ruote <a href="configuration.html">configuration</a>, the engine, the workers and the storage[s]</li>
+        	<li><a href="implementing_participants.html">implementing participants</a></li>
+        	<li><a href="implementing_a_storage.html">implementing a storage</a></li>
+        	<li>ruote <a href="http://ruote.rubyforge.org/rdoc/">rdoc</a> (raw ruby documentation)</li>
+        	<li>the <a href="patterns.html">control flow patterns</a> page details how ruote implements/approximates the control flow part of the <a href="http://workflowpatterns.com">workflow patterns</a> of Prof van der Aalst and Prof ter Hofstede and their research groups</li>
+        	<li><a href="process_administration.html">process administration</a> or how to query, cancel or modify process instances</li>
+        	<li><a href="process_testing.html">process testing</a> along with <a href="participant_testing.html">participant testing</a></li>
+        </ul>
+        <h3>presentations</h3>
+        <ul>
+        	<li><a href="presentations.html">presentations</a> about ruote</li>
+        </ul>
+        <h3>blog excerpts</h3>
+        <p>a few links to blog posts about ruote.</p>
+        <ul>
+        	<li><a href="http://jmettraux.wordpress.com/2009/12/31/ruote-2-1-released/">ruote 2.1 released</a> with an explanation about storage and workers</li>
+        	<li><a href="http://jmettraux.wordpress.com/2010/01/29/barley/">it&#8217;s barley a task manager</a> in a <a href="http://github.com/jmettraux/ruote/blob/ruote2.1/examples/barley.rb">single file</a> sinatra webapp (<a href="http://barley-plain.torstenschoenebaum.de/work">online demo</a>)</li>
+        	<li><a href="http://jmettraux.wordpress.com/2008/09/07/how-does-ruote-work/">how does ruote work ?</a> (quite outdated but mostly OK)</li>
+        </ul>
+        <ul>
+        	<li><a href="http://simplic.it/blog/view/an_investigiation_into_ruote_and_amqp">an investigation into ruote and <span class="caps">AMQP</span></a> by Hartog de Mik</li>
+        	<li><a href="http://www.infoq.com/news/2010/10/ruote">ruote : a workflow engine written in Ruby</a> an InfoQ article by <a href="http://www.ebpml.org/blog2/index.php">Jean-Jacques Dubray</a></li>
+        </ul>
+        <h3>resources</h3>
+        <ul>
+        	<li><a href="resources.html">selected resources</a> about workflow, <span class="caps">BPM</span>, Adaptive Case Management, &#8230;</li>
+        </ul>
+      </div>
+    </div>
+    <div id='footer'>
+      <p>
+        <span id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </span>
+        <span id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </span>
+      </p>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

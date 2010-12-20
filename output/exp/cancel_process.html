@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - cancel_process expression</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>cancel_process</h2>
+        <p>Cancels a whole process instance.</p>
+        <pre class="brush: ruby">
+          pdef = Ruote.process_definition :name =&gt; 'test' do
+            sequence do
+              participant :ref =&gt; 'editor'
+              concurrence do
+                participant :ref =&gt; 'reviewer1'
+                participant :ref =&gt; 'reviewer2'
+                sequence do
+                  participant :ref =&gt; 'main_reviewer'
+                  cancel_process :if =&gt; '${f:over} == true'
+                end
+              end
+              participant :ref =&gt; 'editor'
+            end
+          end
+        </pre>
+        <p>This example has a &#8216;main_reviewer&#8217; with the ability to cancel the whole<br />
+        process, if he sets the workitem field &#8216;over&#8217; to &#8216;true&#8217;.</p>
+        <p>If the goal is to cancel only a segment of a process instance, the<br />
+        expression &#8216;undo&#8217; (Ruote::Exp::UndoExpression) is better suited.</p>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

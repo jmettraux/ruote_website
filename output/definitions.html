@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - process definitions</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>process definitions</h2>
+        <p>Process definitions are documents that describe how a [business] process should orchestrate the flow of work among participants.</p>
+        <p>Participants are registered at start time usually. While process definitions are &#8216;parsed&#8217; at their launch time. Each launch of a process definition creates a process instance.</p>
+        <p>Ruote turns process definitions into an abstract syntax tree (a &#8216;tree&#8217; for short) at launch time. It can mainly read three flavours of process definitions : a Ruby <span class="caps">DSL</span>, a <span class="caps">XML</span> and plain trees (usually as <span class="caps">JSON</span>, though <span class="caps">YAML</span> could be considered).</p>
+        <p>A process definition contains 1 main process definition and may contain 1 or more sub-process definitions. For example.</p>
+        <pre class="brush: ruby">
+          Ruote.process_definition :name =&gt; 'test'
+            sequence do
+              subprocess :ref =&gt; 'analysis'
+              subprocess :ref =&gt; 'publication'
+            end
+            process_definition :name =&gt; 'analysis' do
+              sequence do
+                participant :ref =&gt; 'alice'
+                participant :ref =&gt; 'bob'
+              end
+            end
+            process_definition :name =&gt; 'publication' do
+              participant :ref =&gt; 'charly'
+            end
+          end
+        </pre>
+        <h3><span class="caps">XML</span> process definitions</h3>
+        <p><span class="caps">XML</span> may be advantageous for some people as it looks enterprisey. Perhaps a better reason for using it is the fact that libraries for generating <span class="caps">XML</span> documents abound, as well as other <span class="caps">XML</span> related tools.</p>
+        <pre class="brush: xml">
+          &lt;process-definition name="my_def"&gt;
+            &lt;sequence&gt;
+              &lt;participant ref="alice" /&gt;
+              &lt;participant ref="bob" /&gt;
+            &lt;/sequence&gt;
+          &lt;/process-definition&gt;
+        </pre>
+        <p>You can use the parser to turn <span class="caps">XML</span> into a Ruote tree :</p>
+        <pre class="brush: ruby">
+        require 'rubygems'
+        require 'ruote/parser'
+        
+        tree = Ruote::Parser.parse(%{
+          &lt;process-definition name="my_def"&gt;
+            &lt;sequence&gt;
+              &lt;participant ref="alice" /&gt;
+              &lt;participant ref="bob" /&gt;
+            &lt;/sequence&gt;
+          &lt;/process-definition&gt;
+        })
+        
+        p tree
+          # =&gt;
+          # ["process_definition", {"name"=&gt;"my_def"}, [
+          #   ["sequence", {}, [
+          #     ["participant", {"ref"=&gt;"alice"}, []],
+          #     ["participant", {"ref"=&gt;"bob"}, []]]]]]
+        </pre>
+        <p>Or directly pass the <span class="caps">XML</span> as a String to the engine :</p>
+        <pre class="brush: ruby">
+        engine.launch(%{
+          &lt;process-definition name="my_def"&gt;
+            &lt;sequence&gt;
+              &lt;participant ref="alice" /&gt;
+              &lt;participant ref="bob" /&gt;
+            &lt;/sequence&gt;
+          &lt;/process-definition&gt;
+        })
+        </pre>
+        <h3>Ruby process definitions</h3>
+        <p>Some kind of Ruby <span class="caps">DSL</span> can be used to define processes :</p>
+        <pre class="brush: ruby">
+          Ruote.process_definition :name =&gt; 'my_def' do
+            sequence do
+              participant :ref =&gt; 'alice'
+              participant :ref =&gt; 'bob'
+            end
+          end
+        </pre>
+        <p>One advantage of this &#8216;notation&#8217; is that passing complex data structures from the process definition is possible :</p>
+        <pre class="brush: ruby">
+          Ruote.process_definition :name =&gt; 'my_def' do
+            sequence do
+              set :field =&gt; 'items', :value =&gt; { 'cars' =&gt; 2, 'trucks' =&gt; 0 }
+              participant :ref =&gt; 'alice'
+              participant :ref =&gt; 'bravo'
+            end
+          end
+        </pre>
+        <p>Not necessarily a good practice but can come in handy, and remember that ruote will flatten that to something that is JSONifiable.</p>
+        <h3>raw [<span class="caps">JSON</span>] process definitions</h3>
+        <p>In <span class="caps">JSON</span>, they would look like :</p>
+        <pre class="brush: jscript">
+          [ 'process-definition', { 'name': 'my_def' }, [
+            [ 'sequence', {}, [
+              [ 'participant', { 'ref': 'alice' }, [] ],
+              [ 'participant', { 'ref': 'bob' }, [] ] 
+            ] ] 
+          ] ]
+        </pre>
+        <p>In Ruby, that translates to :</p>
+        <pre class="brush: ruby">
+          [ 'process-definition', { 'name' =&gt; 'my_def' }, [
+            [ 'sequence', {}, [
+              [ 'participant', { 'ref' =&gt; 'alice' }, [] ],
+              [ 'participant', { 'ref' =&gt; 'bob' }, [] ] 
+            ] ] 
+          ] ]
+        </pre>
+        <p>The engine understands various formats :</p>
+        <pre class="brush: ruby">
+          engine.launch('[ "participant", { "ref" : "alpha" }, [] ]')
+            # JSON string
+        
+          engine.launch(Rufus::Json.decode('[ "participant", { "ref" : "alpha" }, [] ]'))
+            # decoded JSON
+        
+          engine.launch([ "participant", { "ref" =&gt; "alpha" }, [] ])
+            # Ruby raw process definition
+        </pre>
+        <p>This raw representation of a process definition can also accomodate deep data structures like the Ruby <span class="caps">DSL</span> does.</p>
+        <h3>process definition generation</h3>
+        <p>So we&#8217;ve seen nice &#8220;ruby process definition&#8221;, but shouldn&#8217;t we rather say &#8220;process definition generation via ruby&#8221; ?</p>
+        <pre class="brush: ruby">
+        require 'ruote'
+        
+        pdef = Ruote.process_definition do
+          sequence do
+            alpha
+            bravo
+          end
+        end
+        
+        p pdef
+          # =&gt;
+          # ["define", {}, [
+          #   ["sequence", {}, [["alpha", {}, []], ["bravo", {}, []]]]]]
+        </pre>
+        <p>The class method &#8220;process_definition&#8221; is used to generate a process definiton (a tree of expressions).</p>
+        <p>Maybe this piece of Ruby code makes the &#8220;generation&#8221; aspect more visible :</p>
+        <pre class="brush: ruby">
+        pdef = Ruote.process_definition do
+          sequence do
+            %w[ alpha bravo charly doug ].each do |pa|
+              participant :ref =&gt; pa
+            end
+          end
+        end
+        
+        p pdef
+          # =&gt;
+          # ["define", {}, [
+          #   ["sequence", {}, [
+          #     ["participant", {"ref"=&gt;"alpha"}, []],
+          #     ["participant", {"ref"=&gt;"bravo"}, []],
+          #     ["participant", {"ref"=&gt;"charly"}, []],
+          #     ["participant", {"ref"=&gt;"doug"}, []]]]]]
+        </pre>
+        <h3>see also</h3>
+        <ul>
+        	<li><a href="process_testing.html">process testing</a> &#8211; testing process definitions</li>
+        </ul>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

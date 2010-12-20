@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - source</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img src='/images/ruote.png' />
+            </a>
+            <div id='header-subtitle'>
+              open source ruby workflow engine
+            </div>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='nav'>
+          <span>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </span>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>source</h2>
+        <p>Ruote&#8217;s source code is located at the <a href="http://github.com">github</a></p>
+        <ul>
+        	<li><a href="http://github.com/jmettraux/ruote/">ruote</a> &#8211; the workflow engine (<a href="/rdoc/README_rdoc.html">rdoc</a>)</li>
+        </ul>
+        <ul>
+        	<li><a href="http://github.com/jmettraux/ruote-dm/">ruote-dm</a> &#8211; <a href="http://datamapper.org">DataMapper</a> based persistence (<a href="/ruote-dm_rdoc/README_rdoc.html">rdoc</a>)</li>
+        	<li><a href="http://github.com/jmettraux/ruote-redis/">ruote-redis</a> &#8211; <a href="http://code.google.com/p/redis/">Redis</a> storage for ruote (<a href="/ruote-redis_rdoc/README_rdoc.html">rdoc</a>)</li>
+        	<li><a href="http://github.com/jmettraux/ruote-couch/">ruote-couch</a> &#8211; <a href="http://couchdb.apache.org/">CouchDB</a> storage for ruote (<a href="/ruote-couch_rdoc/README_rdoc.html">rdoc</a>)</li>
+        	<li><a href="http://github.com/PlasticLizard/ruote-mongodb/">ruote-mongodb</a> &#8211; <a href="http://www.mongodb.org/">MongoDB</a> storage for ruote</li>
+        </ul>
+        <ul>
+        	<li><a href="http://github.com/tosch/ruote-jig/">ruote-jig</a> &#8211; <span class="caps">HTTP</span> participants (by <a href="http://github.com/tosch">Torsten</a>)</li>
+        	<li><a href="http://github.com/jmettraux/ruote-amqp/">ruote-amqp</a> &#8211; <span class="caps">AMQP</span> participants and listeners for ruote (by <a href="http://opensourcery.co.za">Kenneth</a> and <a href="http://github.com/asm/">Jason</a>) (<a href="/ruote-amqp_rdoc/">rdoc</a>)</li>
+        	<li><a href="http://github.com/jmettraux/ruote-beanstalk/">ruote-beanstalk</a> &#8211; <a href="http://kr.github.com/beanstalkd/">Beanstalk</a> participant and receiver, with a storage (fs_storage with Beanstalk as middleware) (<a href="/ruote-beanstalk_rdoc/readme_rdoc.html">rdoc</a>)</li>
+        </ul>
+        <ul>
+        	<li><a href="http://github.com/jmettraux/ruote-fluo/">ruote-fluo</a> &#8211; some kind of a browser based editor for process definitions (<a href="http://difference.openwfe.org:4567/?pdef=pdef.rb">online demo</a>)</li>
+        </ul>
+        <ul>
+        	<li><a href="http://github.com/tosch/ruote-kit/">ruote-kit</a> &#8211; RESTish wrapper for ruote (by <a href="http://opensourcery.co.za">Kenneth</a> and <a href="http://github.com/tosch">Torsten</a>)</li>
+        </ul>
+        <ul>
+        	<li><a href="http://github.com/lbt/ruote-amqp-pyclient">ruote-amqp-pyclient</a> &#8211; a Python client for ruote-amqp, by <a href="http://github.com/lbt">David Greaves</a>.</li>
+        </ul>
+        <ul>
+        	<li><a href="http://github.com/jmettraux/ruote-cukes">ruote-cukes</a> &#8211; a set of step definitions for testing ruote process definitions from <a href="http://cukes.info/">Cucumber</a></li>
+        </ul>
+        <p>See also <a href="http://rufus.rubyforge.org">rufus</a>, a set of ruby gems spun off of ruote.</p>
+        <h3 id="examples">demos and examples</h3>
+        <ul>
+        	<li><a href="http://github.com/tosch/ruote-on-rails">ruote-on-rails</a> is an example integration of ruote in a <a href="http://rubyonrails.org/">Rails</a> application thanks to ruote-kit</li>
+        	<li><a href="http://github.com/threetee/ruote-rails-example">ruote-rails-example</a> &#8211; a test app integrating ruote, ruote-amqp, ruote-kit and ruote-on-rails, by <a href="http://github.com/threetee">Eric Dennis</a></li>
+        	<li><a href="http://meego.gitorious.org/meego-infrastructure-tools/boss">meego-boss</a> &#8211; a <a href="http://groups.google.com/group/openwferu-users/browse_frm/thread/3a30d322bfae7b0d">minimal-ish ruote-amqp setup</a> using daemon-kit based remote participants, by <a href="http://github.com/lbt">David Greaves</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id='footer'>
+      <p>
+        <span id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </span>
+        <span id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </span>
+      </p>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

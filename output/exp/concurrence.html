@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - concurrence expression</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>concurrence</h2>
+        <p>The &#8216;concurrence&#8217; expression applies its child branches in parallel<br />
+        (well it makes a best effort to make them run in parallel).</p>
+        <pre class="brush: ruby">
+          concurrence do
+            alpha
+            bravo
+          end
+        </pre>
+        <h3>attributes</h3>
+        <p>The concurrence expression takes a number of attributes that allow for<br />
+        sophisticated control (especially at merge time).</p>
+        <h4>:count</h4>
+        <pre class="brush: ruby">
+          concurrence :count =&gt; 1 do
+            alpha
+            bravo
+          end
+        </pre>
+        <p>in that example, the concurrence will terminate as soon as 1 (count) of<br />
+        the branches replies. The other branch will get cancelled.</p>
+        <h4>:remaining</h4>
+        <p>As said for :count, the remaining branches get cancelled. By setting<br />
+        :remaining to :forget (or &#8216;forget&#8217;), the remaining branches will continue<br />
+        their execution, forgotten.</p>
+        <pre class="brush: ruby">
+          concurrence :count =&gt; 1, :remaining =&gt; :forget do
+            alpha
+            bravo
+          end
+        </pre>
+        <h4>:merge</h4>
+        <p>By default, the workitems override each others. By default, the first<br />
+        workitem to reply will win.</p>
+        <pre class="brush: ruby">
+          sequence do
+            concurrence do
+              alpha
+              bravo
+            end
+            charly
+          end
+        </pre>
+        <p>In that example, if &#8216;alpha&#8217; replied first, the workitem that reaches<br />
+        &#8216;charly&#8217; once &#8216;bravo&#8217; replied will have the payload as seen/modified by<br />
+        &#8216;alpha&#8217;.</p>
+        <p>The :merge attribute determines which branch wins the merge.</p>
+        <ul>
+        	<li>first (default)</li>
+        	<li>last</li>
+        	<li>highest</li>
+        	<li>lowest</li>
+        </ul>
+        <p>highest and lowest refer to the position in the list of branch. It&#8217;s useful<br />
+        to set a fixed winner.</p>
+        <pre class="brush: ruby">
+          concurrence :merge =&gt; :highest do
+            alpha
+            bravo
+          end
+        </pre>
+        <p>makes sure that alpha&#8217;s version of the workitem wins.</p>
+        <h4>:merge_type</h4>
+        <h5>:override</h5>
+        <p>By default, the merge type is set to &#8216;override&#8217;, which means that the<br />
+        &#8216;winning&#8217; workitem&#8217;s payload supplants all other workitems&#8217; payloads.</p>
+        <h5>:mix</h5>
+        <p>Setting :merge_type to :mix, will actually attempt to merge field by field,<br />
+        making sure that the field value of the winner(s) are used.</p>
+        <h5>:isolate</h5>
+        <p>:isolate will rearrange the resulting workitem payload so that there is<br />
+        a new field for each branch. The name of each field is the index of the<br />
+        branch from &#8216;0&#8217; to &#8230;</p>
+        <h5>:stack</h5>
+        <p>:stack will stack the workitems coming back from the concurrence branches<br />
+        in an array whose order is determined by the :merge attributes. The array<br />
+        is placed in the &#8216;stack&#8217; field of the resulting workitem.<br />
+        Note that the :stack merge_type also creates a &#8216;stack_attributes&#8217; field<br />
+        and populates it with the expanded attributes of the concurrence.</p>
+        <p>Thus</p>
+        <pre class="brush: ruby">
+          sequence do
+            concurrence :merge =&gt; :highest, :merge_type =&gt; :stack do
+              reviewer1
+              reviewer2
+            end
+            editor
+          end
+        </pre>
+        <p>will see the &#8216;editor&#8217; receive a workitem whose fields look like :</p>
+        <pre class="brush: ruby">
+          { 'stack' =&gt; [{ ... reviewer1 fields ... }, { ... reviewer2 fields ... }],
+            'stack_attributes' =&gt; { 'merge'=&gt; 'highest', 'merge_type' =&gt; 'stack' } }
+        </pre>
+        <p>This could prove useful for participant having to deal with multiple merge<br />
+        strategy results.</p>
+        <h4>:over_if (and :over_unless)</h4>
+        <p>Like the :count attribute controls how many branches have to reply before<br />
+        a concurrence ends, the :over attribute is used to specify a condition<br />
+        upon which the concurrence will [prematurely] end.</p>
+        <pre class="brush: ruby">
+          concurrence :over_if =&gt; '${f:over}'
+            alpha
+            bravo
+            charly
+          end
+        </pre>
+        <p>will end the concurrence as soon as one of the branches replies with a<br />
+        workitem whose field &#8216;over&#8217; is set to true. (the remaining branches will<br />
+        get cancelled unless :remaining =&gt; :forget is set).</p>
+        <p>:over_unless needs no explanation.</p>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

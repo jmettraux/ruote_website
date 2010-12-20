@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - cron expression</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>cron</h2>
+        <p>This expression executes its children expression according to a cron<br />
+        schedule or at a given frequency.</p>
+        <pre class="brush: ruby">
+          cron '15 4 * * sun' do # every sunday at 0415
+            subprocess :ref =&gt; 'refill_the_acid_baths'
+          end
+        </pre>
+        <p>or</p>
+        <pre class="brush: ruby">
+          every '10m' do
+            send_reminder # subprocess or participant
+          end
+        </pre>
+        <p>The &#8216;tab&#8217; or &#8216;interval&#8217; attributes may be used, this is a bit more verbose,<br />
+        but, for instance, in <span class="caps">XML</span>, it is quite necessary :</p>
+        <pre class="brush: ruby">
+          &lt;cron tab="15 4 * * sun"&gt;
+            &lt;subprocess ref="refill_the_acid_baths" /&gt;
+          &lt;cron&gt;
+        </pre>
+        <p>Triggered children subprocesses are &#8216;forgotten&#8217;. This implies they<br />
+        will never reply to the cron/every expression and they won&#8217;t get cancelled<br />
+        when the cron/every expression gets cancelled (the cron/every schedule<br />
+        gets cancelled though, no new children will get cancelled).</p>
+        <p>&#8220;man 5 crontab&#8221; in the command line of your favourite unix system might<br />
+        help you with the semantics of the string expected by the cron expression.</p>
+        <h3>an example use case</h3>
+        <p>The cron/every expression appears often in scenarii like :</p>
+        <pre class="brush: ruby">
+          concurrence :count =&gt; 1 do
+        
+            participant 'operator'
+        
+            cron '0 9 * * 1-5' do # send a reminder every weekday at 0900
+              notify 'operator'
+            end
+          end
+        </pre>
+        <p>With a subprocess, this could become a bit more reusable :</p>
+        <pre class="brush: ruby">
+          Ruote.process_defintion :name =&gt; 'sample' do
+        
+            sequence do
+              with_reminder :participant =&gt; 'operator1'
+              with_reminder :participant =&gt; 'operator2'
+            end
+        
+            define 'with_reminder' do
+              concurrence :count =&gt; 1 do
+                participant '${v:participant}'
+                cron '0 9 * * 1-5' do # send a reminder every weekday at 0900
+                  notify '${v:participant}'
+                end
+              end
+            end
+          end
+        </pre>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

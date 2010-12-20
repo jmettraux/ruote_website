@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - participant expression</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>participant</h2>
+        <p>The &#8216;participant&#8217; expression is very special. It sits on the fence between<br />
+        the engine and the external world.</p>
+        <p>The participant expression is used to pass workitems to participants<br />
+        from the engine. Those participants are bound at start time (usually) in<br />
+        the engine via its register_participant method.</p>
+        <p>Here&#8217;s an example of two concurrent participant expressions in use :</p>
+        <pre class="brush: ruby">
+          concurrence do
+            participant :ref =&gt; 'alice'
+            participant :ref =&gt; 'bob'
+          end
+        </pre>
+        <p>Upon encountering the two expressions, the engine will lookup their name<br />
+        in the participant map and hand the workitems to the participant instances<br />
+        registered for those names.</p>
+        <h3>attributes passed as arguments</h3>
+        <p>All the attributes passed to a participant will be fed to the outgoing<br />
+        workitem under a new &#8216;params&#8217; field.</p>
+        <p>Thus, with</p>
+        participant :ref =&gt; &#8216;alice&#8217;, :task =&gt; &#8216;maw the lawn&#8217;, :timeout =&gt; &#8216;2d&#8217;
+        <p>Alice will receive a workitem with a field params set to</p>
+        { :ref =&gt; &#8216;alice&#8217;, :task =&gt; &#8216;maw the lawn&#8217;, :timeout =&gt; &#8216;2d&#8217; }
+        <p>The fields named &#8216;params&#8217; will be deleted before the workitems resumes<br />
+        in the flow (with the engine replying to the parent expression of this<br />
+        participant expression).</p>
+        <h3>simplified participant notation</h3>
+        <p>This process definition is equivalent to the one above. Less to write.</p>
+        <pre class="brush: ruby">
+          concurrence do
+            participant 'alice'
+            bob
+          end
+        </pre>
+        <p>Please note that &#8216;bob&#8217; alone could stand for the participant &#8216;bob&#8217; or<br />
+        the subprocess named &#8216;bob&#8217;. Subprocesses do take precedence over<br />
+        participants (if there is a subprocess named &#8216;bob&#8217; and a participant<br />
+        named &#8216;bob&#8217;.</p>
+        <h3>participant defined timeout</h3>
+        <p>Usually, timeouts are given for an expression in the process definition.</p>
+        <pre class="brush: ruby">
+          participant 'alice', :timeout =&gt; '2d'
+        </pre>
+        <p>where alice as two days to complete her task (send back the workitem).</p>
+        <p>But it&#8217;s OK for participant classes registered in the engine to provide<br />
+        their own timeout value. The participant instance simply has to reply to<br />
+        the #timeout method and provide a meaningful timeout value.</p>
+        <p>Note however, that the process definition timeout (if any) will take<br />
+        precedence over the participant specified one.</p>
+        <h3>asynchronous</h3>
+        <p>The expression will make sure to dispatch to the participant in an<br />
+        asynchronous way. This means that the dispatch will occur in a dedicated<br />
+        thread.</p>
+        <p>Since the dispatching to the participant could take a long time and block<br />
+        the engine for too long, this &#8216;do thread&#8217; policy is used by default.</p>
+        <p>If the participant itself replies to the method #do_not_thread and replies<br />
+        positively to it, a new thread (or a next_tick) won&#8217;t get used. This is<br />
+        practical for tiny participants that don&#8217;t do IO and reply immediately<br />
+        (after a few operations). By default, BlockParticipant instances do not<br />
+        thread.</p>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

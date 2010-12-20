@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - inc expression</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>inc</h2>
+        <p>Increments or decrements the value found in a process variable or<br />
+        a workitem field.</p>
+        <p>One points to a var or a field in these various ways :</p>
+        <pre class="brush: ruby">
+          sequence do
+            inc :var =&gt; 'counter'
+            inc :field =&gt; 'counter'
+            inc 'v:counter'
+            inc 'f:counter'
+          end
+        </pre>
+        <p>&#8216;inc&#8217; and &#8216;dec&#8217; work with two types of values : numbers (the default) and<br />
+        arrays.</p>
+        <h3>numbers</h3>
+        <p>The vanilla case of inc/dec is increasing/decreasing a value by 1.</p>
+        <pre class="brush: ruby">
+          dec :var =&gt; 'x'
+        </pre>
+        <p>will decrease the value in variable &#8216;x&#8217; by 1.</p>
+        <p>inc/dec works with two kind of numbers, integers and floats.</p>
+        <p>If the target var or field is not set, it will be assumed to be at zero.</p>
+        <p>The default increment is 1 (or 1.0 for floats). It can be changed by<br />
+        passing a value to the inc/dec expression.</p>
+        <pre class="brush: ruby">
+          inc 'v:x', :val =&gt; 3
+          inc 'v:y', :val =&gt; 2.4
+        
+        </pre>
+        <h3>arrays</h3>
+        <p>inc/dec can be used to push/pop elements in arrays held in process variables<br />
+        or workitem fields.</p>
+        <p>This fragment of process definition</p>
+        <pre class="brush: ruby">
+          sequence do
+            set 'v:x' =&gt; %w[ a b c d ]
+            repeat do
+              dec 'v:x', :pos =&gt; 'head'
+              _break :unless =&gt; '${v:d}'
+              participant '${v:d}'
+            end
+          end
+        </pre>
+        <p>is equivalent to</p>
+        <pre class="brush: ruby">
+          iterator :on =&gt; 'a, b, c, d', :to_var =&gt; 'x' do
+            participant '${v:x}'
+          end
+        </pre>
+        <p>More details : the inc expression expects a value and it will place it<br />
+        at the end of the current array. The :pos or :position attribute can<br />
+        be set to &#8216;head&#8217; to let the inc expression place the value at the head<br />
+        of the array.</p>
+        <pre class="brush: ruby">
+          set 'v:x' =&gt; [ 'alfred', 'bryan' ]
+          set 'v:customer_name' =&gt; 'charles'
+        
+          inc 'v:x', :val =&gt; '${v:customer_name}'
+            # the variable 'x' now holds [ 'alfred', 'bryan', 'charles' ]
+          inc 'v:y', :val =&gt; '${v:customer_name}', :pos =&gt; 'head'
+            # the variable 'x' now holds [ 'charles', 'alfred', 'bryan', 'charles' ]
+        </pre>
+        <p>The &#8216;dec&#8217; / &#8216;decrement&#8217; variant of the expression will remove the tail<br />
+        value (by default) of the array, or the head value if :pos is set to &#8216;head&#8217;.</p>
+        <p>It&#8217;s also possible to remove a specific value by passing it to &#8216;dec&#8217; :</p>
+        <pre class="brush: ruby">
+          set 'v:x' =&gt; [ 'alfred', 'bryan', 'carl' ]
+          dec 'v:x', :val =&gt; 'bryan'
+            # the variable 'x' now holds [ 'alfred', 'carl' ]
+        </pre>
+        <p>&#8216;dec&#8217; places the removed value in the local variable named &#8216;d&#8217;. This trick<br />
+        was used in the above iterator example.</p>
+        <p>A specific variable or field can be specified via the :to_var / :to_field<br />
+        attributes :</p>
+        <pre class="brush: ruby">
+          dec 'v:x', :to_v =&gt; 'a'
+          participant :ref =&gt; '${v:a}'
+        </pre>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

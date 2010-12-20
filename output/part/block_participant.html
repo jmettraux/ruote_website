@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - block_participant</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>block_participant</h2>
+        <p>One of the simplest participants. Simply passes a workitem to a block<br />
+        of ruby code.</p>
+        <pre class="brush: ruby">
+          engine.register_participant :alpha do |workitem|
+            workitem.fields['time'] = Time.now
+          end
+        </pre>
+        <p>This participant implicitely replies to the engine when the block execution<br />
+        is over.</p>
+        <p>You can pass the flow_expression (participant expression) as well.</p>
+        <pre class="brush: ruby">
+          engine.register_participant :alpha do |workitem, flow_exp|
+            workitem.fields['amount'] = flow_exp.lookup_variable('amount')
+          end
+        
+        </pre>
+        <h3>do_not_thread</h3>
+        <p>By default, this participant (like most other participants) is executed<br />
+        in its own thread (in a Ruby runtime where EventMachine is running,<br />
+        EM.next_tick is used instead of a new thread).</p>
+        <p>You can change that behaviour (beware block thats monopolises the whole<br />
+        engine !) by doing</p>
+        <pre class="brush: ruby">
+          alpha = engine.register_participant :alpha do |workitem|
+            workitem.fields['time'] = Time.now
+          end
+        
+          alpha.do_not_thread = true
+        </pre>
+        <p>(you could also override do_not_thread, the method &#8230;)</p>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

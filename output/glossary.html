@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - glossary</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>glossary</h2>
+        <p>An attempt at defining or explaining terms in ruote and about workflow engines in general.</p>
+        <h3 id="fei">fei</h3>
+        <p>A short form for <a href="#flow_expression_id">Flow Expression Id</a></p>
+        <h3 id="flow_expression">flow expression</h3>
+        <p>A piece of a process instance.</p>
+        <h3 id="flow_expression_id">flow expression id</h3>
+        <p>An identifier for a flow expression. This same identifier is used to identify <a href="#workitem">workitems</a></p>
+        <h3 id="receiver">receiver</h3>
+        <p>todo</p>
+        <h3 id="participant">participant</h3>
+        <p>A participant takes part in a process instance. <a href="participants.html">Participants</a> are registered in the engine. A participant may take part in multiple process instances and especially instances of various process definitions.</p>
+        <p>For example the participant &#8220;Al&#8221; may take part in instances of the &#8220;enter and filter new motherboards&#8221; and the &#8220;perform test batches&#8221; processes.</p>
+        <h3 id="process">process</h3>
+        <p>Depending on the context, this word can be used for process definition or for process instance.</p>
+        <h3 id="process_definition">process definition</h3>
+        <p>A template for a process. <a href="http://ruote.rubyforge.org/definitions.html">Process definitions</a> are the result of process modelling.</p>
+        <h3 id="process_instance">process instance</h3>
+        <p>A process definition, turned into an instance for execution.</p>
+        <h3 id="workitem">workitem</h3>
+        <p>A token of execution in a process instance. They are usually visible when handed to participants.</p>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

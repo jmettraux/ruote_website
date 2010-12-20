@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - process testing</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>process testing</h2>
+        <p>A few notes about testing/specing process definitions</p>
+        <h3>the bare way</h3>
+        <p>Testing a process definition without a test framework. Useful when demonstrating a ruote feature or making sure that this feature works for a person (I use this way all the time on the mailing list).</p>
+        <pre class="brush: ruby">
+        require 'rubygems'
+        require 'ruote' # gem install ruote
+        
+        engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new()))
+          # an engine + worker combo with an in-memory storage,
+          # ideal for process definition testing
+        
+        #engine.noisy = true
+          # when the engine/worker is not replying, uncomment this and restart the
+          # test, it the worker will then explain its activity in yellow chars
+          # in your console
+        
+        engine.register do
+          catchall
+        end
+        
+        pdef = Ruote.process_definition do
+          alpha
+          bravo
+        end
+        
+        wfid = engine.launch(pdef, { 'colour' =&gt; 'blue' })
+          # launching an instance of pdef, with a workitem whose initial fields
+          # contain 'colour' =&gt; 'blue'
+          #
+          # we keep the process instance id in the variable 'wfid' (workflow
+          # instance id)
+        
+        engine.wait_for(:alpha)
+          # waiting for a participant name as a symbol, this call will block until
+          # a workitem was delivered to participant 'alpha'
+        
+        workitem = engine.storage_participant.first
+          # grab the workitem from the storage participant
+        
+        #workitem.fields['colour'] = 'red'
+          # maybe alter the payload of the workitem
+        
+        engine.storage_participant.reply(workitem)
+          # hands back the workitem to the storage participant, it will erase it
+          # and hand it back to the engine so that the flow may resume
+        
+        engine.wait_for(:bravo)
+          # waiting for flow to pop a workitem up at the next step
+        
+        workitem = engine.storage_participant.first
+          # grab the workitem from the storage participant
+        
+        engine.storage_participant.reply(workitem)
+        
+        engine.wait_for(wfid)
+          # wait for our process to terminate (or to issue an error)
+        
+        raise "process not over" if engine.process(wfid)
+        </pre>
+        <h3>classical way</h3>
+        <p><span class="caps">TODO</span></p>
+        <h3>cucumber way</h3>
+        <p><a href="http://github.com/jmettraux/ruote-cukes">ruote-cukes</a> is a set of step definitions for testing ruote process definitions from <a href="http://cukes.info/">Cucumber</a>, unfortunately, it&#8217;s not complete.</p>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

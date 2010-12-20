@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - workflow control patterns</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>workflow control patterns</h2>
+        <p>The <a href="http://workflowpatterns.com/patterns/control/index.php">Workflow Patterns</a> are a catalog of various building blocks for workflow execution.</p>
+        <p>Described here are ways to implement each of those patterns with ruote. Some of them are not directly realizable with ruote, approximations are proposed. This is a self-evaluation, for an authoritative voice, the workflow patterns website and its <a href="http://groups.google.com/group/workflow-patterns">mailing list</a> are here.</p>
+        <p>Each pattern is illustrated with a Ruby <span class="caps">DSL</span> implementation (or approximation). <span class="caps">XML</span> implementations are easily derivable from their Ruby counterparts. There is also a link to the original pattern explanation and its flash animation.</p>
+        <p>Participant expressions have been supplemented with an :activity attribute to give a better feel about an hypothetical context for the application of the pattern.</p>
+        <ul>
+        	<li id="top"><a href="#basic">Basic Control Flow Patterns</a>
+        	<ul>
+        		<li><a href="#ba_sequence">sequence</a></li>
+        		<li><a href="#ba_parallel_split">parallel split</a></li>
+        		<li><a href="#ba_synchronization">synchronization</a></li>
+        		<li><a href="#ba_exclusive_choice">exclusive choice</a></li>
+        		<li><a href="#ba_simple_merge">simple merge</a></li>
+        	</ul></li>
+        </ul>
+        <ul>
+        	<li><a href="#advanced">Advanced Branching and Synchronization Patterns</a>
+        	<ul>
+        		<li><a href="#ad_multi_choice">multi choice</a></li>
+        		<li><a href="#ad_structured_synchronizing_merge">structured synchronizing merge</a></li>
+        		<li><a href="#ad_multi_merge">multi merge</a></li>
+        		<li><a href="#ad_structured_discriminator">structured discriminator</a></li>
+        	</ul></li>
+        </ul>
+        <ul>
+        	<li><a href="#structural">Structural Patterns</a>
+        	<ul>
+        		<li><a href="#st_arbitrary_cycles">arbitrary cycles</a></li>
+        		<li><a href="#st_implicit_termination">implicit termination</a></li>
+        	</ul></li>
+        </ul>
+        <ul>
+        	<li><a href="#multiple">Multiple Instance Patterns</a>
+        	<ul>
+        		<li><a href="#mu_multiple_instances_without_synchronization">multiple instances without synchronization</a></li>
+        		<li><a href="#mu_multiple_instances_with_a_priori_design_time_knowledge">multiple instances with a priori design time knowledge</a></li>
+        		<li><a href="#mu_multiple_instances_with_a_priori_run_time_knowledge">multiple instances with a priori run time knowledge</a></li>
+        		<li><a href="#mu_multiple_instances_without_a_priori_run_time_knowledge">multiple instances without a priori run time knowledge</a></li>
+        	</ul></li>
+        </ul>
+        <ul>
+        	<li><a href="#state">State-based Patterns</a>
+        	<ul>
+        		<li><a href="#sa_deferred_choice">deferred choice</a></li>
+        		<li><a href="#sa_interleaved_parallel_routing">interleaved parallel routing</a></li>
+        		<li><a href="#sa_milestone">milestone</a></li>
+        	</ul></li>
+        </ul>
+        <ul>
+        	<li><a href="#cancellation">Cancellation Patterns</a>
+        	<ul>
+        		<li><a href="#ca_cancel_task">cancel task</a></li>
+        		<li><a href="#ca_cancel_case">cancel case</a></li>
+        	</ul></li>
+        </ul>
+        <ul>
+        	<li><a href="#new">New Control Flow Patterns</a>
+        	<ul>
+        		<li>coming soon</li>
+        	</ul></li>
+        </ul>
+        <hr/>
+        <h2 id="basic">Basic Control Flow Patterns</h2>
+        <p><!-- H3 --></p>
+        <h3 id="ba_sequence">sequence</h3>
+        <p>Chaining activities in sequence. Uses the <a href="exp/sequence.html">sequence</a> expression. The <a href="exp/cursor.html">cursor</a> expression might also be used.</p>
+        <pre class="brush: ruby">
+          sequence do
+            participant :ref =&gt; 'alpha', :activity =&gt; 'write'
+            participant :ref =&gt; 'bravo', :activity =&gt; 'fix typos'
+          end
+        </pre>
+        <p><a href="http://workflowpatterns.com/patterns/control/basic/wcp1.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="ba_parallel_split">parallel split</h3>
+        <p>The <a href="exp/concurrence.html">concurrence</a> expression is the main tool for &#8216;parallel splits&#8217;.</p>
+        <pre class="brush: ruby">
+          concurrence do
+            participant :ref =&gt; 'alpha', :activity =&gt; 'write introduction'
+            participant :ref =&gt; 'bravo', :activity =&gt; 'write postface'
+          end
+        </pre>
+        <p><a href="http://workflowpatterns.com/patterns/control/basic/wcp2.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="ba_synchronization">synchronization</h3>
+        <p>Synchronization is <a href="#ba_parallel_split">supported implicitely</a> by the <a href="exp/concurrence.html">concurrence</a> expression. Note that this expression can be tuned via its attributes for behaviours different than the vanilla &#8220;wait before all child expressions have replied&#8221; one.</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/basic/wcp3.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="ba_exclusive_choice">exclusive choice</h3>
+        <p>Exclusive &#8216;routing&#8217; within the process : the flow will go one way or the other, but not both.</p>
+        <p>The <a href="exp/if.html">if</a> is usually in charge when implementing this pattern (the underscore &#8216;_&#8217; prefixing the if prevents collision with the &#8216;if&#8217; Ruby keyword).</p>
+        <pre class="brush: ruby">
+          _if '${f:decision} == accepted' do
+            participant :ref =&gt; 'alpha', :activity =&gt; 'request further info'
+            participant :ref =&gt; 'alpha', :activity =&gt; 'send refusal note'
+          end
+        </pre>
+        <p>(this if example forwards the flow to the same &#8216;alpha&#8217; participant, but with different activities).</p>
+        <p>One could rewrite this as :</p>
+        <pre class="brush: ruby">
+          sequence do
+            participant 'alpha', :activity =&gt; 'request further info', :if =&gt; '${f:decision} == accepted'
+            participant 'alpha', :activity =&gt; 'send refusal note', :if =&gt; '${f:decision} == refused'
+          end
+        </pre>
+        <p>But this is not strictly equivalent</p>
+        <p>With a bit of imagination, exclusive choices may be found beyond ifs :</p>
+        <pre class="brush: ruby">
+          Ruote.process_definition :name =&gt; 'request processing' do
+        
+            sequence do
+              # ... 
+              participant :ref =&gt; 'editor' # decision : accepted or refused
+              subprocess :ref =&gt; 'request_${f:decision}'
+              # ...
+            end
+        
+            define 'request_accepted' do
+              participant :ref =&gt; 'alpha', :activity =&gt; 'request further info'
+            end
+        
+            define 'request_refused' do
+              participant :ref =&gt; 'alpha', :activity =&gt; 'send refusal note'
+            end
+          end
+        </pre>
+        <p>The name of the <a href="exp/subprocess.html">subprocess</a> is extrapolated at runtime and the flow is routed accordingly.</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/basic/wcp4.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="ba_simple_merge">simple merge</h3>
+        <p>A simple merge occur when two (or more) exclusive branch converge. As seen in <a href="#ba_exclusive_choice">exclusive choice</a> this pattern is implicitely supported. It simply occurs when the &#8216;then&#8217; or the &#8216;else&#8217; clause of an &#8216;if&#8217; terminates and the flow resumes.</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/basic/wcp5.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <hr/>
+        <h2 id="advanced">Advanced Branching and Synchronization Patterns</h2>
+        <p><!-- H3 --></p>
+        <h3 id="ad_multi_choice">multi choice</h3>
+        <p>Combining the <a href="exp/concurrence.html">concurrence</a> expression and :if attributes makes for an easy implementation of this pattern :</p>
+        <pre class="brush: ruby">
+          concurrence do
+            participant 'regular service', :if =&gt; '${f:price} &lt; 50'
+            participant 'premium service', :if =&gt; '${f:price} &gt; 40'
+            participant 'extra service', :if =&gt; '${f:extra_ordered}'
+          end
+        </pre>
+        <p>In this example, if the price is between 40 and 50, regular service and premium service are triggered, extra could be triggerd as well if the field &#8216;extra_ordered&#8217; has the value &#8216;true&#8217;.</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/advanced_branching/wcp6.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="ad_structured_synchronizing_merge">structured synchronizing merge</h3>
+        <p>The <a href="#ad_multi_choice">multi choice</a> pattern implementation implicitely support this &#8216;structured synchronizing merge&#8217;. The <a href="exp/concurrence.html">concurrence</a> expression waits for all its children expression to reply before resuming the flow.</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/advanced_branching/wcp7.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="ad_multi_merge">multi merge</h3>
+        <p><em>The convergence of two or more branches into a single subsequent branch such that each enablement of an incoming branch results in the thread of control being passed to the subsequent branch.</em></p>
+        <p>The flash animation for this pattern is worth a <a href="http://workflowpatterns.com/patterns/control/advanced_branching/wcp8_animation.php">look</a>.</p>
+        <p>Basically, what comes after the multi-merge will be executed once for each incoming replies.</p>
+        <p>Certainly, ruote doesn&#8217;t support that out of the box, but there are approximations to it :</p>
+        <pre class="brush: ruby">
+          Ruote.process_definition :name =&gt; 'multi merge' do
+        
+            concurrence do
+              sequence do
+                team_a
+                after
+              end
+              sequence do
+                team_b
+                after
+              end
+              sequence :if =&gt; '${f:more_capacity_needed}' do
+                extra_team
+                after
+              end
+            end
+        
+            define 'after' do
+              participant 'supervisor', :activity =&gt; 'assess work'
+            end
+          end
+        </pre>
+        <p>Here, a subprocess (<a href="exp/define.html">define</a> &#8216;after&#8217;) is used after each concurrent branch. Before replying to its parent (the concurrence), each branch calls it. (team_a, team_b and extra_team could be participant or subprocess names).</p>
+        <p>Leveraging the <a href="exp/listen.html">listen</a> expression is another option :</p>
+        <pre class="brush: ruby">
+          Ruote.process_definition :name =&gt; 'multi merge' do
+        
+            concurrence :count =&gt; 3, :remaining =&gt; :forget do
+        
+              team_a
+              team_b
+              team_extra :if =&gt; '${f:more_capacity_needed}'
+        
+              listen :to =&gt; /^team\_.+/, :upon =&gt; :reply do
+                participant 'supervisor', :activity =&gt; 'assess work'
+              end
+            end
+          end
+        </pre>
+        <p>With this process definition, each time a team participant replies, the participant &#8216;supervisor&#8217; is sent a workitem. Please note that this works only with participants. In the above subprocess example, &#8216;team_a&#8217; could point either to a participant, either to a subprocess.</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/advanced_branching/wcp8.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="ad_structured_discriminator">structured discriminator</h3>
+        <p>As soon as one of two concurrent branches replies, the flow resumes and the other branch is &#8216;forgotten&#8217; (continues its execution without the parent process caring for its outcome).</p>
+        <pre class="brush: ruby">
+          sequence do
+            concurrence :count =&gt; 1, :remaining =&gt; :forget do
+              test_batch_a
+              test_batch_b
+            end
+            final_test_batch
+          end
+        </pre>
+        <p>As soon as an initial test batch is completed, the final test batch is triggered. The remaining test batch continues, unhindered (but forgotten).</p>
+        <p>The attributes :count and :remaining of the <a href="exp/concurrence.html">concurrence</a> are used. Note that those attributes are understood by the <a href="exp/concurrent_iterator.html">concurrent_iterator</a> expression as well :</p>
+        <pre class="brush: ruby">
+          sequence do
+            concurrent_iterator :on =&gt; 'a, b, c, d', :count =&gt; 1, :remaining =&gt; :forget do
+              subprocess :ref =&gt; 'test_batch_${v:i}'
+                # batches a, b, c and d will get triggered
+            end
+            final_test_batch
+          end
+        </pre>
+        <p><a href="http://workflowpatterns.com/patterns/control/advanced_branching/wcp9.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <hr/>
+        <h2 id="structural">Structural Patterns</h2>
+        <p><!-- H3 --></p>
+        <h3 id="st_arbitrary_cycles">arbitrary cycles</h3>
+        <p><em>The ability to represent cycles in a process model that have more than one entry or exit point.</em></p>
+        <p>Thanks to the <a href="exp/cursor.html">cursor</a> expression, the process represented as <a href="http://workflowpatterns.com/patterns/control/structural/wcp10_animation.php">flash animation</a> on the Workflow Patterns site may be implemented as :</p>
+        <pre class="brush: ruby">
+          cursor do
+            participant 'a'
+            participant 'b'
+            participant 'c'
+            jump :to =&gt; 'b', :if =&gt; '${f:back_to_b}'
+            participant 'd'
+            jump :to =&gt; 'c', :if =&gt; '${f:back_to_c}'
+            participant 'e'
+          end
+        </pre>
+        <p>The <a href="exp/command.html">jump</a> expression understand participant names, subprocess names and :tag names in its :to attribute, making it easy to specify jump points.</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/structural/wcp10.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="st_implicit_termination">implicit termination</h3>
+        <p>Replicating the <a href="http://workflowpatterns.com/patterns/control/structural/wcp11_animation.php">flash animation of the pattern</a>, we obtain :</p>
+        <pre class="brush: ruby">
+          sequence do
+            participant 'alpha'
+            concurrence do
+              sequence do
+                participant 'bravo'
+                participant 'delta'
+              end
+              sequence do
+                participant 'charly'
+                participant 'echo'
+              end
+            end
+          end
+        </pre>
+        <p>There is not much to say about this pattern. When there is no more work, the process ends.</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/structural/wcp11.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <hr/>
+        <h2 id="multiple">Multiple Instance Patterns</h2>
+        <p><!-- H3 --></p>
+        <h3 id="mu_multiple_instances_without_synchronization">multiple instances without synchronization</h3>
+        <p><em>within a given process instance, multiple instances of an activity can be created. These instances are independent of each other and run concurrently. There is no requirement to synchronize them upon completion.</em></p>
+        <pre class="brush: ruby">
+          concurrent_iterator :times =&gt; 10 do
+            activity :forget =&gt; true
+          end
+        </pre>
+        <p>&#8216;activity&#8217; here could be a participant or a subprocess named &#8216;activity&#8217;. :forget is set to true (no requirement to synchronize). The process will resume immediately after this <a href="exp/concurrent_iterator.html">concurrent_iterator</a> (since all its children are forgotten).</p>
+        <p>The <a href="http://workflowpatterns.com/patterns/control/multiple_instance/wcp12_animation.php">flash animation</a> could be translated to something like :</p>
+        <pre class="brush: ruby">
+          sequence do
+            participant 'a'
+            concurrent_iterator :times =&gt; '${f:count}' do
+              participant 'b', :forget =&gt; true
+            end
+            participant 'c'
+          end
+        </pre>
+        <p>The number of &#8216;b&#8217; instances to fire is expected to be found in the workitem field named &#8216;count&#8217; (value is perhaps chosen by participant &#8216;a&#8217;).</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/multiple_instance/wcp12.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="mu_multiple_instances_with_a_priori_design_time_knowledge">multiple instances with a priori design time knowledge</h3>
+        <p><em>the required number of instances is known at design time. These instances are independent of each other and run concurrently. It is necessary to synchronize the activity instances at completion before any subsequent activities can be triggered.</em></p>
+        <p>The <a href="exp/concurrence.html">concurrence</a> or the <a href="exp/concurrent_iterator.html">concurrent_iterator</a> expressions can be used.</p>
+        <pre class="brush: ruby">
+          concurrence do
+            participant 'alfred'
+            participant 'bertha'
+            participant 'charly'
+          end
+        </pre>
+        <p>which can be rewritten as :</p>
+        <pre class="brush: ruby">
+          concurrent_iterator :on =&gt; 'alfred, bertha, charly', :to_field =&gt; 'p' do
+            participant :ref =&gt; '${f:p}'
+          end
+        </pre>
+        <p><a href="http://workflowpatterns.com/patterns/control/multiple_instance/wcp13.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="mu_multiple_instances_with_a_priori_run_time_knowledge">multiple instances with a priori run time knowledge</h3>
+        <p><em>Within a given process instance, multiple instances of an activity can be created. The required number of instances may depend on a number of runtime factors, including state data, resource availability and inter-process communications, but is known before the activity instances must be created. Once initiated, these instances are independent of each other and run concurrently. It is necessary to synchronize the instances at completion before any subsequent activities can be triggered.</em></p>
+        <p>It&#8217;s again a job for the <a href="exp/concurrent_iterator.html">concurrent_iterator</a> expression.</p>
+        <pre class="brush: ruby">
+          concurrent_iterator :on =&gt; '${f:reviewer_list}', :to_field =&gt; 'p' do
+            participant :ref =&gt; '${f:p}'
+          end
+        </pre>
+        <p>Here, the list of participant that will &#8216;perform&#8217; concurrently is help in a workitem field named &#8216;reviewer_list&#8217; (a comma-separated list of participant names).</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/multiple_instance/wcp14.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="mu_multiple_instances_without_a_priori_run_time_knowledge">multiple instances without a priori run time knowledge</h3>
+        <p>The number of activity is known at runtime and may change at any point during the execution of these activities.</p>
+        <p>The expression <a href="exp/add_branches.html">add_branches</a> which works in conjunction with the <a href="exp/concurrent_iterator.html">concurrent_iterator</a> expression is necessary for this pattern implementation.</p>
+        <pre class="brush: ruby">
+          concurrence :count =&gt; 1 do
+        
+            concurrent_iterator :on =&gt; '${f:reviewer_list}', :tag =&gt; 'review' do
+              participant :ref =&gt; '${v:i}'
+            end
+        
+            repeat do
+              participant 'supervisor', :q =&gt; 'add more reviewers ?'
+              add_branches '${f:new_supervisors}', :ref =&gt; 'review'
+            end
+          end
+        </pre>
+        <p>The review work is performed in the concurrent_iterator tagged &#8216;review&#8217;. Concurrently a participant supervisor is asked if more reviewers are needed. He has the opportunity to add more reviewers as long as the concurrent_iterator is not over. Since the wrapping concurrence has a :count of 1, as soon as the iterator is done, the concurrence will be over (the supervisor branch getting cancelled).</p>
+        <p>The add_branches expression knows it has to add the supervisor to the concurrent iterator via the :ref =&gt; &#8216;review&#8217; declaration.</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/multiple_instance/wcp15.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <hr/>
+        <h2 id="state">State-based Patterns</h2>
+        <p><!-- H3 --></p>
+        <h3 id="sa_deferred_choice">deferred choice</h3>
+        <p>This pattern is difficult for ruote to implement. It requires some control over the state of the workitem as a task, and since ruote delegates task handling to participants&#8230;</p>
+        <p>A set of participants is presented with a task, as soon as one of them starts working on it, the other instances of the task are withdrawn from the other participants.</p>
+        <p>With a bit of help from the participant implementations, this could be a realization :</p>
+        <pre class="brush: ruby">
+          sequence do
+        
+            # presenting the task
+        
+            concurrence :count =&gt; 1 do
+              participant 'a'
+              participant 'b'
+            end
+        
+            # performing the task
+        
+            participant '${f:winner}' # a or b
+          end
+        </pre>
+        <p>As soon as &#8216;a&#8217; or &#8216;b&#8217; replies (<a href="exp/concurrence.html">concurrence</a> :count =&gt; 1), it is represented with the task. The other participant receives a cancel notification.</p>
+        <p>Of course, the workitem/task presented is not strictly equivalent to the task to be performed&#8230;</p>
+        <p>Perhaps the better way to implement this pattern is within the participant itself. The ruote engine could dispatch the task to participant &#8216;x&#8217;, a worklist handler managing access rights, escalation and so and so idependently.</p>
+        <p><a href="http://workflowpatterns.com/patterns/control/state/wcp16.php">original pattern explanation</a> | <a href="#top">top</a></p>
+        <p><!-- H3 --></p>
+        <h3 id="sa_interleaved_parallel_routing">interleaved parallel routing</h3>
+        <p><!-- H3 --></p>
+        <h3 id="sa_milestone">milestone</h3>
+        <p><!-- H3 --></p>
+        <hr/>
+        <h2 id="cancellation">Cancellation Patterns</h2>
+        <hr/>
+        <h2 id="new">New Control Flow Patterns</h2>
+        <p><!-- H3 --></p>
+        <p>coming soon.</p>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

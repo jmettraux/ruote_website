@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - subprocess expression</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>subprocess</h2>
+        <p>An expression for invoking a subprocess.</p>
+        <pre class="brush: ruby">
+          pdef = Ruote.process_definition do
+            sequence do
+              subprocess :ref =&gt; 'delivering'
+              subprocess 'invoicing'
+              refill_stock :if =&gt; '${v:stock_size} &lt; 10'
+            end
+            define 'delivering' do
+              # ...
+            end
+            define 'invoicing' do
+              # ...
+            end
+            define 'refill_stock' do
+              # ...
+            end
+          end
+        
+        </pre>
+        <h3>passing attributes as variables</h3>
+        <p>The attributes of the subprocess expression are passed as variables of<br />
+        the new subprocess instance.</p>
+        <pre class="brush: ruby">
+          Ruote.process_definition do
+            subprocess 'sub0', :a =&gt; 'A', :b =&gt; 'B'
+            define :sub0 do
+              echo '${v:a}:${v:b}'
+            end
+          end
+        </pre>
+        <p>This example (and useless) process example will output &#8220;A:B&#8221; to <span class="caps">STDOUT</span>.</p>
+        <h3>passing &#8216;blocks&#8217; to subprocesses</h3>
+        <p>When the subprocess expression has children, the first of them is passed<br />
+        to the subprocess instance as the &#8216;tree&#8217; variable, readily available for<br />
+        an &#8216;apply&#8217; expression.</p>
+        <pre class="brush: ruby">
+          Ruote.process_definition :name =&gt; 'double review' do
+            sequence do
+              sub0 do
+                review_board
+              end
+              sub0 do
+                review_board
+              end
+            end
+            define 'sub0' do
+              concurrence do
+                apply :i =&gt; 0
+                apply :i =&gt; 1
+                apply :i =&gt; 2
+              end
+            end
+          end
+        </pre>
+        <p>This example will send 2 &#215; 3 concurrent workitems to the participant<br />
+        named &#8216;review_board&#8217; (note that it could also be the name of another<br />
+        subprocess).</p>
+        <h3>passing &#8216;parameters&#8217; to subprocess</h3>
+        <pre class="brush: ruby">
+          Ruote.process_definition :name =&gt; 'whatever' do
+        
+            call :who =&gt; 'the cops', :when =&gt; 'if I\'m not back at 3'
+        
+            process_definition 'call' do
+              participant :ref =&gt; '${v:who}', :msg =&gt; 'this is a call'
+            end
+          end
+        </pre>
+        <p>This binds the variables &#8216;who&#8217; and &#8216;when&#8217; in the subprocess instance.</p>
+        <p>Of course you can combine parameters and blocks passing.</p>
+        <h3>pointing to subprocesses via their <span class="caps">URI</span></h3>
+        <p>It&#8217;s OK to invoke subprocesses via a <span class="caps">URI</span></p>
+        <pre class="brush: ruby">
+          subprocess :ref =&gt; 'pdefs/definition1.rb'
+        </pre>
+        <p>or</p>
+        <pre class="brush: ruby">
+          subprocess :ref =&gt; 'http://pdefs.example.org/account/def1.xml'
+        </pre>
+        <p>Remember that the &#8216;remote_definition_allowed&#8217; option of the engine has<br />
+        to be set to true for the latter to work, else the engine will refuse<br />
+        to load definitions over <span class="caps">HTTP</span>.</p>
+        <p>Shorter :</p>
+        <pre class="brush: ruby">
+          subprocess 'http://pdefs.example.org/account/def1.xml'
+        
+        </pre>
+        <h3>subprocess URIs bound at engine level</h3>
+        <p>There is a class of variables accessible to process instances in read-only<br />
+        mode : engine level variables.</p>
+        <p>They can be set via the engine&#8217;s initialization code (or later) like in<br />
+        this example :</p>
+        <pre class="brush: ruby">
+          engine.variables['inventory_check'] = 'http://pdefs.example.com/ic0.rb'
+        </pre>
+        <p>All the process instance in the engine may then trigger this process in<br />
+        these 3 ways :</p>
+        <pre class="brush: ruby">
+          subprocess :ref =&gt; 'inventory_check'
+          subprocess 'inventory_check'
+          inventory_check
+        </pre>
+        <p>The latter may make process definitions quite readable (but blur the<br />
+        distinction between expressions, call to participants or to subprocesses).</p>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

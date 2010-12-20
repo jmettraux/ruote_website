@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - registerp expression</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>registerp</h2>
+        <p>(Since ruote 2.1.12)</p>
+        <p>This expressions lets one register participants directly from a process<br />
+        definition.</p>
+        <pre class="brush: ruby">
+          pdef = Ruote.define do
+        
+            registerp 'alpha', :class =&gt; 'MyParticipant', :target =&gt; 'mail'
+              # register participant named 'alpha' with the given class
+              # and some attributes
+        
+            registerp /^user_.+/, :class =&gt; 'MyParticipant'
+            registerp :regex =&gt; '^user_.+', :class =&gt; 'MyParticipant'
+              # register participant with a given regular expression
+        
+            registerp 'admin', :class =&gt; 'MyParticipant', :position =&gt; -2
+              # register participant 'admin' as second to last in participant list
+          end
+        </pre>
+        <p>Participant info can be given as attributes to the expression (see code<br />
+        above) or via the workitem.</p>
+        <pre class="brush: ruby">
+          pdef = Ruote.define do
+        
+            registerp :participant =&gt; 'participant'
+              # participant info is found in the field 'participant'
+        
+            registerp :participants =&gt; 'participants'
+              # an array of participant info is found in the field 'participants'
+          end
+        </pre>
+        <p>The expression &#8216;unregisterp&#8217; can be used to remove participants from the<br />
+        participant list.</p>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

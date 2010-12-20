@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - participants</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>participants</h2>
+        <p>Participants are handed workitems by the ruote engine and are expected to perform a task with them. Usually, some piece of information found in the payload of the workitem defines what/which task should be performed.</p>
+        <h3>participants as abstractions</h3>
+        <pre class="brush: ruby">
+          Ruote.process_definition :name =&gt; 'accident investigation case' do
+            sequence do
+              concurrence do
+                participant 'reporter 1', :task =&gt; 'gather info on accident site'
+                participant 'reporter 2', :task =&gt; 'gather info about customer'
+              end
+              participant 'hq', :task =&gt; 'handle case'
+            end
+          end
+        </pre>
+        <p>In this process definition example, the 2 reporter participants are handed each a workitem by the engine and once their work got done, a merged single workitem continues in the flow and is presented to the &#8216;hq&#8217; participant.</p>
+        <p>Note that no information about the actual details of the participants are leaking to the process definition. By reading the definition, the only clue we get is that participant replies are expected in order for the process run to be productive.</p>
+        <p>Nothing was specified about how workitems are to be dispatched to participants. Does it occur via <span class="caps">SMTP</span> ? Via a webhook ? Is the workitem placed in a database for consultation by the real participants ? Is the workitem printed and sent tied to a pigeon carrier ? The process definition yields no clue about that.</p>
+        <h3>registering participants</h3>
+        <p>Process definitions are in most cases pointed at to the engine right at the launch time. The engine parses the definition and creates a process instance.</p>
+        <p>Participant implementations are usually bound in the engine when it is started. The term is to &#8220;register a participant in the engine&#8221;. The engine is then equipped with a directory of participants that it looks up by name when a participant expression is applied, signifying that its workitem has to be despatched to a real participant.</p>
+        <pre class="brush: ruby">
+          engine.register_participant 'reporter 1', Ruote::StorageParticipant
+        </pre>
+        <p>Here, the participant named &#8220;reporter 1&#8221; is registered in the engine. We trust the engine with the actual instantiation and thus pass only the class : Ruote::Dm::DmParticipant (yes, it&#8217;s a ruote-dm DataMapper participant, the workitem will be placed in a database)</p>
+        <p>In order to avoid writing too much code for binding participants, it&#8217;s OK to leverage <strong>regular expressions</strong>. Here is something that can cope with &#8216;reporter 1&#8217; and &#8216;reporter 2&#8217; and many more :</p>
+        <pre class="brush: ruby">
+          engine.register_participant /^reporter /, Ruote::StorageParticipant
+        </pre>
+        <p>Don&#8217;t worry about the participant implementation mixing the workitems,</p>
+        <pre class="brush: ruby">
+          concurrence do
+            participant 'reporter 1', :activity =&gt; 'gather info on accident site'
+            participant 'reporter 2', :activity =&gt; 'gather info about customer'
+          end
+        </pre>
+        <p>in our example, the attribute &#8216;participant&#8217; of the top workitem while be &#8216;reporter 1&#8217; vs &#8216;reporter 2&#8217; for the bottom one, though the same participant implementation consumed the workitem.</p>
+        <h4 id="storage">the storage and the registered participants</h4>
+        <p>A bit of history, initially OpenWFE had no participant registration. The participant list was an <span class="caps">XML</span> document mapping regular expression to participant implementation. When porting OpenWFE to ruby, I went for the simple Engine#register_participant method, with a participant list held in memory.</p>
+        <p>Now with ruote 2.1, its multiple workers and engines sharing a storage, the participant list is persisted as well. That means that registering participant once is sufficient, that also means you could have &#8220;leftovers&#8221;, participants registered but not more needed.</p>
+        <p>Two techniques against leftovers : register only the first time (when the participant list is empty) or register all at once (see <a href="#list">Engine#participant_list=</a> a few paragraphs below)</p>
+        <h4>registering participants in a block</h4>
+        <p>Since ruote 2.1.11, thanks to the work of <a href="http://github.com/tosch/">Torsten</a>, it&#8217;s possible to register participants in nice blocks :</p>
+        <pre class="brush: ruby">
+          engine.register do
+        
+            notify MyApp::Participants::RemoteNotification, 'flavour' =&gt; 'normal'
+            alarm MyApp::Participants::RemoteNotification, 'flavour' =&gt; 'alarm'
+              # two participants for notification and alarms
+        
+            catchall Ruote::StorageParticipant
+              # all the workitems for participants that are neither 'notify' or 'alarm'
+              # are caught by a storage participant
+          end
+        </pre>
+        <p>Note that simply stating &#8220;catchall&#8221; will redirect to a/the storage participant :</p>
+        <pre class="brush: ruby">
+          engine.register do
+            catchall
+          end
+        </pre>
+        <p>is thus equivalent to</p>
+        <pre class="brush: ruby">
+          engine.register do
+            catchall Ruote::StorageParticipant
+          end
+        </pre>
+        <p>The first example above assumes the participant name is the first word encountered (the &#8216;method&#8217; name in fact). If you want to pass a regular expression, use the &#8216;participant&#8217; notation :</p>
+        <pre class="brush: ruby">
+          engine.register do
+            participant 'user-.+', Ruote::StorageParticipant
+            participant 'action-.+', MyApp::RemoteActionParticipant
+          end
+        </pre>
+        <h4 id="list">registering participants as a list</h4>
+        <p>Starting with ruote 2.1.11, instead of using register_participant and register, you can pass the whole list of participants at once.</p>
+        <pre class="brush: ruby">
+          engine.participant_list = [
+            [ /^user-.+$/, 'Ruote::StorageParticipant', {} ],
+            [ /^action-.+$/, MyApp::RemoteActionParticipant, { 'server' =&gt; 'main' } ]
+          ]
+        </pre>
+        <p>Note that it&#8217;s OK to pass the class name as an instance of Class (second line) or as a string (first line).</p>
+        <p>Checking the current content of the participant list looks like :</p>
+        <pre class="brush: ruby">
+          engine.participant_list.each { |pe| puts pe.to_s }
+            #
+            #   /^user-.+$/ ==&gt; Ruote::StorageParticipant {}
+            #   /^action-.+$/ ==&gt; MyApp::RemoteActionParticipipant { 'server' =&gt; 'main' }
+        </pre>
+        <h3 id="threads">participants and threads</h3>
+        <p>As you may have gleaned from this doc or from a blog post, ruote 2.1 tries to have only 1 thread per / for the worker, handling all the workflow activity (direct launch/apply orders or triggering schedules). So you end up with 1 extra thread per worker. Note that if you only have an engine (and let the worker run in another runtime, there is no extra thread used by ruote).</p>
+        <p>(There is an exception with a worker bound to <a href="http://github.com/jmettraux/ruote-couch">ruote-couch</a>, it uses two extra threads to &#8216;observe&#8217; CouchDB (instead of polling CouchDB))</p>
+        <p>Since, most of the time, participant are IO bound, having the dispatching work performed in the worker thread would mean that each delivery to a participant monopolizes the worker. That&#8217;s why, by default, ruote does each participant#consume call in a new thread.</p>
+        <p>(Maybe we should have a switch to disable participant threading &#8220;en masse&#8221;, it could be OK for small organization deployments, ping me on the <a href="http://groups.google.com/group/openwferu-users">ML</a> or on #ruote if you need this)</p>
+        <p>A participant instance may inform ruote that it doesn&#8217;t want/need to have its consume method called in a new thread each time. It does that by making sure it has a do_not_thread method and that this method returns true. Since it&#8217;s a method, depending on its implementation, it might not always return true.</p>
+        <p>As an illustration, the <a href="http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/part/storage_participant.rb">Ruote::StorageParticipant class</a> returns true for do_not_thread (all the time). (trusting you not to have put your storage on Mars while your worker is on Earth).</p>
+        <p>Some ruote users, have their own implementation of the <a href="http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/svc/dispatch_pool.rb">dispatch pool</a> that enforces an upper threshold for the thread count.</p>
+        <p>The &#8220;dispatch&#8221; thread is discarded as soon as the delivery to the participant (or the participant consumption and reply) is done.</p>
+        <h3>see also</h3>
+        <ul>
+        	<li><a href="implementing_participants.html">implementing participants</a></li>
+        	<li>the <a href="exp/participant.html">participant expression</a></li>
+        	<li><a href="part_implementations.html">participant implementations</a></li>
+        	<li><a href="participant_testing.html">participant testing</a></li>
+        </ul>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

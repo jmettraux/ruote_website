@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - configuration</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>configuration</h2>
+        <p>Before evoking configuration it&#8217;s perhaps a good idea to have a look at the <a href="http://jmettraux.wordpress.com/2009/12/31/ruote-2-1-released/">post announcing ruote 2.1</a>, it&#8217;s detailing the design decisions behind ruote 2.1. It helps understand the 3 objects detailed in this page, <a href="#engine">engine</a>, <a href="#worker">worker</a> and <a href="#storage">storage</a>.</p>
+        <p>In ruote 2.1, the engine <em>class</em> became shallow, just a few methods that insert launch and reply orders in the storage and read it when querying for process statuses.</p>
+        <p>The <em>real</em> engine is composed of a storage (persistent core) and of one or more workers.</p>
+        <p>Storage implementations are meant to be process/thread safe, ie they can be used by multiple worker processes and engines.</p>
+        <p>The engine <em>class</em> is nothing more than a dashboard, with indicators and a few knobs.</p>
+        <p>This is the ruote configuration you can see in the <a href="index.html">entry page</a> of this documentation :</p>
+        <pre class="brush: ruby">
+        require 'ruote'
+        require 'ruote/storage/fs_storage'
+        
+        engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::FsStorage.new('work')))
+        </pre>
+        <p>This is a super-vanilla configuration. Packaging the engine, a worker, and the storage together.</p>
+        <p>Using <a href="http://github.com/jmettraux/ruote-dm">ruote-dm</a> <a href="http://datamapper.org/">DataMapper</a> persistence, an engine/worker initalization would look like :</p>
+        <pre class="brush: ruby">
+        require 'ruote'
+        require 'ruote/dm/storage'
+        
+        engine = Ruote::Engine.new(
+          Ruote::Worker.new(
+            Ruote::Dm::DmStorage.new(:default)))
+        </pre>
+        <p>Where :default simply indicates, we&#8217;ll want to work with the default configured DataMapper repository.</p>
+        <hr />
+        <h3 id="engine">engine</h3>
+        <p>Engine options are in fact passed to the storage at initialization time.</p>
+        <pre class="brush: ruby">
+        require 'ruote'
+        require 'ruote/storage/fs_storage'
+        
+        engine = Ruote::Engine.new(
+          Ruote::Worker.new(
+            Ruote::FsStorage.new(
+              'work',
+              'remote_definition_allowed' =&gt; true, 'ruby_eval_allowed' =&gt; true)))
+        </pre>
+        <p>They can also be set directly in the storage (document type &#8216;configurations&#8217;, key &#8216;engine&#8217;), but that&#8217;s an advanced technique (and you don&#8217;t want/need to change it at runtime).</p>
+        <p>Some people might prefer writing :</p>
+        <pre class="brush: ruby">
+        engine = Ruote::Engine.new(
+          Ruote::Worker.new(
+            Ruote::FsStorage.new('work')))
+        
+        engine.configure('ruby_definition_allowed', true)
+        engine.configure('ruby_eval_allowed', true)
+        </pre>
+        <h4 id="engine_options">options</h4>
+        <ul>
+        	<li><strong>remote_definition_allowed</strong> :</li>
+        </ul>
+        <p>remote definitions are process definitions reachable via <span class="caps">HTTP</span>. Since process definition are &#8216;code&#8217;, ruote, by default, prevents you from doing things like</p>
+        <pre class="brush: ruby">
+          Ruote.process_definition :name =&gt; 'main process' do
+            sequence do
+              subprocess 'http://example.com/definitions/head_process.rb'
+              subprocess 'http://example.com/definitions/tail_process.rb'
+            end
+          end
+        
+        # or
+        
+          engine.variables['head'] = 'http://example.com/definitions/head_process.rb'
+          engine.variables['tail'] = 'http://example.com/definitions/tail_process.rb'
+        
+          Ruote.process_definition :name =&gt; 'main process' do
+            sequence do
+              head
+              tail
+            end
+          end
+        
+        # or simply
+        
+          engine.launch('http://example.com/definitions/main.xml')
+        
+        </pre>
+        <p>You have to explicitely set &#8216;remote_definition_allowed&#8217; to true.</p>
+        <ul>
+        	<li><strong>ruby_eval_allowed</strong> :</li>
+        </ul>
+        <p>more about this option in the page about the <a href="dollar.html#ruby_eval_allowed">dollar notation</a>.</p>
+        <hr />
+        <h3 id="worker">worker</h3>
+        <p><span class="caps">TODO</span></p>
+        <hr />
+        <h3 id="storage">storage</h3>
+        <p>Workflows / business processes usually involve real persons, humans. They are slower than computers. These days processes also imply multiple systems / services. These two things imply that workflows / processes may last a long time. Persistence is necessary, this is done with the storage.</p>
+        <p>Since workers share the storage, it has not only to provide reliable persistence but also helpers to avoid worker collisions.</p>
+        <p>The following table summarizes the various storage implementations.</p>
+        <p><strong>multiple workers</strong> tells if yes or no the storage supports multiple workers;<br />
+        <strong>remote worker</strong> indicates if workers not on the same host as the storage are possible;<br />
+        <strong>speed</strong> is a relative indication of the speed of the storage.</p>
+        <table>
+        	<tr>
+        		<th>storage</th>
+        		<th>multiple workers ?</th>
+        		<th>remote worker ?</th>
+        		<th>speed</th>
+        		<th></th>
+        	</tr>
+        	<tr>
+        		<td><a href="#hash_storage">Ruote::HashStorage</a>          </td>
+        		<td> no (1) </td>
+        		<td> no </td>
+        		<td> best </td>
+        		<td> in-memory storage, limited to the current ruby process, totally transient</td>
+        	</tr>
+        	<tr>
+        		<td><a href="#fs_storage">Ruote::FsStorage</a>              </td>
+        		<td> yes (2) </td>
+        		<td> no </td>
+        		<td> 1st </td>
+        		<td> hierarchy of <span class="caps">JSON</span> files, uses file locks to prevent collisions when multiple workers</td>
+        	</tr>
+        	<tr>
+        		<td><a href="#dm_storage">Ruote::Dm::DmStorage</a>          </td>
+        		<td> yes </td>
+        		<td> yes </td>
+        		<td> 4th </td>
+        		<td> <a href="http://datamapper.org">DataMapper</a> based persistence</td>
+        	</tr>
+        	<tr>
+        		<td><a href="#couch_storage">Ruote::Couch::CouchStorage</a> </td>
+        		<td> yes </td>
+        		<td> yes </td>
+        		<td> slowest </td>
+        		<td> <a href="http://couchdb.apache.org/">Apache CouchDB</a> based persistence, remote, very slow</td>
+        	</tr>
+        	<tr>
+        		<td><a href="#redis_storage">Ruote::Redis::RedisStorage</a> </td>
+        		<td> yes </td>
+        		<td> yes </td>
+        		<td> 2nd </td>
+        		<td> <a href="http://code.google.com/p/redis/">Redis</a> based persistence, fast and remote. Limited in max size</td>
+        	</tr>
+        	<tr>
+        		<td><a href="#mongo_storage">Ruote::MongoDBStorage</a> </td>
+        		<td> no (3) </td>
+        		<td> yes </td>
+        		<td> like redis </td>
+        		<td> <a href="http://www.mongodb.org">MongoDB</a> based persistence</td>
+        	</tr>
+        	<tr>
+        		<td><a href="#beanstalk_storage">Ruote::Beanstalk::BsStorage</a> </td>
+        		<td> yes </td>
+        		<td> yes </td>
+        		<td> 3rd </td>
+        		<td> FsStorage based persistence with a <a href="http://kr.github.com/beanstalkd/">Beanstalk</a> front, fast and remote</td>
+        	</tr>
+        </table>
+        <p>(1) well, it&#8217;s &#8216;yes&#8217; but there isn&#8217;t much to gain from one more worker in the same Ruby runtime<br />
+        (2) multiple workers, but not on Windows<br />
+        (3) (has to be confirmed)</p>
+        <h4 id="hash_storage">Ruote::HashStorage</h4>
+        <p><a href="http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/storage/hash_storage.rb">source</a></p>
+        <h4 id="fs_storage">Ruote::FsStorage</h4>
+        <p><a href="http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/storage/fs_storage.rb">source</a></p>
+        <h4 id="dm_storage">Ruote::Dm::DmStorage</h4>
+        <p><a href="http://github.com/jmettraux/ruote-dm/blob/ruote2.1/lib/ruote/dm/storage.rb">source</a></p>
+        <h4 id="couch_storage">Ruote::Couch::CouchStorage</h4>
+        <p><a href="http://github.com/jmettraux/ruote-couch/tree/ruote2.1/lib/ruote/couch/">source</a></p>
+        <h4 id="redis_storage">Ruote::Redis::RedisStorage</h4>
+        <p><a href="http://github.com/jmettraux/ruote-redis/blob/master/lib/ruote/redis/storage.rb">source</a></p>
+        <h4 id="mongo_storage">Ruote::MongoDBStorage</h4>
+        <p><a href="https://github.com/PlasticLizard/ruote-mongodb/blob/master/lib/ruote-mongodb/mongodb_storage.rb">source</a></p>
+        <h4 id="beanstalk_storage">Ruote::Beanstalk::BsStorage</h4>
+        <p><a href="http://github.com/jmettraux/ruote-beanstalk/blob/ruote2.1/lib/ruote/beanstalk/storage.rb">source</a></p>
+        <h4 id="composite_storage">composite storage</h4>
+        <p><a href="http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/storage/composite_storage.rb">source</a></p>
+        <p>The &#8220;composite&#8221; storage lets you select which storage to use for which category of object to be persisted. Here is a table detailing those &#8216;categories&#8217; :</p>
+        <table>
+        	<tr>
+        		<th>type         </th>
+        		<th>description</th>
+        	</tr>
+        	<tr>
+        		<td>expressions    </td>
+        		<td>the atomic pieces of process instance</td>
+        	</tr>
+        	<tr>
+        		<td>msgs           </td>
+        		<td>&#8216;messages&#8217; to apply/reply to expressions</td>
+        	</tr>
+        	<tr>
+        		<td>schedules      </td>
+        		<td>msgs scheduled for later processing</td>
+        	</tr>
+        	<tr>
+        		<td>errors         </td>
+        		<td>errors that occured during process execution (msgs processing)</td>
+        	</tr>
+        	<tr>
+        		<td>variables      </td>
+        		<td>engine (global) variables</td>
+        	</tr>
+        	<tr>
+        		<td>configurations </td>
+        		<td>engine configurations</td>
+        	</tr>
+        	<tr>
+        		<td>workitems      </td>
+        		<td><a href="part/storage_participant.html">StorageParticipant</a> workitems</td>
+        	</tr>
+        </table>
+        <p>An example where everything is handled by a FsStorage while the &#8216;msgs&#8217; are stored in a HashStorage :</p>
+        <pre class="brush: ruby">
+          opts = {
+            'remote_definition_allowed' =&gt; true,
+            'ruby_eval_allowed' =&gt; true
+          }
+        
+          engine =
+            Ruote::Engine.new(
+              Ruote::Worker.new(
+                Ruote::CompositeStorage.new(
+                  Ruote::FsStorage.new('ruote_work', opts),
+                  'msgs' =&gt; Ruote::HashStorage.new(opts))))
+        </pre>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>

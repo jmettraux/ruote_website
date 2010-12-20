@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <title>ruote - expressions</title>
+    <script src='/js/shCore.js'></script>
+    <script src='/js/shBrushRuby.js'></script>
+    <script src='/js/shBrushJScript.js'></script>
+    <script src='/js/shBrushXml.js'></script>
+    <link href='/css/reset.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shCore.css' rel='stylesheet' type='text/css' />
+    <link href='/css/shThemeDefault.css' rel='stylesheet' type='text/css' />
+    <link href='/css/ruote.css' rel='stylesheet' type='text/css' />
+  </head><body>
+    <div id='container'>
+      <div id='header'>
+        <div id='header-top'>
+          <div id='header-left'>
+            <a href='/'>
+              <img align='left' src='/images/ruote.png' />
+              <span id='ruote' onclick="location.href = '/'; return true;">
+                ruote 2.1
+              </span>
+            </a>
+          </div>
+          <div id='header-right'>
+          </div>
+        </div>
+        <div id='header-bottom'>
+          <div id='header-subtitle'>
+            open source ruby workflow engine
+          </div>
+          <div id='header-menu'>
+            <a href='documentation.html' title='documentation'>doc</a>
+            <a href='source.html' title='source code'>source</a>
+            <a href='download.html' title='download'>download</a>
+            <a href='lists.html' title='mailing lists and irc'>lists</a>
+            <a href='http://jmettraux.wordpress.com' title='blog'>blog</a>
+            <a href='map.html' title='map'>map</a>
+            <a class='nihongo' href='ja.html' title='日本語'>日本語</a>
+          </div>
+        </div>
+      </div>
+      <div id='content'>
+        <h2>flow expressions</h2>
+        <p>Flow expressions are the building blocks of process definitions.</p>
+        <h3 id="basic">basic expressions</h3>
+        <ul>
+        	<li><a href="exp/cancel_process.html">cancel_process</a> &#8211; cancelling (aborting) a whole process instance</li>
+        	<li><a href="exp/concurrence.html">concurrence</a> &#8211; parallel orchestration</li>
+        	<li><a href="exp/concurrent_iterator.html">concurrent_iterator</a> &#8211; a bit like a parallel &#8216;for&#8217;</li>
+        	<li><a href="exp/cursor.html">cursor</a> &#8211; a sequence, but with rewind / jump / exit &#8230;</li>
+        	<li><a href="exp/cursor.html">loop/repeat</a> &#8211; a cursor, with an implicit rewind</li>
+        	<li><a href="exp/define.html">define</a> &#8211; used to define a process or a subprocess</li>
+        	<li><a href="exp/equals.html">equals</a> &#8211; comparing values (used with &#8216;if&#8217;)</li>
+        	<li><a href="exp/if.html">if</a> &#8211; &#8216;if&#8217; branching</li>
+        	<li><a href="exp/iterator.html">iterator</a> &#8211; iterating over a list of value (a classic, sequential &#8216;for&#8217;)</li>
+        	<li><a href="exp/noop.html">noop</a> &#8211; no-operation expression</li>
+        	<li><a href="exp/participant.html">participant</a> &#8211; hands a workitem to a[n external] participant</li>
+        	<li><a href="exp/sequence.html">sequence</a> &#8211; serial orchestration</li>
+        	<li><a href="exp/set.html">set</a> &#8211; sets a process variable or a workitem field</li>
+        	<li><a href="exp/subprocess.html">subprocess</a> &#8211; invokes (launches) a subprocess definition</li>
+        	<li><a href="exp/wait.html">wait</a> &#8211; waits (sleeps) for a given amount of time</li>
+        </ul>
+        <h3 id="advanced">advanced expressions</h3>
+        <ul>
+        	<li><a href="exp/add_branches.html">add_branches</a> &#8211; adds new branches to a running &#8216;concurrent_iterator&#8217;</li>
+        	<li><a href="exp/apply.html">apply</a> &#8211; used to leverage a segment of process passed to a subprocess (like block/yield in Ruby)</li>
+        	<li><a href="exp/undo.html">cancel</a> &#8211; an alias for the &#8216;undo&#8217; expression</li>
+        	<li><a href="exp/cron.html">cron / every</a> &#8211; executes pieces of a process at given intervals</li>
+        	<li><a href="exp/error.html">error</a> &#8211; forces the process instance into error</li>
+        	<li><a href="exp/inc.html">inc / dec</a> &#8211; {inc|dec}rementing variables or fields (numbers or arrays)</li>
+        	<li><a href="exp/listen.html">listen</a> &#8211; listen on a channel (a participant name) for incoming or outgoing events (workitems)</li>
+        	<li><a href="exp/redo.html">redo</a> &#8211; redoes a tagged segment of process</li>
+        	<li><a href="exp/ref.html">ref</a> &#8211; invokes a participant or a subprocess indifferently</li>
+        	<li><a href="exp/registerp.html">registerp</a> &#8211; registers participants from a process definition</li>
+        	<li><a href="exp/reserve.html">reserve</a> &#8211; ensures a segment of process instance is traversed in isolation (not in parallel with other branches of the same instance)</li>
+        	<li><a href="exp/restore.html">restore</a> &#8211; restores values from a previously saved workitem</li>
+        	<li><a href="exp/save.html">save</a> &#8211; saves the current workitem</li>
+        	<li><a href="exp/undo.html">undo</a> &#8211; undoes a tagged segment of process</li>
+        	<li><a href="exp/when.html">when</a> &#8211; waits for a condition to become true before triggering</li>
+        </ul>
+        <ul>
+        	<li><a href="exp/command.html">skip/back/jump/rewind/continue/break/stop</a> &#8211; mini expressions that give &#8216;commands&#8217; to <a href="exp/cursor.html">cursor</a> and <a href="exp/iterator.html">iterator</a></li>
+        	<li><a href="exp/unregisterp.html">unregisterp</a> &#8211; unregisters participants from a process definition</li>
+        </ul>
+        <h3 id="other">other expressions</h3>
+        <p>Expressions used in debug time or that have become slightly obsolete</p>
+        <ul>
+        	<li><a href="exp/echo.html">echo</a> &#8211; echo some text to stdout (debug only)</li>
+        	<li><a href="exp/forget.html">forget</a> &#8211; forgetting a segment of process (supplanted by the :forget attribute common to all expressions)</li>
+        </ul>
+        <h3 id="attributes">attributes common to all expressions</h3>
+        <p>There is a set of <a href="common_attributes.html">attributes common to all expressions</a>, it includes :if, :unless, :timeout, :on_error, :on_cancel, :on_timeout and :forget</p>
+        <h3 id="dollar">dollar notation : variable/fields extrapolation</h3>
+        <p>The <a href="dollar.html">dollar notation</a> is used in expression attributes to enhance process definitions.</p>
+        <pre class="brush: ruby">
+        participant :ref =&gt; '${field:author}'
+          # the actual name of the participant is held in the workitem field 'author'
+        </pre>
+      </div>
+      <div id='footer'>
+        <div id='footer-left'>
+          this website was created with
+          <a href='http://nanoc.stoneship.org'>nanoc</a>
+          and
+          <a href='http://alexgorbatchev.com/SyntaxHighlighter/'>syntax highlighter</a>
+        </div>
+        <div id='footer-right'>
+          &copy; 2005-2010 the ruote team
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        SyntaxHighlighter.all();
+      //]]>
+    </script>
+    <script src='http://www.google-analytics.com/ga.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        if (location.hostname != 'localhost' && location.hostname != '127.0.0.1') {
+          var pageTracker=_gat._getTracker('UA-138748-2');
+          pageTracker._initData();
+          pageTracker._trackPageview();
+        }
+      //]]>
+    </script>
+  </body>
+</html>
