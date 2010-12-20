@@ -1,5 +1,8 @@
 
-require 'nanoc3/tasks' rescue nil
+begin
+  require 'nanoc3/tasks'
+rescue LoadError
+end
 
 task :install_dependencies do
 
