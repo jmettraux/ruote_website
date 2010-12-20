@@ -22,13 +22,13 @@
           #header-left
             %a{ :href => '/' }
               %img{ :src => '/images/ruote.png' }
+            #header-subtitle
+              open source ruby workflow engine
           #header-right
             -# maybe search, later
 
-        #header-bottom
-          #header-subtitle
-            open source ruby workflow engine
-          #header-menu
+        #nav
+          %span
             %a{ :title => "documentation", :href => "documentation.html" } doc
             %a{ :title => "source code", :href => "source.html" } source
             %a{ :title => "download", :href => "download.html" } download
@@ -40,13 +40,14 @@
       #content
         = yield
 
-      #footer
-        #footer-left
+    #footer
+      %p
+        %span#footer-left
           this website was created with
           %a{ :href => "http://nanoc.stoneship.org" } nanoc
           and
           %a{ :href => "http://alexgorbatchev.com/SyntaxHighlighter/" } syntax highlighter
-        #footer-right
+        %span#footer-right
           &copy; 2005-2010 the ruote team
 
     :javascript
