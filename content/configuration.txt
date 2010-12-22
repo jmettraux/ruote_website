@@ -67,7 +67,7 @@ engine = Ruote::Engine.new(
   Ruote::Worker.new(
     Ruote::FsStorage.new('work')))
 
-engine.configure('ruby_definition_allowed', true)
+engine.configure('remote_definition_allowed', true)
 engine.configure('ruby_eval_allowed', true)
 </pre>
 
