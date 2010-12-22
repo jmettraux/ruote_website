@@ -145,3 +145,28 @@ these 3 ways :
 The latter may make process definitions quite readable (but blur the
 distinction between expressions, call to participants or to subprocesses).
 
+
+h3. subprocess trees bound at engine level
+
+It's OK to place a process tree directly in an engine variable :
+
+<pre class="brush: ruby">
+  engine.variables['inventory_check'] = Ruote.process_definition do
+    cursor do
+      manager :task => 'hire inventory team'
+      floor_manager :task => 'lead inventory'
+      manager :task => 'check results'
+      rewind :unless => '${inventory_successful}'
+    end
+  end
+</pre>
+
+Then, from the main process :
+
+<pre class="brush: ruby">
+  sequence do
+    # ...
+    inventory_check
+    # ...
+  end
+</pre>
