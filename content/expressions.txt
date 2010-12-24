@@ -46,6 +46,7 @@ h3(#advanced). advanced expressions
 * "save":exp/save.html - saves the current workitem
 * "undo":exp/undo.html - undoes a tagged segment of process
 * "when":exp/when.html - waits for a condition to become true before triggering
+* "let":exp/let.html - a sequence but with a dedicated variable scope
 
 * "skip/back/jump/rewind/continue/break/stop":exp/command.html - mini expressions that give 'commands' to "cursor":exp/cursor.html and "iterator":exp/iterator.html
 * "unregisterp":exp/unregisterp.html - unregisters participants from a process definition
