@@ -53,7 +53,16 @@ Note that any expression accepts an :if attribute :
 
 h3. shorter
 
-It's ok to shortcircuit the _if expression like this :
+The :test can be shortened to a :t :
+
+<pre class="brush: ruby">
+  _if :t => '${f:customer.name} == Fred' do
+    subprocess 'premium_course'
+    subprocess 'regular_course'
+  end
+</pre>
+
+When using Ruby to generate the process definition tree, you can simply do :
 
 <pre class="brush: ruby">
   _if '${f:customer.name} == Fred' do

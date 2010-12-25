@@ -1,0 +1,120 @@
+---
+title: given expression
+filter:
+  - erb
+  - textile
+---
+
+h2. given
+
+
+This expressions corresponds to a "case" statement in Ruby or a "switch"
+in other languages.
+
+It accepts two variants "given that" and "given an x of".
+
+'given' works in conjunction with the 'that' / 'of' expression.
+
+
+h3. "given that"
+
+<pre class="brush: ruby">
+  given do
+    that "${location} == paris" do
+      subprocess "notify_and_wait_for_pickup"
+    end
+    that "${state} == ready" do
+      subprocess "deliver"
+    end
+    # else...
+    subprocess "do_something_else"
+  end
+
+</pre>
+
+h3. "given an x of"
+
+<pre class="brush: ruby">
+  given "${status}" do
+    of "ordered" do
+      participant "alpha"
+    end
+    of "delivered" do
+      participant "alpha"
+    end
+    # else...
+    subprocess "do_something_else"
+  end
+</pre>
+
+This variant also accepts regular expressions :
+
+<pre class="brush: ruby">
+  given "${target}" do
+    of "/-manager$/" do
+      # ...
+    end
+    of /^user-/ do
+      # ...
+    end
+  end
+</pre>
+
+h3. mixing 'that' and 'of'
+
+It's OK to use a "that" inside a "given an x" :
+
+<pre class="brush: ruby">
+  given '${target}' do
+    that "${location} == paris" do
+      subprocess "notify_and_wait_for_pickup"
+    end
+    of "home" do
+      subprocess "return_procedure"
+    end
+  end
+
+</pre>
+
+h3. the else part
+
+Anything that comes after the serie of 'that' and 'of' is considered in
+the 'else' zone and is executed if none of the 'that' or 'of' triggered.
+
+<pre class="brush: ruby">
+  given '${target}' do
+    that "${location} == paris" do
+      subprocess "notify_and_wait_for_pickup"
+    end
+    of "home" do
+      subprocess "return_procedure"
+    end
+    subprocess "do_this"
+    subprocess "and_then_that"
+  end
+</pre>
+
+Yes, two 'else' subprocesses will get executed one after the other (the
+'given' acting like a 'sequence' for them.
+
+Interestingly :
+
+<pre class="brush: ruby">
+  given '${target}' do
+    of "home" do
+      subprocess "return_procedure"
+    end
+    subprocess "do_this"
+    of "office" do
+      subprocess "go_to_work"
+    end
+    subprocess "and_then_that"
+  end
+</pre>
+
+If the workitem field 'target' is set to 'home' only the 'return_procedure'
+subprocess will get called.
+
+If the workitem field 'target' is set to 'office', the 'do_this'
+subprocess, then the 'go_to_work' one will get called.
+

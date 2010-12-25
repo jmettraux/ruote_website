@@ -45,8 +45,9 @@ h3(#advanced). advanced expressions
 * "restore":exp/restore.html - restores values from a previously saved workitem
 * "save":exp/save.html - saves the current workitem
 * "undo":exp/undo.html - undoes a tagged segment of process
-* "when":exp/when.html - waits for a condition to become true before triggering
+* "once":exp/once.html - ('when' alias) waits for a condition to become true before triggering
 * "let":exp/let.html - a sequence but with a dedicated variable scope
+* "given":exp/given.html and "that/of":exp/that.html - a case/switch statement equivalent
 
 * "skip/back/jump/rewind/continue/break/stop":exp/command.html - mini expressions that give 'commands' to "cursor":exp/cursor.html and "iterator":exp/iterator.html
 * "unregisterp":exp/unregisterp.html - unregisters participants from a process definition
@@ -56,8 +57,9 @@ h3(#other). other expressions
 
 Expressions used in debug time or that have become slightly obsolete
 
-* "echo":exp/echo.html - echo some text to stdout (debug only)
-* "forget":exp/forget.html - forgetting a segment of process (supplanted by the :forget attribute common to all expressions)
+* "echo":exp/echo.html - echoes some text to stdout (debug only)
+* "forget":exp/forget.html - forgets a segment of process (supplanted by the :forget attribute common to all expressions)
+* "lose":exp/lose.html - triggers its children, but never replied to its parent expression
 
 
 h3(#attributes). attributes common to all expressions

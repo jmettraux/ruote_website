@@ -1,22 +1,22 @@
 ---
-title: when expression
+title: once expression
 filter:
   - erb
   - textile
 ---
 
-h2. when
+h2. once
 
 
-The 'when' expression verifies if a condition is true, if not it will
-block and after 10 seconds it will check again.
+The 'once' / 'when' expression verifies if a condition is true,
+if not it will block and after 10 seconds it will check again.
 If true, it will resume or it will execute its child expression (before
 resuming).
 
 <pre class="brush: ruby">
   concurrence do
 
-    _when '${v:/invoice_status} == emitted' do
+    once '${v:/invoice_status} == emitted' do
       open_customer_support_account
     end
 
@@ -28,8 +28,6 @@ resuming).
   end
 </pre>
 
-Note the '_when' since 'when' is a Ruby keyword :-(
-
 The condition is usually something about variables, since the workitem that
 this expression has access to is always the one that reached it, at apply
 time.
@@ -40,7 +38,7 @@ it makes most sense in a 'sequence' or in a 'cursor'.
 <pre class="brush: ruby">
   sequence do
     first_stage
-    _when '${v:ready_for_second_stage}'
+    once '${v:ready_for_second_stage}'
     second_stage
   end
 </pre>
@@ -51,7 +49,7 @@ realizes. Only 1 child expression is accepted, there is no implicit
 
 <pre class="brush: ruby">
   concurrence do
-    _when :test => '${v:go_on} == yes' do
+    once :test => '${v:go_on} == yes' do
       subprocess :ref => 'final_stage'
     end
     sequence do
@@ -69,15 +67,15 @@ if you prefer it this way, you can use the :test attribute to formulate the
 condition :
 
 <pre class="brush: ruby">
-  <when test="${v:ready}">
+  <once test="${v:ready}">
     <participant ref="role_publisher" />
-  </when>
+  </once>
 </pre>
 
 In a Ruby process definition :
 
 <pre class="brush: ruby">
-  _when :test => '${v:ready}' do
+  once :test => '${v:ready}' do
     participant :ref => 'role_publisher'
   end
 
@@ -91,7 +89,7 @@ by using the :frequency (or :freq) attribute.
 <pre class="brush: ruby">
   sequence do
     participant 'logistic_unit'
-    _when '${v:/delivery_ok}', :frequency => '2d'
+    once '${v:/delivery_ok}', :frequency => '2d'
       # block until delivery is OK (another branch of the process probably)
       # check every two days
     participant 'accounting_unit'
@@ -104,8 +102,8 @@ h3. :frequency and cron notation
 It's OK to pass a 'cron string' to the :frequency attribute.
 
 <pre class="brush: ruby">
-  _when '${v:delivery_complete}', :freq => '5 0 * * *'
-    # this 'when' will check its condition once per day, five minutes
+  once '${v:delivery_complete}', :freq => '5 0 * * *'
+    # this 'once' will check its condition once per day, five minutes
     # after midnight
 </pre>
 
@@ -120,7 +118,7 @@ h3. the :timeout attribute common to all expressions
 Don't forget that this expression, like all the other expressions accepts
 the :timeout attribute. It's perhaps better to use :timeout when there is
 a child expression, so that the child won't get 'triggered' in case of
-timeout. When there is no child expression and the 'when' behaves in a
+timeout. When there is no child expression and the 'once' behaves in a
 'blocking way', a timeout will unblock, as if the condition became true.
 
 
@@ -130,8 +128,14 @@ Remember that, if the engine's 'ruby_eval_allowed' is set to true, the
 condition may contain Ruby code.
 
 <pre class="brush: ruby">
-  _when '${r:"hell" + "o"} == hello'
+  once '${r:"hell" + "o"} == hello'
 </pre>
 
 This Ruby code is checked before hand against malicious code, but beware...
+
+
+h3. aliases
+
+'once', '_when' and 'as_soon_as' are three different names for this
+expression.
 

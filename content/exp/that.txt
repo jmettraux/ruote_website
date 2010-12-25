@@ -1,0 +1,37 @@
+---
+title: that expression
+filter:
+  - erb
+  - textile
+---
+
+h2. that
+
+
+The 'that' and the 'of' expressions are used in conjuction with
+the 'given' expression (GivenExpression).
+
+In can be used 'standalone', it thus becomes then merely an 'if'.
+
+The children of the that/of are executed if the condition evaluates to
+true. The children are executed one by one, as if the that/of were
+a sequence.
+
+<pre class="brush: ruby">
+  given '${status}' do
+    that '${location} == CH' do
+      set 'f:bank' => 'UBS'
+      subprocess 'buy_chocolate'
+    end
+    of 'ready' do
+      participant 'saleshead', :msg => 'customer ready'
+      participant 'salesman', :task => 'visiter customer'
+    end
+    of 'over' do
+      participant 'manager', :msg => 'process over'
+    end
+  end
+</pre>
+
+(Yes, I know, it's a poor example).
+
