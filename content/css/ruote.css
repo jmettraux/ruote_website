@@ -1,6 +1,7 @@
 /* @override 
 	file:///css/ruote.css
 	http://localhost:3000/css/ruote.css
+	http://ruote.rubyforge.org/css/ruote.css
 */
 
 #container, #footer {
@@ -168,6 +169,12 @@ h3 {
 	background: #f1f1f1;
 	background: -webkit-gradient(linear, 0% 0%, 0% 64, from(#d9d9d9), to(#f1f1f1));
 	background: -moz-linear-gradient(top, #d9d9d9, #f1f1f1 64px);
+}
+#content ul {
+	padding-left: 16px;
+}
+#content ul li {
+	list-style-type: disc;
 }
 .syntaxhighlighter, pre {
 	width: auto;
