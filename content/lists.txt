@@ -11,5 +11,5 @@ The ruote mailing list is at : "http://groups.google.com/group/openwferu-users":
 
 (it still bears the old name 'openwferu', but don't worry, it's the right place)
 
-The users mailing list is the preferred support medium, but there is also the #ruote channel on freenode.net ("archived":http://ruote.rubyforge.org/irclogs/ as well).
+The users mailing list is the preferred support medium, but there is also the #ruote channel on freenode.net ("archived":http://ruote-irclogs.s3.amazonaws.com/logs.html as well).
 

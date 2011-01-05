@@ -101,7 +101,7 @@ h3. community
 
 The mailing list is still the 'openwferu' one at "http://groups.google.com/group/openwferu-users":http://groups.google.com/group/openwferu-users
 
-The freenode.net channel is #ruote, feel free to stop by for a chat and a coffee. The channel archives are available at "http://ruote.rubyforge.org/irclogs/":http://ruote.rubyforge.org/irclogs/
+The freenode.net channel is #ruote, feel free to stop by for a chat and a coffee. The channel archives are available at "http://ruote-irclogs.s3.amazonaws.com/logs.html":http://ruote-irclogs.s3.amazonaws.com/logs.html
 
 See "source":source.html for a list of the ruote related projects on github.
 
