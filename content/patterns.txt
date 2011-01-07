@@ -459,21 +459,21 @@ With a bit of help from the participant implementations, this could be a realiza
     # presenting the task
 
     concurrence :count => 1 do
-      participant 'a'
-      participant 'b'
+      participant 'a', :task => 'start work'
+      participant 'b', :task => 'start work'
     end
 
     # performing the task
 
-    participant '${f:winner}' # a or b
+    participant '${a_or_b}', :task => 'perform work'
   end
 </pre>
 
-As soon as 'a' or 'b' replies ("concurrence":exp/concurrence.html :count => 1), it is represented with the task. The other participant receives a cancel notification.
+As soon as 'a' or 'b' replies ("concurrence":exp/concurrence.html :count => 1), it is presented with the task again. The other participant receives a cancel notification.
 
 Of course, the workitem/task presented is not strictly equivalent to the task to be performed...
 
-Perhaps the better way to implement this pattern is within the participant itself. The ruote engine could dispatch the task to participant 'x', a worklist handler managing access rights, escalation and so and so idependently.
+Perhaps the better way to implement this pattern is within the participant itself. The ruote engine could dispatch the task to participant 'x', a worklist handler managing access rights, escalation and so and so independently.
 
 "original pattern explanation":http://workflowpatterns.com/patterns/control/state/wcp16.php | "top":#top
 
