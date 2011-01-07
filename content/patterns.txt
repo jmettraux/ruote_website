@@ -13,7 +13,7 @@ Described here are ways to implement each of those patterns with ruote. Some of 
 
 Each pattern is illustrated with a Ruby DSL implementation (or approximation). XML implementations are easily derivable from their Ruby counterparts. There is also a link to the original pattern explanation and its flash animation.
 
-Participant expressions have been supplemented with an :activity attribute to give a better feel about an hypothetical context for the application of the pattern.
+Participant expressions have been supplemented with an :activity or :task attribute to give a better feel about an hypothetical context for the application of the pattern.
 
 *(#top) "Basic Control Flow Patterns":#basic
 ** "sequence":#ba_sequence
@@ -481,9 +481,49 @@ Perhaps the better way to implement this pattern is within the participant itsel
 
 h3(#sa_interleaved_parallel_routing). interleaved parallel routing
 
+TODO
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/state/wcp17.php | "top":#top
+
 <!-- H3 -->
 
 h3(#sa_milestone). milestone
+
+A task is only enabled when the process is in a specific state.
+
+Here is a ruote attempt at implementing this pattern :
+
+<pre class="brush: ruby">
+Ruote.define do
+
+  concurrence :count => 1 do
+    # will terminate as soon as 1 branch replies (and cancel the other)
+
+    sequence do
+      participant 'a'
+      participant 'b', :tag => 'milestone'
+      participant 'c'
+    end
+
+    listen :to => 'milestone', :upon => 'entering', :wfid => true do
+
+      concurrence :count => 1 do
+        # will terminate as soon as 1 branch replies (and cancel the other)
+
+        listen :to => 'milestone', :upon => 'leaving', :wfid => true
+          # as soon as the tag 'milestone' is left, this listen will
+          # exit (reply to the parent concurrence) and d will get cancelled
+
+        participant 'd'
+      end
+    end
+  end
+end
+</pre>
+
+In this implementation, the participant 'd' receives a workitem as soon as the milestone is reached (participant 'b' receives a workitem). d's task is over as soon as d terminates it or b terminates his task.
+
+"original pattern explanation":http://workflowpatterns.com/patterns/control/state/wcp18.php | "top":#top
 
 <!-- H3 -->
 
