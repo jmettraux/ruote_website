@@ -61,6 +61,7 @@ a few links to blog posts about ruote.
 * "an investigation into ruote and AMQP":http://simplic.it/blog/view/an_investigiation_into_ruote_and_amqp by Hartog de Mik
 * "ruote : a workflow engine written in Ruby":http://www.infoq.com/news/2010/10/ruote an InfoQ article by "Jean-Jacques Dubray":http://www.ebpml.org/blog2/index.php
 * "ruote and switch":http://jmettraux.wordpress.com/2011/01/03/ruote-and-switch/, an exploration of ruote and switch statements
+* "ruote, process state and tags":http://jmettraux.wordpress.com/2011/01/07/ruote-and-tags/, looking at the :tag attribute in process definitions
 
 
 h3. resources
