@@ -22,7 +22,7 @@ from sources external to the ruote workflow engine.
 
 It can be used in two ways : 'blocking' or 'triggering'. In both cases
 the listen expression 'reacts' upon activity (incoming or outgoing workitem)
-happening on a channel (a participant name).
+happening on a channel (a participant name or a tag name).
 
 h3. blocking
 
@@ -82,15 +82,49 @@ By default, listens upon 'apply' (engine handing workitem to participant).
 Can be set to 'reply', to react on workitems being handed back to the
 engine by the participant.
 
+Setting :upon to 'entering' or 'leaving' tells the listen to focus on
+tag events.
+
+<pre class="brush: ruby">
+  sequence do
+    sequence :tag => 'phase_one' do
+      alpha
+    end
+    sequence :tag => 'phase_two' do
+      bravo
+    end
+  end
+</pre>
+
+In this dummy process definition, there are four tag events :
+
+* 'entering' 'phase_one'
+* 'leaving' 'phase_one'
+* 'entering' 'phase_two'
+* 'leaving' 'phase_two'
+
+
 h3. :to and :on
 
 The :to attribute has already been seen, it can be replaced by the :on one.
 
-Those two attributes are expected to hold regular expressions, so it's OK to
-write things like :
+<pre class="brush: ruby">
+  listen :to => 'alpha'
+</pre>
+
+is equivalent to
 
 <pre class="brush: ruby">
-  listen :to => "^user\_.+"
+  listen :on => 'alpha'
+
+</pre>
+
+h3. :to (:on) and regular expressions
+
+It's OK to write things like :
+
+<pre class="brush: ruby">
+  listen :to => "/^user\_.+/"
 </pre>
 
 or
@@ -102,10 +136,27 @@ or
 To listen for workitems for all the participant whose name start with
 "user_".
 
+
 h3. :wfid
 
 By default, a listen expression listens for any workitem/participant event
 in the engine. Setting the :wfid attribute to 'true' or 'same' or 'current'
 will make the listen expression only care for events belonging to the
 same process instance (same wfid).
+
+
+h3. :where
+
+The :wfid can be considered a 'guard'. Another tool for guarding listen
+is to use the :where attribute.
+
+<pre class="brush: ruby">
+  listen :to => 'alpha', :where => '${customer.state} == CA'
+</pre>
+
+The listen will trigger only if the workitem has a customer field with
+a subfield state containing the value "CA".
+
+The documentation about the dollar notation and the one about common
+attributes :if and :unless applies for the :where attribute.
 

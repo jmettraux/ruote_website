@@ -12,8 +12,8 @@ Undoes and the redoes (re-applies) an expression identified by a tag.
 
 <pre class="brush: ruby">
   pdef = Ruote.process_definition do
-    sequence do
-      alpha :tag => 'kilroy'
+    sequence :tag => 'kilroy' do
+      alpha
       _redo :ref => 'kilroy', :unless => '${f:ok} == true'
     end
   end
@@ -28,8 +28,13 @@ Maybe this case is better served by a cursor/rewind combination
 <pre class="brush: ruby">
   pdef = Ruote.process_definition do
     cursor do
-      alpha :tag => 'kilroy'
+      alpha
       rewind :unless => '${f:ok} == true'
     end
   end
 </pre>
+
+(There is a big difference though, a redo will restart with the workitem
+as it was when the workitem entered the tagged region, while the rewind
+keeps the workitem as is)
+
