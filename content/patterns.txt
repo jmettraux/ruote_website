@@ -496,8 +496,7 @@ Here is a ruote attempt at implementing this pattern :
 <pre class="brush: ruby">
 Ruote.define do
 
-  concurrence :count => 1 do
-    # will terminate as soon as 1 branch replies (and cancel the other)
+  concurrence do
 
     sequence do
       participant 'a'
@@ -505,17 +504,18 @@ Ruote.define do
       participant 'c'
     end
 
-    listen :to => 'milestone', :upon => 'entering', :wfid => true do
+    concurrence :count => 1 do
+      # :count => 1 means the concurrence terminates as soon as 1 branch
+      # replies. The other branch is cancelled.
 
-      concurrence :count => 1 do
-        # will terminate as soon as 1 branch replies (and cancel the other)
-
-        listen :to => 'milestone', :upon => 'leaving', :wfid => true
-          # as soon as the tag 'milestone' is left, this listen will
-          # exit (reply to the parent concurrence) and d will get cancelled
-
+      sequence do
+        listen :to => 'milestone', :upon => 'entering', :wfid => true
+          # blocks until milestone is reached
         participant 'd'
       end
+
+      listen :to => 'milestone', :upon => 'leaving', :wfid => true
+        # blocks until milestone is left
     end
   end
 end
