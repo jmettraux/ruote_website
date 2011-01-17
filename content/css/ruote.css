@@ -4,10 +4,7 @@
 	http://ruote.rubyforge.org/css/ruote.css
 */
 
-#container, #footer {
-	width: 770px;
-	margin: 0 auto;
-}
+
 /* @group new sticky footer */
 	/* http://www.cssstickyfooter.com/ */
 	html, body {
@@ -18,12 +15,12 @@
 	}
 	#content {
 		overflow: auto;
-		padding-bottom: 96px;
+		padding-bottom: 120px;
 	}
 	#footer {
 		position: relative;
-		margin-top: -96px;
-		height: 96px;
+		margin-top: -120px;
+		height: 119px;
 		clear: both;
 	}
 	/*Opera Fix*/
@@ -38,20 +35,19 @@
 
 /* main styles */
 body {
-	font: 14px/1.75em "Helvetica Neue", Helvetica, Geneva, sans-serif;
+	font: 16px/1.66em "Helvetica Neue", Helvetica, Geneva, sans-serif;
 	color: #485055;
-	background: #ccd2dd;
 	margin: 0;
 }
 a {
-	color: #3d90e3;
+	color: #5186c0;
 	text-decoration: none;
 }
 a:hover {
 	text-decoration: underline;
 }
 a:visited {
-	color: #2f74bc;
+	color: #565fa7;
 }
 h1, h2 {
 	color: #85939b;
@@ -71,14 +67,22 @@ h3 {
 	box-shadow:          0px 0px 6px rgba(0,0,0,0.25);
 }
 #header {
+	padding: 24px 0;
 	border-top: 6px solid #2f0403;
 	-webkit-box-shadow: inset 0px 0px 72px rgba(0,0,0,0.6);
 	-moz-box-shadow:    inset 0px 0px 72px rgba(0,0,0,0.6);
 	box-shadow:         inset 0px 0px 72px rgba(0,0,0,0.6);
 	background: #4776a8;
 }
-#header-left {
-	padding: 8px 21px;
+#header-center, #content-center, #footer-center {
+	width: 880px;
+	margin: 0 auto;
+}
+#header-left, #header-right {
+	display: inline-block;
+}
+#header-right {
+	float: right;
 }
 #header-left a {
 	display: inline-block;
@@ -92,63 +96,49 @@ h3 {
 	text-shadow:  1px 1px 0 rgba(0,0,0,0.4);
 }
 #nav, #nav ul, #nav li, #nav a {
-	height: 36px;
+	height: 24px;
 }
 #nav {
-	display: block;
-	padding: 0 24px;
-	border-top: 1px solid #cde1ed;
-	border-bottom: 1px solid #acacac;
-	background: #d9d9d9;
-	background: -webkit-gradient(linear, left top, left bottom,
-                color-stop(0, #d9d9d9),
-                color-stop(0.2, #fff),
-                color-stop(0.53, #fff),
-                color-stop(0.54, #e2e2e2),
-                color-stop(1, #c5c5c5));
-	background: -moz-linear-gradient(top, #d9d9d9, #fff 20%, #fff 53%, #e2e2e2 54%, #c5c5c5 100%);
+	margin-top: 24px;
+	background: transparent;
 }
 #nav span {
 	display: inline-block;
 	margin: 0;
 	padding: 0;
-	border-left: 1px solid #cde1ed;
-	border-right: 1px solid #e6c8cc;
 	white-space: nowrap;
 }
 #nav a {
 	display: inline-block;
 	float: left;
-	border-left: 1px solid #e6c8cc;
-	border-right: 1px solid #cde1ed;
 }
 #nav a:link, #nav a:visited {
 	display: block;
-	padding: 0 18px;
-	color: #7f8c95;
+	padding: 0 9px;
+	color: #091623;
 	text-transform: capitalize;
 	font-size: 14px;
-	line-height: 2.66em;
-	text-shadow:  1px 1px 0 rgba(255,255,255,0.75);
+	text-shadow:  0px 0px 4px rgba(255,255,255,0.6);
 	font-weight: bold;
 }
 #nav a:hover {
-	color: #3d90e3;
+	color: #c2cbd5;
+	text-shadow: #6db1fc 0 0 8px;
 	text-decoration: none;
 }
 #nav a.nihongo {
-	font-size: .85em;
-	line-height: 3.25em;
+	font-size: 75%;
+	line-height: 2.25em;
 }
 #footer {
 	background: #dfe4ec;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#dfe4ec), to(#ccd2dd));
 	background: -moz-linear-gradient(top, #dfe4ec, #ccd2dd);
+	border-top: 1px solid #cacdd6;
 }
 #footer p {
 	display: block;
-	border-top: 1px solid #cacdd6;
-	padding: 6px 15px;
+	padding: 6px 0;
 	text-align: center;
 	color: #85939b;
 	font-size: 12px;
@@ -164,7 +154,7 @@ h3 {
 }
 #content {
 	padding: 36px 24px;
-	padding-bottom: 132px;
+	padding-bottom: 166px;
 	border-top: 1px solid #fffeff;
 	background: #f1f1f1;
 	background: -webkit-gradient(linear, 0% 0%, 0% 64, from(#d9d9d9), to(#f1f1f1));

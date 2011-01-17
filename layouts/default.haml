@@ -19,7 +19,7 @@
     #container
 
       #header
-        #header-top
+        #header-center
           #header-left
             %a{ :href => '/' }
               %img{ :src => '/images/ruote.png' }
@@ -27,29 +27,30 @@
               open source ruby workflow engine
           #header-right
             -# maybe search, later
-
-        #nav
-          %span
-            %a{ :title => "documentation", :href => "/documentation.html" } doc
-            %a{ :title => "source code", :href => "/source.html" } source
-            %a{ :title => "download", :href => "/download.html" } download
-            %a{ :title => "mailing lists and irc", :href => "/lists.html" } lists
-            %a{ :title => "blog", :href => "http://jmettraux.wordpress.com" } blog
-            %a{ :title => "map", :href => "/map.html" } map
-            %a.nihongo{ :title => "日本語", :href => "/ja.html" } 日本語
+            #nav
+              %span
+                %a{ :title => "documentation", :href => "/documentation.html" } doc
+                %a{ :title => "source code", :href => "/source.html" } source
+                %a{ :title => "download", :href => "/download.html" } download
+                %a{ :title => "mailing lists and irc", :href => "/lists.html" } lists
+                %a{ :title => "blog", :href => "http://jmettraux.wordpress.com" } blog
+                %a{ :title => "map", :href => "/map.html" } map
+                %a.nihongo{ :title => "日本語", :href => "/ja.html" } 日本語
 
       #content
-        = yield
+        #content-center
+          = yield
 
     #footer
-      %p
-        %span#footer-left
-          this website was created with
-          %a{ :href => "http://nanoc.stoneship.org" } nanoc
-          and
-          %a{ :href => "http://alexgorbatchev.com/SyntaxHighlighter/" } syntax highlighter
-        %span#footer-right
-          &copy; 2005-2010 the ruote team
+      #footer-center
+        %p
+          %span#footer-left
+            this website was created with
+            %a{ :href => "http://nanoc.stoneship.org" } nanoc
+            and
+            %a{ :href => "http://alexgorbatchev.com/SyntaxHighlighter/" } syntax highlighter
+          %span#footer-right
+            &copy; 2005-2010 the ruote team
 
     :javascript
       SyntaxHighlighter.all();
