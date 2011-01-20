@@ -14,7 +14,7 @@ compile '*' do
   case item[:extension]
     when 'haml'
       filter :haml
-      layout 'default'
+      #layout 'default'
     when 'erb'
       filter :erb
       layout 'default'
@@ -22,6 +22,7 @@ compile '*' do
       filter :erb
       filter :redcloth
       layout 'default'
+      filter :sidebar
     else
       # no filter, no layout
   end
