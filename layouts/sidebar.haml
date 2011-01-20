@@ -1,9 +1,15 @@
 
+- if @head_item
+  %ul
+    %li.head_item
+      %a{ :href => '/' + @head_item.path.join('/') + '.html' }
+        = @head_item.title
+
 %ul
   - @items.each do |item|
     %li{ :class => item == @item ? 'current' : nil }
-      %a{ :href => item.path.join('/') + '.html' }
-        = item[:title]
+      %a{ :href => '/' + item.path.join('/') + '.html' }
+        = item.title
 
 %ul.contact
   %li

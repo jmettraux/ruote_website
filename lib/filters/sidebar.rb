@@ -11,6 +11,15 @@ class Nanoc3::Item
 
     path
   end
+
+  def title
+
+    t = self[:title]
+
+    return t.match(/^(.*) expression$/)[1] if self.path[0] == 'exp'
+
+    t
+  end
 end
 
 
@@ -19,11 +28,34 @@ class SidebarFilter < Nanoc3::Filter
 
   def run (content, params)
 
-    items = @items.reject { |i|
-      ([ nil ] + %w[ css js ja images rel exp part ]).include?(i.path[0])
-    }.sort_by { |e| e[:title] }
+    items = if @item.path[0] == 'exp'
 
-    content.gsub('SIDEBAR', render('sidebar', :items => items))
+      @items.select { |i| i.path[0] == 'exp' }
+
+    elsif @item.path[0] == 'part'
+
+      @items.select { |i| i.path[0] == 'part' }
+
+    else
+
+      @items.reject { |i|
+        ([ nil ] + %w[ css js ja images rel exp part ]).include?(i.path[0])
+      }
+    end
+
+    items = items.sort_by { |i| i[:title] }
+
+    head_item = if @item.path[0] == 'exp'
+      @items.find { |i| i.path.join('/') == 'expressions' }
+    elsif @item.path[0] == 'part'
+      @items.find { |i| i.path.join('/') == 'participants' }
+    else
+      nil
+    end
+
+    content.gsub(
+      'SIDEBAR',
+      render('sidebar', :items => items, :head_item => head_item))
   end
 end
 
