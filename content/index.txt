@@ -10,8 +10,9 @@ A ruote engine may execute multiple <strong>process instances</strong> at a time
 
 a process definition
 
-<div style="width: 100%; position: relative;">
-
+<table class="code_and_fluo">
+  <tr>
+    <td>
 <pre class="brush: ruby">
 require 'ruote' # gem install ruote
 
@@ -28,10 +29,12 @@ pdef = Ruote.process_definition :name => 'work' do
   end
 end
 </pre>
-  <div style="position: absolute; top: -40px; right: -70px;">
-    <img src="/images/pdef0.png" width="95%"/>
-  </div>
-</div>
+    </td>
+    <td>
+      <img src="/images/pdef0.png" width="95%"/>
+    </td>
+  </tr>
+</table>
 
 the engine and some participants
 
