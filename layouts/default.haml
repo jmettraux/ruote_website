@@ -39,9 +39,10 @@
                   日本語
 
       #content
-        #sidebar SIDEBAR
         #content-center
-          = yield
+          #sidebar SIDEBAR
+          #content-main
+            = yield
 
     #footer
       #footer-center

@@ -5,12 +5,16 @@
       %a{ :href => '/' + @head_item.path.join('/') + '.html' }
         = @head_item.title
 
+%h3
+  Quick Links
 %ul
   - @items.each do |item|
     %li{ :class => item == @item ? 'current' : nil }
       %a{ :href => '/' + item.path.join('/') + '.html' }
         = item.title
 
+%h3
+  Contacts
 %ul.contact
   %li
     %a{ :href => 'http://jmettraux.wordpress.com' }
