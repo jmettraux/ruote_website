@@ -236,6 +236,7 @@ h3 {
 	border-radius: 4px;
 }
 pre {
+	padding-top: 1.75em;
 	border: 1px solid #abb7c2;
 	margin-bottom: 1em;
 	line-height: 1em;
@@ -257,6 +258,23 @@ pre {
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#dfe4ec), to(#ccd2dd));
 	background: -moz-linear-gradient(top, #dfe4ec, #ccd2dd);
 	font-weight: normal;
+}
+.code_and_fluo td {
+	width: 50%;
+	padding: 0;
+	border: none;
+	vertical-align: top;
+	overflow: auto;
+}
+.code_and_fluo .syntaxhighlighter {
+	margin: 2px 0 0 0 !important;
+	width: 332px !important;
+	overflow: auto !important;
+	overflow-y: hidden !important;
+	-ms-overflow-y: hidden !important;
+}
+.code_and_fluo img {
+	width: 100% !important;
 }
 
 /* pre-existing styles */
