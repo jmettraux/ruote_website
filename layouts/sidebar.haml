@@ -1,12 +1,14 @@
 
 - if @head_item
+  -#%h3
+  -#  Top
   %ul
     %li.head_item
       %a{ :href => '/' + @head_item.path.join('/') + '.html' }
         = @head_item.title
 
 %h3
-  Quick Links
+  Links
 %ul
   - @items.each do |item|
     %li{ :class => item == @item ? 'current' : nil }
@@ -16,16 +18,16 @@
 %h3
   Contacts
 %ul.contact
-  %li
-    %a{ :href => 'http://jmettraux.wordpress.com' }
-      blog
-  %li
-    %a{ :href => 'http://groups.google.com/group/openwferu-users' }
-      mailing list
-  %li
-    %a{ :href => 'http://ruote-ci.s3.amazonaws.com/ci.html' }
-      continuous integration
-  %li
-    %a{ :href => 'http://ruote-irclogs.s3.amazonaws.com/logs.html' }
-      IRC
+
+  - contacts = []
+  - contacts << [ 'http://jmettraux.wordpress.com', 'blog' ]
+  - contacts << [ '/lists.html', 'mailing list' ]
+  - contacts << [ 'http://ruote-ci.s3.amazonaws.com/ci.html', 'continuous integration' ]
+  - contacts << [ 'http://ruote-irclogs.s3.amazonaws.com/logs.html', 'IRC' ]
+  - contacts << [ '/users.html', 'ruote users' ]
+
+  - contacts.each do |con|
+    %li{ :class => con.first == @item.identifier[0..-2] + '.html' ? 'current' : nil }
+      %a{ :href => con.first }
+        = con.last
 
