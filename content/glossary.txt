@@ -1,8 +1,5 @@
 ---
 title: glossary
-filter:
-  - erb
-  - textile
 ---
 
 h2. glossary
@@ -27,7 +24,7 @@ An identifier for a flow expression. This same identifier is used to identify "w
 
 h3(#receiver). receiver
 
-todo
+TODO
 
 
 h3(#participant). participant
