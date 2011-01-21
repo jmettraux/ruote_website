@@ -16,15 +16,18 @@
         = item.title
 
 %h3
-  Contacts
+  Meta
 %ul.contact
 
   - contacts = []
+  - contacts << [ '/source.html', 'source' ]
+  - contacts << [ '/downloads.html', 'downloads' ]
   - contacts << [ 'http://jmettraux.wordpress.com', 'blog' ]
   - contacts << [ '/lists.html', 'mailing list' ]
   - contacts << [ 'http://ruote-ci.s3.amazonaws.com/ci.html', 'continuous integration' ]
   - contacts << [ 'http://ruote-irclogs.s3.amazonaws.com/logs.html', 'IRC' ]
   - contacts << [ '/users.html', 'ruote users' ]
+  -#- contacts << [ 'https://www.ohloh.net/p/ruote/', 'ohloh' ]
 
   - contacts.each do |con|
     %li{ :class => con.first == @item.identifier[0..-2] + '.html' ? 'current' : nil }
