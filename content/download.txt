@@ -7,11 +7,33 @@ filter:
 
 h2. download
 
-The "ruote gems":http://gemcutter.org/search?query=ruote are available via rubygems from "gemcutter.org":http://gemcutter.org
+h3. gem
+
+The "ruote gems":http://rubygems.org/search?query=ruote are available via rubygems from "rubygems.org":http://rubygems.org
 
 Installing ruote boils down to
 
 <pre>
-  gem install ruote
+gem install ruote
 </pre>
+
+h3. bundler
+
+With "bundler":http://gembundler.com it's easy.
+
+For a specific version of the ruote gem :
+
+<pre class="brush: ruby">
+gem 'ruote', '2.1.12'
+</pre>
+
+For the latest (edge) version :
+
+<pre class="brush: ruby">
+gem 'ruote',
+  :git => 'git://github.com/jmettraux/ruote.git',
+  :branch => 'ruote2.1'
+</pre>
+
+and so on...
 
