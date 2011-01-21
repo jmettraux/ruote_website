@@ -1,11 +1,8 @@
 ---
-title: process testing
-filter:
-  - erb
-  - textile
+title: testing processes
 ---
 
-h2. process testing
+h2. testing processes
 
 A few notes about testing/specing process definitions
 

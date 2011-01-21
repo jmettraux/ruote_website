@@ -7,13 +7,27 @@
       %a{ :href => '/' + @head_item.path.join('/') + '.html' }
         = @head_item.title
 
-%h3
-  Links
+%h3{ :onclick => 'document.location = "/documentation.html"', :style => 'cursor: pointer' }
+  Documentation
 %ul
   - @items.each do |item|
     %li{ :class => item == @item ? 'current' : nil }
       %a{ :href => '/' + item.path.join('/') + '.html' }
         = item.title
+
+%h3
+  More
+%ul.contact
+
+  - contacts = []
+  - contacts << [ '/presentations.html', 'presentations' ]
+  - contacts << [ '/resources.html', 'resources' ]
+  - contacts << [ '/users.html', 'users' ]
+
+  - contacts.each do |con|
+    %li{ :class => con.first == @item.identifier[0..-2] + '.html' ? 'current' : nil }
+      %a{ :href => con.first }
+        = con.last
 
 %h3
   Meta
@@ -26,7 +40,6 @@
   - contacts << [ '/lists.html', 'mailing list' ]
   - contacts << [ 'http://ruote-ci.s3.amazonaws.com/ci.html', 'continuous integration' ]
   - contacts << [ 'http://ruote-irclogs.s3.amazonaws.com/logs.html', 'IRC' ]
-  - contacts << [ '/users.html', 'ruote users' ]
   -#- contacts << [ 'https://www.ohloh.net/p/ruote/', 'ohloh' ]
 
   - contacts.each do |con|

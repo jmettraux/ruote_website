@@ -1,8 +1,8 @@
 ---
-title: participant testing
+title: testing participants
 ---
 
-h2. participant testing
+h2. testing participants
 
 testing participant implementations
 

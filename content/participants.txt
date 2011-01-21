@@ -1,8 +1,5 @@
 ---
-title: participants
-filter:
-  - erb
-  - textile
+title: process participants
 ---
 
 h2. participants

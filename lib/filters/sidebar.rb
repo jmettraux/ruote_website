@@ -42,7 +42,8 @@ class SidebarFilter < Nanoc3::Filter
         (
           [ nil ] + %w[
             css js ja images rel exp part
-            lists users download
+            lists users download source resources presentations
+            documentation
           ]
         ).include?(i.path[0])
       }
