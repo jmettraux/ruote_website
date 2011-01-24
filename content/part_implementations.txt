@@ -16,7 +16,6 @@ h3. participants and receivers
 h3. participants found in ruote
 
 * "block participant":part/block_participant.html - a Ruby block as a ruote participant
-* "Ruote::HashParticipant":part/hash_participant.html - storing workitems in memory (Ruby Hash)
 * "Ruote::NoOpParticipant":part/no_op_participant.html - a participant that immediately replies to the engine
 * "Ruote::NullParticipant":part/null_participant.html - a '/dev/null' participant, never replies to the engine
 * "Ruote::SmtpParticipant":part/smtp_participant.html - a base for more elaborate email participants
