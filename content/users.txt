@@ -22,6 +22,7 @@ h3. america
 * "fedora-workflow":http://github.com/cbeer/fedora-workflow (USA)
 * "rackspace":http://rackspace.com (USA) and "ThoughtWorks":http://thoughtworks.com are "orchestrating data center processes":http://jmettraux.wordpress.com/2010/08/30/rocking-the-enterprise-with-ruby/ with ruote
 * "onit":http://www.onit.com (USA) use ruote in their light-weight tool for tracking projects, deals, transactions, cases and litigation
+* "howcast":http://www.howcast.com/ (USA)
 
 h3. asia
 
