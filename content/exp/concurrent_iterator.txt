@@ -100,3 +100,15 @@ true, workers d and e will be added to the iterated elements.
 
 Read more at the 'add_branches' expression description.
 
+
+h3. 'citerator'
+
+'citerator' is an alias for 'concurrent_iterator'.
+
+<pre class="brush: ruby">
+  pdef = Ruote.process_definition :name => 'test' do
+    citerator :on_val => 'alice, bob, charly', :to_var => 'v' do
+      participant '${v:v}'
+    end
+  end
+</pre>

@@ -176,7 +176,7 @@ by itself.
   class Reviewer
     include Ruote::LocalParticipant
 
-    def consume (workitem)
+    def consume(workitem)
       # somehow review the book
       if review == 'bad'
         #workitem.fields['__command__'] = [ 'rewind' ] # old style
@@ -187,7 +187,7 @@ by itself.
       reply_to_engine(workitem)
     end
 
-    def cancel (fei, flavour)
+    def cancel(fei, flavour)
       # cancel if review is still going on...
     end
   end

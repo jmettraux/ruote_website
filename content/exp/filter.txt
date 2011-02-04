@@ -1,0 +1,45 @@
+---
+title: filter expression
+filter:
+  - erb
+  - textile
+---
+
+h2. filter
+
+
+Filter is a one-way filter expression. It filters workitem fields.
+Validations and Transformations are possible.
+
+There are two ways to use it. With a single rule or with an array of
+rules.
+
+<pre class="brush: ruby">
+  filter 'x', :type => 'string'
+    # will raise an error if the field 'x' doesn't contain a String
+</pre>
+
+or
+
+<pre class="brush: ruby">
+  filter :in => [
+    { :field => 'x', :type => 'string' },
+    { :field => 'y', :type => 'number' }
+  ]
+</pre>
+
+For the remainder of this piece of documentation, the one rule filter
+will be used.
+
+h3. validations
+
+TODO
+
+h4. validation errors
+
+TODO
+
+h3. transformations
+
+TODO
+
