@@ -28,6 +28,8 @@ Ruote's source code is located at the "github":http://github.com
 
 * "ruote-cukes":http://github.com/jmettraux/ruote-cukes - a set of step definitions for testing ruote process definitions from "Cucumber":http://cukes.info/
 
+* "Simple-Ruote-Formatter":https://github.com/rebo/Simple-Ruote-Formatter - takes a ruote process definition and renders it as an HTML page (by "rebo":https://github.com/rebo)
+
 See also "rufus":http://rufus.rubyforge.org, a set of ruby gems spun off of ruote.
 
 
