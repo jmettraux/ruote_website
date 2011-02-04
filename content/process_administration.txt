@@ -192,14 +192,14 @@ end
 
 class ThisParticipant
   include Ruote::LocalParticipant
-  def consume (workitem)
+  def consume(workitem)
     puts "* #{workitem.participant_name}"
     reply_to_engine(workitem)
   end
 end
 class ThatParticipant
   include Ruote::LocalParticipant
-  def consume (workitem)
+  def consume(workitem)
     puts ". #{workitem.participant_name}"
     # no reply to engine
   end
