@@ -1,11 +1,15 @@
 ---
 title: presentations
-filter:
-  - erb
-  - textile
 ---
 
 h2. presentations
+
+h3(#rubyfuza). ruote
+
+"RubyFuza 2011":http://rubyfuza.org/ "ruote presentation":http://www.slideshare.net/kenneth.kalmer/ruote by "Kenneth Kalmer":http://www.opensourcery.co.za/
+
+<object type='application/x-shockwave-flash' wmode='transparent' data='http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=ruote-rubyfuza-110203073523-phpapp01&stripped_title=ruote&userName=kenneth.kalmer' width='595' height='487'><param name='movie' value='http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=ruote-rubyfuza-110203073523-phpapp01&stripped_title=ruote&userName=kenneth.kalmer' /><param name='allowFullScreen' value='true' /><param name='allowScriptAccess' value='always' /></object>
+
 
 h3(#houston_rb). ruote, a Ruby workflow engine
 
