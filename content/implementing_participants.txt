@@ -6,18 +6,269 @@ h2. implementing participants
 
 Participant receive workitems, do something about/to them. Then, if necessary, they reply to ruote with the [updated] workitem.
 
+In its simplest form a participant implementation will take the form of a "block participant":/part/block_participant.html.
+
+<pre class="brush: ruby">
+engine.register_participant :flush_garbage do |workitem|
+  GarbageCan.find(workitem['garbage_can_id']).flush
+end
+</pre>
+
+In fact, this is equivalent to the following participant implementation (and registration) :
+
+<pre class="brush: ruby">
+class Flusher
+  include Ruote::LocalParticipant
+
+  def consume(workitem)
+    GarbageCan.find(workitem['garbage_can_id']).flush
+    reply_to_engine(workitem)
+  end
+
+  def cancel(fei, flavour)
+    # nothing to do
+  end
+
+  #def on_reply(workitem)
+  #end
+end
+
+engine.register_participant :flush_garbage, Flusher
+</pre>
+
+Yes, you are right, the block participant's block is reproduced in the consume method of the participant implementation, but a reply_to_engine(workitem) is added.
+
+"#consume":#consume isn't the only method involved in a participant, there is also "#cancel":#cancel. Cancel is called when a process instance or a segment of it gets cancelled and the participant holds a workitem for the segment. The workitem has to be somehow cancelled / removed / rolled back.
+
+Two optional methods also exist : "#accept?":#accept and "#on_reply":#on_reply. A participant with an accept? method is free to discard incoming workitems that it doesn't like. A participant with an on_reply method is usually some kind of proxy for a real (remote) participant; the on_reply method, when present, is called when the answer (workitem) comes back from the real participant.
+
+By default, when a process instance execution reaches a participant expression, it runs the #consume method of the participant in a dedicated Ruby thread. if the "#do_not_thread":#do_not_thread method returns false, no extra thread is created, the consume call is done immediately (ie, it blocks the worker).
+
+
+h3(#consume). #consume
+
+When a participant is handed a workitem, this method is called with the workitem as the argument.
+
+<pre class="brush: ruby">
+# computing the total for a invoice being passed in the workitem.
+#
+class TotalParticipant
+  include Ruote::LocalParticipant
+
+  def consume(workitem)
+    workitem['total'] = workitem.fields['items'].inject(0.0) { |t, item|
+      t + item['count'] * PricingService.lookup(item['id'])
+    }
+    reply_to_engine(workitem)
+  end
+end
+</pre>
+
+Note the call to #reply_to_engine with the workitem as argument when the work is done. Without this call (sooner or later), the process doesn't resume after this participant.
+
 
 h3(#cancel). #cancel
 
-TODO
+If you don't immediately (and very quickly) reply to the engine in your consume method, you'd better have a #cancel implementation for your class.
+
+<pre class="brush: ruby">
+require 'fileutils'
+require 'yaml'
+
+# A plain "worklist" implementations, workitems are placed in files under
+# worklist/
+#
+# We assume the rest of the application reads those yaml files and
+# calls PlainWorklist.reply(workitem_h) when done with a workitem.
+#
+class PlainWorklist
+  include Ruote::LocalParticipant
+
+  # Called by ruote when there's work for our participant
+  #
+  def consume(workitem)
+    h = workitem.to_h
+    h['fei'] = workitem.fei.sid
+    File.open("worklist/workitem_#{workitem.fei.sid}.yaml", wb) do |f|
+      f.puts(h.to_yaml)
+    end
+    # no reply_to_engine(workitem)
+  end
+
+  # When ruote has to cancel a process instance with an active workitem
+  # for this participant, this method is called.
+  #
+  def cancel(fei, flavour)
+    FileUtils.rm("worklist/workitem_#{fei.sid}.yaml")
+  end
+
+  # A method called by external systems when they're done with a workitem
+  # hash, they hand it back to the engine via this method.
+  #
+  def self.reply(workitem_h)
+    FileUtils.rm("worklist/workitem_#{workitem_h['fei']}.yaml")
+    reply_to_engine(workitem)
+  end
+end
+</pre>
+
+Our consume method doesn't reply to the engine, at all. The reply occurs later, in the #reply class method. If a cancel order comes, the workitem stored on disk has to be removed.
+
+h4(#flavour). cancel flavour
+
+This parameter is usually set to 'cancel'. When a process is "killed instead of cancelled":/process_administration.html#killing, the flavour is set to "kill". Usually this parameter is simply ignored, but who knows, perhaps a different behaviour might be necessary in some context ?
 
 
 h3(#accept). #accept?
 
-TODO
+Given a list of participant
+
+<pre class="brush: ruby">
+engine.register_participant 'al.+', FirstParticipantImplementation
+engine.register_participant 'al.+', SecondParticipantImplementation
+</pre>
+
+the first participant whose regex matches the participant name is used. If that first participant has a method #accept?(workitem), it's called and if it replies with false, the next participant in the participant list is tried.
+
+<pre class="brush: ruby">
+class FirstParticipantImplementation
+  include Ruote::LocalParticipant
+
+  # Do something...
+  #
+  def consume(workitem)
+    workitem.fields['message'] = 'kilroy was here'
+    reply_to_engine(workitem)
+  end
+
+  # This participant will not accept workitems for non military contexts.
+  # The next matching participant in the participant list will be consulted.
+  #
+  def accept?(workitem)
+    return workitem.fields['context'] == 'military'
+  end
+end
+</pre>
 
 
-h3(#on_replyt). #on_reply
+h3(#on_reply). #on_reply
 
-TODO
+Roughly, there are two categories of participants, those who receive a workitem and reply immediately and those who take some time before replying.
+
+In this second category, one can find participants that emit workitem to a remote participant. The workitem comes back via a listener usually.
+
+Participants that provide a #on_reply(workitem) implementation are given a opportunity to tweak the workitem once it comes back.
+
+Here is an example where an hypothetical WorkQueue is placed between the ruote system and the remote participant bound under the name "remote". The receiver pops messages and feeds the back to the engine. When workitems come back, the worker will hand it to the on_reply method of the participant.
+
+<pre class="brush: ruby">
+class MyRemoteParticipant
+  #include Ruote::LocalParticipant
+
+  def consume(workitem)
+    WorkQueue.push(workitem_to_msg(workitem))
+  end
+
+  def on_reply(workitem)
+    workitem.fields['msg'] = "back at #{Time.now.to_s}"
+  end
+
+  protected
+
+  def workitem_to_msg(workitem)
+    # ...
+  end
+end
+
+class Receiver < Ruote::Receiver
+
+  def initialize(engine)
+    super
+    Thread.new { listen }
+  end
+
+  protected
+
+  def listen
+
+    loop { reply_to_engine(workitem_from_msg(WorkQueue.pop)) }
+  end
+
+  def workitem_from_msg(msg)
+    # ...
+  end
+end
+
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new))
+
+engine.register_participant :remote, MyRemoteParticipant
+
+receiver = Receiver.new(engine)
+
+# ...
+</pre>
+
+
+h3(#do_not_thread). #do_not_thread
+
+By default, when dispatching a workitem to a participant, a ruote worker will call the participant's consume method in a new thread. The idea is to move the [potentially] bulk work of dispatching outside of the worker loop very quickly.
+
+This is not always appropriate. The participant can tell the worker not to spawn a new thread by implementing a do_not_thread method and letting it reply with true when it's called.
+
+<pre class="brush: ruby">
+class MyParticipant
+  include Ruote::LocalParticipant
+
+  # Do something...
+  #
+  def consume(workitem)
+    workitem.fields['message'] = 'kilroy was here'
+    reply_to_engine(workitem)
+  end
+
+  # The consume method does such a trivial thing that it's not worth spawning
+  # a thread.
+  #
+  def do_not_thread
+    true
+  end
+end
+</pre>
+
+It's OK to have a do_not_thread method that accepts the workitem as argument :
+
+<pre class="brush: ruby">
+  def do_not_thread(workitem)
+    workitem.fields['colour'] == 'blue'
+  end
+</pre>
+
+If you want to influence more radically threading while dispatching, overriding the dispatch_pool service is probably the best solution.
+
+
+<pre class="brush: ruby">
+#
+# This implementation never dispatches in a new thread...
+#
+class MyDispatchPool < Ruote::DispatchPool
+
+  def dispatch(msg)
+
+    participant = @context.plist.lookup(
+      msg['participant'] || msg['participant_name'], msg['workitem'])
+
+    do_dispatch(participant, msg)
+  end
+end
+
+# ...
+
+opts = {
+  's_dispatch_pool' => [ 'path/to/my_dispatch_pool', 'MyDispatchPool' ]
+}
+
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new(opts)))
+</pre>
+
+or something like that...
 

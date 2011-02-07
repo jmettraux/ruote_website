@@ -33,4 +33,5 @@ h3. other participants
 h3. see also
 
 * a few words about "participants":participants.html
+* "implementing participants":implementing_participants.html
 

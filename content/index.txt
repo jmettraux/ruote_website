@@ -14,9 +14,9 @@ a process definition
   <tr>
     <td>
 <pre class="brush: ruby">
-require 'ruote' # gem install ruote
+require 'ruote'
 
-pdef = Ruote.process_definition :name => 'work' do
+pdef = Ruote.process_definition do
   cursor do
     concurrence do
       reviewer1
@@ -24,7 +24,8 @@ pdef = Ruote.process_definition :name => 'work' do
     end
     editor
     rewind :if => '${not_ok}'
-      # back to the reviewers if editor not happy
+      # back to the reviewers
+      # if editor not happy
     publish # the document
   end
 end
