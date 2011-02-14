@@ -131,51 +131,82 @@ The following table summarizes the various storage implementations.
 *remote worker* indicates if workers not on the same host as the storage are possible;
 *speed* is a relative indication of the speed of the storage.
 
-|_.storage|_.multiple workers ?|_.remote worker ?|_.speed|_. |
-|"Ruote::HashStorage":#hash_storage          | no (1) | no | best | in-memory storage, limited to the current ruby process, totally transient|
-|"Ruote::FsStorage":#fs_storage              | yes (2) | no | 1st | hierarchy of JSON files, uses file locks to prevent collisions when multiple workers|
-|"Ruote::Dm::DmStorage":#dm_storage          | no (4) | yes | 4th | "DataMapper":http://datamapper.org based persistence|
-|"Ruote::Couch::CouchStorage":#couch_storage | yes | yes | slowest | "Apache CouchDB":http://couchdb.apache.org/ based persistence, remote, very slow|
-|"Ruote::Redis::RedisStorage":#redis_storage | yes | yes | 2nd | "Redis":http://code.google.com/p/redis/ based persistence, fast and remote. Limited in max size|
+|_.storage|_.multiple workers ?|_.remote workers ?|_.speed|_. |
+|"Ruote::HashStorage":#hash_storage | no (1) | no | best | in-memory storage, limited to the current ruby process, totally transient|
+|"Ruote::FsStorage":#fs_storage | yes (2) | no | 2nd | hierarchy of JSON files, uses file locks to prevent collisions when multiple workers|
+|"Ruote::Redis::Storage":#redis_storage | yes | yes | 1st | "Redis":http://redis.io based persistence|
+|"Ruote::Sequel::Storage":#sequel_storage | yes | yes | 4th | "Sequel":http://sequel.rubyforge.org based persistence|
+|"Ruote::Dm::Storage":#dm_storage | yes (4) | yes | 5th | "DataMapper":http://datamapper.org based persistence|
+|"Ruote::Couch::Storage":#couch_storage | yes | yes | slowest | "Apache CouchDB":http://couchdb.apache.org/ based persistence, very slow|
 |"Ruote::MongoDBStorage":#mongo_storage | no (3) | yes | like redis | "MongoDB":http://www.mongodb.org based persistence|
-|"Ruote::Beanstalk::BsStorage":#beanstalk_storage | yes | yes | 3rd | FsStorage based persistence with a "Beanstalk":http://kr.github.com/beanstalkd/ front, fast and remote|
+|"Ruote::Beanstalk::Storage":#beanstalk_storage | yes | yes | 3rd | FsStorage based persistence with a "Beanstalk":http://kr.github.com/beanstalkd/ front|
 
 (1) well, it's 'yes' but there isn't much to gain from one more worker in the same Ruby runtime
 (2) multiple workers, but not on Windows
 (3) (has to be confirmed)
-(4) not yet 'hardened'
+(4) "no" before ruote-dm 2.2.0
 
 h4(#hash_storage). Ruote::HashStorage
 
-"source":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/storage/hash_storage.rb
+"source":http://github.com/jmettraux/ruote/blob/master/lib/ruote/storage/hash_storage.rb
+
+A completely transient, in-memory storage for ruote. Cannot be shared by multiple workers. Mostly used for testing or for transient workflows.
 
 h4(#fs_storage). Ruote::FsStorage
 
-"source":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/storage/fs_storage.rb
+"source":http://github.com/jmettraux/ruote/blob/master/lib/ruote/storage/fs_storage.rb
 
-h4(#dm_storage). Ruote::Dm::DmStorage
+Stores ruote information into a hierarchy of JSON files. Can be shared by multiple workers (though on the same host).
 
-"source":http://github.com/jmettraux/ruote-dm/blob/ruote2.1/lib/ruote/dm/storage.rb
+Rather fast. Easy to use (just a bunch of files).
 
-h4(#couch_storage). Ruote::Couch::CouchStorage
+Doesn't work with multiple workers on Windows (the file locking mechanism it uses is not supported on this platform).
 
-"source":http://github.com/jmettraux/ruote-couch/tree/ruote2.1/lib/ruote/couch/
-
-h4(#redis_storage). Ruote::Redis::RedisStorage
+h4(#redis_storage). Ruote::Redis::Storage
 
 "source":http://github.com/jmettraux/ruote-redis/blob/master/lib/ruote/redis/storage.rb
+
+A "redis":http://redis.io based storage. Very fast, usable by multiple workers (remotely).
+
+h4(#sequel_storage). Ruote::Sequel::Storage
+
+"source":http://github.com/jmettraux/ruote-sequel/blob/master/lib/ruote/sequel/storage.rb
+
+A "Sequel":http://sequel.rubyforge.org persistence. Tested with "PostgreSQL":http://www.postgresql.org and "MySQL":http://mysql.org. OK with multiple workers.
+
+ruote-dm and ruote-sequel share the same schema (1 table).
+
+h4(#dm_storage). Ruote::Dm::Storage
+
+"source":http://github.com/jmettraux/ruote-dm/blob/master/lib/ruote/dm/storage.rb
+
+A "DataMapper":http://datamapper.org/ storage implementation. OK with multiple workers (since ruote-dm 2.2.0).
+
+ruote-dm and ruote-sequel share the same schema (1 table).
+
+h4(#couch_storage). Ruote::Couch::Storage
+
+"source":http://github.com/jmettraux/ruote-couch/tree/master/lib/ruote/couch/
+
+A "CouchDB":http://couchdb.apache.org/ storage implementation. OK with multiple workers.
+
+It's rather slow. People tend to use it to store workitems, and let the msgs and schedules be stored in faster implementations (see "CompositeStorage":#composite_storage).
 
 h4(#mongo_storage). Ruote::MongoDBStorage
 
 "source":https://github.com/PlasticLizard/ruote-mongodb/blob/master/lib/ruote-mongodb/mongodb_storage.rb
 
+"MongoDB":http://mongodb.org storage implementation.
+
 h4(#beanstalk_storage). Ruote::Beanstalk::BsStorage
 
-"source":http://github.com/jmettraux/ruote-beanstalk/blob/ruote2.1/lib/ruote/beanstalk/storage.rb
+This storage is an experiment. It uses a set of "beanstalk":http://kr.github.com/beanstalkd/ tubes to make a FsStorage available to remote workers.
+
+"source":http://github.com/jmettraux/ruote-beanstalk/blob/master/lib/ruote/beanstalk/storage.rb
 
 h4(#composite_storage). composite storage
 
-"source":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/storage/composite_storage.rb
+"source":http://github.com/jmettraux/ruote/blob/master/lib/ruote/storage/composite_storage.rb
 
 The "composite" storage lets you select which storage to use for which category of object to be persisted. Here is a table detailing those 'categories' :
 
