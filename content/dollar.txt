@@ -7,7 +7,7 @@ filter:
 
 h2. dollar notation
 
-Most of the examples features plainly named participant like :
+Most of the examples feature plainly named participant like
 
 <pre class="brush: ruby">
   sequence do
@@ -16,7 +16,7 @@ Most of the examples features plainly named participant like :
   end
 </pre>
 
-But the real world is more dynamic :
+but the real world is more dynamic :
 
 <pre class="brush: ruby">
   sequence do
