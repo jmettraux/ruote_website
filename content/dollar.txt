@@ -29,6 +29,13 @@ In that mini process definition, the workitem is routed from the patient to the 
 
 The prefix 'f' comes for 'field', as in workitem field.
 
+This "dollar notation" scans strings in process definition for ${...} constructs and substitutes them for their workitem field or process variable value.
+
+If "'ruby_eval_allowed'":#ruby_eval_allowed is set to true, ${r:code} will evaluate (after a security check) the code and place the result in the target string.
+
+Not all dollar substitutions result in a string, there is a technique for pointing a field or variable values "literally":#literally.
+
+
 h3. variables and workitem fields
 
 Two types of data are available to process instances : process variables and workitem fields.
@@ -149,7 +156,27 @@ def launch (process_definition, fields={}, variables={})
 Fields are the initial fields (payload) of the workitem and variables are the initial variables at the root of the process instance getting launched.
 
 
-h3(#wfid). ${fei}, ${wfid}, ${sub_wfid} and ${expid}
+h3(#nesting). mixing and nesting
+
+Mixing and nesting is OK.
+
+<pre class="brush: ruby">
+Ruote.process_definition do
+  # ...
+  set 'f:a' => 'al'
+  set 'f:b' => 'fred'
+  set 'f:alfred' => 'albert'
+  # ...
+  participant '${a}'         # participant 'al'
+  participant '${b}'         # participant 'fred'
+  participant '${a}${b}'     # participant 'alfred'
+  participant '${al${b}}'    # participant 'albert'
+  participant '${${a}${b}}'  # participant 'albert'
+end
+</pre>
+
+
+h3(#wfid). ${fei}, ${wfid}, ${subid} and ${expid}
 
 This tiny program :
 
@@ -168,7 +195,8 @@ pdef = Ruote.process_definition do
     echo 'fei       : ${fei}'
     echo 'wfid      : ${wfid}'
     echo 'expid     : ${expid}'
-    echo 'sub_wfid  : ${sub_wfid}'
+    echo 'subid     : ${subid}'
+    echo 'engine_id : ${subid}'
   end
 end
 
@@ -183,14 +211,13 @@ will emit to the standard output something like :
 fei       : 0_0_0!!20100407-bipopopizu
 wfid      : 20100407-bipopopizu
 expid     : 0_0_2
-sub_wfid  :
+subid     : 2cf8837dec6eda1f5da484a2a5bb4bc5
+engine_id : engine
 </pre>
 
-These are not the content of the fields 'fei', 'wfid', 'expid', 'sub_wfid'. It's the flow expression id, the workflow instance id, the expression id and the sub workflow instance id.
+These are not the content of the fields 'fei', 'wfid', 'expid', 'subid'. It's the flow expression id, the workflow instance id, the expression id and the sub workflow instance id.
 
 The 'fei' is a compound of the three others.
-
-The 'sub_wfid' is empty since our test process is very simple and the echo is not part of a sub-workflow.
 
 This technique can be used in various ways. Here is an example :
 
@@ -205,6 +232,49 @@ end
 </pre>
 
 The field 'batch_id' is set to something like 'batch--20100407-barakuraba'.
+
+
+h3(#literally). '$x', '$f:x', '$v:y'
+
+(available since ruote 2.2.0)
+
+All the dollar examples so far result in strings being composed. What if you want the want the literal workitem field or process variable blue to be given ?
+
+<pre class="brush: ruby">
+Ruote.process_definition do
+  set 'v:customers' = [ 'Steiner', 'Stransky', 'Brandt' ]
+  set 'v:order_id' = 12345
+  # ...
+  participant 'salesman', :customers => '$v:customers', :order => '$v:order_id'
+end
+</pre>
+
+Note the lack of curly brackets (and the single reference). This literal technique only works with when the final substitution is of the form "^\$[^{}:]+$".
+
+No substitution will occur :
+
+<pre class="brush: ruby">
+Ruote.process_definition do
+  echo ' $x '    # => ' $x '
+  echo ' $v:x '  # => ' $v:x '
+  echo ' $v:x'   # => ' $v:x'
+  # ...
+end
+</pre>
+
+Nesting and mixing is OK as well, as long as the final substitution lacks the curly brackets :
+
+<pre class="brush: ruby">
+Ruote.process_definition do
+  # ...
+  set 'v:a' => 'al'
+  set 'v:b' => 'fred'
+  set 'v:alfred' => { 'name' => 'Alfred', 'age' => 23 }
+  # ...
+  subprocess 'x', :customer => '$v:${a}${b}'
+    # customer will hold the 'alfred' hash
+end
+</pre>
 
 
 h3(#ruby_eval_allowed). 'ruby_eval_allowed'
@@ -225,7 +295,8 @@ Ruote.process_definition :name => 'new batch' do
     set 'batch_id' => '${r:Operations.generate_batch_id}'
     clerks :task => 'input new batch'
     testers :task => 'schedule tests for new batch'
-    clerks :task => 'schedule transport', :if => '${r:Operations.no_transport_available?}'
+    clerks :task => 'schedule transport',
+      :if => '${r:Operations.no_transport_available?}'
   end
 end
 </pre>
