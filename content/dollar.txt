@@ -305,3 +305,52 @@ This process definition calls to methods from the Operations module, one to gene
 
 Ruote tries is best to prevent dangerous operations from happening whithin the ${r:xxx} envelope, but beware ! Especially if your process definitions are loaded from untrusted sources.
 
+The Ruby code within ${r:xxx} has access to
+
+* <strong>flow_expression, fe, fexp</strong> : the FlowExpression itself
+* <strong>fei</strong> : the id of the FlowExpression
+* <strong>workitem, wi</strong> : the workitem
+* <strong>engine_id</strong> : the id of the engine
+* <strong>d()</strong> : a way to bring back regular dollar substitution inside of ${r:...}
+* <strong>"method_missing"</strong> : a shortcut to workitem fields
+
+Here is a potpourri of those :
+
+<pre class="brush: ruby">
+require 'rubygems'
+require 'ruote'
+
+engine = Ruote::Engine.new(
+  Ruote::Worker.new(
+    Ruote::HashStorage.new('ruby_eval_allowed' => true)))
+
+#engine.noisy = true
+
+pdef = Ruote.define do
+
+  set 'v:var0' => 'hello'
+
+  echo '${r:fei.sid}'
+    # => 0_1!51ea612b76a8b2670050abf4583b9406!20110218-besushipoki
+  echo '${r:wi.fields.size}'
+    # => 1
+  echo '${r:fexp.name}'
+    # => echo
+  echo "${r:d('customer.address.0').downcase}"
+    # => sycamore street 1
+  echo "${r:d('v:var0')}"
+    # => hello
+  echo "${r:customer['name']}"
+    # => Alain
+end
+
+wfid = engine.launch(
+  pdef,
+  'customer' => {
+    'name' => 'Alain',
+    'address' => [ 'Sycamore Street 1', 'Triple Peaks' ]
+  })
+
+engine.wait_for(wfid)
+</pre>
+
