@@ -268,5 +268,33 @@ The "cursor / repeat":exp/cursor.html expressions can be tagged too, when the cu
 
 h3(#filter). :filter
 
-ouch
+Ruote 2.2.0 introduces a :filter attribute for expressions.
+
+Most of the documentation for this attribute is found in the doc for the "filter":exp/filter.html expression. Note however, that the filter expression in one way, while the attribute version is two-sided, 'in' and 'out' (reaching the expression, leaving it).
+
+<pre class="brush: ruby">
+Ruote.process_definition do
+
+  set 'v:f' => {
+    :in => [
+      { :fields => '/^private_/', :remove => true }
+    ],
+    :out => [
+      { :fields => '/^private_/', :restore => true },
+      { :fields => '/^protected_/', :restore => true },
+    ]
+  }
+
+  alpha
+  sequence :filter => 'f' do
+    bravo
+    charly
+  end
+  delta
+end
+</pre>
+
+In this example, the filter is placed in the variable named 'f'. When the sequence after alpha is entered, the workitem fields whose name starts with "private_" are removed, bravo and charly can't see them.
+
+Once charly is done, the sequence terminates and the private fields are restored (like they were when reaching the bravo-charly sequence. The fields starting with 'protected_' are restored too, potentially overwriting changes made by bravo or charly.
 
