@@ -1,8 +1,5 @@
 ---
 title: quickstart
-filter:
-  - erb
-  - textile
 ---
 
 h2. ruote quickstart

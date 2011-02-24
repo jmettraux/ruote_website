@@ -1,8 +1,5 @@
 ---
 title: process definitions
-filter:
-  - erb
-  - textile
 ---
 
 h2. process definitions

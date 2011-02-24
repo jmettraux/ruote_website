@@ -1,8 +1,5 @@
 ---
 title: resources
-filter:
-  - erb
-  - textile
 ---
 
 h2. selected resources

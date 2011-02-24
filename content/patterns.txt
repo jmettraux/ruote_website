@@ -1,8 +1,5 @@
 ---
 title: workflow control patterns
-filter:
-  - erb
-  - textile
 ---
 
 h2. workflow control patterns

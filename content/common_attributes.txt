@@ -1,8 +1,5 @@
 ---
 title: common attributes
-filter:
-  - erb
-  - textile
 ---
 
 h2. attributes common to all expressions
@@ -16,6 +13,7 @@ The attributes listed on this page may be used with any expression.
 * ":on_cancel":#on_cancel
 * ":on_timeout":#on_timeout
 * ":tag":#tag
+* ":filter":#filter
 
 <hr/>
 
@@ -266,4 +264,9 @@ In this way, :tag can be used to flag large segments of process instances. Eras,
 The :tag is used as well by the "_redo":exp/redo.html and the "undo":exp/undo.html (cancel) expression.
 
 The "cursor / repeat":exp/cursor.html expressions can be tagged too, when the cursor/loop has to be manipulated from outside (of the cursor/loop).
+
+
+h3(#filter). :filter
+
+ouch
 

@@ -1,8 +1,5 @@
 ---
 title: process administration
-filter:
-  - erb
-  - textile
 ---
 
 h2. [business] process administration

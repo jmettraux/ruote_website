@@ -1,8 +1,5 @@
 ---
 title: documentation
-filter:
-  - erb
-  - textile
 ---
 
 h2. documentation

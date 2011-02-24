@@ -1,8 +1,5 @@
 ---
 title: 日本語
-filter:
-  - erb
-  - textile
 ---
 
 h2. るおて

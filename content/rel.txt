@@ -1,8 +1,5 @@
 ---
 title: rel values for ruote-http / ruote-kit links
-filter:
-  - erb
-  - textile
 ---
 
 h2. rel
