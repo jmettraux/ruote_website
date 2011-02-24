@@ -1,8 +1,5 @@
 ---
 title: concurrent_iterator expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. concurrent_iterator

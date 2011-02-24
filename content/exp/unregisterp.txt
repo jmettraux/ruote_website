@@ -1,8 +1,5 @@
 ---
 title: unregisterp expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. unregisterp

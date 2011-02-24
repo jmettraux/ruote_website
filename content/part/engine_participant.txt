@@ -1,8 +1,5 @@
 ---
 title: engine_participant 
-filter:
-  - erb
-  - textile
 ---
 
 h2. engine_participant

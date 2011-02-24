@@ -1,8 +1,5 @@
 ---
 title: apply expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. apply

@@ -1,8 +1,5 @@
 ---
 title: null_participant 
-filter:
-  - erb
-  - textile
 ---
 
 h2. null_participant

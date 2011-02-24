@@ -59,9 +59,6 @@ paths.each do |path|
 
     f.puts(%{---
 title: #{item} #{type}
-filter:
-  - erb
-  - textile
 ---
 
 h2. #{item}

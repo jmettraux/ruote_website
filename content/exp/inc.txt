@@ -1,8 +1,5 @@
 ---
 title: inc expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. inc

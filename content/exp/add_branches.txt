@@ -1,8 +1,5 @@
 ---
 title: add_branches expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. add_branches

@@ -1,8 +1,5 @@
 ---
 title: block_participant 
-filter:
-  - erb
-  - textile
 ---
 
 h2. block_participant

@@ -1,8 +1,5 @@
 ---
 title: filter expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. filter
@@ -411,10 +408,48 @@ it was when the expression with the :filter attribute got reached (applied).
 
 h4. 'restore' and 'restore_from'
 
-TODO
+Since these two filter operations leverage '~~', they're not very useful
+for the 'filter' expression. But they make lots of sense for the :filter
+attribute.
 
+<pre class="brush: ruby">
+  # in :   { 'x' => 'a', 'y' => 'a' },
+  filter :in => [
+    { 'field' => 'x', 'set' => 'X' },
+    { 'field' => 'y', 'set' => 'Y' },
+    { 'field' => '/^.$/', 'restore' => true } ]
+  # out :   { 'x' => 'a', 'y' => 'a' },
+
+  # in :   { 'x' => 'a', 'y' => 'a' },
+  filter :in => [
+    { 'field' => 'A', 'set' => {} },
+    { 'field' => '.', 'merge_to' => 'A' },
+    { 'field' => 'x', 'set' => 'X' },
+    { 'field' => 'y', 'set' => 'Y' },
+    { 'field' => '/^[a-z]$/', 'restore_from' => 'A' },
+    { 'field' => 'A', 'delete' => true } ]
+  # out :  { 'x' => 'a', 'y' => 'a' })
+
+</pre>
 
 h3. short forms
 
-TODO
+Could help make filters a bit more compact.
+
+* 'size', 'sz'
+* 'empty', 'e'
+* 'in', 'i'
+* 'has', 'h'
+* 'type', 't'
+* 'match', 'm'
+* 'smatch', 'sm'
+* 'valid', 'v'
+
+* 'remove', 'rm', 'delete', 'del'
+* 'set', 's'
+* 'copy_to', 'cp_to'
+* 'move_to', 'mv_to'
+* 'merge_to', 'mg_to'
+* 'migrate_to', 'mi_to'
+* 'restore', 'restore_from', 'rs'
 

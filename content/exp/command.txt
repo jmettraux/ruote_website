@@ -1,8 +1,5 @@
 ---
 title: command expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. command

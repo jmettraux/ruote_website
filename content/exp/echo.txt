@@ -1,8 +1,5 @@
 ---
 title: echo expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. echo

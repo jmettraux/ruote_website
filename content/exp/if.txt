@@ -1,8 +1,5 @@
 ---
 title: if expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. if

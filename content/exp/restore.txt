@@ -1,8 +1,5 @@
 ---
 title: restore expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. restore

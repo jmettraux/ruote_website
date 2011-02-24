@@ -1,8 +1,5 @@
 ---
 title: ref expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. ref

@@ -1,8 +1,5 @@
 ---
 title: once expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. once

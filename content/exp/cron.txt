@@ -1,8 +1,5 @@
 ---
 title: cron expression
-filter:
-  - erb
-  - textile
 ---
 
 h2. cron

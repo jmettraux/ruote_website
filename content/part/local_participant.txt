@@ -1,8 +1,5 @@
 ---
 title: local_participant 
-filter:
-  - erb
-  - textile
 ---
 
 h2. local_participant
