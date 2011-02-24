@@ -11,6 +11,11 @@ h2. filter
 Filter is a one-way filter expression. It filters workitem fields.
 Validations and Transformations are possible.
 
+Validations will raise errors (that'll block the process segment
+unless an :on_error attribute somehow deals with the problem).
+
+Transformations will copy values around fields.
+
 There are two ways to use it. With a single rule or with an array of
 rules.
 
@@ -31,15 +36,385 @@ or
 For the remainder of this piece of documentation, the one rule filter
 will be used.
 
+h3. filtering targets (field names)
+
+Top level field names are OK :
+
+<pre class="brush: ruby">
+  filter 'customer_id', :type => 'string'
+  filter 'invoice_id', :type => 'number'
+</pre>
+
+Pointing to fields lying deeper is OK :
+
+<pre class="brush: ruby">
+  filter 'customer.id', :type => 'number'
+  filter 'customer.name', :type => 'string'
+  filter 'invoice', :type => 'array'
+  filter 'invoice.0.id', :type => 'number'
+</pre>
+
+(Note the dollar notation is also OK with such dotted identifiers)
+
+It's possible to target multiple fields by passing a list of field names
+or a regular expression.
+
+<pre class="brush: ruby">
+  filter 'city, region, country', :type => 'string'
+    # will make sure that those 3 fields hold a string value
+
+  filter '/^address\.x_/', :type => number
+  filter '/^address!x_/', :type => number
+    # fields whosename start with x_ in the address hash should be numbers
+</pre>
+
+Note the "!" used as a shortcut for "\." in the second line.
+
+
 h3. validations
 
-TODO
+h4. 'type'
+
+Ruote is a Ruby library, it adopts Ruby "laissez-faire" for workitem
+fields, but sometimes, some type oriented validation is necessary.
+Ruote limits itself to the types found in the JSON specification with
+one or two additions.
+
+<pre class="brush: ruby">
+  filter 'x', :type => 'string'
+  filter 'x', :type => 'number'
+  filter 'x', :type => 'bool'
+  filter 'x', :type => 'boolean'
+  filter 'x', :type => 'null'
+
+  filter 'x', :type => 'array'
+
+  filter 'x', :type => 'object'
+  filter 'x', :type => 'hash'
+    # 'object' and 'hash' are equivalent
+</pre>
+
+It's OK to pass multiple types for a field
+
+<pre class="brush: ruby">
+  filter 'x', :type => 'bool,number'
+  filter 'x', :type => [ 'string', 'array' ]
+
+  filter 'x', :type => 'string,null'
+    # a string or null or not set
+</pre>
+
+The array and the object/hash types accept a subtype for their values
+(a hash/object must have string keys anyway).
+
+<pre class="brush: ruby">
+  filter 'x', :type => 'array<number>'
+  filter 'x', :type => 'array<string>'
+  filter 'x', :type => 'array<array<string>>'
+
+  filter 'x', :type => 'array<string,number>'
+    # an array of strings or numbers (both)
+  filter 'x', :type => 'array<string>,array<number>'
+    # an array of strings or an array of numbers
+</pre>
+
+h4. 'match' and 'smatch'
+
+'match' will check if a field, when turned into a string, matches
+a given regular expression.
+
+<pre class="brush: ruby">
+  filter 'x', :match => '1'
+    # will match "11", 1, 1.0, "212"
+</pre>
+
+'smatch' works the same but only accepts fields that are strings.
+
+<pre class="brush: ruby">
+  filter 'x', :smatch => '^user_'
+    # valid only if x's value is a string that starts with "user_"
+</pre>
+
+h4. 'size' and 'empty'
+
+'size' is valid for values that respond to the #size method (strings
+hashes and arrays).
+
+<pre class="brush: ruby">
+  filter 'x', :size => 4
+    # will be valid of values like [ 1, 2, 3, 4 ], "toto" or
+    # { 'a' => 1, 'b' => 2, 'c' => 3, 'd' => 4 }
+
+  filter 'x', :size => [ 4, 5 ]
+  filter 'x', :size => '4,5'
+    # four to five elements
+
+  filter 'x', :size => [ 4 ]
+  filter 'x', :size => [ 4, nil ]
+  filter 'x', :size => '4,'
+    # four or more elements
+
+  filter 'x', :size => [ nil, 4 ]
+  filter 'x', :size => ',4'
+    # four elements or less
+</pre>
+
+Similarly, the 'empty' check will evaluate to true (ie not raise an
+exception) if the value responds to #empty? and is, well, not empty.
+
+<pre class="brush: ruby">
+  filter 'x', :empty => true
+</pre>
+
+h4. 'in'
+
+Checks if a value is in a given set of values.
+
+<pre class="brush: ruby">
+  filter 'x', :in => [ 1, 2, 3 ]
+  filter 'x', :in => "john, jeff, jim"
+</pre>
+
+h4. 'has'
+
+Checks if an array contains certain values
+
+<pre class="brush: ruby">
+  filter 'x', :has => 1
+  filter 'x', :has => "x"
+  filter 'x', :has => [ 1, 7, 12 ]
+  filter 'x', :has => "abraham, bob, charly"
+</pre>
+
+Also checks if a hash has certain keys (strings only of course)
+
+<pre class="brush: ruby">
+  filter 'x', :has => "x"
+  filter 'x', :has => "abraham, bob, charly"
+</pre>
+
+h4. 'valid'
+
+Sometimes, it's better to immediately say 'true' or 'false'.
+
+<pre class="brush: ruby">
+  filter 'x', :valid => 'true'
+  filter 'x', :valid => 'false'
+</pre>
+
+Not very useful...
+
+In fact, it's meant to be used with the dollar notation
+
+<pre class="brush: ruby">
+  filter 'x', :valid => '${other.field}'
+    # will be valid if ${other.field} evaluates to 'true'...
+</pre>
+
+h4. cumulating validations
+
+As seen before, type validations can be cumulated.
+
+<pre class="brush: ruby">
+  filter 'x', :type => 'bool,number'
+</pre>
+
+Validations can be cumulated as well
+
+<pre class="brush: ruby">
+  filter 'x', :type => 'array<number>', :has => [ 1, 2 ]
+    # will be valid if the field 'x' holds an array of numbers
+    # and that array has 1 and 2 among its elements
+</pre>
 
 h4. validation errors
 
-TODO
+By defaults a validation error will result in a process error (ie the
+process instance will have to be manually fixed and resumed, or there
+is a :on_error somewhere dealing automatically with errors).
+
+It's possible to prevent raising an error and simply record the validation
+errors.
+
+<pre class="brush: ruby">
+  filter 'x', :type => 'bool,number', :record => true
+</pre>
+
+will enumerate validation errors in the '__validation_errors__' workitem
+field.
+
+<pre class="brush: ruby">
+  filter 'y', :type => 'bool,number', :record => 'verrors'
+</pre>
+
+will enumerate validation errors in teh 'verrors' workitem field.
+
+To flush the recording field, use :flush => true
+
+<pre class="brush: ruby">
+  sequence do
+    filter 'x', :type => 'string', :record => true
+    filter 'y', :type => 'number', :record => true, :flush => true
+    participant 'after'
+  end
+</pre>
+
+the participant 'after' will only see the result of the second filter.
+
 
 h3. transformations
+
+So far, only the validation aspect of filter was shown. They can also be
+used to transform the workitem.
+
+<pre class="brush: ruby">
+  filter 'x', :type => 'string', :or => 'missing'
+    # will replace the value of x by 'missing' if it's not a string
+
+  filter 'z', :remove => true
+    # will remove the workitem field z
+
+  filter 'a,b,c', 'set' => '---'
+    # sets the field a, b and c to '---'
+</pre>
+
+h4. 'remove'
+
+Removes a field (or a subfield).
+
+<pre class="brush: ruby">
+  filter 'z', :remove => true
+</pre>
+
+h4. 'default'
+
+If there is no value for a field, sets it
+
+<pre class="brush: ruby">
+  filter 'x', 'default' => 0
+    # will set x to 0, if it's not set or its value is nil
+
+  filter '/^user-.+/', 'default' => 'nemo'
+    # will set any 'user-...' field to 'nemo' if its value is nil
+</pre>
+
+h4. 'or'
+
+'or' combines with a condition. The 'or' value is set if the condition
+evaluates to false.
+
+Using 'or' without a condition makes it equivalent to a 'default'.
+
+<pre class="brush: ruby">
+  filter 'x', 'or' => 0
+    # will set x to 0, if it's not set or its value is nil
+
+  filter 'x', 'type' => 'number', 'or' => 0
+    # if x is not set or is not a number, will set it to 0
+</pre>
+
+Multiple conditions are OK
+
+<pre class="brush: ruby">
+  filter 'x', 't' => 'array', 'has' => 'cat', 'or' => []
+    # if x is an array and has the 'cat' element, nothing will happen.
+    # Else x will be set to [].
+</pre>
+
+h4. 'and'
+
+'and' is much like 'or', but it triggers if the condition evaluates to true.
+
+<pre class="brush: ruby">
+  filter 'x', 'type' => number, 'and' => '*removed*'
+    # if x is a number, it will replace it with '*removed*'
+</pre>
+
+h4. 'set'
+
+Like 'remove' removes unconditionally, 'set' sets a field unconditionally.
+
+<pre class="brush: ruby">
+  filter 'x', 'set' => 'blue'
+    # sets the field x to 'blue'
+</pre>
+
+h4. copy, merge, migrate / to, from
+
+<pre class="brush: ruby">
+  # in :   { 'x' => 'y' }
+  filter 'x', 'copy_to' => 'z'
+  # out :  { 'x' => 'y', 'z' => 'y' }
+
+  # in :   { 'x' => 'y' }
+  filter 'z', 'copy_from' => 'x'
+  # out :  { 'x' => 'y', 'z' => 'y' }
+
+  # in :   { 'x' => 'y' }
+  filter 'z', 'copy_from' => 'x'
+  # out :  { 'x' => 'y', 'z' => 'y' }
+
+  # in :   { 'a' => %w[ x y ]})
+  filter '/a\.(.+)/', 'copy_to' => 'b\1'
+  # out :  { 'a' => %w[ x y ], 'b0' => 'x', 'b1' => 'y' },
+
+  # in :   { 'a' => %w[ x y ]})
+  filter '/a!(.+)/', 'copy_to' => 'b\1'
+  # out :  { 'a' => %w[ x y ], 'b0' => 'x', 'b1' => 'y' },
+    #
+    # '!' is used as a replacement for '\.' in regexes
+
+  # in :   { 'a' => 'b', 'c' => 'd', 'source' => [ 7 ] })
+  filter '/^.$/', 'copy_from' => 'source.0'
+  # out :  { 'a' => 7, 'c' => 7, 'source' => [ 7 ] },
+</pre>
+
+...
+
+'copy_to' and 'copy_from' copy whole fields. 'move_to' and 'move_from'
+move fields.
+
+'merge_to' and 'merge_from' merge hashes (or add values to
+arrays), 'push_to' and 'push_from' are aliases for 'merge_to' and
+'merge_from' respectively.
+
+'migrate_to' and 'migrate_from' act like 'merge_to' and 'merge_from' but
+delete the merge source afterwards (like 'move').
+
+All those hash/array filter operations understand the '.' field, meaning
+the hash being filtered itself.
+
+<pre class="brush: ruby">
+  # in :   { 'x' => { 'a' => 1, 'b' => 2 } })
+  filter 'x', 'merge_to' => '.'
+  # out :  { 'x' => { 'a' => 1, 'b' => 2 }, 'a' => 1, 'b' => 2 },
+</pre>
+
+h4. access to 'previous versions' with ~ and ~~
+
+Before a filter is applied, a copy of the hash to filter is placed under
+the '~' key in the hash itself.
+
+this filter will at first set the field x to 0, and then reset it to its
+original value :
+
+<pre class="brush: ruby">
+  filter :in => [
+    { :field => 'x', :set => 0 },
+    { :field => 'x', :copy_from => '~.x' }
+  ]
+</pre>
+
+For the 'filter' expression, '~~' contains the same thing as '~', but
+for the :filter attribute, it contains the hash (workitem fields) as
+it was when the expression with the :filter attribute got reached (applied).
+
+h4. 'restore' and 'restore_from'
+
+TODO
+
+
+h3. short forms
 
 TODO
 
