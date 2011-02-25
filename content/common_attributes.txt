@@ -298,3 +298,73 @@ In this example, the filter is placed in the variable named 'f'. When the sequen
 
 Once charly is done, the sequence terminates and the private fields are restored (like they were when reaching the bravo-charly sequence. The fields starting with 'protected_' are restored too, potentially overwriting changes made by bravo or charly.
 
+There are different ways to pass filters.
+
+<pre class="brush: ruby">
+Ruote.process_definition do
+
+  # directly
+
+  alpha :filter => {
+    :in => [
+      { :fields => '/^private_/', :remove => true }
+    ],
+    :out => [
+      { :fields => '/^private_/', :restore => true },
+      { :fields => '/^protected_/', :restore => true },
+    ]
+  }
+
+  # via a variable
+
+  alpha :filter => 'f'
+
+  # via two variables
+
+  alpha :filter => { :in => 'f0', :out => 'f1' }
+
+  # as a participant
+
+  alpha :filter => 'p'
+
+  # as two participants
+
+  alpha :filter => { :in => 'p0', :out => 'p1' }
+end
+</pre>
+
+The format for filters passed directly or via variables as arrays is detailed for the "filter":exp/filter.html expression. The 'restore' filter operation is particulary useful in the case of an 'out' ('reply') filter attribute.
+
+Participants are registered in the engine like any other participant. There consume method is not expected to reply_to_engine(workitem)
+
+<pre class="brush: ruby">
+class MyFilterParticipant
+  def consume(workitem)
+    return if workitem.fields['__filter_direction__'] == 'out'
+      # only filter when filter on 'out' ('reply') (vs 'in'/'apply')
+    workitem.fields.keys.each do |k|
+      workitem.fields.delete(k) if k.match(/^private_/)
+    end
+  end
+end
+
+engine.register_participant 'filter0', MyFilterParticipant
+
+# ...
+
+pdef = Ruote.process_definition do
+  alpha :filter => 'filter0'
+end
+</pre>
+
+The :filter attribute will favour the 'filter' method of the participant, if it has one. This method, unlike consume, will be expected to return the updated field hash (and it doesn't receive the workitem, but the field hash directly).
+
+<pre class="brush: ruby">
+class MyFilterParticipant
+  def filter(fields, direction)
+    return fields if direction == 'out'
+    fields.select { |k, v| ! k.match(/^private/) } # ruby 1.9.x !!!
+  end
+end
+</pre>
+

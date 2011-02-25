@@ -258,6 +258,18 @@ To flush the recording field, use :flush => true
 
 the participant 'after' will only see the result of the second filter.
 
+For complex filters, if the first rule has :record => true, the
+'recording' will happen for the whole filter.
+
+<pre class="brush: ruby">
+  sequence do
+    filter :in => [
+      { :field => 'x', :type => 'string', :record => true },
+      { :field => 'y', :type => 'number' } ]
+    participant 'after'
+  end
+
+</pre>
 
 h3. transformations
 
@@ -452,4 +464,14 @@ Could help make filters a bit more compact.
 * 'merge_to', 'mg_to'
 * 'migrate_to', 'mi_to'
 * 'restore', 'restore_from', 'rs'
+
+
+h3. compared to the :filter attribute
+
+The :filter attribute accepts participant names, but for this filter
+expression, it makes no sense accepting partipants... Simply invoke
+the participant as usual.
+
+The 'restore' operation makes lots of sense for the :filter attribute
+though.
 
