@@ -102,6 +102,8 @@ Really any :
   end
 </pre>
 
+The :if and :unless conditions understand things like !=, ==, =~, 'is set', 'is empty', &&, ||, ... It's maybe easier to "look at the unit tests":https://github.com/jmettraux/ruote/blob/master/test/unit/ut_6_condition.rb to see what is supported.
+
 
 h3(#forget). :forget
 
