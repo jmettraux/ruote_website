@@ -4,12 +4,12 @@ title: quickstart
 
 h2. ruote quickstart
 
-Ruote 2.1 is mainly tested with Ruby 1.9.1 but seems to run fine with Ruby 1.8.7.
+Ruote 2.2 is tested with Ruby 1.8.7 and Ruby 1.9.2.
 
-This quickstart aims at showing a minimal process instance run. It's a limited example.
+This quickstart aims at showing a minimal process instance run. It's a very limited example.
 
 
-h3. getting ruote 2.1
+h3. getting ruote
 
 Provided that you have a recent version of "git":http://progit.org/book/ch1-4.html, you can do from your command line :
 
@@ -21,6 +21,23 @@ gem install pkg/ruote-2.2.0.gem
 </pre>
 
 Installing as a gem will draw in the necessary gem dependencies, except a JSON gem.
+
+If you want to avoid "gitting" ruote, you can install it as a gem :
+
+<pre>
+gem install ruote
+</pre>
+
+<pre>
+# if you're using C (MRI) Ruby :
+gem install yajl-ruby
+
+# if you're using JRuby :
+gem install json-jruby
+
+# on windows :
+gem install json_pure
+</pre>
 
 <pre>
 # if you're using C (MRI) Ruby :
@@ -47,7 +64,7 @@ require 'ruote/storage/fs_storage'
 
 engine = Ruote::Engine.new(
   Ruote::Worker.new(
-    Ruote::FsStorage.new("ruote_work")))
+    Ruote::FsStorage.new('ruote_work')))
 
 # registering participants
 #
