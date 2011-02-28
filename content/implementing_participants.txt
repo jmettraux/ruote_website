@@ -307,14 +307,41 @@ or something like that...
 
 h3(#re_dispatch). #re_dispatch
 
-(aliased as #reject)
+Use this method to re_dispatch the workitem.
 
-TODO
+It takes two options :in and :at for "later re_dispatch". Without one of those options, the method is a "reject".
+
+Here is an example where re_dispatch is used to implement a retry tactic.
+
+<pre class="brush: ruby">
+class RetryParticipant
+  include Ruote::LocalParticipant
+
+  def initialize(opts)
+    @opts = opts
+  end
+
+  def consume(workitem)
+    begin
+      do_the_job
+      reply(workitem)
+    rescue
+      re_dispatch(workitem, :in => @opts['delay'] || '1s')
+    end
+  end
+
+  def cancel(fei, flavour)
+    unschedule_re_dispatch(fei)
+  end
+end
+</pre>
+
+re_dispatch/reject makes sense too in a multi worker context where a participant on a given host wants to reject a task and let another worker (on another host) do the work. Maybe the "accept?":#accept method is better for those cases, though.
 
 
 h3(#unschedule_re_dispatch). #unschedule_re_dispatch
 
-TODO
+Look at the example in the "previous section":#re_dispatch to see unschedule_re_dispatch in action.
 
 
 ***
