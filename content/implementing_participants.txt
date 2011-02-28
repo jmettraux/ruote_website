@@ -322,7 +322,27 @@ TODO
 
 h3(#reply_to_engine). reply_to_engine
 
-TODO
+Often used at the engine of a consume implementation.
+
+<pre class="brush: ruby">
+class Total
+  include Ruote::LocalParticipant
+
+  def consume(workitem)
+    workitem.fields['total'] = workitem.fields['items'].inject(0) { |t, (i, c)|
+      item = Item.find(i)
+      t = t + c * item.price
+    end
+    reply_to_engine(workitem)
+  end
+end
+
+engine.register 'total', Total
+</pre>
+
+If you scroll a bit, you'll find "an example":#applied_workitem where this method is called outside of the consume method.
+
+_reply_to_engine(workitem)_ can be shortened to _reply(workitem)_.
 
 
 h3(#fexp). fexp
