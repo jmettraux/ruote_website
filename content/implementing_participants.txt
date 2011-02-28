@@ -45,6 +45,38 @@ Two optional methods also exist : "#accept?":#accept and "#on_reply":#on_reply. 
 By default, when a process instance execution reaches a participant expression, it runs the #consume method of the participant in a dedicated Ruby thread. if the "#do_not_thread":#do_not_thread method returns false, no extra thread is created, the consume call is done immediately (ie, it blocks the worker).
 
 
+h3(#local_participant). Ruote::LocalParticipant
+
+Most of the time, you'll want your participant to include the Ruote::LocalParticipant mixin.
+
+It's named 'local' because it supposed to have access to the ruote storage.
+
+***
+
+Methods to implement or override when implementing a participant and some helpers granted by Ruote::LocalParticipant.
+
+h3. methods
+
+* "#consume":#consume
+* "#cancel":#cancel
+* "#accept?":#accept
+* "#on_reply":#on_reply
+* "#do_not_thread":#do_not_thread
+
+* "#re_dispatch":#re_dispatch
+* "#unschedule_re_dispatch":#unschedule_re_dispatch
+
+h3. helpers
+
+* "#reply_to_engine":#reply_to_engine
+* "#fexp":#fexp
+* "#applied_workitem":#applied_workitem
+* "#put and #get":#stash
+
+
+***
+
+
 h3(#consume). #consume
 
 When a participant is handed a workitem, this method is called with the workitem as the argument.
@@ -271,4 +303,111 @@ engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new(opts)))
 </pre>
 
 or something like that...
+
+
+h3(#re_dispatch). #re_dispatch
+
+(aliased as #reject)
+
+TODO
+
+
+h3(#unschedule_re_dispatch). #unschedule_re_dispatch
+
+TODO
+
+
+***
+
+
+h3(#reply_to_engine). reply_to_engine
+
+TODO
+
+
+h3(#fexp). fexp
+
+Via this method, the participant implementation has access to its [participant] expression.
+
+<pre class="brush: ruby">
+class PickCustomer
+  include Ruote::LocalParticipant
+
+  def consume(workitem)
+    customers = fexp(workitem).lookup_variable('customers')
+    workitem.fields['customer'] = customers[rand(customers.length)]
+    reply_to_engine(workitem)
+  end
+end
+
+engine.register 'pick_customer', PickCustomer
+</pre>
+
+
+h3(#applied_workitem). applied_workitem
+
+Especially when a participant is meant as a task list, workitems may get modified and not immediately replied (proceeded) to the engine.
+
+It could be necessary to look at a copy of the workitem as it was when it reached the participant [expression].
+
+<pre class="brush: ruby">
+class TaskList
+  include Ruote::LocalParticipant
+
+  def initialize(opts)
+    @tasks = connect_to_some_db(opts)
+  end
+
+  def consume(workitem)
+    @tasks[workitem.fei] = workitem
+  end
+
+  def cancel(fei, flavour)
+    @tasks.delete(fei)
+  end
+
+  def by_user(username)
+    @tasks.by(:user => username)
+  end
+
+  def update(workitem)
+    @tasks[workitem.fei] = workitem
+  end
+
+  def original(workitem)
+    applied_workitem(workitem)
+  end
+
+  def self.reply(workitem)
+    if @tasks.delete[workitem.fei]
+      reply_to_engine(workitem)
+    end
+  end
+end
+
+# ...
+
+engine.register 'user_.+', TaskList
+
+# ...
+
+tasklist = engine.participant('user_x')
+  # returns an instance of our participant, 'user_x' will do since
+  # it's registered for any participant starting with 'user_'
+
+workitem = tasklist.by_user('user_fred').first
+
+if workitem.fields != tasklist.original(workitem).fields
+  puts "fred's workitem got modified"
+end
+
+tasklist.reply(workitem)
+</pre>
+
+Note the use of Engine#participant(name) to fetch an instance of a participant via the engine.
+
+
+h3(#stash). put and get
+
+TODO
 

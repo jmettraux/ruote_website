@@ -281,6 +281,8 @@ blockquote {
 hr {
 	background: #ddd;
 	color: #ddd;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 /*
 p.quiet { color: #666; }
