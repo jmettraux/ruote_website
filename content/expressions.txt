@@ -62,7 +62,7 @@ Expressions used in debug time or that have become slightly obsolete
 
 h3(#attributes). attributes common to all expressions
 
-There is a set of "attributes common to all expressions":common_attributes.html, it includes :if, :unless, :timeout, :on_error, :on_cancel, :on_timeout and :forget
+There is a set of "attributes common to all expressions":common_attributes.html, it includes :if, :unless, :timeout, :on_error, :on_cancel, :on_timeout, :lose and :forget
 
 
 h3(#dollar). dollar notation : variable/fields extrapolation

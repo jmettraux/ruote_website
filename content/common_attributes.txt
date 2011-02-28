@@ -9,6 +9,7 @@ The attributes listed on this page may be used with any expression.
 * ":timeout":#timeout
 * ":if or :unless":#if_unless
 * ":forget":#forget
+* ":lose":#lose
 * ":on_error":#on_error
 * ":on_cancel":#on_cancel
 * ":on_timeout":#on_timeout
@@ -107,6 +108,8 @@ The :if and :unless conditions understand things like !=, ==, =~, 'is set', 'is 
 
 h3(#forget). :forget
 
+This is the attribute equivalent of the "forget":exp/forget.html expression.
+
 An expression flagged with :forget => true or :forget => 'true' gets forgotten, it is considered has having replied immediately to its parent expression, though its 'execution' is resuming independently.
 
 <pre class="brush: ruby">
@@ -128,6 +131,32 @@ It can be used for some kind of rough fire and forget concurrency :
     participant 'charly', :forget => true
   end
 </pre>
+
+
+h3(#lose). :lose
+
+This is the attribute equivalent of the "lose":exp/lose.html expression.
+
+<pre class="brush: ruby">
+  Ruote.process_definition do
+    concurrence :count => 1 do
+      alfred
+      sequence :lose => true do
+        wait '2d'
+        send_reminder_to_alfred
+        wait '2h'
+        send_alarm_to_boss
+      end
+    end
+  end
+</pre>
+
+To sum up the difference between *forget* and *lose* :
+
+|_.attribute / expression |_.replies to parent    |_.cancellable      |
+|normal expression        |as soon as job is done |yes                |
+|*forget*                 |immediately            |no (not reachable) |
+|*lose*                   |no                     |yes                |
 
 
 h3(#on_error). :on_error
