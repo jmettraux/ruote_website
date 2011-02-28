@@ -179,6 +179,17 @@ If :undo or 'undo' is passed, the branch will get cancelled and the flow will re
   end
 </pre>
 
+'retry' / :retry and 'pass' / :pass are aliases for 'redo' and 'undo' respectively.
+
+<pre class="brush: ruby">
+  sequence do
+    participant 'notify_bu', :on_error => :pass
+      # we don't care if the notification fails
+    participant 'bu_head', :on_error => :retry
+      # retry until no error
+  end
+</pre>
+
 NOTE : there are plans for making the "listen":exp/listen.html expression listen to errors, stay tuned.
 
 
