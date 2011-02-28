@@ -16,9 +16,8 @@ Provided that you have a recent version of "git":http://progit.org/book/ch1-4.ht
 <pre>
 git clone git://github.com/jmettraux/ruote.git
 cd ruote
-git checkout ruote2.1
 rake build
-gem install pkg/ruote-2.1.9.gem
+gem install pkg/ruote-2.2.0.gem
 </pre>
 
 Installing as a gem will draw in the necessary gem dependencies, except a JSON gem.
