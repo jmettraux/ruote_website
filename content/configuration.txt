@@ -272,6 +272,7 @@ The "composite" storage lets you select which storage to use for which category 
 |variables      |engine (global) variables|
 |configurations |engine configurations|
 |workitems      |"StorageParticipant":part/storage_participant.html workitems|
+|_history_      |(if you use "Ruote::StorageHistory":https://github.com/jmettraux/ruote/blob/master/lib/ruote/log/storage_history.rb)|
 
 An example where everything is handled by a FsStorage while the 'msgs' are stored in a HashStorage :
 
