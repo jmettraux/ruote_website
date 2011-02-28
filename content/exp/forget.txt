@@ -42,3 +42,10 @@ Now the equivalent process definition, but using the :forget attribute :
 
 This expression can be useful for fire-and-forget parallelism in processes.
 
+h3. forget vs lose
+
+forget : replies to parent expression immediately, is not cancellable
+(not reachable).
+
+lose : never replies to parent expression, is cancellable.
+
