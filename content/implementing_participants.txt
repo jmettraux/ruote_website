@@ -456,5 +456,7 @@ Note the use of Engine#participant(name) to fetch an instance of a participant v
 
 h3(#stash). put and get
 
-TODO
+Sometimes participant implementations need to stash data somewhere, but they can't do it in the workitem itself (visibility issues). There are the _put_ and _get_ methods available.
+
+You'll find an example at the end of this "discussion thread":http://groups.google.com/group/openwferu-users/browse_thread/thread/2e6a95708c10847b.
 
