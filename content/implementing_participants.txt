@@ -66,6 +66,8 @@ h3. methods
 * "#re_dispatch":#re_dispatch
 * "#unschedule_re_dispatch":#unschedule_re_dispatch
 
+* "#rtimeout":#rtimeout
+
 h3. helpers
 
 * "#reply_to_engine":#reply_to_engine
@@ -342,6 +344,25 @@ re_dispatch/reject makes sense too in a multi worker context where a participant
 h3(#unschedule_re_dispatch). #unschedule_re_dispatch
 
 Look at the example in the "previous section":#re_dispatch to see unschedule_re_dispatch in action.
+
+
+h3(#rtimeout). #rtimeout
+
+Usually, timeouts are given for an expression in the process definition.
+
+<pre class="brush: ruby">
+participant 'alice', :timeout => '2d'
+</pre>
+
+where alice as two days to complete her task (send back the workitem).
+
+But it's OK for participant classes registered in the engine to provide
+their own timeout value. The participant instance simply has to reply to
+the #rtimeout method and provide a meaningful timeout value (like a
+number of seconds, or a string like "2d" or "1M2w".
+
+Note however, that the process definition timeout (if any) will take
+precedence over the participant specified one.
 
 
 ***
