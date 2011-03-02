@@ -5,8 +5,6 @@ title: unregisterp expression
 h2. unregisterp
 
 
-(Since ruote 2.1.12)
-
 Unregisters a participant.
 
 <pre class="brush: ruby">
