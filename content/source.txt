@@ -17,7 +17,7 @@ Ruote's source code is located at the "github":http://github.com
 * "ruote-amqp":http://github.com/kennethkalmer/ruote-amqp/ - AMQP participants and listeners for ruote (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/) ("rdoc":/ruote-amqp_rdoc/)
 * "ruote-beanstalk":http://github.com/jmettraux/ruote-beanstalk/ - "Beanstalk":http://kr.github.com/beanstalkd/ participant and receiver, with a storage (fs_storage with Beanstalk as middleware) ("rdoc":/ruote-beanstalk_rdoc/readme_rdoc.html)
 
-* "ruote-fluo":http://github.com/jmettraux/ruote-fluo/ - some kind of a browser based editor for process definitions ("online demo":http://difference.openwfe.org:4567/?pdef=pdef.rb)
+* "ruote-fluo":http://github.com/jmettraux/ruote-fluo/ - some kind of a browser based editor for process definitions
 
 * "ruote-kit":http://github.com/tosch/ruote-kit/ - RESTish wrapper for ruote (by "Kenneth":http://opensourcery.co.za and "Torsten":http://github.com/tosch)
 
