@@ -96,6 +96,6 @@ the engine for too long, this 'do thread' policy is used by default.
 If the participant itself replies to the method #do_not_thread and replies
 positively to it, a new thread (or a next_tick) won't get used. This is
 practical for tiny participants that don't do IO and reply immediately
-(after a few operations). By default, BlockParticipant instances do not
+(after a few operations). By default, "BlockParticipant":part/block_participant.html instances do not
 thread.
 
