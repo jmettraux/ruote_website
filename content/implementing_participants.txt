@@ -179,7 +179,7 @@ class FirstParticipantImplementation
   # The next matching participant in the participant list will be consulted.
   #
   def accept?(workitem)
-    return workitem.fields['context'] == 'military'
+    workitem.fields['context'] == 'military'
   end
 end
 </pre>
