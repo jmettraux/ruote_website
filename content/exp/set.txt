@@ -81,7 +81,7 @@ becomes
 h3. set and rset
 
 Some gems (Sinatra) for example may provide a set method that hides calls
-to set when building process definitions (see http://groups.google.com/group/openwferu-users/browse_thread/thread/9ac606e30ada686e)
+to set when building process definitions (see "this thread":http://groups.google.com/group/openwferu-users/browse_thread/thread/9ac606e30ada686e)
 
 A workaround is to write 'rset' instead of 'set'.
 
