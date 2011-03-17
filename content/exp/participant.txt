@@ -33,11 +33,15 @@ workitem under a new 'params' field.
 
 Thus, with
 
-    participant :ref => 'alice', :task => 'maw the lawn', :timeout => '2d'
+<pre class="brush: ruby">
+  participant :ref => 'alice', :task => 'maw the lawn', :timeout => '2d'
+</pre>
 
 Alice will receive a workitem with a field params set to
 
-    { :ref => 'alice', :task => 'maw the lawn', :timeout => '2d' }
+<pre class="brush: ruby">
+  { :ref => 'alice', :task => 'maw the lawn', :timeout => '2d' }
+</pre>
 
 The fields named 'params' will be deleted before the workitems resumes
 in the flow (with the engine replying to the parent expression of this
