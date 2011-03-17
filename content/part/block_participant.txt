@@ -14,7 +14,7 @@ of ruby code.
   end
 </pre>
 
-This participant implicitely replies to the engine when the block execution
+This participant implicitly replies to the engine when the block execution
 is over.
 
 You can pass the flow_expression (participant expression) as well.
