@@ -50,8 +50,8 @@ Don't worry about the participant implementation mixing the workitems,
 
 <pre class="brush: ruby">
   concurrence do
-    participant 'reporter 1', :activity => 'gather info on accident site'
-    participant 'reporter 2', :activity => 'gather info about customer'
+    participant 'reporter 1', :task => 'gather info on accident site'
+    participant 'reporter 2', :task => 'gather info about customer'
   end
 </pre>
 
