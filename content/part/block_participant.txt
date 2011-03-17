@@ -23,7 +23,6 @@ You can pass the flow_expression (participant expression) as well.
   engine.register_participant :alpha do |workitem, flow_exp|
     workitem.fields['amount'] = flow_exp.lookup_variable('amount')
   end
-
 </pre>
 
 h3. do_not_thread
