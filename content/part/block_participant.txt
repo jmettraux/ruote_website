@@ -32,7 +32,7 @@ By default, this participant (like most other participants) is executed
 in its own thread (in a Ruby runtime where EventMachine is running,
 EM.next_tick is used instead of a new thread).
 
-You can change that behaviour (beware block thats monopolises the whole
+You can change that behaviour (beware block thats monopolizes the whole
 engine !) by doing
 
 <pre class="brush: ruby">
