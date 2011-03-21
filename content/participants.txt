@@ -38,7 +38,7 @@ Participant implementations are usually bound in the engine when it is started. 
   engine.register_participant 'reporter 1', Ruote::StorageParticipant
 </pre>
 
-Here, the participant named "reporter 1" is registered in the engine. We trust the engine with the actual instantiation and thus pass only the class : Ruote::Dm::DmParticipant (yes, it's a ruote-dm DataMapper participant, the workitem will be placed in a database)
+Here, the participant named "reporter 1" is registered in the engine. We trust the engine with the actual instantiation and thus pass only the class : Ruote::StorageParticipant (this participant implementation places workitems in the storage).
 
 In order to avoid writing too much code for binding participants, it's OK to leverage <strong>regular expressions</strong>. Here is something that can cope with 'reporter 1' and 'reporter 2' and many more :
 
