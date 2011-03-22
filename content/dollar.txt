@@ -46,7 +46,7 @@ Ruote.process_definition :name => 'loan_approval', :revision => '1' do
   cursor do
     participant 'planning team'
     concurrence do
-      participant 'ceo' :if => '${f:total} > 100000' do
+      participant 'ceo', :if => '${f:total} > 100000'
       participant 'cfo'
     end
     rewind :unless => '${f:approved}'
@@ -55,7 +55,7 @@ Ruote.process_definition :name => 'loan_approval', :revision => '1' do
 end
 </pre>
 
-In this first example process definition, there are two fields visible from the process definition : 'total' and 'approved'. The total has been determined by the planning team, while the 'approved' field will be set by the cfo (and perhaps the ceo).
+In this first example process definition, there are two fields visible from the process definition: 'total' and 'approved'. The total has been determined by the planning team, while the 'approved' field will be set by the cfo (and perhaps the ceo).
 
 Note that if the total is superior to 100'000, the ceo, concurrently with the cfo, will receive a workitem. Thus the workitem (and its fields) will get duplicated, one copy for each concurrence branch. Process variables never get "cloned" in this way.
 
@@ -64,7 +64,7 @@ Ruote.process_definition :name => 'loan_approval', :revision => '2' do
   cursor do
     participant 'planning team'
     concurrence do
-      participant 'ceo' :if => '${v:supervised}' do
+      participant 'ceo', :if => '${v:supervised}'
       participant 'cfo'
     end
     rewind :unless => '${f:approved}'
