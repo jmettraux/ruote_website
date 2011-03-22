@@ -106,7 +106,7 @@ Warning : as explained cancelling a process or a branch of a process isn't insta
 
 h4(#on_cancel). on_cancel
 
-Most of the time, the process definition attempts to model the "happy path", the process as it occurs 95% of the time. One may want to go a step further and incclude provisions for errors (see "on_error":#on_error) and for cancellations.
+Most of the time, the process definition attempts to model the "happy path", the process as it occurs 95% of the time. One may want to go a step further and include provisions for errors (see "on_error":#on_error) and for cancellations.
 
 <pre class="brush: ruby">
   Ruote.process_definition do
