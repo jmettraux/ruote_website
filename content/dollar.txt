@@ -13,7 +13,7 @@ Most of the examples feature plainly named participant like
   end
 </pre>
 
-but the real world is more dynamic :
+but the real world is more dynamic:
 
 <pre class="brush: ruby">
   sequence do
@@ -35,7 +35,7 @@ Not all dollar substitutions result in a string, there is a technique for pointi
 
 h3. variables and workitem fields
 
-Two types of data are available to process instances : process variables and workitem fields.
+Two types of data are available to process instances: process variables and workitem fields.
 
 The most visible type is workitem fields. Each workitem has a dictionary of fields as payload. Workitem and their fields are visible to the participants (ie outside of the workflow engine itself).
 
@@ -97,7 +97,7 @@ In ruote 2.1, the following two process definitions are equivalent:
 
 h3(#deep). deep lookup (composite keys)
 
-Imagine you have this process definition :
+Imagine you have this process definition:
 
 <pre class="brush: ruby">
 Ruote.process_definition :name => 'contract preparation' do
@@ -121,7 +121,7 @@ It's OK to use dots and key names or integer indexes to look deep inside of a fi
 
 h3(#initial). initial fields and initial variables
 
-Looking at the "above example":#deep, one thing should be clear : our customer information is hardcoded in the business process.
+Looking at the "above example":#deep, one thing should be clear: our customer information is hardcoded in the business process.
 
 Why not remove it?
 
@@ -202,7 +202,7 @@ wfid = engine.launch(pdef)
 engine.wait_for(wfid)
 </pre>
 
-will emit to the standard output something like :
+will emit to the standard output something like:
 
 <pre>
 fei       : 0_0_0!!20100407-bipopopizu
@@ -216,7 +216,7 @@ These are not the content of the fields @fei@, @wfid@, @expid@, @subid@. It's th
 
 The @fei@ is a compound of the three others.
 
-This technique can be used in various ways. Here is an example :
+This technique can be used in various ways. Here is an example:
 
 <pre class="brush: ruby">
 Ruote.process_definition :name => 'new batch' do
@@ -304,14 +304,14 @@ Ruote tries is best to prevent dangerous operations from happening whithin the @
 
 The Ruby code within @${r:xxx}@ has access to
 
-* <strong>flow_expression, fe, fexp</strong> : the FlowExpression itself
-* <strong>fei</strong> : the id of the FlowExpression
-* <strong>workitem, wi</strong> : the workitem
-* <strong>engine_id</strong> : the id of the engine
-* <strong>d()</strong> : a way to bring back regular dollar substitution inside of ${r:...}
-* <strong>"method_missing"</strong> : a shortcut to workitem fields
+* <strong>flow_expression, fe, fexp</strong>: the FlowExpression itself
+* <strong>fei</strong>: the id of the FlowExpression
+* <strong>workitem, wi</strong>: the workitem
+* <strong>engine_id</strong>: the id of the engine
+* <strong>d()</strong>: a way to bring back regular dollar substitution inside of ${r:...}
+* <strong>"method_missing"</strong>: a shortcut to workitem fields
 
-Here is a potpourri of those :
+Here is a potpourri of those:
 
 <pre class="brush: ruby">
 require 'rubygems'
