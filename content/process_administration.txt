@@ -14,7 +14,7 @@ Deciding whether an exception (error, timeout, ...) is dealt explicitely in the 
 
 This page is about manipulating process instances.
 
-Here is the span of possible actions :
+Here is the span of possible actions:
 
 * "querying":#query the engine about running process instances. Not an action, rather an observation
 
@@ -38,13 +38,13 @@ Here is the span of possible actions :
 
 h3(#query). querying the engine about running process instances
 
-To list all the processes currently running in the engine ("rdoc":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#processes-instance_method) :
+To list all the processes currently running in the engine ("rdoc":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#processes-instance_method):
 
 <pre class="brush: ruby">
   statuses = engine.processes
 </pre>
 
-To query about a process, known by its @wfid@ (workflow instance id) ("rdoc":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#process-instance_method) :
+To query about a process, known by its @wfid@ (workflow instance id) ("rdoc":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#process-instance_method):
 
 <pre class="brush: ruby">
   status = engine.process(wfid)
@@ -60,19 +60,19 @@ Cancelling is about terminating the execution of a process instance or of a bran
 
 Cancelling cannot occur in one operation. The engine traverses the tree of execution and cancels alive expressions one by one. Active participants receive a cancel message indicating which the id of the workitem to cancel.
 
-h4(#cancelling_process). cancelling : process instances
+h4(#cancelling_process). cancelling: process instances
 
 <pre class="brush: ruby">
   engine.cancel_process(wfid)
 </pre>
 
-Warning : as explained cancelling a process or a branch of a process isn't instantaneous.
+Warning: as explained cancelling a process or a branch of a process isn't instantaneous.
 
-h4(#cancelling_expression). cancelling : expressions
+h4(#cancelling_expression). cancelling: expressions
 
 Perhaps, the most common use case for "cancelling an expression" is cancelling a participant expression.
 
-Let's say you have this process :
+Let's say you have this process:
 
 <div style="width: 100%; position: relative;">
 <pre class="brush: ruby">
@@ -91,7 +91,7 @@ Let's say you have this process :
 
 For some reason, this process was triggered for an online product, which was downloaded successfully. The delivery is not necessary, but the delivery participant has already received the workitem for this process instance.
 
-Cancelling the delivery participant expression would let the flow continue to "accounting". Programmatically that would look like :
+Cancelling the delivery participant expression would let the flow continue to "accounting". Programmatically that would look like:
 
 <pre class="brush: ruby">
   status = engine.process(wfid)
@@ -101,7 +101,7 @@ Cancelling the delivery participant expression would let the flow continue to "a
   engine.cancel_expression(exp.fei)
 </pre>
 
-Warning : as explained cancelling a process or a branch of a process isn't instantaneous.
+Warning: as explained cancelling a process or a branch of a process isn't instantaneous.
 
 
 h4(#on_cancel). on_cancel
@@ -118,7 +118,7 @@ Most of the time, the process definition attempts to model the "happy path", the
   end
 </pre>
 
-In this process definition, if the process or the sequence gets cancelled, the 'admin' subprocess (or the participant 'admin') will be applied (or simply receive a workitem).
+In this process definition, if the process or the sequence gets cancelled, the @admin@ subprocess (or the participant @admin@) will be applied (or simply receive a workitem).
 
 More info about "@on_cancel@":common_attributes.html#on_cancel.
 
@@ -239,7 +239,7 @@ engine.wait_for(wfid)
 </pre>
 (gist at "http://gist.github.com/485559":http://gist.github.com/485559)
 
-This self-containing example will output :
+This self-containing example will output:
 
 <pre>
 * alpha
@@ -260,7 +260,7 @@ When re_applying, the workitem used for the @re_apply@ is the one used to origin
 
 The re_apply method accepts the @:fields@ and @:merge_in_fields@ options. @:fields@ completely changes the workitem payload used for the @re_apply@, while the @:merge_in_fields@, allows to add new fields to the workitem payload.
 
-A few examples :
+A few examples:
 
 <pre class="brush: ruby">
 engine.re_apply(fei, :fields => { 'customer' => 'Alfred' })
@@ -283,7 +283,7 @@ Each time a process encounters an error (most likely in a participant implementa
 
 If a process is in two concurrent branches, only the execution of the branch with the error will stop. A process instance can have as many errors has it has concurrent branches.
 
-Here is a program that runs a process with a unreliable participant :
+Here is a program that runs a process with a unreliable participant:
 
 <pre class="brush: ruby">
 require 'rubygems'
@@ -313,25 +313,25 @@ engine.wait_for(wfid)
   # blocks until the process terminates or gets into an error
 
 err = engine.process(wfid).errors.first
-puts "intercepted an error : #{err.message}..."
+puts "intercepted an error: #{err.message}..."
 </pre>
 
 It's possible to query the engine about the status of a process instance and its errors.
 
-Once a process got into an error, there are 3 possibilities :
+Once a process got into an error, there are 3 possibilities:
 
 * "cancel":#errors_cancel_whole_process the whole process
 * "cancel the branch":#errors_cancel of the process that is in error
 * fix the cause and "replay":#errors_replay at the error
 
-plus one that has to be prepared in advance :
+plus one that has to be prepared in advance:
 
 * having acknowledged that such an error might occur, set an "@:on_error@":#errors_on_error attribute on the branch where the error might occur
 
 Which possibility to use depends on your process and context.
 
 
-h4(#errors_cancel_whole_process). errors : cancelling the whole process
+h4(#errors_cancel_whole_process). errors: cancelling the whole process
 
 The car won't start ? Let's dump it.
 
@@ -340,9 +340,9 @@ The car won't start ? Let's dump it.
 </pre>
 
 
-h4(#errors_cancel). errors : cancelling
+h4(#errors_cancel). errors: cancelling
 
-First variant, cancelling at the error point :
+First variant, cancelling at the error point:
 
 <pre class="brush: ruby">
   ps = engine.process(wfid)
@@ -353,7 +353,7 @@ This will make the flow resume right after the expression in error.
 
 Second variant, cancelling upstream. It sounds nice but it actually requires knowledge of the process definition.
 
-Consider this process definition :
+Consider this process definition:
 
 <pre class="brush: ruby">
   Ruote.process_definition do
@@ -375,9 +375,9 @@ Without looking at the process definition and knowing the participants involved,
 This alpha-bravo-charly example is expanded at "https://github.com/jmettraux/ruote/blob/ruote2.1/snips/where_to_cancel.rb":https://github.com/jmettraux/ruote/blob/ruote2.1/snips/where_to_cancel.rb
 
 
-h4(#errors_replay). errors : replaying
+h4(#errors_replay). errors: replaying
 
-Launching a process, intercepting the error, fixing its cause and replaying :
+Launching a process, intercepting the error, fixing its cause and replaying:
 
 <pre class="brush: ruby">
 require 'rubygems'
@@ -409,7 +409,7 @@ wfid = engine.launch(pdef)
 engine.wait_for(wfid)
 
 err = engine.process(wfid).errors.first
-puts "intercepted an error : #{err.message}... fixing..."
+puts "intercepted an error: #{err.message}... fixing..."
 
 $mode = :success
   # fixing the cause of the error
