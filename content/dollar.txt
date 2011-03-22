@@ -147,7 +147,7 @@ ruote_engine.launch(
 The signature for the launch method looks like
 
 <pre class="brush: ruby">
-def launch (process_definition, fields={}, variables={})
+def launch(process_definition, fields={}, variables={})
 </pre>
 
 Fields are the initial fields (payload) of the workitem and variables are the initial variables at the root of the process instance getting launched.
