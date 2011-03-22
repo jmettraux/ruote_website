@@ -78,7 +78,7 @@ In that example, if the process variable "supervised" is set to true, the ceo wi
 
 h3(#default). by default ${key} points to the field 'key'
 
-For ruote 2.1, this two process definitions are equivalent :
+For ruote 2.1, these two process definitions are equivalent:
 
 <pre class="brush: ruby">
   sequence do
