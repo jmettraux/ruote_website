@@ -173,7 +173,7 @@ end
 </pre>
 
 
-h3(#wfid). @${fei}@, @${wfid}@, @${subid}@ and @${expid}@
+h3(#wfid). @${fei}@, @${wfid}@, @${subid}@, @${expid}@, and @${engine_id}@
 
 This tiny program:
 
@@ -193,7 +193,7 @@ pdef = Ruote.process_definition do
     echo 'wfid      : ${wfid}'
     echo 'expid     : ${expid}'
     echo 'subid     : ${subid}'
-    echo 'engine_id : ${subid}'
+    echo 'engine_id : ${engine_id}'
   end
 end
 
