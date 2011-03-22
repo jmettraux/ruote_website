@@ -131,7 +131,7 @@ Processes (and expressions) can be cancelled or they can be killed. Killing look
 
 h3(#re_applying). re_applying
 
-The "Engine#re_apply(fei, options)":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#method-i-re_apply method cancels and expression and re_applies. It has a few options for dealing with some process repair tasks.
+The "Engine#re_apply(fei, options)":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#method-i-re_apply method cancels an expression and re_applies. It has a few options for dealing with some process repair tasks.
 
 Most of the technique described here are tested in ruote's "ft_14_re_apply.rb":http://github.com/jmettraux/ruote/blob/ruote2.1/test/functional/ft_14_re_apply.rb
 
