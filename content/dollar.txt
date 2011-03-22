@@ -173,9 +173,9 @@ end
 </pre>
 
 
-h3(#wfid). ${fei}, ${wfid}, ${subid} and ${expid}
+h3(#wfid). @${fei}@, @${wfid}@, @${subid}@ and @${expid}@
 
-This tiny program :
+This tiny program:
 
 <pre class="brush: ruby">
 require 'rubygems'
@@ -231,7 +231,7 @@ end
 The field @batch_id@ is set to something like @batch--20100407-barakuraba@.
 
 
-h3(#literally). '$x', '$f:x', '$v:y'
+h3(#literally). @$x@, @$f:x@, @$v:y@
 
 (available since ruote 2.2.0)
 
@@ -274,7 +274,7 @@ end
 </pre>
 
 
-h3(#ruby_eval_allowed). 'ruby_eval_allowed'
+h3(#ruby_eval_allowed). @ruby_eval_allowed@
 
 When the engine is "configured":configuration.html#engine with 'ruby_eval_allowed' => true, which boils down to
 
