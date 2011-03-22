@@ -24,11 +24,11 @@ but the real world is more dynamic :
 
 In that mini process definition, the workitem is routed from the patient to the doctor. The actual participant name is held in the workitem field "patient" and then in the field named "doctor". Since it's a sequence, the value in the field doctor could have been set by the patient.
 
-The prefix 'f' comes for 'field', as in workitem field.
+The prefix @f@ comes for @field@, as in workitem field.
 
-This "dollar notation" scans strings in process definition for ${...} constructs and substitutes them for their workitem field or process variable value.
+This "dollar notation" scans strings in process definition for @${...}@ constructs and substitutes them for their workitem field or process variable value.
 
-If "'ruby_eval_allowed'":#ruby_eval_allowed is set to true, ${r:code} will evaluate (after a security check) the code and place the result in the target string.
+If "@ruby_eval_allowed@":#ruby_eval_allowed is set to true, @${r:code}@ will evaluate (after a security check) the code and place the result in the target string.
 
 Not all dollar substitutions result in a string, there is a technique for pointing a field or variable values "literally":#literally.
 
@@ -39,7 +39,7 @@ Two types of data are available to process instances : process variables and wor
 
 The most visible type is workitem fields. Each workitem has a dictionary of fields as payload. Workitem and their fields are visible to the participants (ie outside of the workflow engine itself).
 
-Process variables are not communicated outside of the engine (except if the "set":exp/set.html expression is used to copy a variable to a field). Variables are mainly used for routing decisions inside the process instance.
+Process variables are not communicated outside of the engine (except if the "@set@":exp/set.html expression is used to copy a variable to a field). Variables are mainly used for routing decisions inside the process instance.
 
 <pre class="brush: ruby">
 Ruote.process_definition :name => 'loan_approval', :revision => '1' do
@@ -73,7 +73,7 @@ Ruote.process_definition :name => 'loan_approval', :revision => '2' do
 end
 </pre>
 
-In that example, if the process variable "supervised" is set to true, the ceo will have his say in the iterations. The information about whether or not the process instance is supervised is not passed to participants (well obviously the ceo will know).
+In that example, if the process variable "supervised" is set to @true@, the ceo will have his say in the iterations. The information about whether or not the process instance is supervised is not passed to participants (well obviously the ceo will know).
 
 
 h3(#default). by default ${key} points to the field 'key'
@@ -116,14 +116,14 @@ Ruote.process_definition :name => 'contract preparation' do
 end
 </pre>
 
-It's OK to use dots and key names or integer indexes to look deep inside of a field or a variable (${v:partner.address.city}).
+It's OK to use dots and key names or integer indexes to look deep inside of a field or a variable (@${v:partner.address.city}@).
 
 
 h3(#initial). initial fields and initial variables
 
 Looking at the "above example":#deep, one thing should be clear : our customer information is hardcoded in the business process.
 
-Why not remove it ?
+Why not remove it?
 
 <pre class="brush: ruby">
 pdef = Ruote.process_definition :name => 'contract preparation' do
@@ -136,7 +136,7 @@ pdef = Ruote.process_definition :name => 'contract preparation' do
 end
 </pre>
 
-and pass the information in due time, i.e. at launch time ?
+and pass the information in due time, i.e. at launch time?
 
 <pre class="brush: ruby">
 ruote_engine.launch(
@@ -212,9 +212,9 @@ subid     : 2cf8837dec6eda1f5da484a2a5bb4bc5
 engine_id : engine
 </pre>
 
-These are not the content of the fields 'fei', 'wfid', 'expid', 'subid'. It's the flow expression id, the workflow instance id, the expression id and the sub workflow instance id.
+These are not the content of the fields @fei@, @wfid@, @expid@, @subid@. It's the flow expression id, the workflow instance id, the expression id and the sub workflow instance id.
 
-The 'fei' is a compound of the three others.
+The @fei@ is a compound of the three others.
 
 This technique can be used in various ways. Here is an example :
 
@@ -228,7 +228,7 @@ Ruote.process_definition :name => 'new batch' do
 end
 </pre>
 
-The field 'batch_id' is set to something like 'batch--20100407-barakuraba'.
+The field @batch_id@ is set to something like @batch--20100407-barakuraba@.
 
 
 h3(#literally). '$x', '$f:x', '$v:y'
@@ -248,7 +248,7 @@ end
 
 Note the lack of curly brackets (and the single reference). This literal technique only works with when the final substitution is of the form "^\$[^{}:]+$".
 
-No substitution will occur :
+No substitution will occur:
 
 <pre class="brush: ruby">
 Ruote.process_definition do
@@ -284,7 +284,7 @@ engine = Ruote::Engine.new(
     Ruote::HashStorage.new('ruby_eval_allowed' => true)))
 </pre>
 
-a special (and dangerous) 'r' or 'ruby' prefix gets unlocked.
+a special (and dangerous) @r@ or @ruby@ prefix gets unlocked.
 
 <pre class="brush: ruby">
 Ruote.process_definition :name => 'new batch' do
@@ -300,9 +300,9 @@ end
 
 This process definition calls to methods from the Operations module, one to generate a batch id and the second to check if transports are available.
 
-Ruote tries is best to prevent dangerous operations from happening whithin the ${r:xxx} envelope, but beware ! Especially if your process definitions are loaded from untrusted sources.
+Ruote tries is best to prevent dangerous operations from happening whithin the @${r:xxx}@ envelope, but beware! Especially if your process definitions are loaded from untrusted sources.
 
-The Ruby code within ${r:xxx} has access to
+The Ruby code within @${r:xxx}@ has access to
 
 * <strong>flow_expression, fe, fexp</strong> : the FlowExpression itself
 * <strong>fei</strong> : the id of the FlowExpression
