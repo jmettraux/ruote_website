@@ -6,7 +6,7 @@ h2. [business] process administration
 
 The model of a business process usually focuses on a "happy path", everything happening according to the plan.
 
-A few alternative paths may be added explicitely. Provisions for errors and timeouts may explicitely be added, thanks to ":on_error":common_attributes.html#on_error and ":on_timeout":common_attributes.html#on_timeout.
+A few alternative paths may be added explicitely. Provisions for errors and timeouts may explicitely be added, thanks to "@:on_error@":common_attributes.html#on_error and "@:on_timeout@":common_attributes.html#on_timeout.
 
 Sometimes, this is not enough. Processes may fall into errors, may stall (a participant reply got lost and there is no timeout) or they may simply become obsolete due to changes in their context.
 
@@ -44,7 +44,7 @@ To list all the processes currently running in the engine ("rdoc":http://ruote.r
   statuses = engine.processes
 </pre>
 
-To query about a process, known by its "wfid" (workflow instance id) ("rdoc":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#process-instance_method) :
+To query about a process, known by its @wfid@ (workflow instance id) ("rdoc":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#process-instance_method) :
 
 <pre class="brush: ruby">
   status = engine.process(wfid)
@@ -106,7 +106,7 @@ Warning : as explained cancelling a process or a branch of a process isn't insta
 
 h4(#on_cancel). on_cancel
 
-Most of the time, the process definition attempts to model the "happy path", the process as it occurs 95% of the time. One may want to go a step further and include provisions for errors (see "on_error":#on_error) and for cancellations.
+Most of the time, the process definition attempts to model the "happy path", the process as it occurs 95% of the time. One may want to go a step further and include provisions for errors (see "@on_error@":#on_error) and for cancellations.
 
 <pre class="brush: ruby">
   Ruote.process_definition do
@@ -120,18 +120,18 @@ Most of the time, the process definition attempts to model the "happy path", the
 
 In this process definition, if the process or the sequence gets cancelled, the 'admin' subprocess (or the participant 'admin') will be applied (or simply receive a workitem).
 
-More info about "on_cancel":common_attributes.html#on_cancel.
+More info about "@on_cancel@":common_attributes.html#on_cancel.
 
 
 h4(#killing). killing vs cancelling
 
-Processes (and expressions) can be cancelled or they can be killed. Killing looks much like cancelling, except that any "on_cancel":common_attributes.html#on_cancel will be ignored.
+Processes (and expressions) can be cancelled or they can be killed. Killing looks much like cancelling, except that any "@on_cancel@":common_attributes.html#on_cancel will be ignored.
 
 ***
 
 h3(#re_applying). re_applying
 
-The "Engine#re_apply(fei, options)":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#method-i-re_apply method cancels an expression and re_applies. It has a few options for dealing with some process repair tasks.
+The "@Engine#re_apply(fei, options)@":http://ruote.rubyforge.org/rdoc/Ruote/Engine.html#method-i-re_apply method cancels an expression and re_applies. It has a few options for dealing with some process repair tasks.
 
 Most of the technique described here are tested in ruote's "ft_14_re_apply.rb":http://github.com/jmettraux/ruote/blob/ruote2.1/test/functional/ft_14_re_apply.rb
 
@@ -140,7 +140,7 @@ h4(#re_applying_stalled). re_applying a stalled [participant] expression
 
 Sometimes participants don't reply and the participant expression that emitted the workitem to them is stuck waiting. Or simply the engine could have been down when the participant answer came and the answer got lost.
 
-With a 're_apply', it's possible to re-apply the delivery and hopefully restart the interaction (though that could ultimately depend on the participant implementation).
+With a @re_apply@, it's possible to re-apply the delivery and hopefully restart the interaction (though that could ultimately depend on the participant implementation).
 
 <pre class="brush: ruby">
   pdef = Ruote.process_definition do
@@ -170,7 +170,7 @@ h4(#re_applying_tree). re_applying a process branch that went wrong
 
 If a process branch went wrong, it's sometimes necessary to redo it.
 
-Some process developers like to include those "something went wrong" paths as extension to the happy path and they use the "cursor":exp/cursor.html expression with some 'rewind' magic. But sometimes it's really necessary to rewind/redo manually.
+Some process developers like to include those "something went wrong" paths as extension to the happy path and they use the "@cursor@":exp/cursor.html expression with some @rewind@ magic. But sometimes it's really necessary to rewind/redo manually.
 
 <pre class="brush: ruby">
 require 'rubygems'
@@ -251,14 +251,14 @@ re_applying...
 * alpha
 </pre>
 
-The key here is the :tree option passed to re_apply, it gives that has to be applied instead of the target expression.
+The key here is the @:tree@ option passed to re_apply, it gives that has to be applied instead of the target expression.
 
 
 h4(#re_applying_fields). re_applying and changing the [workitem] fields
 
-When re_applying, the workitem used for the re_apply is the one used to originally apply.
+When re_applying, the workitem used for the @re_apply@ is the one used to originally apply.
 
-The re_apply method accepts the :fields and :merge_in_fields options. :fields completely changes the workitem payload used for the re_apply, while the :merge_in_fields, allows to add new fields to the workitem payload.
+The re_apply method accepts the @:fields@ and @:merge_in_fields@ options. @:fields@ completely changes the workitem payload used for the @re_apply@, while the @:merge_in_fields@, allows to add new fields to the workitem payload.
 
 A few examples :
 
@@ -326,7 +326,7 @@ Once a process got into an error, there are 3 possibilities :
 
 plus one that has to be prepared in advance :
 
-* having acknowledged that such an error might occur, set an ":on_error":#errors_on_error attribute on the branch where the error might occur
+* having acknowledged that such an error might occur, set an "@:on_error@":#errors_on_error attribute on the branch where the error might occur
 
 Which possibility to use depends on your process and context.
 
@@ -368,7 +368,7 @@ Consider this process definition :
   end
 </pre>
 
-If an error occurred at 'charly', you could cancel at charly directly, or the sequence, or the concurrence.
+If an error occurred at @charly@, you could cancel at @charly@ directly, or the sequence, or the concurrence.
 
 Without looking at the process definition and knowing the participants involved, it's hard to cancel "upstreams".
 
@@ -425,7 +425,7 @@ p engine.process(wfid)
 
 h4(#errors_on_error). on_error
 
-The ":on_error attribute":http://localhost:4331/common_attributes.html#on_error is explained in the "common attributes" page.
+The "@:on_error@ attribute":http://localhost:4331/common_attributes.html#on_error is explained in the "common attributes" page.
 
 (isn't prevention of errors better than dealing with them automatically ?)
 
