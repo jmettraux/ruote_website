@@ -13,7 +13,7 @@ Ruote turns process definitions into an abstract syntax tree (a 'tree' for short
 A process definition contains 1 main process definition and may contain 1 or more sub-process definitions. For example.
 
 <pre class="brush: ruby">
-  Ruote.process_definition :name => 'test'
+  Ruote.process_definition :name => 'test' do
     sequence do
       subprocess :ref => 'analysis'
       subprocess :ref => 'publication'
