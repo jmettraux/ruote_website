@@ -6,6 +6,8 @@ h2. source
 
 Ruote's source code is located at the "github":http://github.com
 
+The repositories listed here are supposed to be the original ones. Others are forks. In other words, the gems are generated from the repositories enumerated here.
+
 * "ruote":http://github.com/jmettraux/ruote/ - the workflow engine ("rdoc":/rdoc/README_rdoc.html)
 
 * "ruote-dm":http://github.com/jmettraux/ruote-dm/ - "DataMapper":http://datamapper.org based persistence ("rdoc":/ruote-dm_rdoc/README_rdoc.html)
