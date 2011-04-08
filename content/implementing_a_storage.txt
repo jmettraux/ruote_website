@@ -4,7 +4,7 @@ title: implementing a storage
 
 h2. implementing a storage
 
-Ruote comes with two storages an in-memory one and a file system based one. There are "other storages available":http://localhost:4331/configuration.html#storage each with its set of advantages and disadvantages.
+Ruote comes with two storages an in-memory one and a file system based one. There are "other storages available":/configuration.html#storage each with its set of advantages and disadvantages.
 
 There is also a composite storage for choosing a different storage depending on the object to store (expression, workitem, error, schedules, ...).
 
