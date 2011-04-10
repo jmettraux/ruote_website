@@ -18,6 +18,7 @@ h3. participants found in ruote
 * "Ruote::SmtpParticipant":part/smtp_participant.html - a base for more elaborate email participants
 * "Ruote::EngineParticipant":part/engine_participant.html - a bridge to launch [segments of] processes on other ruote engines
 * "Ruote::StorageParticipant":part/storage_participant.html - storing the workitems in the engine storage
+* "Ruote::RevParticipant":part/rev_participant.html - (since ruote 2.2.1) exploring versions/revisions of workflows and participants
 
 
 h3. other participants

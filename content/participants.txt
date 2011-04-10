@@ -6,9 +6,6 @@ h2. participants
 
 Participants are handed workitems by the ruote engine and are expected to perform a task with them. Usually, some piece of information found in the payload of the workitem defines what/which task should be performed.
 
-
-h3. participants as abstractions
-
 <pre class="brush: ruby">
   Ruote.process_definition :name => 'accident investigation case' do
     sequence do
@@ -27,12 +24,78 @@ Note that no information about the actual details of the participants are leakin
 
 Nothing was specified about how workitems are to be dispatched to participants. Does it occur via SMTP ? Via a webhook ? Is the workitem placed in a database for consultation by the real participants ? Is the workitem printed and sent tied to a pigeon carrier ? The process definition yields no clue about that.
 
+How this page flows :
 
-h3. registering participants
+* "registering participants":#registering : get the engine to know about them
+** "how participants are resolved":#resolution : order matters
+** "engine#register_participant":#r_participant : the original way of registering participants
+** "engine#register(&block)":#r_block : a nice notation brought by "Torsten":https://github.com/tosch
+** "engine#participant_list=":#r_list : registering participants as a list (very similar to using the register(&block) method
+* "participants and threads":#threads : should ruote create a thread for each participant dispatch ?
+
+***
+
+
+h3(#registering). registering participants
 
 Process definitions are in most cases pointed at to the engine right at the launch time. The engine parses the definition and creates a process instance.
 
 Participant implementations are usually bound in the engine when it is started. The term is to "register a participant in the engine". The engine is then equipped with a directory of participants that it looks up by name when a participant expression is applied, signifying that its workitem has to be despatched to a real participant.
+
+A bit of history, initially OpenWFE had no participant registration. The participant list was an XML document mapping regular expression to participant implementation. When porting OpenWFE to ruby, I went for the simple Engine#register_participant method, with a participant list held in memory.
+
+Now since ruote 2.1, its multiple workers and engines sharing a storage, the participant list is persisted as well. That means that registering participant once is sufficient, that also means you could have "leftovers", participants registered but not more needed.
+
+Two techniques against leftovers : register only the first time (when the participant list is empty) or register all at once (see "Engine#participant_list=":#r_list a few paragraphs below)
+
+Here are the methods available to register participants :
+
+|_.method|_.notes|_.warning|
+|"engine#register_participant":#r_participant|registers one by one||
+|"engine#register(&block)":#r_block|registers in one go, clears previous list (unless :clear => false)||
+|"engine#participant_list=":#r_list|registers in one go, clears previous list|low-level|
+
+Probably, if you have a "static" list of participants, "engine#register(&block)":#r_block is the best way. If you add participants here and there "engine#register_participant":#r_participant might be OK, unless you want more control, implement some business logic for adding participants that wraps "engine#participant_list=":#r_list.
+
+h4(#resolution). how participants are resolved (looked up)
+
+The participants are registered in a list.
+
+When ruote has to deliver work to a participant, it looks it up in the participant list, starting with the first entry whose regular expression matches the participant name.
+
+<pre class="brush: ruby">
+  engine.register_participant 'user_alice', Acme::ThisParticipant
+  engine.register_participant /^user_/, Acme::ThatParticipant
+
+  pdef = Ruote.process_definition do
+    user_alice
+    user_bob
+  end
+
+  engine.launch(pdef)
+</pre>
+
+Thus user_alice will be handled by Acme::ThisParticipant, while user_bob will be handled by Acme::ThatParticipant.
+
+The "accept?":implementing_participants.html#accept method of the participant, if present, plays its role. Thus
+
+<pre class="brush: ruby">
+  class Acme::ThisParticipant
+    include Ruote::LocalParticipant
+    def consume(workitem)
+      # ...
+    end
+    def accept?(workitem)
+      workitem.fields['domain'] == 'marketing'
+    end
+  end
+</pre>
+
+Alice workitems will only be handled by Acme::ThisParticipant if they are for the 'marketing' domain, if not they are handled by Acme::ThatParticipant (as specified when registering).
+
+h4(#r_participant). engine#register_participant
+
+The first way to register participants in ruote is to call the engine's register_participant method.
 
 <pre class="brush: ruby">
   engine.register_participant 'reporter 1', Ruote::StorageParticipant
@@ -57,17 +120,59 @@ Don't worry about the participant implementation mixing the workitems,
 
 in our example, the attribute 'participant' of the top workitem while be 'reporter 1' vs 'reporter 2' for the bottom one, though the same participant implementation consumed the workitem.
 
+*NOTE* : by default, engine#register_participant will delete any previously registered participant with the same regex and place the new participant at the end of the list.
 
-h4(#storage). the storage and the registered participants
+Thus
 
-A bit of history, initially OpenWFE had no participant registration. The participant list was an XML document mapping regular expression to participant implementation. When porting OpenWFE to ruby, I went for the simple Engine#register_participant method, with a participant list held in memory.
+<pre class="brush: ruby">
+  engine.register_participant 'engineering', Ruote::StorageParticipant
+  engine.register_participant 'marketing', Ruote::StorageParticipant
 
-Now with ruote 2.1, its multiple workers and engines sharing a storage, the participant list is persisted as well. That means that registering participant once is sufficient, that also means you could have "leftovers", participants registered but not more needed.
+  # and then later ...
 
-Two techniques against leftovers : register only the first time (when the participant list is empty) or register all at once (see "Engine#participant_list=":#list a few paragraphs below)
+  engine.register_participant 'engineering', Acme::EngineerParticipant
+</pre>
+
+results in a participant list with 2 participants, 'marketing' then 'engineering'.
+
+The :position option may help :
+
+<pre class="brush: ruby">
+  engine.register_participant 'alice', Acme::Participant
+
+  engine.register_participant 'bob', Acme::Participant, :position => 'first'
+    # will register bob before alice
+
+  engine.register_participant 'charly', Acme::Participant, :pos => 1
+    # will register charly between bob and alice
+</pre>
+
+If you don't want to override previous participants with the same regex, you can use the :override => false option or :position => 'after' or 'before'
+
+<pre class="brush: ruby">
+  engine.register_participant 'alice', Acme::ThisParticipant
+  engine.register_participant 'alice', Acme::ThatParticipant, :override => false
+    # will result in a participant list with two participants registerd under
+    # /^alice$/
+</pre>
+
+<pre class="brush: ruby">
+  engine.register_participant 'alice', Acme::ThisParticipant
+  engine.register_participant 'alice', Acme::ThatParticipant, :pos => 'before'
+    # will register the second /^alice$/ before the first one
+    # (the Acme::ThisParticipant one)
+
+  engine.register_participant 'alice', Acme::ThereParticipant, :pos => 'after'
+    # will register the third /^alice$/ after the last one of the alices
+    # (in this case Acme::ThisParticipant one)
+</pre>
+
+Having multiple registrations for the same regex is useful when using the "#accept?":implementing_participants.html#accept method of participant implementations.
+
+It's probably simpler to register all the participants at once with "engine#register(&block)":#r_block instead of fiddling with engine#register_participant and its options.
 
 
-h4. registering participants in a block
+h4(#r_block). engine#register(&block)
 
 Since ruote 2.1.11, thanks to the work of "Torsten":http://github.com/tosch/, it's possible to register participants in nice blocks :
 
@@ -109,8 +214,28 @@ The first example above assumes the participant name is the first word encounter
   end
 </pre>
 
+*NOTE* : since ruote 2.2.1, register(&block) will clear the participant list by default, thus after
 
-h4(#list). registering participants as a list
+<pre class="brush: ruby">
+  engine.register do
+    participant 'engineering', Ruote::StorageParticipant
+    participant 'marketing', Acme::StorageParticipant
+  end
+</pre>
+
+one ends up with 2 participants listed, 'engineering' and 'marketing', whatever participants you had previously.
+
+One can prevent this clearing by doing
+
+<pre class="brush: ruby">
+  engine.register :clear => false do
+    participant 'engineering', Ruote::StorageParticipant
+    participant 'marketing', Acme::StorageParticipant
+  end
+</pre>
+
+
+h4(#r_list). engine#participant_list=
 
 Starting with ruote 2.1.11, instead of using register_participant and register, you can pass the whole list of participants at once.
 
