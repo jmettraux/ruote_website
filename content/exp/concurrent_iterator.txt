@@ -1,5 +1,6 @@
 ---
 title: concurrent_iterator expression
+names: ["concurrent_iterator", "citerator"]
 ---
 
 h2. concurrent_iterator

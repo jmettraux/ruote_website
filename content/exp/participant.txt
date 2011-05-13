@@ -1,5 +1,6 @@
 ---
 title: participant expression
+names: ["participant"]
 ---
 
 h2. participant
@@ -33,15 +34,11 @@ workitem under a new 'params' field.
 
 Thus, with
 
-<pre class="brush: ruby">
-  participant :ref => 'alice', :task => 'maw the lawn', :timeout => '2d'
-</pre>
+    participant :ref => 'alice', :task => 'maw the lawn', :timeout => '2d'
 
 Alice will receive a workitem with a field params set to
 
-<pre class="brush: ruby">
-  { :ref => 'alice', :task => 'maw the lawn', :timeout => '2d' }
-</pre>
+    { :ref => 'alice', :task => 'maw the lawn', :timeout => '2d' }
 
 The fields named 'params' will be deleted before the workitems resumes
 in the flow (with the engine replying to the parent expression of this
@@ -96,6 +93,6 @@ the engine for too long, this 'do thread' policy is used by default.
 If the participant itself replies to the method #do_not_thread and replies
 positively to it, a new thread (or a next_tick) won't get used. This is
 practical for tiny participants that don't do IO and reply immediately
-(after a few operations). By default, "BlockParticipant":part/block_participant.html instances do not
+(after a few operations). By default, BlockParticipant instances do not
 thread.
 

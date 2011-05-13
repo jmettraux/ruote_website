@@ -1,5 +1,6 @@
 ---
 title: iterator expression
+names: ["iterator"]
 ---
 
 h2. iterator

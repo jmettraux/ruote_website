@@ -31,6 +31,7 @@ paths.each do |path|
 
   puts "..#{path}"
 
+  names = get_names(path)
   lines = translate(path, 2)
 
   fname = File.basename(path)
@@ -59,6 +60,7 @@ paths.each do |path|
 
     f.puts(%{---
 title: #{item} #{type}
+names: #{names.inspect}
 ---
 
 h2. #{item}

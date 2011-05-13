@@ -1,5 +1,6 @@
 ---
 title: save expression
+names: ["save"]
 ---
 
 h2. save
@@ -9,11 +10,15 @@ Saves the current workitem fields into a variable or into a field.
 
 <pre class="brush: ruby">
   save :to_field => 'old_workitem'
+    # or
+  save :to => 'f:old_workitem'
     #
     # saves a copy of the fields of the current workitem into itself,
     # in the field named 'old_workitem'
 
   save :to_variable => '/wix'
+    # or
+  save :to => 'v:/wix'
     #
     # saves a copy of the current workitem in the varialbe 'wix' at
     # the root of the process

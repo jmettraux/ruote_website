@@ -1,5 +1,6 @@
 ---
 title: concurrence expression
+names: ["concurrence"]
 ---
 
 h2. concurrence
@@ -131,6 +132,23 @@ will see the 'editor' receive a workitem whose fields look like :
 This could prove useful for participant having to deal with multiple merge
 strategy results.
 
+h5. :union
+
+Will override atomic fields, concat arrays and merge hashes...
+
+The union of those two workitems
+
+<pre class="brush: ruby">
+  { 'a' => 0, 'b' => [ 'x' ], 'c' => { 'aa' => 'bb' }
+  { 'a' => 1, 'b' => [ 'y' ], 'c' => { 'cc' => 'dd' }
+</pre>
+
+will be
+
+<pre class="brush: ruby">
+  { 'a' => 1, 'b' => [ 'x', 'y' ], 'c' => { 'aa' => 'bb', 'cc' => 'dd' } }
+
+</pre>
 
 h4. :over_if (and :over_unless)
 

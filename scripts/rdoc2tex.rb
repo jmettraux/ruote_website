@@ -77,6 +77,15 @@ class Translation
   end
 end
 
+def get_names (path)
+
+  lines = File.readlines(path)
+  names = lines.select { |l| l.match /^ *names / }
+  names = names.collect { |n|
+    n.match(/ names ([^\n]+)$/)[1].gsub(/:/, '').split(/ *, */)
+  }.flatten
+end
+
 def translate (path, indent=2)
 
   lines = File.readlines(path)

@@ -1,5 +1,6 @@
 ---
 title: wait expression
+names: ["wait", "sleep"]
 ---
 
 h2. wait

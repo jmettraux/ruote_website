@@ -1,5 +1,6 @@
 ---
 title: inc expression
+names: ["inc", "dec", "increment", "decrement"]
 ---
 
 h2. inc

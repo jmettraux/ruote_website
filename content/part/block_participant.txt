@@ -1,5 +1,6 @@
 ---
 title: block_participant 
+names: []
 ---
 
 h2. block_participant
@@ -14,7 +15,7 @@ of ruby code.
   end
 </pre>
 
-This participant implicitly replies to the engine when the block execution
+This participant implicitely replies to the engine when the block execution
 is over.
 
 You can pass the flow_expression (participant expression) as well.
@@ -23,24 +24,11 @@ You can pass the flow_expression (participant expression) as well.
   engine.register_participant :alpha do |workitem, flow_exp|
     workitem.fields['amount'] = flow_exp.lookup_variable('amount')
   end
+
 </pre>
 
 h3. do_not_thread
 
 By default, this participant (like most other participants) is executed
-in its own thread (in a Ruby runtime where EventMachine is running,
-EM.next_tick is used instead of a new thread).
-
-You can change that behaviour (beware block thats monopolizes the whole
-engine !) by doing
-
-<pre class="brush: ruby">
-  alpha = engine.register_participant :alpha do |workitem|
-    workitem.fields['time'] = Time.now
-  end
-
-  alpha.do_not_thread = true
-</pre>
-
-(you could also override do_not_thread, the method ...)
+in its own thread.
 

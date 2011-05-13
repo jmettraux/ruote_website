@@ -1,5 +1,6 @@
 ---
 title: add_branches expression
+names: ["add_branches", "add_branch"]
 ---
 
 h2. add_branches

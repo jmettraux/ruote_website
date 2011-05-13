@@ -1,5 +1,6 @@
 ---
 title: let expression
+names: ["let"]
 ---
 
 h2. let

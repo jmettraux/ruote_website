@@ -1,5 +1,6 @@
 ---
 title: that expression
+names: ["that", "of"]
 ---
 
 h2. that

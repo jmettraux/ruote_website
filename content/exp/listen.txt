@@ -1,5 +1,6 @@
 ---
 title: listen expression
+names: ["listen", "receive", "intercept"]
 ---
 
 h2. listen
@@ -156,4 +157,35 @@ a subfield state containing the value "CA".
 
 The documentation about the dollar notation and the one about common
 attributes :if and :unless applies for the :where attribute.
+
+
+h3. listen :to => :errors
+
+The listen expression can be made to listen to errors.
+
+<pre class="brush: ruby">
+  listen :to => errors do
+    participant 'supervisor_sms', :task => 'verify system'
+  end
+</pre>
+
+Whenever an error happens in the process with this listen stance,
+the listen will trigger.
+
+"listen :to => :errors" only works with errors in the same process instance
+(same wfid).
+
+"listen :to => :errors" doesn't trigger when the error is caught (via
+:on_error).
+
+h4. listen :to => :errors, :class => 'ArgumentError'
+
+One can restrict the listen to certain classes of errors.
+Passing a list of error classes separated by a comma is OK.
+
+h4. listen :to => :errors, :message => /x/
+
+One can restrict the error listening to errors matching a certain regex
+or equal to a certain string. The attribute is :message or :msg. The
+value is a String (strict equality) or a Regex (matching).
 

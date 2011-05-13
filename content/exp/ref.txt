@@ -1,5 +1,6 @@
 ---
 title: ref expression
+names: ["ref"]
 ---
 
 h2. ref

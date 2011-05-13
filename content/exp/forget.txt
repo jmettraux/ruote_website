@@ -1,5 +1,6 @@
 ---
 title: forget expression
+names: ["forget"]
 ---
 
 h2. forget

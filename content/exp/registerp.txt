@@ -1,5 +1,6 @@
 ---
 title: registerp expression
+names: ["registerp"]
 ---
 
 h2. registerp

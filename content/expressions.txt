@@ -46,6 +46,7 @@ h3(#advanced). advanced expressions
 * "once":exp/once.html - ('when' alias) waits for a condition to become true before triggering
 * "let":exp/let.html - a sequence but with a dedicated variable scope
 * "given":exp/given.html and "that/of":exp/that.html - a case/switch statement equivalent
+* "read":exp/read.html - reads a file (local or over http) and places its content in a field or a variable
 
 * "skip/back/jump/rewind/continue/break/stop":exp/command.html - mini expressions that give 'commands' to "cursor":exp/cursor.html and "iterator":exp/iterator.html
 * "unregisterp":exp/unregisterp.html - unregisters participants from a process definition

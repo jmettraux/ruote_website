@@ -1,5 +1,6 @@
 ---
 title: error expression
+names: ["error"]
 ---
 
 h2. error

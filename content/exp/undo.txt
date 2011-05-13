@@ -1,5 +1,6 @@
 ---
 title: undo expression
+names: ["undo", "cancel"]
 ---
 
 h2. undo

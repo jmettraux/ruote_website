@@ -1,0 +1,24 @@
+---
+title: read expression
+names: ["read"]
+---
+
+h2. read
+
+
+Reads the content of a local file or a file reachable over http and places
+the content in a [process] variable or a [workitem] field.
+
+Always attempts to parse the content as JSON. If the parsing fails, simply
+considers as plain text.
+
+<pre class="brush: ruby">
+  Ruote.process_definition do
+    read 'http://defs.example.org/filters/filter1.json', :to => 'x'
+    read 'http://defs.example.org/filters/filter1.json', :to => 'f:x'
+    read 'http://defs.example.org/filters/filter2.json', :to => 'v:y'
+    read 'filters/filter3.json', :to => 'f:y'
+    read 'texts/greetings${f:greeting_index}.txt', :to => 'f:greetings'
+    # ...
+  end
+</pre>

@@ -1,5 +1,6 @@
 ---
 title: apply expression
+names: ["apply"]
 ---
 
 h2. apply

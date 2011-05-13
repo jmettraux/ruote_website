@@ -1,5 +1,6 @@
 ---
 title: echo expression
+names: ["echo"]
 ---
 
 h2. echo

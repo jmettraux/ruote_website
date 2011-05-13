@@ -1,5 +1,6 @@
 ---
 title: restore expression
+names: ["restore", "set_fields"]
 ---
 
 h2. restore

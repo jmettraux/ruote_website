@@ -1,5 +1,6 @@
 ---
 title: once expression
+names: ["once", "when", "as_soon_as"]
 ---
 
 h2. once

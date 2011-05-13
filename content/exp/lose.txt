@@ -1,5 +1,6 @@
 ---
 title: lose expression
+names: ["lose"]
 ---
 
 h2. lose

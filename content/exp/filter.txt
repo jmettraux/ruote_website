@@ -1,5 +1,6 @@
 ---
 title: filter expression
+names: ["filter"]
 ---
 
 h2. filter
@@ -67,6 +68,14 @@ or a regular expression.
 
 Note the "!" used as a shortcut for "\." in the second line.
 
+Passing a | separated list of field also works :
+
+<pre class="brush: ruby">
+  filter 'city|region|country', :type => 'string'
+    # will make sure that at least of one those field is present
+    # any of the three that is present must hold a string
+
+</pre>
 
 h3. validations
 
@@ -464,6 +473,25 @@ Could help make filters a bit more compact.
 * 'merge_to', 'mg_to'
 * 'migrate_to', 'mi_to'
 * 'restore', 'restore_from', 'rs'
+
+
+h3. top-level 'or'
+
+Filters may be used to transform hashes or to validate them. In both cases
+the filters seen until now were like chained by a big AND.
+
+It's OK to write
+
+<pre class="brush: ruby">
+  filter :in => [
+    { 'field' => 'server_href', 'smatch' => '^https?:\/\/' },
+    'or',
+    { 'field' => 'nickname', 'type' => 'string' } ]
+</pre>
+
+Granted, this is mostly for validation purposes, but it also works
+with transformations (as soon as an 'or' child succeeds it's returned
+and the other children are not evaluated).
 
 
 h3. compared to the :filter attribute

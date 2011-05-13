@@ -1,12 +1,13 @@
 ---
 title: command expression
+names: ["skip", "back", "jump", "rewind", "continue", "break", "stop", "over", "reset"]
 ---
 
 h2. command
 
 
-This class gathers the 'skip', 'back', 'jump', 'rewind', 'continue' and
-'break' expressions which are used inside of the 'cursor' and 'repeat'
+This class gathers the 'skip', 'back', 'jump', 'rewind', 'continue', 'reset'
+and 'break' expressions which are used inside of the 'cursor' and 'repeat'
 (loop) expressions.
 
 Look at the 'cursor' expression Ruote::Exp::Cursor for a discussion of

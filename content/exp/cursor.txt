@@ -1,5 +1,6 @@
 ---
 title: cursor expression
+names: ["cursor", "loop", "repeat"]
 ---
 
 h2. cursor
@@ -45,6 +46,12 @@ Rewinds the cursor up to its first child expression.
     publisher
   end
 </pre>
+
+h4. reset
+
+Whereas 'rewind' places the cursor back to the initial step with the current
+workitem, 'reset' will rewind it and start again but with the workitem
+as it was when it reached the cursor/repeat.
 
 h4. stop, over & break
 

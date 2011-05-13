@@ -228,6 +228,9 @@ h4 {
 	content: "⬅";
 	float: right;
 }
+#sidebar li.alias a {
+	/*margin-left: 12px;*/
+}
 .syntaxhighlighter, pre {
 	width: auto;
 	padding: 12px 0;

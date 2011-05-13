@@ -1,5 +1,6 @@
 ---
 title: cron expression
+names: ["cron", "every"]
 ---
 
 h2. cron

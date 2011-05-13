@@ -1,5 +1,6 @@
 ---
 title: cancel_process expression
+names: ["cancel_process", "terminate"]
 ---
 
 h2. cancel_process
