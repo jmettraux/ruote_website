@@ -40,7 +40,30 @@ The 'type' is a string like "expressions", "errors", "workitems", "schedules", .
 
 The '_id' attribute is the document identifier.
 
+h4(#document_types). document types
+
+There are 7+1 types of documents:
+
+|_.type         |_.description|
+|expressions    |the atomic pieces of process instance|
+|msgs           |'messages' to apply/reply to expressions|
+|schedules      |msgs scheduled for later processing|
+|errors         |errors that occured during process execution (msgs processing)|
+|variables      |engine (global) variables|
+|configurations |engine configurations|
+|workitems      |"StorageParticipant":part/storage_participant.html workitems|
+|_history_      |(if you use "Ruote::StorageHistory":https://github.com/jmettraux/ruote/blob/master/lib/ruote/log/storage_history.rb)|
+
+
 TODO
+
+h3(#consistency). consistency
+
+Ruote requires some documents to be reserved. If you can not offer exclusive
+updates with your storage implementation you are limited to a single
+"worker":http://rdoc.info/gems/ruote/Ruote/Worker
+
+See the "configuration page":configuration.html for more information on workers in the context of Ruote
 
 
 h3(#interface). interface
