@@ -36,6 +36,7 @@ h3(#advanced). advanced expressions
 * "filter":exp/filter.html - performs filtering on the passing workitem
 * "inc / dec":exp/inc.html - {inc|dec}rementing variables or fields (numbers or arrays)
 * "listen":exp/listen.html - listen on a channel (a participant name) for incoming or outgoing events (workitems)
+* "read":exp/read.html - reads the content of a file (URI) and places it in a workitem field or process variable
 * "redo":exp/redo.html - redoes a tagged segment of process
 * "ref":exp/ref.html - invokes a participant or a subprocess indifferently
 * "registerp":exp/registerp.html - registers participants from a process definition
