@@ -4,11 +4,19 @@
   -#  Top
   %ul
     %li.head_item
-      %a{ :href => '/' + @head_item.path.join('/') + '.html' }
-        = @head_item.title
+      - if @head_item.title == 'expressions'
+        %a{ :href => '/documentation.html'}
+          Documentation
+      - else
+        %a{ :href => '/' + @head_item.path.join('/') + '.html' }
+          = @head_item.title
 
-%h3{ :onclick => 'document.location = "/documentation.html"', :style => 'cursor: pointer' }
-  Documentation
+- if @head_item && @head_item.title == 'expressions'
+  %h3{ :onclick => 'document.location = "/expressions.html"', :style => 'cursor: pointer' }
+    Expressions
+- else
+  %h3{ :onclick => 'document.location = "/documentation.html"', :style => 'cursor: pointer' }
+    Documentation
 %ul
   - @items.each do |item|
     %li{ :class => item == @item ? 'current' : nil }
