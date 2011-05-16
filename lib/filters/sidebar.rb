@@ -39,6 +39,7 @@ class SidebarFilter < Nanoc3::Filter
     else
 
       @items.reject { |i|
+        i[:title].nil? ||
         (
           [ nil ] + %w[
             css js ja images rel exp part
