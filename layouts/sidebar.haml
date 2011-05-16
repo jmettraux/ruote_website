@@ -14,10 +14,13 @@
     %li{ :class => item == @item ? 'current' : nil }
       %a{ :href => '/' + item.path.join('/') + '.html' }
         = item.title
-    - ((item[:names] || []) - [ item.title ]).sort.each do |al|
-      %li{ :class => 'alias' }
-        %a{ :href => '/' + item.path.join('/') + '.html' }
-          = '  `-- ' + al
+    - aliases = (item[:names] || []) - [ item.title ]
+    - if aliases.size > 0
+      %ul#alias
+        - aliases.each do |al|
+          %li
+            %a{ :href => '/' + item.path.join('/') + '.html' }
+              = al
 
 %h3
   More
