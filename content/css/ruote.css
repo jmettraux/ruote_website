@@ -2,8 +2,8 @@
 	file:///css/ruote.css
 	http://localhost:3000/css/ruote.css
 	http://ruote.rubyforge.org/css/ruote.css
+	http://127.0.0.1:3000/css/ruote.css
 */
-
 
 /* @group new sticky footer */
 	/* http://www.cssstickyfooter.com/ */
@@ -54,7 +54,7 @@ h1, h2 {
 	font-size: 200%;
 	margin-bottom: 1em;
 	text-transform: capitalize;
-	text-shadow:  1px 1px 0 #fff;
+	text-shadow: 1px 1px 0 #fff;
 }
 h3 {
 	font-size: 125%;
@@ -94,7 +94,7 @@ h4 {
 	line-height: 1em;
 	color: #fff;
 	color: rgba(255,255,255,.66);
-	text-shadow:  1px 1px 0 rgba(0,0,0,0.4);
+	text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
 }
 #nav, #nav ul, #nav li, #nav a {
 	height: 24px;
@@ -120,7 +120,7 @@ h4 {
 	color: #091623;
 	text-transform: capitalize;
 	font-size: 14px;
-	text-shadow:  0px 0px 4px rgba(255,255,255,0.6);
+	text-shadow: 0px 0px 4px rgba(255,255,255,0.6);
 	font-weight: bold;
 }
 #nav a:hover {
@@ -231,6 +231,16 @@ h4 {
 #sidebar li.alias a {
 	/*margin-left: 12px;*/
 }
+#sidebar ul.alias {
+	background: #ced0d0;
+	margin: 2px;
+}
+#sidebar ul.alias:before {
+	top: -12px;
+	left: 12px;
+	border-width: 6px;
+	border-bottom-color: #ced0d0;
+}
 .syntaxhighlighter, pre {
 	width: auto;
 	padding: 12px 0;
@@ -288,8 +298,8 @@ blockquote {
 hr {
 	background: #ddd;
 	color: #ddd;
-    margin-top: 1em;
-    margin-bottom: 1em;
+	margin-top: 1em;
+	margin-bottom: 1em;
 }
 /*
 p.quiet { color: #666; }

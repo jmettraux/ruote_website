@@ -24,7 +24,7 @@
         = item.title
     - aliases = (item[:names] || []) - [ item.title ]
     - if aliases.size > 0
-      %ul#alias
+      %ul.alias
         - aliases.each do |al|
           %li
             %a{ :href => '/' + item.path.join('/') + '.html' }
