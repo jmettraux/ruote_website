@@ -23,31 +23,46 @@
   More
 %ul.contact
 
-  - contacts = []
-  - contacts << [ '/presentations.html', 'presentations' ]
-  - contacts << [ '/resources.html', 'resources' ]
-  - contacts << [ '/users.html', 'users' ]
+  - elts = []
+  - elts << [ '/presentations.html', 'presentations' ]
+  - elts << [ '/resources.html', 'resources' ]
+  - elts << [ '/users.html', 'users' ]
 
-  - contacts.each do |con|
-    %li{ :class => con.first == @item.identifier[0..-2] + '.html' ? 'current' : nil }
-      %a{ :href => con.first }
-        = con.last
+  - elts.each do |elt|
+    %li{ :class => elt.first == @item.identifier[0..-2] + '.html' ? 'current' : nil }
+      %a{ :href => elt.first }
+        = elt.last
 
 %h3
   Meta
 %ul.contact
 
-  - contacts = []
-  - contacts << [ '/source.html', 'source' ]
-  - contacts << [ '/download.html', 'download' ]
-  - contacts << [ 'http://jmettraux.wordpress.com', 'blog' ]
-  - contacts << [ '/lists.html', 'mailing list' ]
-  - contacts << [ 'http://ruote-ci.s3.amazonaws.com/ci.html', 'continuous integration' ]
-  - contacts << [ 'http://ruote-irclogs.s3.amazonaws.com/logs.html', 'IRC' ]
-  -#- contacts << [ 'https://www.ohloh.net/p/ruote/', 'ohloh' ]
+  - elts = []
+  - elts << [ '/source.html', 'source' ]
+  - elts << [ '/download.html', 'download' ]
+  - elts << [ 'http://jmettraux.wordpress.com', 'blog' ]
+  - elts << [ '/lists.html', 'mailing list' ]
+  - elts << [ 'http://ruote-ci.s3.amazonaws.com/ci.html', 'continuous integration' ]
+  - elts << [ 'http://ruote-irclogs.s3.amazonaws.com/logs.html', 'IRC' ]
+  -#- elts << [ 'https://www.ohloh.net/p/ruote/', 'ohloh' ]
 
-  - contacts.each do |con|
-    %li{ :class => con.first == @item.identifier[0..-2] + '.html' ? 'current' : nil }
-      %a{ :href => con.first }
-        = con.last
+  - elts.each do |elt|
+    %li{ :class => elt.first == @item.identifier[0..-2] + '.html' ? 'current' : nil }
+      %a{ :href => elt.first }
+        = elt.last
+
+%h3
+  %span
+    Search
+%ul.contact
+  %li
+    %form{ :method => 'GET', :action => 'http://www.google.com/search' }
+      %input#qq{ :type => 'text', :style => '', :name => 'qq' }
+      %input#q{ :type => 'hidden', :name => 'q' }
+      %input{ :type => 'submit', :value => 'search', :onclick => 'adjustSearch();' }
+
+:javascript
+  function adjustSearch() {
+    $('#q').val($('#qq').val() + ' site:http://ruote.rubyforge.org');
+  } 
 
