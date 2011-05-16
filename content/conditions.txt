@@ -42,34 +42,78 @@ Without an operator, something not empty or not equal to the string "false" is c
 
 With an operator (==, >=, >, etc) the comparison is evaluated. Ruote understands the same operators as Ruby plus a few others.
 
-Thus
+Thus, with
 
 <pre class="brush: ruby">
   bill :if => '${amount} > 0.0'
-    # ...
 </pre>
 
-TODO
+if the workitem field amount contains 5.0, the condition becomes
+
+<pre class="brush: ruby">
+  bill :if => '5.0 > 0.0'
+</pre>
+
+and this result "5.0 > 0.0" string is then evaluated as a condition. All dollar substitutions are performed before the check for a condition.
 
 
 h3(#without_operator). without an operator
 
-TODO
+Without an operator (something like == or <), a condition holds true if the resulting string, when stripped, is not empty (length > 0) and not equal to the string "false".
+
+<pre class="brush: ruby">
+  bill :if => '${amount}'
+</pre>
+
+The bill participant (or subprocess) will be triggered if the workitem field "amount" when turned to a string result in something non-empty and not equal to the "false" string.
 
 
 h3(#with_operator). with an operator
 
-TODO (==, !=, >=, >, =~, ...)
+<pre class="brush: ruby">
+  notify_boss :if => '${amount} == 12.0'
+  bill :if => '${amount} != 0.0'
+  bill :if => '${amount} > 0.0'
+  notify_boss :if => '${customer.name} =~ /^Acme /'
+</pre>
+
+etc.
+
+
+h3(#string_equality). a note about strings
+
+When dealing with strings, try to cut ambiguity. Surround the string with quotes or double-quotes or use the "quoting thing":dollar.html#quotes of the dollar notation.
+
+<pre class="brush: ruby">
+bill :if =>
+  '${amount} > 0.0 or (${'f:name} =~ /^Acme/ and ${'f:city} == "Orlando"'
+</pre>
 
 
 h3(#and_or). _and_ / _or_ combinations
 
-TODO (and, or, &&, ||)
+One case use "and" and "&&", and "or" and "||".
+
+<pre class="brush: ruby">
+  notify_boss :if => "${amount} > 500.0 and '${customer.name}' =~ /^Acme"
+</pre>
+
+Using parenthesis is OK.
+
+<pre class="brush: ruby">
+bill :if =>
+  '${amount} > 0.0 or (${'f:name} =~ /^Acme/ and ${'f:city} == "Orlando"'
+</pre>
 
 
 h3(#further). further conditions
 
 TODO (is [not] set, is [not] empty, is [not] null, [not] in Array|Hash)
+
+
+h3(#ruby). falling back to Ruby
+
+TODO (ruby_eval_allowed)
 
 
 h3. see also

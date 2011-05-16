@@ -276,6 +276,23 @@ end
 </pre>
 
 
+h3(#quotes). ${'f:x} and ${"f:x} quoting
+
+The dollar notation has a special little trick. If you place a ' or a " right after the opening {, the resulting string will get double-quoted.
+
+<pre class="brush: ruby">
+emit_invoice :if => '${"name} == "joe smunch"'
+</pre>
+
+if the workitem field named 'name' holds "jeff bunch", the comparison will look like
+
+<pre class="brush: ruby">
+'"jeff bunch" == "joe smuch"'
+</pre>
+
+(and yield _false_).
+
+
 h3(#ruby_eval_allowed). @ruby_eval_allowed@
 
 When the engine is "configured":configuration.html#engine with 'ruby_eval_allowed' => true, which boils down to
