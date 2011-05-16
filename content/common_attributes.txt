@@ -7,7 +7,7 @@ h2. attributes common to all expressions
 The attributes listed on this page may be used with any expression.
 
 * ":timeout":#timeout
-* ":if or :unless":#if_unless
+* ":if / :unless":#if_unless
 * ":forget":#forget
 * ":lose":#lose
 * ":on_error":#on_error
@@ -103,7 +103,7 @@ Really any :
   end
 </pre>
 
-The :if and :unless conditions understand things like !=, ==, =~, 'is set', 'is empty', &&, ||, ... It's maybe easier to "look at the unit tests":https://github.com/jmettraux/ruote/blob/master/test/unit/ut_6_condition.rb to see what is supported.
+The :if and :unless conditions understand things like !=, ==, =~, 'is set', 'is empty', &&, ||, ... More information in the "conditions":conditions.html page.
 
 
 h3(#forget). :forget

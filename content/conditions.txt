@@ -1,0 +1,78 @@
+---
+title: conditions
+---
+
+h2. conditions
+
+Conditions can be used with the ":if and :unless":common_attributes.html#if_unless common attributes and with the "if":exp/if.html, "given":exp/given.html, "once":exp/once.html and "equals":exp/equals.html (though this one is rather obsolete).
+
+With the ":if":common_attributes#if_unless common attribute:
+
+<pre class="brush: ruby">
+  cursor do
+    participant 'customer'
+    rewind :if => '${not_enough_info} == true'
+    participant 'logistics'
+  end
+</pre>
+
+With the "given":exp/given.html expression:
+
+<pre class="brush: ruby">
+  given do
+    that "${location} == paris" do
+      subprocess "notify_and_wait_for_pickup"
+    end
+    that "${state} == ready" do
+      subprocess "deliver"
+    end
+    # else...
+    subprocess "do_something_else"
+  end
+</pre>
+
+As one can see, the conditions are tributary to the "dollar notation":dollar.html.
+
+
+h3(#what). what gets in the condition
+
+After the string has completed all the dollar substitutions (yes, they can be nested), the resulting string is evaluated as a condition.
+
+Without an operator, something not empty or not equal to the string "false" is considered true.
+
+With an operator (==, >=, >, etc) the comparison is evaluated. Ruote understands the same operators as Ruby plus a few others.
+
+Thus
+
+<pre class="brush: ruby">
+  bill :if => '${amount} > 0.0'
+    # ...
+</pre>
+
+TODO
+
+
+h3(#without_operator). without an operator
+
+TODO
+
+
+h3(#with_operator). with an operator
+
+TODO (==, !=, >=, >, =~, ...)
+
+
+h3(#and_or). _and_ / _or_ combinations
+
+TODO (and, or, &&, ||)
+
+
+h3(#further). further conditions
+
+TODO (is [not] set, is [not] empty, is [not] null, [not] in Array|Hash)
+
+
+h3. see also
+
+* "dollar notation":dollar.html
+

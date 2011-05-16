@@ -4,6 +4,8 @@ title: dollar notation
 
 h2. dollar notation
 
+(for documentation about conditions and the dollar notation, see "conditions":conditions.html)
+
 Most of the examples feature plainly named participant like
 
 <pre class="brush: ruby">
@@ -350,4 +352,9 @@ wfid = engine.launch(
 
 engine.wait_for(wfid)
 </pre>
+
+
+h3. see also
+
+* "conditions":conditions.html
 
