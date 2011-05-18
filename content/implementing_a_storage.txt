@@ -73,7 +73,7 @@ h3(#interface). interface
 # core methods
 #++
 
-# store a document
+# Store a document
 #
 # opts:
 # ... TODO ...
@@ -91,7 +91,7 @@ end
 def get(type, key)
 end
 
-# delete a document
+# Delete a document
 #
 # returns:
 # * true if already deleted
@@ -102,7 +102,7 @@ end
 def delete(doc)
 end
 
-# get many documents of a certain type
+# Get many documents of a certain type
 #
 # input:
 # - When key is not specified, return everything from the store
@@ -112,7 +112,7 @@ end
 # [:descending]    Return a list, sorted by _id in descending order
 # [:count]         Just return a count
 # [:skip]          Skip X results
-# [:limit]         Limit the list to a lenght of X
+# [:limit]         Limit the list to a length of X
 #
 # returns:
 # * An Integer (when :count was specified)
@@ -121,7 +121,7 @@ end
 def get_many(type, key=nil, opts={})
 end
 
-# return a list of ids for the given document type
+# Return a list of ids for the given document type
 #
 def ids(type)
 end
@@ -130,17 +130,25 @@ end
 # auxiliary methods
 #++
 
-# clean the store
+# Removes all msgs, schedules, errors, expressions and workitems.
+#
+# It's used mostly when testing workflows, usually when cleaning the
+# engine/storage before a workflow run.
+#
+def clear
+end
+
+# Clean the store
 #
 def purge!
 end
 
-# add a new document type to the store (I guess)
+# Add a new document type to the store. Some storages might need it.
 #
 def add_type(type)
 end
 
-# clean the store for the given document type
+# Clean the store for the given document type
 #
 def purge_type!(type)
 end
