@@ -37,6 +37,8 @@ Not all dollar substitutions result in a string, there is a technique for pointi
 
 h3. variables and workitem fields
 
+(the main piece of documentation about this subject is at "process variables and workitem fields":vars_and_fields.html)
+
 Two types of data are available to process instances: process variables and workitem fields.
 
 The most visible type is workitem fields. Each workitem has a dictionary of fields as payload. Workitem and their fields are visible to the participants (ie outside of the workflow engine itself).
@@ -378,4 +380,5 @@ engine.wait_for(wfid)
 h3. see also
 
 * "conditions":conditions.html
+* "process variables and workitem fields":vars_and_fields.html
 

@@ -21,7 +21,7 @@
   - @items.each do |item|
     %li{ :class => item == @item ? 'current' : nil }
       %a{ :href => '/' + item.path.join('/') + '.html' }
-        = item.title
+        = item[:side_title] || item.title
     - aliases = (item[:names] || []) - [ item.title ]
     - if aliases.size > 0
       %ul.alias

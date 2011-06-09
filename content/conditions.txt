@@ -119,4 +119,5 @@ TODO (ruby_eval_allowed)
 h3. see also
 
 * "dollar notation":dollar.html
+* "process variables and workitem fields":vars_and_fields.html
 

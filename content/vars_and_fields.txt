@@ -1,0 +1,36 @@
+---
+title: process variables and workitem fields
+side_title: variables and fields
+---
+
+h2. process variables and workitem fields
+
+Most of the time, they are referred to as "variables" and "fields". Saying "process variables" and "workitem fields" should make it less confusing (once the two associations stick).
+
+h3. process variables
+
+TODO
+
+h4. variables as aliases
+
+TODO
+
+h4. engine variables
+
+TODO
+
+h3. workitem fields
+
+TODO
+
+h4. trailing/temporary fields
+
+Since ruote 2.2.1...
+
+TODO
+
+h3. see also
+
+* "dollar notation":dollar.html
+* "conditions":conditions.html
+
