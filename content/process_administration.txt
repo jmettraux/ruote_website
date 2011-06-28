@@ -241,7 +241,7 @@ engine.wait_for(wfid)
 
 This self-containing example will output:
 
-<pre>
+<pre class="brush: jscript">
 * alpha
 * bravo
 . zebulon

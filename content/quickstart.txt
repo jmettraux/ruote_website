@@ -13,41 +13,41 @@ h3. getting ruote
 
 Provided that you have a recent version of "git":http://progit.org/book/ch1-4.html, you can do from your command line :
 
-<pre>
-git clone git://github.com/jmettraux/ruote.git
-cd ruote
-rake build
-gem install pkg/ruote-2.2.0.gem
+<pre class="brush: bash">
+$ git clone git://github.com/jmettraux/ruote.git
+$ cd ruote
+$ rake build
+$ gem install pkg/ruote-2.2.1.gem
 </pre>
 
 Installing as a gem will draw in the necessary gem dependencies, except a JSON gem.
 
 If you want to avoid "gitting" ruote, you can install it as a gem :
 
-<pre>
-gem install ruote
+<pre class="brush: bash">
+$ gem install ruote
 </pre>
 
-<pre>
+<pre class="brush: bash">
 # if you're using C (MRI) Ruby :
-gem install yajl-ruby
+$ gem install yajl-ruby
 
 # if you're using JRuby :
-gem install json-jruby
+$ gem install json-jruby
 
 # on windows :
-gem install json_pure
+$ gem install json_pure
 </pre>
 
-<pre>
+<pre class="brush: bash">
 # if you're using C (MRI) Ruby :
-gem install yajl-ruby
+$ gem install yajl-ruby
 
 # if you're using JRuby :
-gem install json-jruby
+$ gem install json-jruby
 
 # on windows :
-gem install json_pure
+$ gem install json_pure
 </pre>
 
 
@@ -104,8 +104,8 @@ This quickstart can be found in examples/ruote_quickstart.rb
 
 Run it with :
 
-<pre>
-ruby examples/ruote_quickstart.rb
+<pre class="brush: bash">
+$ ruby examples/ruote_quickstart.rb
 </pre>
 
 It will exit after the process instance terminated.
