@@ -159,14 +159,52 @@ TODO
 
 h3(#models). current implementations as models
 
-Like for example "hash_storage.rb":http://github.com/jmettraux/ruote/blob/ruote2.1/lib/ruote/storage/hash_storage.rb
+Like for example "hash_storage.rb":http://github.com/jmettraux/ruote/blob/master/lib/ruote/storage/hash_storage.rb
 
 TODO
 
 
 h3(#testing). testing
 
-unit, functional, concurrent...
+Your storage implementation should survive unit testing and functional testing. If it is meant to be used by multiple workers it should survive concurrence tests as well.
 
-TODO
+Tests are run from the ruote/ directory. You pass the suffix of the implementation name (like "redis" or "sequel") and the test will automatically
+
+For the rest of this section, let's assume you've named your storage "ruote-pasta" and you've placed it in a ruote-pasta/ dir adjacent to your ruote/ clone.
+
+Your storage implementation must provide a test/functional_connection.rb file containing a "new_storage" method. This will indicate to the ruote test suites how to set up your storage for testing. As examples, look at the functional_connection.rb files for "ruote-redis":https://github.com/jmettraux/ruote-redis/blob/master/test/functional_connection.rb and "ruote-sequel":https://github.com/jmettraux/ruote-sequel/blob/master/test/functional_connection.rb.
+
+h4. unit testing
+
+Among the ruote unit tests, there is only one that is relevant when testing storages.
+
+<pre class="brush: bash">
+$ ruby test/unit/storage.rb -- --pasta
+</pre>
+
+Making this test green is your first objective when developing a storage.
+
+h4. functional testing
+
+Your storage implementation should survive all the functional tests.
+
+<pre class="brush: bash">
+$ ruby test/functional/test.rb -- --pasta
+</pre>
+
+If you have difficulties with some dangling test, seek help on the "mailing list":http://ruote.rubyforge.org/lists.html.
+
+h4. concurrence tests (multiple workers)
+
+There are currently 3 tests that push ruote storages hard, as if multiple workers were running. They are found under test/functional/ and are prefixed with "ct_".
+
+The technique used to make sure a storage is multi-worker enabled can be described as "run each of the ct_ tests 200 times and if it never fails, then the storage implementation is OK with multiple workers".
+
+<pre class="brush: bash">
+$ ./test/looper.sh test/functional/ct_0_concurrence.rb -- --pasta 200
+$ ./test/looper.sh test/functional/ct_1_iterator.rb -- --pasta 200
+$ ./test/looper.sh test/functional/ct_2_cancel.rb -- --pasta 200
+</pre>
+
+Those tests try to force collisions among workers, hopefully witnessing the storage implementation work around the issue gracefully.
 
