@@ -10,7 +10,7 @@ In its simplest form a participant implementation will take the form of a "block
 
 <pre class="brush: ruby">
 engine.register_participant :flush_garbage do |workitem|
-  GarbageCan.find(workitem['garbage_can_id']).flush
+  GarbageCan.find(workitem.fields['garbage_can_id']).flush
 end
 </pre>
 
@@ -21,7 +21,7 @@ class Flusher
   include Ruote::LocalParticipant
 
   def consume(workitem)
-    GarbageCan.find(workitem['garbage_can_id']).flush
+    GarbageCan.find(workitem.fields['garbage_can_id']).flush
     reply_to_engine(workitem)
   end
 
@@ -44,6 +44,32 @@ Two optional methods also exist : "#accept?":#accept and "#on_reply":#on_reply. 
 
 By default, when a process instance execution reaches a participant expression, it runs the #consume method of the participant in a dedicated Ruby thread. if the "#do_not_thread":#do_not_thread method returns false, no extra thread is created, the consume call is done immediately (ie, it blocks the worker).
 
+From *ruote 2.2.1* on, our flusher example can be re-written as
+
+<pre class="brush: ruby">
+class Flusher
+  include Ruote::LocalParticipant
+
+  def on_workitem
+    GarbageCan.find(workitem.fields['garbage_can_id']).flush
+    reply
+  end
+
+  def on_cancel
+    # nothing to do
+  end
+
+  #def on_reply
+  #end
+end
+
+engine.register_participant :flush_garbage, Flusher
+</pre>
+
+where the 'consume' got renamed to 'on_workitem' and 'cancel' to 'on_cancel'. This to emphasize the reactive nature of participants.
+
+Note that the workitem, fei and flavour are now implicit, you can declare them as args or not.
+
 
 h3(#local_participant). Ruote::LocalParticipant
 
@@ -57,11 +83,11 @@ Methods to implement or override when implementing a participant and some helper
 
 h3. methods
 
-* "#consume":#consume
-* "#cancel":#cancel
+* "#consume":#consume ("#on_workitem":#on_workitem)
+* "#cancel":#cancel ("#on_cancel":#on_cancel)
 * "#accept?":#accept
 * "#on_reply":#on_reply
-* "#do_not_thread":#do_not_thread
+* "#do_not_thread":#do_not_thread ("#dont_thread?":#dont_thread)
 
 * "#re_dispatch":#re_dispatch
 * "#unschedule_re_dispatch":#unschedule_re_dispatch
@@ -70,16 +96,19 @@ h3. methods
 
 h3. helpers
 
-* "#reply_to_engine":#reply_to_engine
-* "#fexp":#fexp
-* "#applied_workitem":#applied_workitem
-* "#put and #get":#stash
+* "reply_to_engine":#reply_to_engine ("reply":#reply)
+* "fexp":#fexp
+* "workitem":#workitem
+* "applied_workitem":#applied_workitem
+* "participant_name":#participant_name
+* "lookup_variable":#lookup_variable
+* "put and get":#stash
 
 
 ***
 
 
-h3(#consume). #consume
+h3(#consume). #consume #on_workitem <a name="on_workitem"></a>
 
 When a participant is handed a workitem, this method is called with the workitem as the argument.
 
@@ -90,9 +119,10 @@ class TotalParticipant
   include Ruote::LocalParticipant
 
   def consume(workitem)
-    workitem['total'] = workitem.fields['items'].inject(0.0) { |t, item|
-      t + item['count'] * PricingService.lookup(item['id'])
-    }
+    workitem.fields['total'] =
+      workitem.fields['items'].inject(0.0) { |t, item|
+        t + item['count'] * PricingService.lookup(item['id'])
+      }
     reply_to_engine(workitem)
   end
 end
@@ -100,8 +130,26 @@ end
 
 Note the call to #reply_to_engine with the workitem as argument when the work is done. Without this call (sooner or later), the process doesn't resume after this participant.
 
+From ruote 2.2.1 on, the above participant can be written as :
 
-h3(#cancel). #cancel
+<pre class="brush: ruby">
+# computing the total for a invoice being passed in the workitem.
+#
+class TotalParticipant
+  include Ruote::LocalParticipant
+
+  def on_workitem
+    workitem.fields['total'] =
+      workitem.fields['items'].inject(0.0) { |t, item|
+        t + item['count'] * PricingService.lookup(item['id'])
+      }
+    reply
+  end
+end
+</pre>
+
+
+h3(#cancel). #cancel #on_cancel <a name="on_cancel"></a>
 
 If you don't immediately (and very quickly) reply to the engine in your consume method, you'd better have a #cancel implementation for your class.
 
@@ -148,6 +196,49 @@ end
 
 Our consume method doesn't reply to the engine, at all. The reply occurs later, in the #reply class method. If a cancel order comes, the workitem stored on disk has to be removed.
 
+From ruote 2.2.1 on, you can write :
+
+<pre class="brush: ruby">
+require 'fileutils'
+require 'yaml'
+
+# A plain "worklist" implementations, workitems are placed in files under
+# worklist/
+#
+# We assume the rest of the application reads those yaml files and
+# calls PlainWorklist.reply(workitem_h) when done with a workitem.
+#
+class PlainWorklist
+  include Ruote::LocalParticipant
+
+  # Called by ruote when there's work for our participant
+  #
+  def on_workitem
+    h = workitem.to_h
+    h['fei'] = workitem.fei.sid
+    File.open("worklist/workitem_#{workitem.fei.sid}.yaml", wb) do |f|
+      f.puts(h.to_yaml)
+    end
+    # no reply_to_engine
+  end
+
+  # When ruote has to cancel a process instance with an active workitem
+  # for this participant, this method is called.
+  #
+  def on_cancel
+    FileUtils.rm("worklist/workitem_#{fei.sid}.yaml")
+  end
+
+  # A method called by external systems when they're done with a workitem
+  # hash, they hand it back to the engine via this method.
+  #
+  def self.reply(workitem_h)
+    FileUtils.rm("worklist/workitem_#{workitem_h['fei']}.yaml")
+    receive(workitem)
+  end
+end
+</pre>
+
 h4(#flavour). cancel flavour
 
 This parameter is usually set to 'cancel'. When a process is "killed instead of cancelled":/process_administration.html#killing, the flavour is set to "kill". Usually this parameter is simply ignored, but who knows, perhaps a different behaviour might be necessary in some context ?
@@ -182,6 +273,14 @@ class FirstParticipantImplementation
     workitem.fields['context'] == 'military'
   end
 end
+</pre>
+
+From ruote 2.2.1 on, the accept? method can be rewritten as :
+
+<pre class="brush: ruby">
+  def accept?
+    workitem.fields['context'] == 'military'
+  end
 </pre>
 
 
@@ -242,8 +341,16 @@ receiver = Receiver.new(engine)
 # ...
 </pre>
 
+From ruote 2.2.1, the on_reply method can be rewritten as :
 
-h3(#do_not_thread). #do_not_thread
+<pre class="brush: ruby">
+  def on_reply
+    workitem.fields['msg'] = "back at #{Time.now.to_s}"
+  end
+</pre>
+
+
+h3(#do_not_thread). #do_not_thread #dont_thread? <a name="dont_thread"> </a>
 
 By default, when dispatching a workitem to a participant, a ruote worker will call the participant's consume method in a new thread. The idea is to move the [potentially] bulk work of dispatching outside of the worker loop very quickly.
 
@@ -279,7 +386,6 @@ It's OK to have a do_not_thread method that accepts the workitem as argument :
 
 If you want to influence more radically threading while dispatching, overriding the dispatch_pool service is probably the best solution.
 
-
 <pre class="brush: ruby">
 #
 # This implementation never dispatches in a new thread...
@@ -305,6 +411,14 @@ engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new(opts)))
 </pre>
 
 or something like that...
+
+From ruote 2.2.1 on, you can use the dont_thread? method instead, and the workitem is implicit (like from #on_workitem and #on_reply). So this is OK :
+
+<pre class="brush: ruby">
+  def dont_thread?
+    workitem.fields['colour'] == 'blue'
+  end
+</pre>
 
 
 h3(#re_dispatch). #re_dispatch
@@ -340,6 +454,31 @@ end
 
 re_dispatch/reject makes sense too in a multi worker context where a participant on a given host wants to reject a task and let another worker (on another host) do the work. Maybe the "accept?":#accept method is better for those cases, though.
 
+From ruote 2.2.1, our above example can be simplified to :
+
+<pre class="brush: ruby">
+class RetryParticipant
+  include Ruote::LocalParticipant
+
+  def initialize(opts)
+    @opts = opts
+  end
+
+  def on_workitem
+    begin
+      do_the_job
+      reply
+    rescue
+      re_dispatch(:in => @opts['delay'] || '1s')
+    end
+  end
+
+  def on_cancel
+    unschedule_re_dispatch
+  end
+end
+</pre>
+
 
 h3(#unschedule_re_dispatch). #unschedule_re_dispatch
 
@@ -359,7 +498,29 @@ where alice as two days to complete her task (send back the workitem).
 But it's OK for participant classes registered in the engine to provide
 their own timeout value. The participant instance simply has to reply to
 the #rtimeout method and provide a meaningful timeout value (like a
-number of seconds, or a string like "2d" or "1M2w".
+number of seconds, or a string like "2d" or "1M2w". For example :
+
+<pre class="brush: ruby">
+class MyParticipant
+  # ...
+  def rtimeout(workitem)
+    workitem.fields['category'] == 'shoes' ? '2w' : '1w'
+  end
+  # ...
+end
+</pre>
+
+From ruote 2.2.1 on, the workitem is implicit :
+
+<pre class="brush: ruby">
+class MyParticipant
+  # ...
+  def rtimeout
+    workitem.fields['category'] == 'shoes' ? '2w' : '1w'
+  end
+  # ...
+end
+</pre>
 
 Note however, that the process definition timeout (if any) will take
 precedence over the participant specified one.
@@ -368,7 +529,7 @@ precedence over the participant specified one.
 ***
 
 
-h3(#reply_to_engine). reply_to_engine
+h3(#reply_to_engine). reply_to_engine reply <a name="reply"> </a>
 
 Often used at the engine of a consume implementation.
 
@@ -377,10 +538,11 @@ class Total
   include Ruote::LocalParticipant
 
   def consume(workitem)
-    workitem.fields['total'] = workitem.fields['items'].inject(0) { |t, (i, c)|
-      item = Item.find(i)
-      t = t + c * item.price
-    end
+    workitem.fields['total'] =
+      workitem.fields['items'].inject(0) { |t, (i, c)|
+        item = Item.find(i)
+        t = t + c * item.price
+      }
     reply_to_engine(workitem)
   end
 end
@@ -390,7 +552,26 @@ engine.register 'total', Total
 
 If you scroll a bit, you'll find "an example":#applied_workitem where this method is called outside of the consume method.
 
-_reply_to_engine(workitem)_ can be shortened to _reply(workitem)_.
+#reply_to_engine(workitem) can be shortened to #reply(workitem).
+
+From ruote 2.2.1 on, you can even drop the 'workitem'.
+
+<pre class="brush: ruby">
+class Total
+  include Ruote::LocalParticipant
+
+  def on_workitem
+    workitem.fields['total'] =
+      workitem.fields['items'].inject(0) { |t, (i, c)|
+        item = Item.find(i)
+        t = t + c * item.price
+      }
+    reply
+  end
+end
+
+engine.register 'total', Total
+</pre>
 
 
 h3(#fexp). fexp
@@ -410,6 +591,29 @@ end
 
 engine.register 'pick_customer', PickCustomer
 </pre>
+
+From ruote 2.2.1 on, you have to drop the fexp argument can be dropped :
+
+<pre class="brush: ruby">
+class PickCustomer
+  include Ruote::LocalParticipant
+
+  def on_workitem
+    customers = fexp.lookup_variable('customers')
+    workitem.fields['customer'] = customers[rand(customers.length)]
+    reply
+  end
+end
+
+engine.register 'pick_customer', PickCustomer
+</pre>
+
+
+h3(#workitem). workitem
+
+Whereas applied_workitem returns the workitem as was applied (to the participant expression), workitem returns the workitem as was dispatched to this participant [implementation].
+
+The main difference is that a workitem as dispatched contains the 'params' field corresponding to the attributes specified in the process definition.
 
 
 h3(#applied_workitem). applied_workitem
@@ -473,6 +677,42 @@ tasklist.reply(workitem)
 </pre>
 
 Note the use of Engine#participant(name) to fetch an instance of a participant via the engine.
+
+
+h3(#participant_name). participant_name
+
+Since ruote 2.2.1, it's ok to shorten
+
+<pre class="brush: ruby">
+def consume(workitem)
+  (workitem.fields['supervisors'] ||= []) << workitem.participant_name
+  reply_to_engine(workitem)
+end
+</pre>
+
+to
+
+<pre class="brush: ruby">
+def on_workitem
+  (workitem.fields['supervisors'] ||= []) << participant_name
+  reply
+end
+</pre>
+
+(the simplification to notice here is the one from "workitem.participant_name" to "participant_name", well it's not the only simplification...)
+
+
+h3(#lookup_variable). lookup_variable
+
+Available since ruote 2.2.1.
+
+<pre class="brush: ruby">
+def on_workitem
+  workitem.fields['my_var'] = lookup_variable('my_var')
+  workitem.fields['my_other_var'] = fexp.lookup_variable('my_other_var')
+  reply
+end
+</pre>
 
 
 h3(#stash). put and get

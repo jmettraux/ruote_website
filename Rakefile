@@ -21,14 +21,14 @@ end
 
 task :compile do
 
-  sh "nanoc co"
+  exec "nanoc co"
 end
 
 task :co => :compile
 
 task :aco do
 
-  sh "nanoc aco"
+  exec "nanoc aco"
 end
 
 task :rdoc do
