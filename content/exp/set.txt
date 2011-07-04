@@ -88,4 +88,25 @@ A workaround is to write 'rset' instead of 'set'.
 
 <pre class="brush: ruby">
   rset 'customer' => 'Jeff'
+
+</pre>
+
+h3. unset
+
+'unset' is the counterpart to 'set', it removes a field (or a variable)
+
+<pre class="brush: ruby">
+  unset :field => 'customer_name'
+  unset :f => 'customer_name'
+  unset :variable => 'vx'
+  unset :var => 'vx'
+  unset :v => 'vx'
+</pre>
+
+or simply
+
+<pre class="brush: ruby">
+  unset 'f:customer_name'
+  unset 'customer_name' # yes, it's field by default
+  unset 'v:vx'
 </pre>

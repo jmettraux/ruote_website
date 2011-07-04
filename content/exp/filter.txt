@@ -172,6 +172,15 @@ exception) if the value responds to #empty? and is, well, not empty.
   filter 'x', :empty => true
 </pre>
 
+h4. 'is'
+
+Checks if a field holds the given value.
+
+<pre class="brush: ruby">
+  filter 'x', :is => true
+  filter 'x', :is => [ 'a', 2, 3 ]
+</pre>
+
 h4. 'in'
 
 Checks if a value is in a given set of values.
@@ -198,6 +207,17 @@ Also checks if a hash has certain keys (strings only of course)
   filter 'x', :has => "x"
   filter 'x', :has => "abraham, bob, charly"
 </pre>
+
+h4. 'includes'
+
+Checks if an array includes a given value. Works with Hash values as well.
+
+<pre class="brush: ruby">
+  filter 'x', :includes => 1
+</pre>
+
+Whereas 'has' accepts multiple values, 'includes' only accepts one (like
+Ruby's Array#include?).
 
 h4. 'valid'
 
@@ -503,3 +523,32 @@ the participant as usual.
 The 'restore' operation makes lots of sense for the :filter attribute
 though.
 
+
+h3. filtering with rules in a block
+
+This filter
+
+<pre class="brush: ruby">
+  filter :in => [
+    { :field => 'x', :type => 'string' },
+    { :field => 'y', :type => 'number' }
+  ]
+</pre>
+
+can be rewritten as
+
+<pre class="brush: ruby">
+  filter do
+    field 'x', :type => 'string'
+    field 'y', :type => 'number'
+  end
+</pre>
+
+The field names can be passed directly as head of each rule :
+
+<pre class="brush: ruby">
+  filter do
+    x :type => 'string'
+    y :type => 'number'
+  end
+</pre>
