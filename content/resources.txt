@@ -28,6 +28,8 @@ about Workflow, BPM, Adaptive Case Management, ...
 
 * "Vulgar Interpretation of Cross-Functional Business Processes":http://mainthing.ru/item/368/ - one, two or more process instances ? (I don't like the "multithreading programming" label, but I like the "interprocess-communication" emphasis)
 
+* "The Danger of Centralized Workflows":http://www.udidahan.com/2011/07/13/the-danger-of-centralized-workflows/ - "It’s been my experience that the majority of logic ends up revolving around “exception management”. While it is possible for an experienced developer not to be 'duped' by the things that these visual tools make easy, the question is whether those tools are appropriate once you realize the non-sequential nature of the world." (from the comments)
+
 
 h3(#blogs). blogs
 
