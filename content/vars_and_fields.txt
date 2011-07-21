@@ -7,19 +7,123 @@ h2. process variables and workitem fields
 
 Most of the time, they are referred to as "variables" and "fields". Saying "process variables" and "workitem fields" should make it less confusing (once the two associations stick).
 
+Manipulating variables and fields from process definitions usually occur via the "set":exp/set.html expression (and its "unset":exp/set.html counterpart).
+
+Variables and fields are accessible from the process definitions via the "dollar notation":dollar.html.
+
 h3. process variables
 
-TODO
+Process variables are stored inside of ruote, they are not accessible to participants who, usually, only get to see workitems (and workitem fields).
+
+Process variables are mostly used as helpers for the control flow, as in
+
+<pre class="brush: ruby">
+pdef = Ruote.process_definition :name => 'test' do
+  citerator :on_val => 'alice, bob, charly', :to_var => 'v' do
+    participant '${v:v}'
+  end
+end
+</pre>
+
+where the variable named 'v' holds concurrently 'alice', 'bob' and 'charly'.
+
+This example shows variables have scopes (it's a programming language after all). The 3 concurrent 'v' are living in three different scopes.
+
+<pre class="brush: ruby">
+participant "${v:v0}"
+  # current scope
+
+participant "${v:/v0}"
+  # process scope
+
+participant "${v://v0}"
+  # engine scope (engine variable)
+</pre>
+
+The slashes allow to jump to a higher scope. If you don't prefix with any slash and the variable is not defined locally, it will look in higher scopes, up until the engine scope. Yes, local scopes may shadow other scopes.
+
+h4. current scope
+
+The current scope has already been illustred with the concurrent_iterator example above.
+
+h4. process scope (process level variables)
+
+The process scope lets you set variables visible to all the branches in a process instance. Use with care, especially when setting. You might even want to avoid setting such "process level variables" from the process definition itself, consider them as read-only and set them when launching the process.
+
+Reminder, here is the #launch signature :
+
+<pre class="brush: ruby">
+Ruote::Engine#launch(pdef, initial_workitem_fields={}, process_variables={})
+</pre>
+
+Process variables set a launch time are in the _process scope_ (aka process level variables).
+
+h4. engine scope (engine variables)
+
+Like for the process scope, I'd suggest not setting those from process definitions, but only at engine/storge initialization. Then simply read them.
+
+Those 'engine variables' make for wonderful global aliases, like in
+
+<pre class="brush: ruby">
+engine.variables['run_audit'] = 'http://pdefs.examples.com/audit_5.rb'
+
+# ...
+
+pdef = Ruote.define 'my process' do
+  # ...
+  run_audit
+  # ...
+end
+</pre>
+
+Since lower scopes may shadow the engine scope, you could divert the flow, with
+
+<pre class="brush: ruby">
+engine.launch(
+  pdef,
+  { 'customer' => 'x' }, # fields
+  { 'run_audit' => 'http://pdefs.examples.com/audit_7./rb' }) # vars
+</pre>
+
 
 h4. variables as aliases
 
-TODO
+Variables can be used to alias to participant names or subprocess names.
+
+
+<pre class="brush: ruby">
+pdef = Ruote.process_definition do
+
+  set 'v:inspector' => 'user_alice'
+  set 'v:auditor' => 'user_bob'
+  set 'v:submit_report' => 'http://pdefs.example.com/report_x.rb'
+
+  cursor do
+    inspector :task => 'inspect'
+    auditor :task => 'final audit'
+    rewind :if => '${f:audited}'
+    submit_report
+  end
+end
+</pre>
+
+In this example, the variables 'inspector' and 'auditor' contain the named of the participant 'user_alice' and 'user_bob' respectively. They are effectively aliases for those participants.
+
+The 'submit_report' variable contains the URI of a subprocess.
 
 h4. engine variables
 
-TODO
+(see 'engine scope' above)
 
 h3. workitem fields
+
+Workitem fields compose the workitem payload. Workitem are handed to participants who take actions based on the workitem fields or modify them.
+
+A sequential workflow has a single workitem. As soon as a "concurrence":exp/concurrence.html or a "concurrent-iterator":exp/concurrent_iterator.html is met, the workitem will split in two or more. Only when the concurrence end will the fields merge.
+
+Workitem fields are accessed (read/write) from the process definitions and from the participants. It's how participants communicate with the process and with other participants to the same process.
+
+h4. workitem params
 
 TODO
 
@@ -28,6 +132,13 @@ h4. trailing/temporary fields
 Since ruote 2.2.1...
 
 TODO
+
+h3. recap table
+
+| |_.process variables |_.workitem fields |
+|_.where | engine bound | workitem bound |
+|_.divisions | current/process/engine scope | regular fields / param fields / temporary fields |
+|_. | ... | ... |
 
 h3. see also
 
