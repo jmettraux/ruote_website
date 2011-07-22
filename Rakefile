@@ -6,7 +6,7 @@ end
 
 task :install_dependencies do
 
-  sh "gem install nanoc haml rack RedCloth mime-types adsf"
+  sh 'gem install nanoc haml rack RedCloth mime-types adsf'
 end
 
 #task :upload => :compile do
@@ -28,7 +28,15 @@ task :co => :compile
 
 task :aco do
 
-  exec "nanoc aco"
+  #exec "nanoc aco" # <--- to slow, can't wait nanoc 3.2
+
+  t = Thread.new do
+    loop { `nanoc co > /dev/null 2>&1`; sleep 0.5 }
+  end
+
+  sh 'nanoc view'
+
+  t.join
 end
 
 task :rdoc do
