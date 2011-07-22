@@ -23,6 +23,7 @@ h3. basic documentation
 * "participants":participants.html are handed workitems by the engine to perform tasks with them
 * there are various "participant implementations":part_implementations.html found in ruote itself and in its extensions, like ruote-couch and ruote-amqp
 * "expressions":expressions.html are the building blocks of process definitions
+* the "sample workflow run":sample_workflow_run.html page describes what happens when a very simple workflow is executed by ruote
 
 
 h3. in-depth documentation

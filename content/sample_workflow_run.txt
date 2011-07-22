@@ -1,0 +1,197 @@
+---
+title: a sample workflow run
+side_title: sample workflow run
+---
+
+h2. a sample workflow run
+
+This page shows what happens with ruote when this simple workflow is run:
+
+<pre class="brush: ruby">
+Ruote.define do
+  alpha
+  bravo
+end
+</pre>
+
+
+h3. a program to run our sample
+
+We need a small program with noisy set to true to show what's happening.
+
+<pre class="brush: ruby">
+require 'rubygems'
+require 'ruote'
+
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new))
+
+pdef = Ruote.define do
+  alpha
+  bravo
+end
+
+engine.register do
+  catchall Ruote::NoOpParticipant
+end
+
+engine.noisy = true
+
+wfid = engine.launch(pdef)
+engine.wait_for(wfid)
+</pre>
+
+Look at the line where the engine gets instantiated:
+
+<pre class="brush: ruby">
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new))
+</pre>
+
+There are in fact three objects (at least) getting instantiated: the engine, a worker and the storage.
+
+The 'engine' should be renamed 'dashboard', it's merely a bunch of methods for launching workflows and querying them.
+
+The worker performs each atomic action that take the workflow from its start to its end.
+
+The storage is where the workflows are persisted. It's also where the message (that trigger the actions taken by workers) and the schedules (also triggering worker actions) are stored.
+
+
+h3. from the point of view of the worker
+
+What does the worker do when we run our workflow ?
+
+Since we have turned "noisy" on, it spits a few yellow lines to the stdout
+
+<a href="/images/sample_run_0.png"><img src="/images/sample_run_0.png" width="664px" /></a>
+
+That's lot of data, fortunately, it can be stripped down to
+
+<pre class="brush: ruby">
+launch * 20110722-bupugeki [
+  "define", {}, [["alpha", {}, []], ["bravo", {}, []]]
+]
+  apply * 20110722-bupugeki 0_0 ["participant", {"ref"=>"alpha"}, []]
+  dispatch * alpha 20110722-bupugeki 0_0 Ruote::NoOpParticipant
+  receive * alpha 20110722-bupugeki 0_0
+  dispatched * 20110722-bupugeki 0_0
+reply * 20110722-bupugeki 0
+  apply * 20110722-bupugeki 0_1 ["participant", {"ref"=>"bravo"}, []]
+  dispatch * bravo 20110722-bupugeki 0_1 Ruote::NoOpParticipant
+  receive * bravo 20110722-bupugeki 0_1
+  dispatched * 20110722-bupugeki 0_1
+reply * 20110722-bupugeki 0
+terminate * 20110722-bupugeki 0
+</pre>
+
+Each of those launch/apply/dispatch/reply/terminate line stand for 1 message handled by the worker.
+
+When the message label is a verb (in the present) it indicates an action (taken by the worker), when the label is a past participle, it simply was a notification.
+
+The funny "20110722-bupugeki" is the "wfid" (workflow instance id), the identifier (unique to the storage) for the process/workflow instance.
+
+
+
+h3. from the point of view of the storage
+
+We have a noisy worker. Now what if the storage was emitting a line each time it stores or unstores something ?
+
+<pre class="brush: ruby">
+       + msgs.put 523357!002 0
+       - msgs.del 522662!001
+       + expressions.put 0!!20110722-bejunoshite 0
+       + expressions.put 0!!20110722-bejunoshite 1
+       + msgs.put 526162!003 0
+#launch * 20110722-bupugeki [
+#  "define", {}, [["alpha", {}, []], ["bravo", {}, []]]
+#]
+       - msgs.del 523357!002
+       - msgs.del 526162!003
+       + expressions.put 0_0!!20110722-bejunoshite 0
+       + expressions.put 0_0!!20110722-bejunoshite 1
+       + msgs.put 530126!004 0
+#  apply * 20110722-bupugeki 0_0 ["participant", {"ref"=>"alpha"}, []]
+       - msgs.del 530126!004
+       + msgs.put 531783!005 0
+#  dispatch * alpha 20110722-bupugeki 0_0 Ruote::NoOpParticipant
+       + msgs.put 532535!006 0
+       - msgs.del 531783!005
+       - expressions.del 0_0!!20110722-bejunoshite
+       + msgs.put 535061!007 0
+#  receive * alpha 20110722-bupugeki 0_0
+       - msgs.del 532535!006
+#  dispatched * 20110722-bupugeki 0_0
+       - msgs.del 535061!007
+       + expressions.put 0!!20110722-bejunoshite 2
+       + msgs.put 634234!008 0
+#reply * 20110722-bupugeki 0
+       - msgs.del 634234!008
+       + expressions.put 0_1!!20110722-bejunoshite 0
+       + expressions.put 0_1!!20110722-bejunoshite 1
+       + msgs.put 636538!009 0
+#  apply * 20110722-bupugeki 0_1 ["participant", {"ref"=>"bravo"}, []]
+       - msgs.del 636538!009
+       + msgs.put 637318!010 0
+#  dispatch * bravo 20110722-bupugeki 0_1 Ruote::NoOpParticipant
+       + msgs.put 637577!011 0
+       - msgs.del 637318!010
+       - expressions.del 0_1!!20110722-bejunoshite
+       + msgs.put 638697!012 0
+#  receive * bravo 20110722-bupugeki 0_1
+       - msgs.del 637577!011
+#  dispatched * 20110722-bupugeki 0_1
+       - msgs.del 638697!012
+       - expressions.del 0!!20110722-bejunoshite
+       + msgs.put 741979!013 0
+#reply * 20110722-bupugeki 0
+       - msgs.del 741979!013
+#terminate * 20110722-bupugeki 0
+</pre>
+
+It gets crowded. What if we removed the storage lines about "msgs", they are the worker food, they already appear as wokrker actions. Let's remove them.
+
+<pre class="brush: ruby">
+       + expressions.put 0!!20110722-bejunoshite 0
+       + expressions.put 0!!20110722-bejunoshite 1
+#launch * 20110722-bupugeki [
+#  "define", {}, [["alpha", {}, []], ["bravo", {}, []]]
+#]
+       + expressions.put 0_0!!20110722-bejunoshite 0
+       + expressions.put 0_0!!20110722-bejunoshite 1
+#  apply * 20110722-bupugeki 0_0 ["participant", {"ref"=>"alpha"}, []]
+#  dispatch * alpha 20110722-bupugeki 0_0 Ruote::NoOpParticipant
+       - expressions.del 0_0!!20110722-bejunoshite
+#  receive * alpha 20110722-bupugeki 0_0
+#  dispatched * 20110722-bupugeki 0_0
+       + expressions.put 0!!20110722-bejunoshite 2
+#reply * 20110722-bupugeki 0
+       + expressions.put 0_1!!20110722-bejunoshite 0
+       + expressions.put 0_1!!20110722-bejunoshite 1
+#  apply * 20110722-bupugeki 0_1 ["participant", {"ref"=>"bravo"}, []]
+#  dispatch * bravo 20110722-bupugeki 0_1 Ruote::NoOpParticipant
+       - expressions.del 0_1!!20110722-bejunoshite
+#  receive * bravo 20110722-bupugeki 0_1
+#  dispatched * 20110722-bupugeki 0_1
+       - expressions.del 0!!20110722-bejunoshite
+#reply * 20110722-bupugeki 0
+#terminate * 20110722-bupugeki 0
+</pre>
+
+As the workflow unfolds, the worker is busy storing up-to-date versions of the expressions.
+
+If we simplify a step further:
+
+<pre class="brush: ruby">
++ expressions.put 0!!20110722-bejunoshite
+
++ expressions.put 0_0!!20110722-bejunoshite
+- expressions.del 0_0!!20110722-bejunoshite
+
++ expressions.put 0!!20110722-bejunoshite
+
++ expressions.put 0_1!!20110722-bejunoshite
+- expressions.del 0_1!!20110722-bejunoshite
+
+- expressions.del 0!!20110722-bejunoshite
+</pre>
+
+The life of the workflow seen from the storage emerges, in the beginning, the expression 0 pops up, followed by the 0_0 one (alpha), which immediately dies, 0 gets updated, 0_1 (bravo) appears and dies immediately. 0 dies and since its the root of the workflow, the workflow di... terminates.
+
