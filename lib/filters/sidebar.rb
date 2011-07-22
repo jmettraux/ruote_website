@@ -50,7 +50,7 @@ class SidebarFilter < Nanoc3::Filter
       }
     end
 
-    items = items.sort_by { |i| i[:title] }
+    items = items.sort_by { |i| i[:side_title] || i[:title] }
 
     head_item = if @item.path[0] == 'exp'
       @items.find { |i| i.path.join('/') == 'expressions' }
