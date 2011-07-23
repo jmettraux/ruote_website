@@ -7,9 +7,23 @@ h2. glossary
 An attempt at defining or explaining terms in ruote and about workflow engines in general.
 
 
-h3(#fei). fei
+h3(#engine). engine
 
-A short form for <a href="#flow_expression_id">Flow Expression Id</a>
+Before ruote 2.x, an engine was a monolithic worker + storage system. It made sense to call it an engine. With ruote 2.x, the engine became a mere "dashboard", but the name stuck.
+
+Looking a the initialization of an engine clearly shows the separation
+
+<pre class="brush: ruby">
+engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new))
+</pre>
+
+The engine is not necessarily containing a worker. The worker can be run independently, with the engine instantied only for launching/querying purposes (the workflow enactment work being performed in the workers).
+
+<pre class="brush: ruby">
+worker = Ruote::Worker.new(Ruote::HashStorage.new)
+
+engine = Ruote::Engine.new(Ruote::HashStorage.new)
+</pre>
 
 
 h3(#flow_expression). flow expression
@@ -17,14 +31,14 @@ h3(#flow_expression). flow expression
 A piece of a process instance.
 
 
-h3(#flow_expression_id). flow expression id
+h3(#fei). fei, flow expression id
 
 An identifier for a flow expression. This same identifier is used to identify "workitems":#workitem
 
 
 h3(#receiver). receiver
 
-TODO
+A piece of code that listens/polls on a given channel (queue, mail inbox, directory, ...) for incoming workitems (or launch orders) and then pass them to ruote (by placing a msg in the storage).
 
 
 h3(#participant). participant
@@ -46,7 +60,26 @@ A template for a process. "Process definitions":http://ruote.rubyforge.org/defin
 
 h3(#process_instance). process instance
 
-A process definition, turned into an instance for execution.
+A process definition, turned into an instance for execution. Is uniquely (in a ruote system) by a "wfid":#wfid (workflow instance id).
+
+
+h3(#storage). storage
+
+Where the ruote data is persisted.
+
+There are multiple storage implementations. See "configuration":configuration.html#storage for more info.
+
+
+h3(#wfid). wfid, workflow instance id
+
+Could have been renamed "process instance id", but the "pid" abbrevation is already "heavily used":http://en.wikipedia.org/wiki/Process_identifier.
+
+
+h3(#worker). worker
+
+A work performer. Handles messages transiting via the "storage":#storage, execute the action requested in them.
+
+Those actions include "apply" (creating and applying a new flow expression), "reply" (replying to a [parent] flow expression), "cancel" (cancelling a flow expression, or a whole process instance), ...
 
 
 h3(#workitem). workitem
