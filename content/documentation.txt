@@ -60,6 +60,7 @@ a few links to blog posts about ruote.
 * "it's barley a task manager":http://jmettraux.wordpress.com/2010/01/29/barley/ in a "single file":http://github.com/jmettraux/ruote/blob/ruote2.1/examples/barley.rb sinatra webapp ("online demo":http://barley-plain.torstenschoenebaum.de/work)
 * "how does ruote work ?":http://jmettraux.wordpress.com/2008/09/07/how-does-ruote-work/ (quite outdated but mostly OK)
 
+* "ruote-stomp ping pong":http://kitplummer.github.com/workflow/2011/06/20/ruote-stomp-ping-pong.html by "Kit Plummer":http://kitplummer.github.com
 * "an investigation into ruote and AMQP":http://simplic.it/blog/an-investigiation-into-ruote-and-amqp by Hartog de Mik
 * "ruote : a workflow engine written in Ruby":http://www.infoq.com/news/2010/10/ruote an InfoQ article by "Jean-Jacques Dubray":http://www.ebpml.org/blog2/index.php
 * "ruote and switch":http://jmettraux.wordpress.com/2011/01/03/ruote-and-switch/, an exploration of ruote and switch statements
