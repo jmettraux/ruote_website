@@ -71,9 +71,15 @@ engine.configure('ruby_eval_allowed', true)
 
 h3(#engine_options). engine options
 
-* *remote_definition_allowed* :
+* *do_not_thread_participants*: (from ruote 2.2.1 on)
 
-remote definitions are process definitions reachable over HTTP. Since process definition are 'code', ruote, by default, prevents you from doing things like
+By default, the dispatching of workitems to participants is done in a new Ruby thread. The goal is not to block the worker with potentially lengthy operations. Dispatching via a "homing pigeon":http://www.reuters.com/article/2009/09/09/us-safrica-pigeon-idUSTRE5885PM20090909, for example, is a costly operation, you have to take the pigeon out of his cage, attach the message, and set it free... By default such blocking operations are performed in their own threads.
+
+In deployments where multi-workers are the norm, having one worker blocked dispatching is no problem. In such contexts, turning off the threaded dispatching is OK.
+
+* *remote_definition_allowed*:
+
+Remote definitions are process definitions reachable over HTTP. Since process definition are 'code', ruote, by default, prevents you from doing things like
 
 <pre class="brush: ruby">
 Ruote.process_definition :name => 'main process' do
@@ -103,7 +109,7 @@ engine.launch('http://example.com/definitions/main.xml')
 You have to explicitely set 'remote_definition_allowed' to true.
 
 
-* *ruby_eval_allowed* :
+* *ruby_eval_allowed*:
 
 More about this option in the page about the "dollar notation":dollar.html#ruby_eval_allowed.
 
