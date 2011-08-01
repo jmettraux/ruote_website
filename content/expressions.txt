@@ -44,6 +44,7 @@ h3(#advanced). advanced expressions
 * "restore":exp/restore.html - restores values from a previously saved workitem
 * "save":exp/save.html - saves the current workitem
 * "undo":exp/undo.html - undoes a tagged segment of process
+* "on_error":exp/on_error.html - (from ruote 2.2.1 on) when the :on_error attribute is not sufficient, finer grained error handling
 * "once":exp/once.html - ('when' alias) waits for a condition to become true before triggering
 * "let":exp/let.html - a sequence but with a dedicated variable scope
 * "given":exp/given.html and "that/of":exp/that.html - a case/switch statement equivalent

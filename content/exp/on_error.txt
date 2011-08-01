@@ -1,0 +1,46 @@
+---
+title: on_error expression
+names: ["on_error"]
+---
+
+h2. on_error
+
+
+Up until ruote 2.2.1, 'on_error' was only an attribute
+
+<pre class="brush: ruby">
+  sequence :on_error => 'error_handler' do
+    # ...
+  end
+</pre>
+
+This 'on_error' expression makes such definitions possible
+
+<pre class="brush: ruby">
+  sequence do
+    on_error /unknown participant/ => 'missing_participant'
+    on_error 'decommission'
+    # ...
+  end
+</pre>
+
+where errors containing 'unknown participant' in their messages are handled
+by the participant or subprocess named 'missing participant', while
+the rest of the errors is handled by the participant or the subprocess
+named 'decommission'.
+
+Speaking of subprocesses, this is also possible
+
+<pre class="brush: ruby">
+  sequence do
+
+    on_error /unknown participant/ do
+      admin :msg => 'there was an unknown participant'
+    end
+    on_error do
+      # decommissioning...
+    end
+
+    # ...
+  end
+</pre>

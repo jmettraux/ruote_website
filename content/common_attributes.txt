@@ -221,7 +221,9 @@ If :undo or 'undo' is passed, the branch will get cancelled and the flow will re
   end
 </pre>
 
-NOTE : there are plans for making the "listen":exp/listen.html expression listen to errors, stay tuned.
+The "listen":exp/listen.html expression may also listen to errors (from ruote 2.2.1 on).
+
+If you want to register finer grained error interception, you might be want to have a look at the "on_error":exp/on_error.html expression (from ruote 2.2.1 on).
 
 
 h3(#on_cancel). :on_cancel
