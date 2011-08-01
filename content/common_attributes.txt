@@ -225,6 +225,32 @@ The "listen":exp/listen.html expression may also listen to errors (from ruote 2.
 
 If you want to register finer grained error interception, you might be want to have a look at the "on_error":exp/on_error.html expression (from ruote 2.2.1 on).
 
+From ruote 2.2.1 on, the on_error attribute accepts the same command as a cursor (in fact, it's best used with a cursor).
+
+<pre class="brush: ruby">
+  cursor :on_error => 'rewind' do
+    # the cursor will rewind by itself if there is an error in its steps
+    step_one
+    step_two
+    step_three
+  end
+</pre>
+
+or
+
+<pre class="brush: ruby">
+  cursor :on_error => 'jump to final_step' do
+    # the cursor will jump to the final_step in case of error
+    # (it'd be better if the final step itself weren't the source of the error)
+    step_one
+    step_two
+    step_three
+    final_step
+  end
+</pre>
+
+All the cursor commands are valid. Read the description of the "cursor":exp/cursor.html expression for more information.
+
 
 h3(#on_cancel). :on_cancel
 
@@ -273,6 +299,8 @@ The 'error' value forces the process into error upon timeout (whereas the defaul
 </pre>
 
 In this example, the reviewer will receive a fresh workitem every 3 days, until he replies by himself to the flow (which will resume to the editor participant).
+
+From ruote 2.2.1 on, the :on_timeout attribute accepts the same pre-defined handlers as the :on_error attribute, "jump", "rewind", "undo", "pass", ...
 
 
 h3(#tag). :tag
