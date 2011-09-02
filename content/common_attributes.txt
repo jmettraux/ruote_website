@@ -10,11 +10,13 @@ The attributes listed on this page may be used with any expression.
 * ":if / :unless":#if_unless
 * ":forget":#forget
 * ":lose":#lose
+* ":flank":#flank
 * ":on_error":#on_error
 * ":on_cancel":#on_cancel
 * ":on_timeout":#on_timeout
 * ":tag":#tag
 * ":filter":#filter
+* ":timers":#timers
 
 <hr/>
 
@@ -157,6 +159,11 @@ To sum up the difference between *forget* and *lose* :
 |normal expression        |as soon as job is done |yes                |
 |*forget*                 |immediately            |no (not reachable) |
 |*lose*                   |no                     |yes                |
+
+
+h3(#flank). :flank
+
+TODO
 
 
 h3(#on_error). :on_error
@@ -439,4 +446,83 @@ class MyFilterParticipant
   end
 end
 </pre>
+
+
+
+h3(#timers). :timers
+
+(introduced by ruote 2.2.1)
+
+"alice receives a task, she has 15 days to do it, she'll have to receive a reminder after 5 days and a final reminder after 12 days" can be conveyed as
+
+<pre class="brush: ruby">
+Ruote.define do
+  # ...
+  alice :timers => '5d: reminder, 12d: final_reminder, 15d: timeout'
+  # ...
+end
+</pre>
+
+The pattern is "duration0: x, duration1: y, ..., durationN: z".
+
+The "action" can be a participant name, a subprocess name or one of a set of keywords.
+
+Those keywords are
+
+* timeout : simply times out
+
+<pre class="brush: ruby">
+alice :timers => '1h: timeout'
+  # is equivalent to
+alice :timeout => '1h'
+</pre>
+
+* error : after the given time, the expression is forced into an error
+
+<pre class="brush: ruby">
+alice :timers => '1h: reminder, 12h: error'
+</pre>
+
+What follows the "error" and precedes the end of the string or the next "," (comma) is taken as the 'error message'
+
+<pre class="brush: ruby">
+alice :timers => '1h: reminder, 12h: error it went wrong'
+</pre>
+
+* undo, pass
+
+To forget alice and pass to bravo after 12 hours:
+
+<pre class="brush: ruby">
+sequence do
+  alice :timers => '1h: reminder, 12h: undo'
+  bravo
+end
+</pre>
+
+* redo, retry
+
+To force a re-application of an expression after a certain time:
+
+<pre class="brush: ruby">
+alice :timers => '12h: redo'
+  # which is equivalent to
+alice :timeout => '12h', :on_timeout => 'redo'
+</pre>
+
+* skip, back, jump, rewind, continue, break, stop, over, reset
+
+Those "commands" are understood as well (warning, they only apply if you are inside of a 'cursor' expression).
+
+After twelve hours and no reply from alice, the flow will jump to participant charly (over participant bravo):
+
+<pre class="brush: ruby">
+cursor do
+  alice :timers => '12h: jump charly'
+  bravo
+  charly
+end
+</pre>
+
+Note that sub-processes and participants that are triggered by :timers are "flanking". When the expression holding the timers ends, they get cancelled (they don't outlive the expression for which they are 'timers').
 
