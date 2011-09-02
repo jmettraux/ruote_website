@@ -1,0 +1,13 @@
+---
+title: stall expression
+names: ["stall"]
+---
+
+h2. stall
+
+
+Stalls the [current branch of the] process. Does it by simply getting
+applied and not replying.
+
+Mostly used for tests.
+

@@ -27,3 +27,17 @@ This expression is aliased to 'cancel'
 <pre class="brush: ruby">
   cancel :ref => 'invoicing_stage'
 </pre>
+
+h3. a bit shorter
+
+It's OK to shorten
+
+<pre class="brush: ruby">
+  cancel :ref => 'invoicing_stage'
+</pre>
+
+to
+
+<pre class="brush: ruby">
+  cancel 'invoicing_stage'
+</pre>

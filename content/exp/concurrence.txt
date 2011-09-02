@@ -173,8 +173,16 @@ will be
   { 'a' => 1,
     'b' => [ 'x', 'y', 'y', 'z' ],
     'c' => { 'aa' => 'bb', 'cc' => 'dd' } }
-
 </pre>
+
+h5. :ignore
+
+(Available from ruote 2.2.1)
+
+A very simple merge type, the workitems given back by the branches are
+simply discarded and the workitem as passed to the concurrence expression
+is used to reply to the parent expression (of the concurrence expression).
+
 
 h4. :over_if (and :over_unless)
 
