@@ -153,17 +153,54 @@ This is the attribute equivalent of the "lose":exp/lose.html expression.
   end
 </pre>
 
-To sum up the difference between *forget* and *lose* :
-
-|_.attribute / expression |_.replies to parent    |_.cancellable      |
-|normal expression        |as soon as job is done |yes                |
-|*forget*                 |immediately            |no (not reachable) |
-|*lose*                   |no                     |yes                |
+":timers":#timers are probably a better way to express that business logic with ruote.
 
 
 h3(#flank). :flank
 
-TODO
+(introduced by ruote 2.2.1)
+
+The previous 'lose' example can be rewritten with 'flank' as:
+
+<pre class="brush: ruby">
+  Ruote.process_definition do
+    sequence do
+      sequence :flank => true do
+        wait '2d'
+        send_reminder_to_alfred
+        wait '2h'
+        send_alarm_to_boss
+      end
+      alfred
+    end
+  end
+</pre>
+
+'Flanking' expressions will reply to their parent expression immediately (like :forget) but will still be cancellable (unlike :forget).
+
+Since they are cancellable, they won't outlive their parent expressions. Thus
+
+<pre class="brush: ruby">
+  Ruote.process_definition do
+    sequence do
+      bob :task => 'support work', :flank => true
+      alfred :task => 'main effort'
+    end
+  end
+</pre>
+
+the support work of bob will terminate (get cancelled) as soon as alfred is done with his main effort.
+
+Granted, this could previously be done with "concurrence :count => 1" and ":lose => true", but since 'flanks' where introduced with "timers":#timers, the :flank attribute was introduced as well.
+
+
+<a id="forget_lose_flank"></a>To sum up the difference between *forget*, *lose* and *flank*:
+
+|_.attribute / expression |_.replies to parent    |_.cancellable      |
+|normal expression        |as soon as job is done |yes                |
+|*forget*                 |immediately            |no (not reachable) |
+|*lose*                   |never                  |yes                |
+|*flank*                  |immediately            |yes                |
 
 
 h3(#on_error). :on_error
