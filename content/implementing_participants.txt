@@ -239,6 +239,8 @@ class PlainWorklist
 end
 </pre>
 
+From ruote 2.2.1 on, when #on_cancel returns false, no reply will be emitted towards ruote. It can be useful in scenarii where the #on_workitem itself deals with cancel messages (and it has some way to know about them...).
+
 h4(#flavour). cancel flavour
 
 This parameter is usually set to 'cancel'. When a process is "killed instead of cancelled":/process_administration.html#killing, the flavour is set to "kill". Usually this parameter is simply ignored, but who knows, perhaps a different behaviour might be necessary in some context ?
