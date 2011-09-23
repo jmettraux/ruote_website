@@ -114,6 +114,13 @@ You have to explicitely set 'remote_definition_allowed' to true.
 More about this option in the page about the "dollar notation":dollar.html#ruby_eval_allowed.
 
 
+* *wait_logger_max*:
+
+(this setting only makes sense in "1 worker - test/development" environments, in other environments, just leave it alone)
+
+The WaitLogger is a component inside of ruote that keeps track of the 147 latest messages processed by the local worker (if any). This 147 number can be tuned thanks to the 'wait_logger_max' option.
+
+
 h3(#engine_on). engine on_error / on_terminate
 
 There are the "on_error":http://localhost:3000/common_attributes.html#on_error and the "on_cancel":http://localhost:3000/common_attributes.html#on_cancel attributes common to all expressions. Engine#on_error and #on_terminate are quite close to those, but there is an important catch. The on_error attribute will cancel the expression to which it is attached and then run the on_error 'routine', while Engine#on_error runs independently of the process whose error triggered the reaction. Same thing for on_terminate.

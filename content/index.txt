@@ -2,6 +2,7 @@
 title: index
 ---
 
+<div class="ruote_version" onclick="window.location.href='http://rubygems.org/search?utf8=✓&query=ruote%25'">current version: 2.2.0</div>
 <strong>Ruote</strong> is a workflow engine written in Ruby. Ruote is "not":http://jmettraux.wordpress.com/2009/07/03/state-machine-workflow-engine/ a state machine library.
 
 It could be described as an 'operating system for business processes'.
@@ -16,7 +17,7 @@ a process definition
 <pre class="brush: ruby">
 require 'ruote'
 
-pdef = Ruote.process_definition do
+pdef = Ruote.define do
   cursor do
     concurrence do
       reviewer1

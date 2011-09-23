@@ -182,7 +182,7 @@ h4 {
 	font-size: 1em;
 }
 #sidebar ul {
-	position:relative;
+	position: relative;
 	padding: 2px;
 	background: #e0e0e0;
 	-webkit-border-radius: 5px;
@@ -289,6 +289,21 @@ pre {
 }
 .code_and_fluo img {
 	width: 100% !important;
+}
+
+.ruote_version {
+  float: right;
+  font-size: 130%;
+  color: #4776a8;
+  background: #e0e0e0;
+  margin: 10px;
+  margin-top: 3px;
+  padding: 13px;
+  border: 9px solid transparent;
+  border-bottom-color: #e0e0e0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 /* pre-existing styles */
