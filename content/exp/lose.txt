@@ -71,10 +71,29 @@ Every expression understands the 'lose' attribute :
 Probably produces definitions more compact than when using the 'lose'
 expression.
 
-h3. forget vs lose
+
+h3. multi lose
+
+Losing multiple children:
+
+<pre class="brush: ruby">
+  lose do
+    alice :task => 'take out garbage'
+    bob :task => 'clean living room'
+  end
+</pre>
+
+will trigger alice's and bob's tasks together. The lose expression will
+never reply, unless cancelled (in which case alice and bob task get
+cancelled as well).
+
+
+h3. forget vs lose vs flank
 
 forget : replies to parent expression immediately, is not cancellable
 (not reachable).
 
-lose : never replies to parent expression, is cancellable.
+lose : never replies to the parent expression, is cancellable.
+
+flank : immediately replies to the parent expression, is cancellable.
 

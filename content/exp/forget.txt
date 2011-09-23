@@ -41,12 +41,31 @@ Now the equivalent process definition, but using the :forget attribute :
   end
 </pre>
 
-This expression can be useful for fire-and-forget parallelism in processes.
+This expression can be useful for fire-and-forget 'parallelism'
+in processes.
 
-h3. forget vs lose
+
+h3. multi forget
+
+Forget multiple children at once.
+
+<pre class="brush: ruby">
+  forget do
+    alice :task => 'take out garbage'
+    bob :task => 'clean living room'
+  end
+</pre>
+
+The forget expression will reply immediately to its parent expression, it
+will thus not be cancellable (neither the children will be cancellable).
+
+
+h3. forget vs lose vs flank
 
 forget : replies to parent expression immediately, is not cancellable
 (not reachable).
 
-lose : never replies to parent expression, is cancellable.
+lose : never replies to the parent expression, is cancellable.
+
+flank : immediately replies to the parent expression, is cancellable.
 
