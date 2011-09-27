@@ -102,7 +102,7 @@ Using parenthesis is OK.
 
 <pre class="brush: ruby">
 bill :if =>
-  '${amount} > 0.0 or (${'f:name} =~ /^Acme/ and ${'f:city} == "Orlando"'
+  "${amount} > 0.0 or (${'f:name} =~ /^Acme/ and ${'f:city} == 'Orlando')"
 </pre>
 
 
