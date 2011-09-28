@@ -304,6 +304,10 @@ pre {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+  text-align: center;
+}
+.ruote_version > .since {
+  font-size: 80%;
 }
 
 /* pre-existing styles */
