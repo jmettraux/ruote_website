@@ -92,7 +92,7 @@ bill :if =>
 
 h3(#and_or). _and_ / _or_ combinations
 
-One case use "and" and "&&", and "or" and "||".
+One can use "and" and "&&", and "or" and "||". The regular Ruby precedence applies ('and' and 'or' have the same low precedence while '||' has higher precedence and '&&' tops them all).
 
 <pre class="brush: ruby">
   notify_boss :if => "${amount} > 500.0 and '${customer.name}' =~ /^Acme"
@@ -106,14 +106,33 @@ bill :if =>
 </pre>
 
 
-h3(#further). further conditions
+h3(#further). is set, is empty, is null, is in [ red, yellow ]
 
-TODO (is [not] set, is [not] empty, is [not] null, [not] in Array|Hash)
+Ruote understands four special words preceded by an optional 'is [not]'. Those words are 'set', 'empty', 'null' and 'in'. The latter, 'in', is meant to be followed by an array.
+
+Here are a few examples, they should be straightforward:
+
+<pre class="brush: ruby">
+  notify :if => '${im_account} set'
+  notify :if => '${im_account} is set'
+
+  emit_mailing :if => '${emails} is not empty'
+
+  review :if => '${document_uri} is not null'
+
+  stop :if => '${signal} is in [ red, yellow ]'
+</pre>
+
+The 'is' is optional.
 
 
 h3(#ruby). falling back to Ruby
 
-TODO (ruby_eval_allowed)
+If ruote was "configured":configuration.html with 'ruby_eval_allowed' => true, it's OK to use ${r:...} and have ruby code decide.
+
+<pre class="brush: ruby">
+  notify :if => '${r: rand > 0.5 }'
+</pre>
 
 
 h3. see also
