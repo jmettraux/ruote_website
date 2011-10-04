@@ -314,7 +314,12 @@ pre {
 	display: block;
 	width: 8em;
 	height: 8em;
-	background: #fdc051;
+	background-color:#ffc936;
+	background-image: -moz-radial-gradient(50% 50%, circle farthest-corner, #ffc936, #ebaa2a 100%);
+	background-image: -webkit-radial-gradient(50% 50%, circle farthest-corner, #ffc936, #ebaa2a 100%);
+	background-image: -o-radial-gradient(50% 50%, circle farthest-corner, #ffc936, #ebaa2a 100%);
+	background-image: -ms-radial-gradient(50% 50%, circle farthest-corner, #ffc936, #ebaa2a 100%);
+	background-image: radial-gradient(50% 50%, circle farthest-corner, #ffc936, #ebaa2a 100%);
 	-webkit-transform: rotate(22.5deg);
 	-moz-transform: rotate(22.5deg);
 	rotation: 22.5deg;
@@ -325,6 +330,10 @@ pre {
 .starburst .sb_class {
 	font-size: 15px;
 	font-style: italic;
+	opacity: .9;
+}
+.starburst .sb_data {
+	opacity: .9;
 }
 .starburst .version {
 	padding-top: 16px;
