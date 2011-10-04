@@ -4,35 +4,33 @@
 	http://ruote.rubyforge.org/css/ruote.css
 	http://127.0.0.1:3000/css/ruote.css
 */
-
 /* @group new sticky footer */
-	/* http://www.cssstickyfooter.com/ */
-	html, body {
-		height: 100%;
-	}
-	#container {
-		min-height: 100%;
-	}
-	#content {
-		overflow: auto;
-		padding-bottom: 120px;
-	}
-	#footer {
-		position: relative;
-		margin-top: -120px;
-		height: 119px;
-		clear: both;
-	}
-	/*Opera Fix*/
-	body:before {
-		content: "";
-		height: 100%;
-		float: left;
-		width: 0;
-		margin-top: -32767px;
-	}
+/* http://www.cssstickyfooter.com/ */
+html, body {
+	height: 100%;
+}
+#container {
+	min-height: 100%;
+}
+#content {
+	overflow: auto;
+	padding-bottom: 120px;
+}
+#footer {
+	position: relative;
+	margin-top: -120px;
+	height: 119px;
+	clear: both;
+}
+/*Opera Fix*/
+body:before {
+	content: "";
+	height: 100%;
+	float: left;
+	width: 0;
+	margin-top: -32767px;
+}
 /* @end */
-
 /* main styles */
 body {
 	font: 16px/1.6em "Helvetica Neue", Helvetica, Geneva, sans-serif;
@@ -72,8 +70,8 @@ h4 {
 	border-top: 6px solid #2f0403;
 	background: #4776a8;
 	-webkit-box-shadow: inset 0px 0px 72px rgba(0,0,0,0.6);
-	-moz-box-shadow:    inset 0px 0px 72px rgba(0,0,0,0.6);
-	box-shadow:         inset 0px 0px 72px rgba(0,0,0,0.6);
+	-moz-box-shadow: inset 0px 0px 72px rgba(0,0,0,0.6);
+	box-shadow: inset 0px 0px 72px rgba(0,0,0,0.6);
 }
 #header-center, #content-center, #footer-center {
 	width: 880px;
@@ -229,7 +227,7 @@ h4 {
 	float: right;
 }
 #sidebar li.alias a {
-	/*margin-left: 12px;*/
+	
 }
 #sidebar ul.alias {
 	background: #ced0d0;
@@ -290,24 +288,58 @@ pre {
 .code_and_fluo img {
 	width: 100% !important;
 }
-
-.ruote_version {
-  float: right;
-  font-size: 130%;
-  color: #4776a8;
-  background: #e0e0e0;
-  margin: 10px;
-  margin-top: 3px;
-  padding: 13px;
-  border: 9px solid transparent;
-  border-bottom-color: #e0e0e0;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  text-align: center;
+.starburst {
+	display: block;
+	width: 8em;
+	height: 8em;
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	rotation: -90deg;
+	position: relative;
+	top: 2em;
+	right: 2em;
+	text-align: center;
+	text-decoration: none;
+	float: right;
+	margin-bottom: 4em;
+	margin-left: 4em;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	line-height: 1em;
+	text-shadow: #fee9ad 1px 1px 0;
 }
-.ruote_version > .since {
-  font-size: 80%;
+.starburst:hover {
+	cursor: pointer;
+}
+.starburst span {
+	display: block;
+	width: 8em;
+	height: 8em;
+	background: #fdc051;
+	-webkit-transform: rotate(22.5deg);
+	-moz-transform: rotate(22.5deg);
+	rotation: 22.5deg;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+.starburst .sb_class {
+	font-size: 15px;
+	font-style: italic;
+}
+.starburst .version {
+	padding-top: 16px;
+}
+.starburst .version .sb_data {
+	font-size: 42px;
+	line-height: 26px;
+	font-weight: bold;
+}
+.starburst .since {
+	padding-top: 14px;
+}
+.starburst .since .sb_data {
+	font-size: 110%;
+	font-weight: bold;
 }
 
 /* pre-existing styles */

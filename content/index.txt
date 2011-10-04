@@ -2,7 +2,7 @@
 title: index
 ---
 
-<div class="ruote_version" onclick="window.location.href='http://rubygems.org/search?utf8=✓&query=ruote%25'">current version: 2.2.0<div class="since">since: 2011/03/01</div></div>
+<div class="ruote_version starburst" onclick="window.location.href='http://rubygems.org/search?utf8=✓&query=ruote%25'"><span><span><span><span><div class="version"><font class="sb_class">current version: </font><font class="sb_data">2.2.0</font></div><div class="since"><font class="sb_class">since: </font><font class="sb_data">2011/03/01</font></div></span></span></span></span></div>
 <strong>Ruote</strong> is a workflow engine written in Ruby. Ruote is "not":http://jmettraux.wordpress.com/2009/07/03/state-machine-workflow-engine/ a state machine library.
 
 It could be described as an 'operating system for business processes'.
