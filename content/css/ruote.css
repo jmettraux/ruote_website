@@ -294,7 +294,9 @@ pre {
 	height: 8em;
 	-webkit-transform: rotate(-90deg);
 	-moz-transform: rotate(-90deg);
-	rotation: -90deg;
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	transform: rotate(-90deg);
 	position: relative;
 	top: 2em;
 	right: 2em;
@@ -322,7 +324,9 @@ pre {
 	background-image: radial-gradient(50% 50%, circle farthest-corner, #ffc936, #ebaa2a 100%);
 	-webkit-transform: rotate(22.5deg);
 	-moz-transform: rotate(22.5deg);
-	rotation: 22.5deg;
+	-ms-transform: rotate(22.5deg);
+	-o-transform: rotate(22.5deg);
+	transform: rotate(22.5deg);
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
