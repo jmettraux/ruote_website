@@ -71,13 +71,17 @@ engine.configure('ruby_eval_allowed', true)
 
 h3(#engine_options). engine options
 
-* *do_not_thread_participants*: (from ruote 2.2.1 on)
+* *participant_threads_enabled*: (from ruote 2.2.1 on)
+
+Defaults to true.
 
 By default, the dispatching of workitems to participants is done in a new Ruby thread. The goal is not to block the worker with potentially lengthy operations. Dispatching via a "homing pigeon":http://www.reuters.com/article/2009/09/09/us-safrica-pigeon-idUSTRE5885PM20090909, for example, is a costly operation, you have to take the pigeon out of his cage, attach the message, and set it free... By default such blocking operations are performed in their own threads.
 
 In deployments where multi-workers are the norm, having one worker blocked dispatching is no problem. In such contexts, turning off the threaded dispatching is OK.
 
 * *remote_definition_allowed*:
+
+Defaults to false.
 
 Remote definitions are process definitions reachable over HTTP. Since process definition are 'code', ruote, by default, prevents you from doing things like
 
@@ -111,14 +115,36 @@ You have to explicitely set 'remote_definition_allowed' to true.
 
 * *ruby_eval_allowed*:
 
+Defaults to false.
+
 More about this option in the page about the "dollar notation":dollar.html#ruby_eval_allowed.
 
 
 * *wait_logger_max*:
 
+Defaults to 147.
+
 (this setting only makes sense in "1 worker - test/development" environments, in other environments, just leave it alone)
 
 The WaitLogger is a component inside of ruote that keeps track of the 147 latest messages processed by the local worker (if any). This 147 number can be tuned thanks to the 'wait_logger_max' option.
+
+
+* *preserve_configuration*:
+
+Default to false.
+
+More of a storage configuration. When set to true, the engine/worker/storage group will not write any configuration to the persistence behind the storage. It will simply read.
+
+This option is useful in multi-worker setting, when configuration is done once and then read by the workers.
+
+
+* *restless_worker*:
+
+Defaults to false.
+
+More of a worker configuration. When set to true, the worker will not sleep between its storage polls for msgs and schedules to execute. This option is set to true by some storage implementations, those that block in a connection with their persistence backend and get pushed msgs and/or schedules.
+
+Safely ignore this option.
 
 
 h3(#engine_on). engine on_error / on_terminate
