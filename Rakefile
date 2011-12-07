@@ -28,7 +28,7 @@ task :co => :compile
 
 task :aco do
 
-  #exec "nanoc aco" # <--- to slow, can't wait nanoc 3.2
+  #exec "nanoc aco" # <--- too slow, can't wait nanoc 3.2
 
   t = Thread.new do
     loop { `nanoc co > /dev/null 2>&1`; sleep 0.5 }

@@ -7,7 +7,7 @@ h2. glossary
 An attempt at defining or explaining terms in ruote and about workflow engines in general.
 
 
-h3(#engine). engine
+h3(#engine). dashboard, engine
 
 Before ruote 2.x, an engine was a monolithic worker + storage system. It made sense to call it an engine. With ruote 2.x, the engine became a mere "dashboard", but the name stuck.
 
@@ -24,6 +24,13 @@ worker = Ruote::Worker.new(Ruote::HashStorage.new)
 
 engine = Ruote::Engine.new(Ruote::HashStorage.new)
 </pre>
+
+
+h3(#fields). fields, workitem fields
+
+The "workitem":#workitem fields are stored in a hash (dictionary data structure). The workitem fields are sometimes referred to as the "payload" of the workitem.
+
+Workitem fields, unlike "process variables":#variable are visible to the "participants":#participant.
 
 
 h3(#flow_expression). flow expression
@@ -68,6 +75,17 @@ h3(#storage). storage
 Where the ruote data is persisted.
 
 There are multiple storage implementations. See "configuration":configuration.html#storage for more info.
+
+
+h3(#variable). variables, process variables
+
+There are two kind of "slots" for storing user data in ruote: process variables and "workitem fields":#fields.
+
+Variables behave much like regular programming language variables, while workitem fields are tied to the workitem, the token that navigates the process tree.
+
+Variables are mostly used for control flow inside of a process instance.
+
+Variables are not visible to "participants":#participant (they only see workitems and their fields). Of course, one can copy a variable value into a field to "show" it to a participant.
 
 
 h3(#wfid). wfid, workflow instance id
