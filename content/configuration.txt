@@ -196,10 +196,10 @@ Its usage is similar to Engine#on_error :
 engine.on_terminate = 'archiver'
 
 # or a subprocess name
-engine.on_error = 'archival_procedure'
+engine.on_terminate = 'archival_procedure'
 
 # or directly a subprocess definition
-engine.on_error = Ruote.define do
+engine.on_terminate = Ruote.define do
   concurrence do
     supervisor :msg => 'process ${wfid} terminated'
     archiver

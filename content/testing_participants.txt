@@ -6,12 +6,14 @@ h2. testing participants
 
 testing participant implementations
 
+(see discussion at "http://groups.google.com/group/openwferu-users/browse_thread/thread/707c3ee1ecc14097":http://groups.google.com/group/openwferu-users/browse_thread/thread/707c3ee1ecc14097 for a temporary piece of documentation)
+
 
 h3. test/unit
 
 TODO
 
-h3. cucumber
+h3. rspec
 
 TODO
 
