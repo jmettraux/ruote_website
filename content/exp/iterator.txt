@@ -63,7 +63,7 @@ will be equivalent to
 
 h3. the classical case
 
-Iterating over a workitem field :
+Iterating over a workitem field:
 
 <pre class="brush: ruby">
   pdef = Ruote.process_definition :name => 'test' do
@@ -71,8 +71,21 @@ Iterating over a workitem field :
       participant '${f:customer}'
     end
   end
-
 </pre>
+
+It's equivalent to:
+
+<pre class="brush: ruby">
+  pdef = Ruote.process_definition :name => 'test' do
+    iterator :on => '$f:customers', :to_f => 'customer'
+      participant '${f:customer}'
+    end
+  end
+</pre>
+
+"$f:customers" yields the actual array, whereas "${f:customers}"
+yields the string representation of the array.
+
 
 h3. break/rewind/continue/skip/jump
 
