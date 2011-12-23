@@ -17,6 +17,7 @@ The attributes listed on this page may be used with any expression.
 * ":tag":#tag
 * ":filter":#filter
 * ":timers":#timers
+* ":scope":#scope
 
 <hr/>
 
@@ -562,4 +563,26 @@ end
 </pre>
 
 Note that sub-processes and participants that are triggered by :timers are "flanking". When the expression holding the timers ends, they get cancelled (they don't outlive the expression for which they are 'timers').
+
+
+
+
+h3(#scope). :scope
+
+(introduced by ruote 2.2.1)
+
+By default expressions inside of a workflow instance share the same variable scope. By setting the attribute :scope to "true", a new variable scope is forced.
+
+<pre class="brush: ruby">
+define 'flow' do
+  set 'v:v' => 'alice'
+  sequence :scope => true do
+    set 'v:v' => 'bob'
+    participant '${v:x}' # will deliver to bob
+  end
+  participant '${v:x}' # will deliver to alice
+end
+</pre>
+
+(This example can be reproduced by replacing "sequence :scope => true" by "let" which is a special alias of the sequence expression).
 

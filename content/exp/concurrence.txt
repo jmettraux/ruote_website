@@ -33,6 +33,41 @@ h4. :count
 in that example, the concurrence will terminate as soon as 1 (count) of
 the branches replies. The other branch will get cancelled.
 
+h4. :wait_for
+
+This attribute accepts either an integer, either a list of tags.
+
+When used with the integer, it's equivalent to the :count attribute:
+
+<pre class="brush: ruby">
+  concurrence :wait_for => 1 do
+    # ...
+  end
+</pre>
+
+It waits for 1 branch to respond and then moves on (concurrence over).
+
+When used with a string (or an array), it extracts a list of tags and waits
+for the branches with those tags. Once all the tags have replied,
+the concurrence is over.
+
+<pre class="brush: ruby">
+  concurrence :wait_for => 'alpha, bravo' do
+    sequence :tag => 'alpha' do
+      # ...
+    end
+    sequence :tag => 'bravo' do
+      # ...
+    end
+    sequence :tag => 'charly' do
+      # ...
+    end
+  end
+</pre>
+
+This concurrence will be over when the branches alpha and bravo have
+replied. The charly branch may have replied or not, it doesn't matter.
+
 h4. :remaining
 
 As said for :count, the remaining branches get cancelled. By setting
@@ -184,7 +219,7 @@ simply discarded and the workitem as passed to the concurrence expression
 is used to reply to the parent expression (of the concurrence expression).
 
 
-h4. :over_if (and :over_unless)
+h4. :over_if (and :over_unless) attribute
 
 Like the :count attribute controls how many branches have to reply before
 a concurrence ends, the :over attribute is used to specify a condition

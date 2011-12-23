@@ -109,4 +109,40 @@ or simply
   unset 'f:customer_name'
   unset 'customer_name' # yes, it's field by default
   unset 'v:vx'
+
 </pre>
+
+h3. using set with a block
+
+(not a very common usage, introduced by ruote 2.2.1)
+
+'set' can be used with a block. It then behaves like a 'sequence' and
+picks its value in the workitem field named '__result__'.
+
+<pre class="brush: ruby">
+  set 'customer_name' do
+    participant 'alice'
+    participant 'bob'
+  end
+</pre>
+
+Here, alice or bob may set the field '__result__' to some value,
+that will get picked as the value of the field 'customer_name'.
+
+Note that inside the set, a blank variable scope will be used (like in
+a 'let).
+
+
+h3. __result__
+
+'set' and 'unset' place the [un]set value in the field named __result__.
+
+<pre class="brush: ruby">
+  sequence do
+    set 'f0' => 2
+    participant 'x${__result__}''
+  end
+</pre>
+
+will route a workitem to the participant named 'x2'.
+
