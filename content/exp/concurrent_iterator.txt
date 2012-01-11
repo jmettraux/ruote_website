@@ -113,6 +113,32 @@ is equivalent to
 
 </pre>
 
+h3. ruote 2.3.0 and the citerator children
+
+Prior to ruote 2.3.0, the concurrent-iterator only considered one child
+expression:
+
+<pre class="brush: ruby">
+  concurrent_iterator :times => 3 do
+    participant 'al'
+    participant 'bob' # 'bob' would never be reached
+  end
+</pre>
+
+So one had to write:
+
+<pre class="brush: ruby">
+  concurrent_iterator :times => 3 do
+    sequence do
+      participant 'al'
+      participant 'bob' # 'bob' would never be reached
+    end
+  end
+</pre>
+
+Ruote 2.3.0 lifts that restriction.
+
+
 h3. options
 
 the concurrent_iterator accepts the same options for merging as its bigger

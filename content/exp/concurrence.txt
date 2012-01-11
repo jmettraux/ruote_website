@@ -33,6 +33,17 @@ h4. :count
 in that example, the concurrence will terminate as soon as 1 (count) of
 the branches replies. The other branch will get cancelled.
 
+:count and :wait_for may point to a negative integer, meaning "all but
+x".
+
+<pre class="brush: ruby">
+  concurrence :count => -2 do # all the branches replied but 2
+    # ...
+  end
+</pre>
+
+:count can be shortened to :c.
+
 h4. :wait_for
 
 This attribute accepts either an integer, either a list of tags.
@@ -68,6 +79,8 @@ the concurrence is over.
 This concurrence will be over when the branches alpha and bravo have
 replied. The charly branch may have replied or not, it doesn't matter.
 
+:wait_for can be shortened to :wf.
+
 h4. :remaining
 
 As said for :count, the remaining branches get cancelled. By setting
@@ -80,6 +93,8 @@ their execution, forgotten.
     bravo
   end
 </pre>
+
+:remaining can be shortened to :rem or :r.
 
 h4. :merge
 
@@ -118,6 +133,8 @@ to set a fixed winner.
 </pre>
 
 makes sure that alpha's version of the workitem wins.
+
+:merge can be shortened to :m.
 
 h4. :merge_type
 
@@ -169,7 +186,7 @@ strategy results.
 
 h5. :union
 
-(Available from ruote 2.2.1)
+(Available from ruote 2.3.0)
 
 Will override atomic fields, concat arrays and merge hashes...
 
@@ -193,7 +210,7 @@ as well.
 
 h5. :concat
 
-(Available from ruote 2.2.1)
+(Available from ruote 2.3.0)
 
 Much like :union, but duplicates are not removed. Thus
 
@@ -212,11 +229,13 @@ will be
 
 h5. :ignore
 
-(Available from ruote 2.2.1)
+(Available from ruote 2.3.0)
 
 A very simple merge type, the workitems given back by the branches are
 simply discarded and the workitem as passed to the concurrence expression
 is used to reply to the parent expression (of the concurrence expression).
+
+:merge_type can be shortened to :mt.
 
 
 h4. :over_if (and :over_unless) attribute

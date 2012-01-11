@@ -69,6 +69,11 @@ values merged into a copy of the workitem held in the listen expression
 and this copy is delivered to the expressions that are client to the
 'listen'.
 
+:merge can be set to 'override' where the event's workitem fields are
+used or some value which isn't true or 'true', in which case the
+workitem fields of the 'listen' expression is used as is (as it was
+when the flow reached the 'listen' expression).
+
 h3. :upon
 
 There are two kinds of main events in ruote, apply and reply. Thus,
@@ -100,6 +105,26 @@ In this dummy process definition, there are four tag events :
 * 'leaving' 'phase_one'
 * 'entering' 'phase_two'
 * 'leaving' 'phase_two'
+
+When listening to tags, absolute paths can be given.
+
+<pre class="brush: ruby">
+  concurrence do
+    sequence :tag => 'a' do
+      alpha
+      sequence :tag => 'b' do
+        bravo
+      end
+    end
+    sequence do
+      listen :to => 'a/b', :upon => 'entering'
+      charly
+    end
+   end
+  end
+</pre>
+
+Charly will be next when the flow is about to reach bravo.
 
 
 h3. :to and :on
