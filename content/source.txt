@@ -13,7 +13,7 @@ The repositories listed here are supposed to be the original ones. Others are fo
 * "ruote-dm":http://github.com/jmettraux/ruote-dm/ - "DataMapper":http://datamapper.org based persistence ("rdoc":/ruote-dm_rdoc/README_rdoc.html)
 * "ruote-redis":http://github.com/jmettraux/ruote-redis/ - "Redis":http://code.google.com/p/redis/ storage for ruote ("rdoc":/ruote-redis_rdoc/README_rdoc.html)
 * "ruote-couch":http://github.com/jmettraux/ruote-couch/ - "CouchDB":http://couchdb.apache.org/ storage for ruote ("rdoc":/ruote-couch_rdoc/README_rdoc.html)
-* "ruote-mongodb":http://github.com/PlasticLizard/ruote-mongodb/ - "MongoDB":http://www.mongodb.org/ storage for ruote
+* "ruote-mon":http://github.com/jmettraux/ruote-mon/ - "MongoDB":http://www.mongodb.org/ storage for ruote
 
 * "ruote-jig":http://github.com/tosch/ruote-jig/ - HTTP participants (by "Torsten":http://github.com/tosch)
 * "ruote-amqp":http://github.com/kennethkalmer/ruote-amqp/ - AMQP participants and listeners for ruote (by "Kenneth":http://opensourcery.co.za and "Jason":http://github.com/asm/) ("rdoc":/ruote-amqp_rdoc/)
@@ -28,6 +28,9 @@ The repositories listed here are supposed to be the original ones. Others are fo
 * "ruote-cukes":http://github.com/jmettraux/ruote-cukes - a set of step definitions for testing ruote process definitions from "Cucumber":http://cukes.info/
 
 * "Simple-Ruote-Formatter":https://github.com/rebo/Simple-Ruote-Formatter - takes a ruote process definition and renders it as an HTML page (by "rebo":https://github.com/rebo)
+
+* "ruote-stomp":https://github.com/maestrodev/ruote-stomp - "Stomp":http://stomp.github.com participant and listeners for ruote (by "Kit Plummer":http://kitplummer.github.com/)
+* "ruote-mongodb":https://github.com/PlasticLizard/ruote-mongodb/ - the original "MongoDB":http://www.mongodb.org/ storage for ruote (by "Nathan Stults":http://blog.nathanstults.com/)
 
 See also "rufus":http://rufus.rubyforge.org, a set of ruby gems spun off of ruote.
 
