@@ -52,6 +52,7 @@ h3. blog excerpts
 
 a few links to blog posts about ruote.
 
+* "ruote workflow engine with RabbitMQ, part 1":http://marsbomber.github.com/2012/01/20/ruote-with-rabbitmq-part1/ and "part 2":http://marsbomber.github.com/2012/01/20/ruote-with-rabbitmq-part2/ by "Jim Li":http://twitter.com/marsbomber
 * "ruote and flow":http://www.engineyard.com/blog/2011/ruote-and-flow/, where Wayne and Stamford discuss workflow (and state)
 * "ruote 2.2.0 released":http://jmettraux.wordpress.com/2011/03/02/ruote-2-2-0-released/, on_error, on_terminate, ruote-sequel, ...
 * "ruote, process state and tags":http://jmettraux.wordpress.com/2011/01/07/ruote-and-tags/, where am I in my process ?
