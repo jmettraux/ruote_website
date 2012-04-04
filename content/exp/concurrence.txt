@@ -96,6 +96,13 @@ their execution, forgotten.
 
 :remaining can be shortened to :rem or :r.
 
+The default is 'cancel', where all the remaining branches are cancelled
+while the hand is given back to the main flow.
+
+There is a third setting, 'wait'. It behaves like 'cancel', but the
+concurrence waits for the cancelled children to reply. The workitems
+from cancelled branches are merged in as well.
+
 h4. :merge
 
 By default, the workitems override each others. By default, the first
@@ -226,6 +233,13 @@ will be
     'b' => [ 'x', 'y', 'y', 'z' ],
     'c' => { 'aa' => 'bb', 'cc' => 'dd' } }
 </pre>
+
+h5. :deep
+
+(Available from ruote 2.3.0)
+
+Identical to :concat but hashes are merged with deep_merge (ActiveSupport
+flavour).
 
 h5. :ignore
 

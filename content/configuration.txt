@@ -71,7 +71,7 @@ engine.configure('ruby_eval_allowed', true)
 
 h3(#engine_options). engine options
 
-* *participant_threads_enabled*: (from ruote 2.2.1 on)
+* *participant_threads_enabled*: (from ruote 2.3.0 on)
 
 Defaults to true.
 

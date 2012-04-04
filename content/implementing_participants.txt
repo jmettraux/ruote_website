@@ -44,7 +44,7 @@ Two optional methods also exist : "#accept?":#accept and "#on_reply":#on_reply. 
 
 By default, when a process instance execution reaches a participant expression, it runs the #consume method of the participant in a dedicated Ruby thread. if the "#do_not_thread":#do_not_thread method returns false, no extra thread is created, the consume call is done immediately (ie, it blocks the worker).
 
-From *ruote 2.2.1* on, our flusher example can be re-written as
+From *ruote 2.3.0* on, our flusher example can be re-written as
 
 <pre class="brush: ruby">
 class Flusher
@@ -130,7 +130,7 @@ end
 
 Note the call to #reply_to_engine with the workitem as argument when the work is done. Without this call (sooner or later), the process doesn't resume after this participant.
 
-From ruote 2.2.1 on, the above participant can be written as :
+From ruote 2.3.0 on, the above participant can be written as :
 
 <pre class="brush: ruby">
 # computing the total for a invoice being passed in the workitem.
@@ -196,7 +196,7 @@ end
 
 Our consume method doesn't reply to the engine, at all. The reply occurs later, in the #reply class method. If a cancel order comes, the workitem stored on disk has to be removed.
 
-From ruote 2.2.1 on, you can write :
+From ruote 2.3.0 on, you can write :
 
 <pre class="brush: ruby">
 require 'fileutils'
@@ -239,7 +239,7 @@ class PlainWorklist
 end
 </pre>
 
-From ruote 2.2.1 on, when #on_cancel returns false, no reply will be emitted towards ruote. It can be useful in scenarii where the #on_workitem itself deals with cancel messages (and it has some way to know about them...).
+From ruote 2.3.0 on, when #on_cancel returns false, no reply will be emitted towards ruote. It can be useful in scenarii where the #on_workitem itself deals with cancel messages (and it has some way to know about them...).
 
 h4(#flavour). cancel flavour
 
@@ -277,7 +277,7 @@ class FirstParticipantImplementation
 end
 </pre>
 
-From ruote 2.2.1 on, the accept? method can be rewritten as :
+From ruote 2.3.0 on, the accept? method can be rewritten as :
 
 <pre class="brush: ruby">
   def accept?
@@ -343,7 +343,7 @@ receiver = Receiver.new(engine)
 # ...
 </pre>
 
-From ruote 2.2.1, the on_reply method can be rewritten as :
+From ruote 2.3.0, the on_reply method can be rewritten as :
 
 <pre class="brush: ruby">
   def on_reply
@@ -414,7 +414,7 @@ engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new(opts)))
 
 or something like that...
 
-From ruote 2.2.1 on, you can use the dont_thread? method instead, and the workitem is implicit (like from #on_workitem and #on_reply). So this is OK :
+From ruote 2.3.0 on, you can use the dont_thread? method instead, and the workitem is implicit (like from #on_workitem and #on_reply). So this is OK :
 
 <pre class="brush: ruby">
   def dont_thread?
@@ -456,7 +456,7 @@ end
 
 re_dispatch/reject makes sense too in a multi worker context where a participant on a given host wants to reject a task and let another worker (on another host) do the work. Maybe the "accept?":#accept method is better for those cases, though.
 
-From ruote 2.2.1, our above example can be simplified to :
+From ruote 2.3.0, our above example can be simplified to :
 
 <pre class="brush: ruby">
 class RetryParticipant
@@ -512,7 +512,7 @@ class MyParticipant
 end
 </pre>
 
-From ruote 2.2.1 on, the workitem is implicit :
+From ruote 2.3.0 on, the workitem is implicit :
 
 <pre class="brush: ruby">
 class MyParticipant
@@ -556,7 +556,7 @@ If you scroll a bit, you'll find "an example":#applied_workitem where this metho
 
 #reply_to_engine(workitem) can be shortened to #reply(workitem).
 
-From ruote 2.2.1 on, you can even drop the 'workitem'.
+From ruote 2.3.0 on, you can even drop the 'workitem'.
 
 <pre class="brush: ruby">
 class Total
@@ -594,7 +594,7 @@ end
 engine.register 'pick_customer', PickCustomer
 </pre>
 
-From ruote 2.2.1 on, you have to drop the fexp argument can be dropped :
+From ruote 2.3.0 on, you have to drop the fexp argument can be dropped :
 
 <pre class="brush: ruby">
 class PickCustomer
@@ -683,7 +683,7 @@ Note the use of Engine#participant(name) to fetch an instance of a participant v
 
 h3(#participant_name). participant_name
 
-Since ruote 2.2.1, it's ok to shorten
+Since ruote 2.3.0, it's ok to shorten
 
 <pre class="brush: ruby">
 def consume(workitem)
@@ -706,7 +706,7 @@ end
 
 h3(#lookup_variable). lookup_variable
 
-Available since ruote 2.2.1.
+Available since ruote 2.3.0.
 
 <pre class="brush: ruby">
 def on_workitem

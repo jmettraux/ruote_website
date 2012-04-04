@@ -159,7 +159,7 @@ This is the attribute equivalent of the "lose":exp/lose.html expression.
 
 h3(#flank). :flank
 
-(introduced by ruote 2.2.1)
+(introduced by ruote 2.3.0)
 
 The previous 'lose' example can be rewritten with 'flank' as:
 
@@ -266,11 +266,11 @@ If :undo or 'undo' is passed, the branch will get cancelled and the flow will re
   end
 </pre>
 
-The "listen":exp/listen.html expression may also listen to errors (from ruote 2.2.1 on).
+The "listen":exp/listen.html expression may also listen to errors (from ruote 2.3.0 on).
 
-If you want to register finer grained error interception, you might be want to have a look at the "on_error":exp/on_error.html expression (from ruote 2.2.1 on).
+If you want to register finer grained error interception, you might be want to have a look at the "on_error":exp/on_error.html expression (from ruote 2.3.0 on).
 
-From ruote 2.2.1 on, the on_error attribute accepts the same command as a cursor (in fact, it's best used with a cursor).
+From ruote 2.3.0 on, the on_error attribute accepts the same command as a cursor (in fact, it's best used with a cursor).
 
 <pre class="brush: ruby">
   cursor :on_error => 'rewind' do
@@ -345,7 +345,7 @@ The 'error' value forces the process into error upon timeout (whereas the defaul
 
 In this example, the reviewer will receive a fresh workitem every 3 days, until he replies by himself to the flow (which will resume to the editor participant).
 
-From ruote 2.2.1 on, the :on_timeout attribute accepts the same pre-defined handlers as the :on_error attribute, "jump", "rewind", "undo", "pass", ...
+From ruote 2.3.0 on, the :on_timeout attribute accepts the same pre-defined handlers as the :on_error attribute, "jump", "rewind", "undo", "pass", ...
 
 
 h3(#tag). :tag
@@ -489,7 +489,7 @@ end
 
 h3(#timers). :timers
 
-(introduced by ruote 2.2.1)
+(introduced by ruote 2.3.0)
 
 "alice receives a task, she has 15 days to do it, she'll have to receive a reminder after 5 days and a final reminder after 12 days" can be conveyed as
 
@@ -569,7 +569,7 @@ Note that sub-processes and participants that are triggered by :timers are "flan
 
 h3(#scope). :scope
 
-(introduced by ruote 2.2.1)
+(introduced by ruote 2.3.0)
 
 By default expressions inside of a workflow instance share the same variable scope. By setting the attribute :scope to "true", a new variable scope is forced.
 

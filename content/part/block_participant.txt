@@ -32,3 +32,16 @@ h3. do_not_thread
 By default, this participant (like most other participants) is executed
 in its own thread.
 
+
+h3. context
+
+As it includes Ruote::LocalParticipant, the block partitcipant has
+access to:
+
+* #context: the ruote context
+* #workitem: the current workitem (usually passed as arg to the block)
+* #fei: the current flow expression id
+* #fexp: the current flow expression
+* #flavour: only used in #on_cancel (nil or 'kill')
+* #lookup_variable(key): looks up a variable...
+

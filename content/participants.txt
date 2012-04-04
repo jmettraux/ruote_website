@@ -214,7 +214,7 @@ The first example above assumes the participant name is the first word encounter
   end
 </pre>
 
-*NOTE* : since ruote 2.2.1, register(&block) will clear the participant list by default, thus after
+*NOTE* : since ruote 2.3.0 register(&block) will clear the participant list by default, thus after
 
 <pre class="brush: ruby">
   engine.register do

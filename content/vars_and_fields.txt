@@ -129,7 +129,7 @@ TODO
 
 h4. trailing/temporary fields
 
-Since ruote 2.2.1...
+Since ruote 2.3.0...
 
 TODO
 
