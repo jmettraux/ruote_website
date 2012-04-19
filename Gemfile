@@ -6,4 +6,5 @@ gem 'nanoc'
 gem 'RedCloth'
 gem 'haml'
 gem 'systemu'
+gem 'adsf'
 

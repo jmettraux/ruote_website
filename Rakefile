@@ -26,8 +26,10 @@ task :aco do
   #exec "nanoc aco" # <--- too slow, can't wait nanoc 3.2
 
   t = Thread.new do
-    loop { `nanoc co > /dev/null 2>&1`; sleep 0.5 }
+    loop { `bundle exec nanoc co 2>&1`; sleep 0.5 }
   end
+
+  sh 'open http://127.0.0.1:3000/'
 
   sh 'bundle exec nanoc view'
 
