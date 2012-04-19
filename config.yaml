@@ -47,4 +47,7 @@ deploy:
   openwferu:
     dst:
       jmettraux@rubyforge.org:/var/www/gforge-projects/openwferu
+  lambda:
+    dst:
+      jmettraux@lin:www/ruote
 
