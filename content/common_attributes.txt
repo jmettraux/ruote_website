@@ -288,6 +288,20 @@ By specifying 'cancel', one can tell ruote to trigger the on_cancel handler in c
   end
 </pre>
 
+h4. on_error: cando
+
+(from ruote 2.3.0 on)
+
+'cando' is "cancel-redo" collapsed. The :on_cancel is triggered (can__) then the faulty expression (tree) is retried (__do).
+
+<pre class="brush: ruby">
+  cursor :on_cancel => 'decommission', :on_error => 'cando' do
+    # ...
+  end
+</pre>
+
+If there is no :on_cancel present, 'cando' behaves like an 'undo'.
+
 
 h4. on_error: cursor commands
 
@@ -366,7 +380,9 @@ The 'error' value forces the process into error upon timeout (whereas the defaul
 
 In this example, the reviewer will receive a fresh workitem every 3 days, until he replies by himself to the flow (which will resume to the editor participant).
 
-From ruote 2.3.0 on, the :on_timeout attribute accepts the same pre-defined handlers as the :on_error attribute, "jump", "rewind", "undo", "pass", ...
+(ruote 2.3.0 on) The :on_timeout attribute accepts the same pre-defined handlers as the :on_error attribute, "jump", "rewind", "undo", "pass", ...
+
+(ruote 2.3.0 on) The :on_timeout attribute accepts "cancel" and "cando" values like the :on_error attribute does.
 
 
 h3(#tag). :tag
