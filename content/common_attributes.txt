@@ -300,7 +300,7 @@ h4. on_error: cando
   end
 </pre>
 
-If there is no :on_cancel present, 'cando' behaves like an 'undo'.
+If there is no :on_cancel present, 'cando' behaves like a 'redo'.
 
 
 h4. on_error: cursor commands
