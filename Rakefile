@@ -29,6 +29,8 @@ task :aco do
     loop { `bundle exec nanoc co 2>&1`; sleep 0.5 }
   end
 
+  sleep 1.0
+
   sh 'open http://127.0.0.1:3000/'
 
   sh 'bundle exec nanoc view'

@@ -1,0 +1,139 @@
+---
+title: with rails
+---
+
+h2. ruote on rails
+
+Many people use "Ruby on Rails":http://rubyonrails.org/ to implement their front ends. The question "how do I integrate ruote into my Rails application?" comes up often.
+
+Ruote-kit is often the answer, but not always since it brings some (few) dependencies.
+
+Most of the time, people integrating ruote inside of Rails want a simple setup where the ruote worker sits in the Rails application (the worker thread lives next to the Rails server thread), but this doesn't play well with all the Rails deployment options. If you have, let's say, a Unicorn setup spawning 5 processes, you'll end up with 5 ruote worker threads and you'll need to use a multi-worker safe ruote storage (see "configuration":configuration.html).
+
+One has to decide whether he wants his ruote workers to run inside of the Rails application or outside, as standalone / daemon workers.
+
+
+h3(#ruote_kit). with ruote-kit
+
+The ruote-kit "README":https://github.com/kennethkalmer/ruote-kit should help setting up ruote-kit (standalone or as a Rails add-on).
+
+If it's not clear enough, feel free to fire a question on the "ruote mailing-list":http://groups.google.com/group/openwferu-users or fork the project and fix the README (send a pull request).
+
+The ruote-kit README has a section dedicated to "running workers as daemons":https://github.com/kennethkalmer/ruote-kit#running-workers.
+
+
+h3(#simple). without ruote-kit
+
+Ruote-kit is not mandatory.
+
+h4(#gemfile). add ruote and its storage to your Gemfile
+
+<pre class="brush: ruby">
+gem 'ruote', :git => 'git://github.com/jmettraux/ruote.git'
+gem 'ruote-redis', :git => 'git://github.com/jmettraux/ruote-redis.git'
+  #
+  # living on edge, ruote 2.3.0 from "master"
+</pre>
+
+h4(#initializer). add a config/initializers/ruote.rb file
+
+This sample initializer uses ruote-redis as the storage, references it via a RUOTE_STORAGE constant and places the ruote dashboard behind a RUOTE constant. If you deem it more elegant you can also place the dashboard behind a singleton like Ruote.dashboard.
+
+<pre class="brush: ruby">
+require 'redis'
+require 'ruote'
+require 'ruote-redis'
+
+#
+# set up ruote storage
+
+RUOTE_STORAGE = Ruote::Redis::Storage.new(
+  ::Redis.new(:db => 14, :thread_safe => true), {})))
+
+#
+# set up ruote dashboard
+
+RUOTE = if defined?(Rake)
+  #
+  # do not start a ruote worker in a rake task
+  #
+  Ruote::Dashboard.new(RUOTE_STORAGE)
+else
+  #
+  # start a worker
+  #
+  Ruote::Dashboard.new(Ruote::Worker.new(RUOTE_STORAGE))
+end
+
+#
+# participant registration
+
+RUOTE.register do
+  participant 'notifier', Acme::Participants::Notifier
+  participant /user_.+/, Ruote::StorageParticipant
+end
+</pre>
+
+If you want to run a worker outside of the Rails application, you can adopt a much simpler setup:
+
+<pre class="brush: ruby">
+require 'redis'
+require 'ruote'
+require 'ruote-redis'
+
+#
+# set up ruote storage
+
+RUOTE_STORAGE = Ruote::Redis::Storage.new(
+  ::Redis.new(:db => 14, :thread_safe => true), {})))
+
+#
+# set up ruote dashboard
+
+RUOTE = Ruote::Dashboard.new(RUOTE_STORAGE)
+
+#
+# participant registration
+
+RUOTE.register do
+  participant 'notifier', Acme::Participants::Notifier
+  participant /user_.+/, Ruote::StorageParticipant
+end
+</pre>
+
+You could even drop the participant registration in the Rails app and leave it for the worker script.
+
+h4(#worker). sample worker script
+
+Warning, this script has no daemonization going on (if you'd like to help with that, just manifest yourself on the mailing list).
+
+<pre class="brush: ruby">
+require 'redis'
+require 'ruote'
+require 'ruote-redis'
+
+#
+# set up ruote storage
+
+RUOTE_STORAGE = Ruote::Redis::Storage.new(
+  ::Redis.new(:db => 14, :thread_safe => true), {})))
+
+#
+# set up ruote dashboard
+
+RUOTE = Ruote::Dashboard.new(Ruote::Worker.new(RUOTE_STORAGE))
+
+#
+# participant registration
+
+RUOTE.register do
+  participant 'notifier', Acme::Participants::Notifier
+  participant /user_.+/, Ruote::StorageParticipant
+end
+
+#
+# let's join the worker thread (prevents the script from exiting)
+
+RUOTE.join
+</pre>
+
