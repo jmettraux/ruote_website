@@ -86,6 +86,7 @@ h3. methods
 * "#consume":#consume ("#on_workitem":#on_workitem)
 * "#cancel":#cancel ("#on_cancel":#on_cancel)
 * "#accept?":#accept
+* "#on_apply":#on_apply
 * "#on_reply":#on_reply
 * "#do_not_thread":#do_not_thread ("#dont_thread?":#dont_thread)
 
@@ -284,6 +285,15 @@ From ruote 2.3.0 on, the accept? method can be rewritten as :
     workitem.fields['context'] == 'military'
   end
 </pre>
+
+
+h3(#on_apply). #on_apply
+
+(since ruote 2.3.0)
+
+Equivalent to "on_reply":#on_reply, but triggers before the workitem is dispatched to the participant. It gives participant implementers an opportunity to perform some operations before the dispatch. The typical example is adding some information to the workitem before it's passed on.
+
+Note, that like for 'on_reply':#on_reply, on_apply is executed in the worker thread (whereas dispatch is performed, by default, in a new thread).
 
 
 h3(#on_reply). #on_reply
