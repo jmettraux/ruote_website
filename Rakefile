@@ -16,7 +16,7 @@ end
 
 task :compile do
 
-  exec "bundle exec nanoc co"
+  exec 'bundle exec nanoc co'
 end
 
 task :co => :compile
@@ -30,9 +30,6 @@ task :aco do
   end
 
   sleep 1.0
-
-  sh 'open http://127.0.0.1:3000/'
-
   sh 'bundle exec nanoc view'
 
   t.join
