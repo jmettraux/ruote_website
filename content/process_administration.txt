@@ -24,6 +24,9 @@ Here is the span of possible actions:
 * "on_cancel":#on_cancel
 * "killing vs cancelling":#killing
 
+* "pausing process instances":#pausing_process
+* "pausing expressions":#pausing_expression
+
 * "re_applying":#re_applying segments of process instances
 * "re_applying a stalled expression":#re_applying_stalled
 * "re_applying a tree":#re_applying_tree
@@ -104,6 +107,13 @@ Cancelling the delivery participant expression would let the flow continue to "a
 Warning: as explained cancelling a process or a branch of a process isn't instantaneous.
 
 
+h4. Dashboard#cancel(wfid_or_fei)
+
+The cancel method of the dashboard will, when passed a string, order the engine to cancel the process with the given (string) wfid (if it exists). When passed an expression, a FlowExpressionId instance or a Hash containing expid/subid/wfid, it will cancel the given expression (if it exists).
+
+Likewise Dashboard#kill(wfid_or_fei) is as flexible as #cancel.
+
+
 h4(#on_cancel). on_cancel
 
 Most of the time, the process definition attempts to model the "happy path", the process as it occurs 95% of the time. One may want to go a step further and include provisions for errors (see "@on_error@":#on_error) and for cancellations.
@@ -126,6 +136,49 @@ More info about "@on_cancel@":common_attributes.html#on_cancel.
 h4(#killing). killing vs cancelling
 
 Processes (and expressions) can be cancelled or they can be killed. Killing looks much like cancelling, except that any "@on_cancel@":common_attributes.html#on_cancel will be ignored.
+
+***
+
+h3(#pausing_process). pausing process instance
+
+Pausing a process instance is equivalent to pausing its root expression. Pausing freezes an expression (and all its children expressions that are in a running state (not in error, or being cancelled)).
+
+A paused expression upon receiving a reply will store it and not process it until it gets resumed.
+
+<pre class="brush: ruby">
+dashboard.pause('20120618-makumepa')
+  # will pause the corresponding process instance
+
+# ...
+
+dashboard.resume('20120618-makumepa')
+  # will resume the corresponding process instance
+</pre>
+
+h3(#pausing_expression). pausing expressions
+
+<pre class="brush: ruby">
+dashboard.pause(fei)
+  # will pause the expression (and its children) behind "fei"
+
+# ...
+
+dashboard.resume(fei)
+  # will resume the expressionn (allow it to reply to its parent expression)
+</pre>
+
+
+h4. dashboard.pause(fei, :breakpoint => true)
+
+By default, pausing pauses the target expression and all its children, if one wants to set a "breakpoint", ie let the flow resume but pause when it reaches back an expression, the breakpoint option can be used.
+
+<pre class="brush: ruby">
+dashboard.pause(fei, :breakpoint => true)
+</pre>
+
+Only the targetted expression will get paused, not its children. It means that the flow in the branch (the children of the expression) will go on, but once the flow gets back to the expression with the breakpoint, it will stop.
+
+(Not sure if "breakpoint" is the best word for this, since we're not running a debugger, it's just a regular workflow run).
 
 ***
 
