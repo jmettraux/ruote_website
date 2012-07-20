@@ -21,6 +21,7 @@ h3. america
 * "onit":http://www.onit.com (USA) use ruote in their light-weight tool for tracking projects, deals, transactions, cases and litigation
 * "howcast":http://www.howcast.com/ (USA)
 * "crowdflower":http://www.crowdflower.com/ (USA)
+* "maestrodev":http://www.maestrodev.com/ (USA)
 
 h3. asia
 
@@ -33,5 +34,4 @@ h3. europe
 * "Planquadrat Software-Integration":http://www.planquadrat-software.de/ (Germany)
 * "MeeGo":http://meego.com/ is using ruote for its "BOSS":http://wiki.meego.com/BOSS infrastructure
 * "xaop":http://www.xaop.com (Belgium) (check out their "open source projects":http://www.xaop.com/labs)
-* at the Geographic Institute of the University of Zuerich, the "IT department":http://www.geo.uzh.ch/en/services/computingit/ uses ruote for server provisioning and account management (Switzerland)
 
