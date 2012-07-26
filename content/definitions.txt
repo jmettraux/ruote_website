@@ -13,18 +13,16 @@ Ruote turns process definitions into an abstract syntax tree (a 'tree' for short
 A process definition contains 1 main process definition and may contain 1 or more sub-process definitions. For example.
 
 <pre class="brush: ruby">
-  Ruote.process_definition :name => 'test' do
-    sequence do
-      subprocess :ref => 'analysis'
-      subprocess :ref => 'publication'
+  Ruote.define 'test' do
+
+    subprocess :ref => 'analysis'
+    subprocess :ref => 'publication'
+
+    define 'analysis' do
+      participant :ref => 'alice'
+      participant :ref => 'bob'
     end
-    process_definition :name => 'analysis' do
-      sequence do
-        participant :ref => 'alice'
-        participant :ref => 'bob'
-      end
-    end
-    process_definition :name => 'publication' do
+    define 'publication' do
       participant :ref => 'charly'
     end
   end
@@ -37,34 +35,28 @@ XML may be advantageous for some people as it looks enterprisey. Perhaps a bette
 
 <pre class="brush: xml">
   <process-definition name="my_def">
-    <sequence>
-      <participant ref="alice" />
-      <participant ref="bob" />
-    </sequence>
+    <participant ref="alice" />
+    <participant ref="bob" />
   </process-definition>
 </pre>
 
 You can use the parser to turn XML into a Ruote tree :
 
 <pre class="brush: ruby">
-require 'rubygems'
-require 'ruote/parser'
+require 'ruote/reader'
 
-tree = Ruote::Parser.parse(%{
+tree = Ruote::Reader.read(%{
   <process-definition name="my_def">
-    <sequence>
-      <participant ref="alice" />
-      <participant ref="bob" />
-    </sequence>
+    <participant ref="alice" />
+    <participant ref="bob" />
   </process-definition>
 })
 
 p tree
   # =>
   # ["process_definition", {"name"=>"my_def"}, [
-  #   ["sequence", {}, [
-  #     ["participant", {"ref"=>"alice"}, []],
-  #     ["participant", {"ref"=>"bob"}, []]]]]]
+  #   ["participant", {"ref"=>"alice"}, []],
+  #   ["participant", {"ref"=>"bob"}, []]]]]]
 </pre>
 
 Or directly pass the XML as a String to the engine :
@@ -86,11 +78,9 @@ h3. Ruby process definitions
 Some kind of Ruby DSL can be used to define processes :
 
 <pre class="brush: ruby">
-  Ruote.process_definition :name => 'my_def' do
-    sequence do
-      participant :ref => 'alice'
-      participant :ref => 'bob'
-    end
+  Ruote.define 'my_def' do
+    participant :ref => 'alice'
+    participant :ref => 'bob'
   end
 </pre>
 
@@ -98,12 +88,10 @@ Some kind of Ruby DSL can be used to define processes :
 One advantage of this 'notation' is that passing complex data structures from the process definition is possible :
 
 <pre class="brush: ruby">
-  Ruote.process_definition :name => 'my_def' do
-    sequence do
-      set :field => 'items', :value => { 'cars' => 2, 'trucks' => 0 }
-      participant :ref => 'alice'
-      participant :ref => 'bravo'
-    end
+  Ruote.define 'my_def' do
+    set :field => 'items', :value => { 'cars' => 2, 'trucks' => 0 }
+    participant :ref => 'alice'
+    participant :ref => 'bravo'
   end
 </pre>
 
@@ -117,10 +105,8 @@ In JSON, they would look like :
 
 <pre class="brush: jscript">
   [ 'process-definition', { 'name': 'my_def' }, [
-    [ 'sequence', {}, [
-      [ 'participant', { 'ref': 'alice' }, [] ],
-      [ 'participant', { 'ref': 'bob' }, [] ] 
-    ] ] 
+    [ 'participant', { 'ref': 'alice' }, [] ],
+    [ 'participant', { 'ref': 'bob' }, [] ]
   ] ]
 </pre>
 
@@ -128,10 +114,8 @@ In Ruby, that translates to :
 
 <pre class="brush: ruby">
   [ 'process-definition', { 'name' => 'my_def' }, [
-    [ 'sequence', {}, [
-      [ 'participant', { 'ref' => 'alice' }, [] ],
-      [ 'participant', { 'ref' => 'bob' }, [] ] 
-    ] ] 
+    [ 'participant', { 'ref' => 'alice' }, [] ],
+    [ 'participant', { 'ref' => 'bob' }, [] ]
   ] ]
 </pre>
 
@@ -180,21 +164,18 @@ Maybe this piece of Ruby code makes the "generation" aspect more visible :
 
 <pre class="brush: ruby">
 pdef = Ruote.process_definition do
-  sequence do
-    %w[ alpha bravo charly doug ].each do |pa|
-      participant :ref => pa
-    end
+  %w[ alpha bravo charly doug ].each do |pa|
+    participant :ref => pa
   end
 end
 
 p pdef
   # =>
   # ["define", {}, [
-  #   ["sequence", {}, [
-  #     ["participant", {"ref"=>"alpha"}, []],
-  #     ["participant", {"ref"=>"bravo"}, []],
-  #     ["participant", {"ref"=>"charly"}, []],
-  #     ["participant", {"ref"=>"doug"}, []]]]]]
+  #   ["participant", {"ref"=>"alpha"}, []],
+  #   ["participant", {"ref"=>"bravo"}, []],
+  #   ["participant", {"ref"=>"charly"}, []],
+  #   ["participant", {"ref"=>"doug"}, []]]]
 </pre>
 
 
