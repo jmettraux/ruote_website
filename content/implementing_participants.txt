@@ -94,6 +94,7 @@ h3. methods
 * "#unschedule_re_dispatch":#unschedule_re_dispatch
 
 * "#rtimeout":#rtimeout
+* "#rtimers":#rtimers
 
 h3. helpers
 
@@ -536,6 +537,25 @@ end
 
 Note however, that the process definition timeout (if any) will take
 precedence over the participant specified one.
+
+
+h3(#rtimers). #rtimers
+
+We saw above that #rtimeout can provide a default value for a participant
+"timeout" attribute. Likewise, #rtimers provides a default value for the
+"timers" attribute.
+
+<pre class="brush: ruby">
+class MyParticipant
+  # ...
+  def rtimeout
+    '1h: reminder, 12h: error'
+  end
+  # ...
+end
+</pre>
+
+For more info about the <a href="/common_attributes.html#timers">timers</a> common attribute.
 
 
 ***
