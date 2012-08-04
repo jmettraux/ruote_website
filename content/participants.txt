@@ -174,7 +174,7 @@ It's probably simpler to register all the participants at once with "engine#regi
 
 h4(#r_block). engine#register(&block)
 
-Since ruote 2.1.11, thanks to the work of "Torsten":http://github.com/tosch/, it's possible to register participants in nice blocks :
+Thanks to the work of "Torsten":http://github.com/tosch/, it's possible to register participants in nice blocks :
 
 <pre class="brush: ruby">
   engine.register do
@@ -234,6 +234,44 @@ One can prevent this clearing by doing
   end
 </pre>
 
+h4(#catchall). engine#register(&block) and "catchall"
+
+"catchall" when used, is placed last in a registration block:
+
+<pre class="brush: ruby">
+  engine.register do
+    participant 'user-.+', MyApp::InboxParticipant
+    participant 'action-.+', MyApp::RemoteActionParticipant
+    catchall
+  end
+</pre>
+
+This block is equivalent to:
+
+<pre class="brush: ruby">
+  engine.register do
+    participant 'user-.+', MyApp::InboxParticipant
+    participant 'action-.+', MyApp::RemoteActionParticipant
+    participant '.+', Ruote::StorageParticipant
+  end
+</pre>
+
+It catches all the workitems. Placing further participant registrations after a catchall makes thus no sense (they'll never be used).
+
+"catchall" can be used with participant classes (and options), like in:
+
+<pre class="brush: ruby">
+    catchall Acme::DefaultParticipant
+</pre>
+
+or:
+
+<pre class="brush: ruby">
+    catchall(
+      Acme::SmtpParticipant,
+      :email => 'admin@example.com', :msg => 'unknown participant')
+</pre>
+
 
 h4(#r_list). engine#participant_list=
 
@@ -253,8 +291,8 @@ Checking the current content of the participant list looks like :
 <pre class="brush: ruby">
   engine.participant_list.each { |pe| puts pe.to_s }
     #
-    #   /^user-.+$/ ==> Ruote::StorageParticipant {}
-    #   /^action-.+$/ ==> MyApp::RemoteActionParticipipant { 'server' => 'main' }
+    # /^user-.+$/ ==> Ruote::StorageParticipant {}
+    # /^action-.+$/ ==> MyApp::RemoteActionParticipipant { 'server' => 'main' }
 </pre>
 
 
