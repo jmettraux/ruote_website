@@ -77,6 +77,13 @@ Where the ruote data is persisted.
 There are multiple storage implementations. See "configuration":configuration.html#storage for more info.
 
 
+h3(#storage_participant). storage participant
+
+A participant that places the workitems it receives in the storage. It provides a easy inbox implementation.
+
+TODO: code sample
+
+
 h3(#variable). variables, process variables
 
 There are two kind of "slots" for storing user data in ruote: process variables and "workitem fields":#fields.
