@@ -46,5 +46,5 @@ h3(#ci). continuous integration
 
 While not really "continuous", ruote is tested automatically, with a "visible output":http://ruote-ci.s3.amazonaws.com/ci.html
 
-The "ci configuration":http://ruote-ci.s3.amazonaws.com/zz_ci_configuration.rb.txt is visible as well. The ci tool I use is at "https://github.com/jmettraux/ci":https://github.com/jmettraux/ci
+The ci tool used is at "https://github.com/jmettraux/ci":https://github.com/jmettraux/ci
 
