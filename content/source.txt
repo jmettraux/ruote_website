@@ -40,7 +40,8 @@ h3(#misc). various tools around ruote
 
 * "Simple-Ruote-Formatter":https://github.com/rebo/Simple-Ruote-Formatter - takes a ruote process definition and renders it as an HTML page (by "rebo":https://github.com/rebo)
 
-* "ruote-stomp":https://github.com/maestrodev/ruote-stomp - "Stomp":http://stomp.github.com participant and listeners for ruote (by "Kit Plummer":http://kitplummer.github.com/)
+* "ruote-stomp":https://github.com/maestrodev/ruote-stomp - "Stomp":http://stomp.github.com participant and receivers for ruote (by "Kit Plummer":http://kitplummer.github.com/)
+* "ruote-nats":https://github.com/takai/ruote-nats - "NATS":https://github.com/derekcollison/nats participant and receivers for ruote (by "Takai Naoto":https://github.com/takai)
 
 See also "rufus":http://rufus.rubyforge.org, a set of ruby gems spun off of ruote.
 
