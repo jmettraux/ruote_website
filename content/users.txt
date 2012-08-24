@@ -25,6 +25,7 @@ h3. america
 
 h3. asia
 
+* "Cookpad":http://cookpad.com (Japan)
 * "Macnica Networks":http://www.macnica.net/ (Japan)
 
 h3. europe
