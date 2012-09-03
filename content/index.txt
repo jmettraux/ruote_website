@@ -6,101 +6,109 @@ title: index
 
 <strong>Ruote</strong> is a workflow engine written in Ruby. Ruote is "not":http://jmettraux.wordpress.com/2009/07/03/state-machine-workflow-engine/ a state machine library.
 
-It could be described as an 'operating system for business processes'.
+&nbsp;
 
-A ruote engine may execute multiple <strong>process instances</strong> at a time. Processes are instantiated from <strong>process definitions</strong> written in a Ruby DSL or in XML (or directly as JSON). Process definitions describe the flow of work among <strong>participants</strong>. Participants stand for users, groups of users, services, legacy systems, etc.
+Ruote as a workflow engine comes as an "onion". There's a <strong>storage</strong> at the core, taking care of all the persistence. A <strong>worker</strong> where all the orchestration work happens surrounds the core. The <strong>dashboard</strong> has all the levers to launch, pause, cancel process instances.
 
-a process definition
-
-<table class="code_and_fluo">
-  <tr>
-    <td>
 <pre class="brush: ruby">
+require 'rufus-json/automatic'
 require 'ruote'
-
-pdef = Ruote.define do
-  cursor do
-    concurrence do
-      reviewer1
-      reviewer2
-    end
-    editor
-    rewind :if => '${not_ok}'
-      # back to the reviewers
-      # if editor not happy
-    publish # the document
-  end
-end
-</pre>
-    </td>
-    <td>
-      <img src="/images/pdef0.png" width="95%"/>
-    </td>
-  </tr>
-</table>
-
-the engine and some participants
-
-<pre class="brush: ruby">
-# engine
-
 require 'ruote/storage/fs_storage'
 
-engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::FsStorage.new('work')))
+ruote = Ruote::Dashboard.new(
+  Ruote::Worker.new(
+    Ruote::FsStorage.new('ruote_work')))
+</pre>
 
-# participants
+The orchestration work (making the work flow) happens in the worker(s), the orchestrated work (where the added value is) happens in <strong>participants</strong>.
 
-engine.register_participant 'reviewer.+' do |workitem|
-  puts "reviewing document #{workitem.fields['doc_url']}"
-  print "approve ?"
-  workitem.fields["#{workitem.participant_name}_reply"] = gets
-end
+<pre class="brush: ruby">
+class Scout < Ruote::Participant
 
-engine.register_participant 'editor' do |workitem|
-  puts "doc : #{workitem.fields['doc_url']}"
-  puts "reviewers approval :"
-  workitem.fields.entries.each do |k, v|
-    puts "#{k} : #{v}" if k.match(/\_reply$/)
+  def on_workitem
+
+    sleep(rand)
+    result =
+      [ workitem.participant_name, (20 * rand + 1).to_i ]
+    (workitem.fields['spotted'] ||= []) << result
+    p result
+
+    reply # work done, let flow resume
   end
-  print "should we publish ?"
-  workitem.fields['not_ok'] = (gets.strip == 'no')
 end
 
-engine.register_participant 'publish' do |workitem|
-  PublicationService.post(workitem.fields['doc_url'])
+class Leader < Ruote::Participant
+
+  def on_workitem
+
+    workitem.fields['total'] =
+      workitem.fields['spotted'].inject(0) { |t, f| t + f[1] }
+
+    puts
+    puts "bird:    " + workitem.fields['bird']
+    puts "spotted: " + workitem.fields['spotted'].inspect
+    puts "total:   " + workitem.fields['total'].inspect
+    puts
+
+    reply # work done, let flow resume
+  end
 end
 </pre>
 
-launching some process instances
+The system hands <strong>workitems</strong> to participants. Once they're done with the work represented by those workitems, they hand them back to the system.
+
+Participant implementations are registered in the system. Usually it comes as a mapping from participant names (used in process definition) to participant classes.
 
 <pre class="brush: ruby">
-wfid0 = engine.launch(
-  pdef, 'doc_url' => 'http://en.wikipedia.org/wiki/File:Bundesbrief.jpg')
-wfid1 = engine.launch(
-  pdef, 'doc_url' => 'http://en.wikipedia.org/wiki/File:Constitution_Pg1of4_AC.jpg')
+ruote.register /^scout_/, Scout
+ruote.register /^leader_/, Leader
 </pre>
 
-later manipulations
+A <strong>process definition</strong> can be expressed in radial (a mini-language specific to ruote), in Ruby, in XML or directly as a (JSON) abstract tree.
+
+Here is a radial example:
 
 <pre class="brush: ruby">
-# querying
-
-[ wfid0, wfid1 ].each do |wfid|
-  ps = engine.process(wfid)
-  puts "errors for #{wfid} ? #{ps.errors.size > 0}"
-end
-
-# cancelling a process instance
-
-engine.cancel_process(wfid1)
+pdef = %q{
+  define
+    concurrence merge_type: concat
+      scout_alice
+      scout_bob
+      scout_charly
+    leader_doug
+}
 </pre>
 
+This process definition fans work to three scout participants and then hands the resulting work (item) to the team leader.
+
+Here is the same flow expressed in Ruby:
+
+<pre class="brush: ruby">
+pdef = Ruote.define do
+  concurrence :merge_type => :concat do
+    scout_alice
+    scout_bob
+    scout_charly
+  end
+  leader_doug
+end
+</pre>
+
+Multiple process instances can be launched at the same time. Multiple instances of different processes with different initial workitem fields can be launched in the same "engine" too.
+
+<pre class="brush: ruby">
+wfid = ruote.launch(
+  pdef,
+  'bird' => %w[ thrush cardinal dodo ].shuffle.first)
+</pre>
+
+&nbsp;
 
 Ruote is available under the "MIT":http://en.wikipedia.org/wiki/MIT_License open source license.
 
 Ruote used to be named 'openwfe-ruby' then 'openwferu'. The name is now 'ruote' (pronounce it 'ru-o-te' or 'route', as you wish).
 
-For more, head to the "documentation":documentation.html or to the "quickstart":quickstart.html or have a look at a few "slides":presentations.html.
+For more, head to the "documentation":documentation.html or to the "quickstart":https://github.com/jmettraux/ruote/tree/master/quickstart or have a look at a few "slides":presentations.html.
 
 
 h3. community
