@@ -16,6 +16,8 @@ The attributes listed on this page may be used with any expression.
 * ":on_timeout":#on_timeout
 * ":tag":#tag
 * ":filter":#filter
+* ":take":#take_and_discard
+* ":discard":#take_and_discard
 * ":timers":#timers
 * ":scope":#scope
 
@@ -159,7 +161,7 @@ This is the attribute equivalent of the "lose":exp/lose.html expression.
 
 h3(#flank). :flank
 
-(introduced by ruote 2.3.0)
+(introduced in ruote 2.3.0)
 
 The previous 'lose' example can be rewritten with 'flank' as:
 
@@ -524,9 +526,15 @@ end
 
 
 
+h3(#take_and_discard). :take and :discard
+
+TODO
+
+
+
 h3(#timers). :timers
 
-(introduced by ruote 2.3.0)
+(introduced in ruote 2.3.0)
 
 "alice receives a task, she has 15 days to do it, she'll have to receive a reminder after 5 days and a final reminder after 12 days" can be conveyed as
 
@@ -606,7 +614,7 @@ Note that sub-processes and participants that are triggered by :timers are "flan
 
 h3(#scope). :scope
 
-(introduced by ruote 2.3.0)
+(introduced in ruote 2.3.0)
 
 By default expressions inside of a workflow instance share the same variable scope. By setting the attribute :scope to "true", a new variable scope is forced.
 

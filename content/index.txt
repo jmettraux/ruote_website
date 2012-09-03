@@ -8,6 +8,8 @@ title: index
 
 &nbsp;
 
+Here is a re-hash of the "quickstart":https://github.com/jmettraux/ruote/tree/master/quickstart exposing the core concepts in ruote.
+
 Ruote as a workflow engine comes as an "onion". There's a <strong>storage</strong> at the core, taking care of all the persistence. A <strong>worker</strong> where all the orchestration work happens surrounds the core. The <strong>dashboard</strong> has all the levers to launch, pause, cancel process instances.
 
 <pre class="brush: ruby">
@@ -55,9 +57,7 @@ class Leader < Ruote::Participant
 end
 </pre>
 
-The system hands <strong>workitems</strong> to participants. Once they're done with the work represented by those workitems, they hand them back to the system.
-
-Participant implementations are registered in the system. Usually it comes as a mapping from participant names (used in process definition) to participant classes.
+Participant names are mapped to participant implementations via a register call.
 
 <pre class="brush: ruby">
 ruote.register /^scout_/, Scout
@@ -94,7 +94,7 @@ pdef = Ruote.define do
 end
 </pre>
 
-Multiple process instances can be launched at the same time. Multiple instances of different processes with different initial workitem fields can be launched in the same "engine" too.
+Multiple process instances can be launched at the same time. Multiple instances of different processes with different initial workitem fields can be launched in the same system and run in parallel, much like different processes on top of an OS.
 
 <pre class="brush: ruby">
 wfid = ruote.launch(
