@@ -1,6 +1,6 @@
 ---
 title: inc expression
-names: ["inc", "dec", "increment", "decrement"]
+names: ["inc", "dec", "increment", "decrement", "push", "pop"]
 ---
 
 h2. inc
@@ -59,8 +59,8 @@ This fragment of process definition
     set 'v:x' => %w[ a b c d ]
     repeat do
       dec 'v:x', :pos => 'head'
-      _break :unless => '${v:d}'
-      participant '${v:d}'
+      _break :unless => '${__result__}'
+      participant '${__result__}'
     end
   end
 </pre>
@@ -99,7 +99,7 @@ It's also possible to remove a specific value by passing it to 'dec' :
     # the variable 'x' now holds [ 'alfred', 'carl' ]
 </pre>
 
-'dec' places the removed value in the local variable named 'd'. This trick
+'dec' places the removed value in workitem field '__result__'. This trick
 was used in the above iterator example.
 
 A specific variable or field can be specified via the :to_var / :to_field
@@ -108,4 +108,45 @@ attributes :
 <pre class="brush: ruby">
   dec 'v:x', :to_v => 'a'
   participant :ref => '${v:a}'
+
 </pre>
+
+h3. nested value
+
+(Since ruote 2.3.0)
+
+If nested expressions are provided the __result__ workitem field is
+used for inc.
+
+<pre class="brush: ruby">
+  inc 'v:x' do
+    set '__result__' => 3
+  end
+</pre>
+
+will increase the value of the variable x by 3.
+
+
+h3. push and pop
+
+push and pop are aliases for inc and dec respectively. There is a major
+difference though: they'll force the target value into an array.
+
+<pre class="brush: ruby">
+  sequence do
+    set 'v:x' => 2
+    push 'v:x' => 3
+  end
+</pre>
+
+will result in a variable x holding [ 2, 3 ] as value.
+
+Likewise,
+
+<pre class="brush: ruby">
+  pop 'v:x'
+</pre>
+
+will force a value of [] into the variable x if it wasn't previously set
+or its value was not an array with more than one element.
+

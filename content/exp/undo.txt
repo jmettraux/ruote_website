@@ -1,6 +1,6 @@
 ---
 title: undo expression
-names: ["undo", "cancel"]
+names: ["undo", "cancel", "kill"]
 ---
 
 h2. undo
@@ -41,3 +41,28 @@ to
 <pre class="brush: ruby">
   cancel 'invoicing_stage'
 </pre>
+
+h3. kill
+
+<pre class="brush: ruby">
+  kill :ref => 'invoicing stage'
+</pre>
+
+will cancel the target expression and bypass any on_cancel handler set for
+it.
+
+<pre class="brush: ruby">
+  concurrence do
+    sequence :tag => 'x', :on_cancel => 'y' do
+      # ...
+    end
+    sequence do
+      # ...
+      kill 'x'
+    end
+  end
+</pre>
+
+In this example the :on_cancel => 'y' will get ignored if kill 'x' kicks
+in.
+
