@@ -6,7 +6,99 @@ names: ["if"]
 h2. if
 
 
-Here are examples of the 'if' expression in use :
+The 'if' construct found in many programming languages.
+
+h3. _if ?
+
+Why the "_if" in all the examples below? Well, all the examples are using
+the Ruby DSL, using 'if' alone isn't possible, the Ruby parser would think
+it's the Ruby's own if...
+
+But process definitions written in Radial
+(see http://jmettraux.github.com/2012-09-03-ruote-2.3.0.html) don't have
+this restriction:
+
+<pre class="brush: ruby">
+  if '${customer} == fred'
+    salesman_henry  # then clause
+    salesman_josh   # else clause
+</pre>
+
+h3. then / else clauses
+
+The 'if' expression accepts two or three children branches, in pseudo-code
+it looks like:
+
+<pre class="brush: ruby">
+  _if do
+    <condition>
+    <then clause>
+  end
+
+  # or
+
+  _if <condition> do
+    <then clause>
+  end
+
+  # or
+
+  _if do
+    <condition>
+    <then clause>
+    <else clause>
+  end
+
+  # or
+
+  _if <condition> do
+    <then clause>
+    <else clause>
+  end
+</pre>
+
+This piece of process definition:
+
+<pre class="brush: ruby">
+  _if '${customer} == fred' do
+    salesman_henry
+    salesman_josh
+  end
+</pre>
+
+is thus interpreted as:
+
+<pre class="brush: ruby">
+  _if '${customer} == fred' do
+    salesman_henry  # then clause
+    salesman_josh   # else clause
+  end
+</pre>
+
+If the intent was to express a sequence henry - josh, it should be
+written as:
+
+<pre class="brush: ruby">
+  _if '${customer} == fred' do
+    sequence do # then clause
+      salesman_henry
+      salesman_josh
+    end
+  end
+</pre>
+
+Note this can be alternatively written as:
+
+<pre class="brush: ruby">
+  sequence :if => '${customer} == fred' do
+    salesman_henry
+    salesman_josh
+  end
+</pre>
+
+h3. examples
+
+Here are some examples:
 
 <pre class="brush: ruby">
   _if do
@@ -15,7 +107,7 @@ Here are examples of the 'if' expression in use :
   end
 </pre>
 
-and :
+and:
 
 <pre class="brush: ruby">
   _if :test => '${f:customer} == British Petroleum' do
@@ -23,7 +115,7 @@ and :
   end
 </pre>
 
-An else clause is accepted :
+An else clause is accepted:
 
 <pre class="brush: ruby">
   _if do
@@ -33,7 +125,7 @@ An else clause is accepted :
   end
 </pre>
 
-or :
+or:
 
 <pre class="brush: ruby">
   _if :test => '${f:customer} == British Petroleum' do
@@ -42,7 +134,7 @@ or :
   end
 </pre>
 
-Note that any expression accepts an :if attribute :
+Note that any expression accepts an :if attribute:
 
 <pre class="brush: ruby">
   participant :ref => 'Al', :if => '${f:customer} == British Petroleum'
@@ -60,7 +152,7 @@ The :test can be shortened to a :t :
   end
 </pre>
 
-When using Ruby to generate the process definition tree, you can simply do :
+When using Ruby to generate the process definition tree, you can simply do:
 
 <pre class="brush: ruby">
   _if '${f:customer.name} == Fred' do
