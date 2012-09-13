@@ -8,6 +8,10 @@ title: index
 
 &nbsp;
 
+Last version is 2.3.0, it was "released":http://jmettraux.github.com/2012-09-03-ruote-2.3.0.html 2012/09/04.
+
+&nbsp;
+
 Here is a re-hash of the "quickstart":https://github.com/jmettraux/ruote/tree/master/quickstart exposing the core concepts in ruote.
 
 Ruote as a workflow engine comes as an "onion". There's a <strong>storage</strong> at the core, taking care of all the persistence. A <strong>worker</strong> where all the orchestration work happens surrounds the core. The <strong>dashboard</strong> has all the levers to launch, pause, cancel process instances.
