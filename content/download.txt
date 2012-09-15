@@ -21,15 +21,13 @@ With "bundler":http://gembundler.com it's easy.
 For a specific version of the ruote gem :
 
 <pre class="brush: ruby">
-gem 'ruote', '2.1.12'
+gem 'ruote', '2.3.0.1'
 </pre>
 
 For the latest (edge) version :
 
 <pre class="brush: ruby">
-gem 'ruote',
-  :git => 'git://github.com/jmettraux/ruote.git',
-  :branch => 'ruote2.1'
+gem 'ruote', :git => 'git://github.com/jmettraux/ruote.git'
 </pre>
 
 and so on...
