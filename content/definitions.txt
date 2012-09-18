@@ -8,9 +8,18 @@ Process definitions are documents that describe how a [business] process should 
 
 Participants are registered at start time usually. While process definitions are 'parsed' at their launch time. Each launch of a process definition creates a process instance.
 
-Ruote turns process definitions into an abstract syntax tree (a 'tree' for short) at launch time. It can mainly read three flavours of process definitions : a Ruby DSL, a XML and plain trees (usually as JSON, though YAML could be considered).
+Ruote turns process definitions into an abstract syntax tree (a 'tree' for short) at launch time. This tree gets interpreted during the workflow execution.
 
-A process definition contains 1 main process definition and may contain 1 or more sub-process definitions. For example.
+Process definitions in four "languages" are understood:
+
+* "Ruby DSL":#ruby
+* "XML process definitions":#xml
+* "Radial process definitions":#radial
+* "Plain trees":#tree (as JSON)
+
+There is an interesting complementary technique, workflow "generation":#generation.
+
+A process definition contains 1 main process definition and may contain 1 or more sub-process definitions. For example:
 
 <pre class="brush: ruby">
   Ruote.define 'test' do
@@ -29,7 +38,83 @@ A process definition contains 1 main process definition and may contain 1 or mor
 </pre>
 
 
-h3. XML process definitions
+h3(#ruby). Ruby process definitions
+
+Some kind of Ruby DSL can be used to define processes :
+
+<pre class="brush: ruby">
+  Ruote.define 'my_def' do
+    participant :ref => 'alice'
+    participant :ref => 'bob'
+  end
+</pre>
+
+One advantage of this 'notation' is that passing complex data structures from the process definition is possible :
+
+<pre class="brush: ruby">
+  Ruote.define 'my_def' do
+    set :field => 'items', :value => { 'cars' => 2, 'trucks' => 0 }
+    participant :ref => 'alice'
+    participant :ref => 'bravo'
+  end
+</pre>
+
+Not necessarily a good practice but can come in handy, and remember that ruote will flatten that to something that is JSONifiable.
+
+One interesting twist of Ruby process definitions: they are Ruby, so it's code executed (at definition time). A process like:
+
+<pre class="brush: ruby">
+  Ruote.define 'my_def' do
+    cursor do
+      alice
+      bob
+      charly
+      doug
+    end
+  end
+</pre>
+
+can be simplified to:
+
+<pre class="brush: ruby">
+  Ruote.define 'my_def' do
+    cursor do
+      %w[ alice bob charly doug ].collect { |name| send(name) }
+    end
+  end
+</pre>
+
+...
+
+
+h3(#radial). Radial process definitions
+
+Radial is a mini-language introduced with ruote 2.3.0. It looks like a cross of Python and JSON, but is very similar to definitions expressed in the usual Ruby DSL (without the definition time execution).
+
+The above process definition in Ruby would like this in radial:
+
+<pre class="brush: ruby">
+  define my_def
+    set field: items, value: { cars: 2, trucks: 0 }
+    participant ref: alice
+    participant ref: bravo
+</pre>
+
+Radial is very accomodating, no need to enclose one word strings in quotes for examples. Indentation matters though (a bit like in Python).
+
+No possibility for running Ruby code at definition, but a lighter weight syntax.
+
+Quotes are OK (and they are necessaring for more than word strings or forcing numbers to strings:
+
+<pre class="brush: ruby">
+  define my_def
+    set field: items, value: { cars: '2', trucks: 0 }
+    participant ref: "alice azer"
+    participant ref: "bob bitume", "next mission": "conquer the moon"
+</pre>
+
+
+h3(#xml). XML process definitions
 
 XML may be advantageous for some people as it looks enterprisey. Perhaps a better reason for using it is the fact that libraries for generating XML documents abound, as well as other XML related tools.
 
@@ -73,33 +158,7 @@ engine.launch(%{
 </pre>
 
 
-h3. Ruby process definitions
-
-Some kind of Ruby DSL can be used to define processes :
-
-<pre class="brush: ruby">
-  Ruote.define 'my_def' do
-    participant :ref => 'alice'
-    participant :ref => 'bob'
-  end
-</pre>
-
-
-One advantage of this 'notation' is that passing complex data structures from the process definition is possible :
-
-<pre class="brush: ruby">
-  Ruote.define 'my_def' do
-    set :field => 'items', :value => { 'cars' => 2, 'trucks' => 0 }
-    participant :ref => 'alice'
-    participant :ref => 'bravo'
-  end
-</pre>
-
-
-Not necessarily a good practice but can come in handy, and remember that ruote will flatten that to something that is JSONifiable.
-
-
-h3. raw [JSON] process definitions
+h3(#tree). raw [JSON] process definitions
 
 In JSON, they would look like :
 
@@ -132,13 +191,10 @@ The engine understands various formats :
     # Ruby raw process definition
 </pre>
 
-
-
-
 This raw representation of a process definition can also accomodate deep data structures like the Ruby DSL does.
 
 
-h3. process definition generation
+h3(#generation). process definition generation
 
 So we've seen nice "ruby process definition", but shouldn't we rather say "process definition generation via ruby" ?
 
