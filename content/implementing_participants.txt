@@ -45,11 +45,26 @@ Two optional methods also exist : "#accept?":#accept and "#on_reply":#on_reply. 
 By default, when a process instance execution reaches a participant expression, it runs the #consume method of the participant in a dedicated Ruby thread. if the "#do_not_thread":#do_not_thread method returns false, no extra thread is created, the consume call is done immediately (ie, it blocks the worker).
 
 
-h3(#local_participant). Ruote::LocalParticipant
+h3(#participant). Ruote::Participant (class)
+
+Ruote 2.3.0 brings a new Ruote::Participant class which includes the Ruote::LocalParticipant module and brings an empty implementation of on_cancel. Thus the above participant can be written:
+
+<pre class="brush: ruby">
+class Flusher < Ruote::Participant
+
+  def on_workitem
+    GarbageCan.find(workitem.fields['garbage_can_id']).flush
+    reply
+  end
+end
+</pre>
+
+
+h3(#local_participant). Ruote::LocalParticipant (module)
 
 Most of the time, you'll want your participant to include the Ruote::LocalParticipant mixin.
 
-It's named 'local' because it supposed to have access to the ruote storage.
+It's named 'local' because it has access to the ruote storage.
 
 ***
 
