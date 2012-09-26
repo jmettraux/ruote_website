@@ -79,7 +79,7 @@ can be simplified to:
 <pre class="brush: ruby">
   Ruote.define 'my_def' do
     cursor do
-      %w[ alice bob charly doug ].collect { |name| send(name) }
+      %w[ alice bob charly doug ].collect { |name| __send__(name) }
     end
   end
 </pre>
