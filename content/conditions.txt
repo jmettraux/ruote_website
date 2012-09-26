@@ -86,7 +86,7 @@ When dealing with strings, try to cut ambiguity. Surround the string with quotes
 
 <pre class="brush: ruby">
 bill :if =>
-  '${amount} > 0.0 or (${'f:name} =~ /^Acme/ and ${'f:city} == "Orlando"'
+  "${amount} > 0.0 or (${'f:name} =~ /^Acme/ and ${'f:city} == 'Orlando')"
 </pre>
 
 
