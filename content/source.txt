@@ -43,6 +43,8 @@ h3(#misc). various tools around ruote
 * "ruote-stomp":https://github.com/maestrodev/ruote-stomp - "Stomp":http://stomp.github.com participant and receivers for ruote (by "Kit Plummer":http://kitplummer.github.com/)
 * "ruote-nats":https://github.com/takai/ruote-nats - "NATS":https://github.com/derekcollison/nats participant and receivers for ruote (by "Takai Naoto":https://github.com/takai)
 
+* "ruote-library":https://github.com/wyngle/ruote-library - a process library for ruote (by "Hartog de Mik":https://github.com/coffeeaddict)
+
 See also "rufus":http://rufus.rubyforge.org, a set of ruby gems spun off of ruote.
 
 
