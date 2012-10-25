@@ -32,7 +32,7 @@ h3(#misc). various tools around ruote
 
 * "ruote-fluo":http://github.com/jmettraux/ruote-fluo/ - some kind of a browser based editor for process definitions
 
-* "ruote-kit":http://github.com/tosch/ruote-kit/ - RESTish wrapper for ruote (by "Kenneth":http://opensourcery.co.za and "Torsten":http://github.com/tosch)
+* "ruote-kit":http://github.com/kennethkalmer/ruote-kit/ - RESTish wrapper for ruote (by "Kenneth":http://opensourcery.co.za and "Torsten":http://github.com/tosch)
 
 * "ruote-amqp-pyclient":http://github.com/lbt/ruote-amqp-pyclient - a Python client for ruote-amqp, by "David Greaves":http://github.com/lbt.
 
