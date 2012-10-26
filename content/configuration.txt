@@ -236,15 +236,14 @@ The following table summarizes the various storage implementations.
 |"Ruote::FsStorage":#fs_storage | yes (2) | no | 2nd | hierarchy of JSON files, uses file locks to prevent collisions when multiple workers|
 |"Ruote::Redis::Storage":#redis_storage | yes | yes | 1st | "Redis":http://redis.io based persistence|
 |"Ruote::Sequel::Storage":#sequel_storage | yes | yes | 4th | "Sequel":http://sequel.rubyforge.org based persistence|
-|"Ruote::Dm::Storage":#dm_storage | yes (4) | yes | 5th | "DataMapper":http://datamapper.org based persistence|
+|"Ruote::Dm::Storage":#dm_storage | yes (3) | yes | 5th | "DataMapper":http://datamapper.org based persistence|
 |"Ruote::Couch::Storage":#couch_storage | yes | yes | slowest | "Apache CouchDB":http://couchdb.apache.org/ based persistence, very slow|
-|"Ruote::MongoDBStorage":#mongo_storage | no (3) | yes | like redis | "MongoDB":http://www.mongodb.org based persistence|
+|"Ruote::Mon::Storage":#mongo_storage | yes | yes | like the Redis storage | "MongoDB":http://www.mongodb.org based persistence|
 |"Ruote::Beanstalk::Storage":#beanstalk_storage | yes | yes | 3rd | FsStorage based persistence with a "Beanstalk":http://kr.github.com/beanstalkd/ front|
 
 (1) well, it's 'yes' but there isn't much to gain from one more worker in the same Ruby runtime
 (2) multiple workers, but not on Windows
-(3) (has to be confirmed)
-(4) "no" before ruote-dm 2.2.0
+(3) "no" before ruote-dm 2.2.0
 
 h4(#hash_storage). Ruote::HashStorage
 
@@ -292,9 +291,9 @@ A "CouchDB":http://couchdb.apache.org/ storage implementation. OK with multiple 
 
 It's rather slow. People tend to use it to store workitems, and let the msgs and schedules be stored in faster implementations (see "CompositeStorage":#composite_storage).
 
-h4(#mongo_storage). Ruote::MongoDBStorage
+h4(#mongo_storage). Ruote::Mon::Storage
 
-"source":https://github.com/PlasticLizard/ruote-mongodb/blob/master/lib/ruote-mongodb/mongodb_storage.rb
+"source":https://github.com/jmettraux/ruote-mon/blob/master/lib/ruote/mon/storage.rb
 
 "MongoDB":http://mongodb.org storage implementation.
 
