@@ -215,7 +215,7 @@ What if you want to specify the "on error" behaviour directly in the process def
 :on_error is the closest thing to the begin/rescue, try/catch found in regular programming languages.
 
 <pre class="brush: ruby">
-Ruote.process_definition :name => 'x' do
+Ruote.define :name => 'x' do
 
   sequence :on_error => 'handle_issue' do
     participant 'alpha'
@@ -237,6 +237,26 @@ There will be no error registered in the error journal (unless there is an error
 :on_error must point to a subprocess or a participant, or a command like "redo" or "undo".
 
 When it points to a subprocess, the branch in error gets replaced by an instance that subprocess. When it points to a participant branch gets replaced by a single workitem despatchement to the participant.
+
+h4(#on_error_composing). composing with on_error (on_error: "retry * 3, pass")
+
+Since ruote 2.3.0, the on_error attribute understands handler composition. One can write things like:
+
+<pre class="brush: ruby">
+  # retry three times, immediately
+  handover_a :on_error => "retry * 3"
+
+  # retry three times, then give up
+  handover_b :on_error => "retry * 3, pass"
+
+  # retry three times, each time after 1 minute, then give up
+  handover_c :on_error => "1m: retry * 3, pass"
+
+  # retry after 1 second, 1 minute, finally one hour
+  handover_d :on_error => "1s: retry, 1m: retry, 1h: retry"
+</pre>
+
+Now on for the list of messages on_error understands.
 
 h4. on_error: redo
 
@@ -280,8 +300,6 @@ If you want to register finer grained error interception, you might be want to h
 
 h4. on_error: cancel
 
-(from ruote 2.3.0 on)
-
 By specifying 'cancel', one can tell ruote to trigger the on_cancel handler in case of error.
 
 <pre class="brush: ruby">
@@ -291,8 +309,6 @@ By specifying 'cancel', one can tell ruote to trigger the on_cancel handler in c
 </pre>
 
 h4. on_error: cando
-
-(from ruote 2.3.0 on)
 
 'cando' is "cancel-redo" collapsed. The :on_cancel is triggered (can__) then the faulty expression (tree) is retried (__do).
 
