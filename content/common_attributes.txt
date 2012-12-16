@@ -20,6 +20,7 @@ The attributes listed on this page may be used with any expression.
 * ":discard":#take_and_discard
 * ":timers":#timers
 * ":scope":#scope
+* ":await":#await
 
 <hr/>
 
@@ -646,4 +647,85 @@ end
 </pre>
 
 (This example can be reproduced by replacing "sequence :scope => true" by "let" which is a special alias of the sequence expression).
+
+
+h3(#await). :await
+
+(introduced in ruote 2.3.1)
+
+The await attribute was added to ruote in order to help model directed graphs.
+
+Imagine a case where you need to represent a graph of tasks where A and B execute concurrently, C executes as soon as A and B are over and D executes as soon as B is over.
+
+With the "await":/exp/await.html expression, this can be done as:
+
+<pre class="brush: ruby">
+concurrence do
+  sequence :tag => 'ab' do
+    a
+    b :tag => 'b'
+  end
+  sequence do
+    await :left_tag => 'ab'
+    c
+  end
+  sequence do
+    await :left_tag => 'b'
+    d
+  end
+end
+</pre>
+
+This relies on the blocking behaviour of "await":/exp/await.html when it has no nested expressions.
+
+The :await attribute was introduced to simplify the notation above. The flow becomes:
+
+<pre class="brush: ruby">
+concurrence do
+  sequence :tag => 'ab' do
+    a
+    b :tag => 'b'
+  end
+  sequence :await => 'left_tag:ab' do
+    c
+  end
+  sequence :await => 'left_tag:b' do
+    d
+  end
+end
+</pre>
+
+The sequences are made to wait for the event to happen before resuming.
+
+The :await attribute understands the same language as the "await":/exp/await.html expression, although it compacts it into something like "left_tag:ab".
+
+When given no prefix, the await attribute will consider the value as "left_tag:" thus, the above flow can be rewritten as:
+
+<pre class="brush: ruby">
+concurrence do
+  sequence :tag => 'ab' do
+    a
+    b :tag => 'b'
+  end
+  sequence :await => 'ab' do
+    c
+  end
+  sequence :await => 'b' do
+    d
+  end
+end
+</pre>
+
+or, since await applies to any expression, it can be shortened to:
+
+<pre class="brush: ruby">
+concurrence do
+  sequence :tag => 'ab' do
+    a
+    b :tag => 'b'
+  end
+  c :await => 'ab'
+  d :await => 'b'
+end
+</pre>
 
