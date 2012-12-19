@@ -1,4 +1,5 @@
 
+require 'listen'
 begin
   require 'nanoc3/tasks'
 rescue LoadError
@@ -24,15 +25,18 @@ task :co => :compile
 task :aco do
 
   #exec "nanoc aco" # <--- too slow, can't wait nanoc 3.2
+  queue = Queue.new
 
-  t = Thread.new do
-    loop { `bundle exec nanoc co 2>&1`; sleep 0.5 }
+  Thread.new do
+    loop { queue.pop; sh 'bundle exec nanoc co'; queue.clear }
+  end
+  Thread.new do
+    Listen.to('content', :filter => /\.txt$/) do |mod, add, rem|
+      queue << :doit
+    end
   end
 
-  sleep 1.0
   sh 'bundle exec nanoc view'
-
-  t.join
 end
 
 task :rdoc do
@@ -46,6 +50,7 @@ task :deploy do
   #sh 'bundle exec rake deploy:rsync'
   #sh 'bundle exec rake deploy:rsync config=openwferu'
 
+  sh 'bundle exec nanoc co'
   sh 'rsync -glPrvz -e ssh --exclude=".hg" --exclude=".svn" --exclude=".git" /Users/jmettraux/w/ruote_website/output/ jmettraux@rubyforge.org:/var/www/gforge-projects/ruote'
   sh 'rsync -glPrvz -e ssh --exclude=".hg" --exclude=".svn" --exclude=".git" /Users/jmettraux/w/ruote_website/output/ jmettraux@rubyforge.org:/var/www/gforge-projects/openwferu'
   #sh 'bundle exec rake deploy:rsync config=lambda'

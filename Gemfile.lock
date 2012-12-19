@@ -6,10 +6,12 @@ GEM
       rack (>= 1.0.0)
     cri (2.2.1)
     haml (3.1.4)
+    listen (0.6.0)
     nanoc (3.3.2)
       cri (~> 2.2)
     rack (1.4.1)
     rake (0.9.2)
+    rb-fsevent (0.9.2)
     systemu (2.5.0)
 
 PLATFORMS
@@ -19,6 +21,8 @@ DEPENDENCIES
   RedCloth
   adsf
   haml
+  listen
   nanoc
   rake
+  rb-fsevent
   systemu
