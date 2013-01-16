@@ -14,15 +14,15 @@ Before ruote 2.x, an engine was a monolithic worker + storage system. It made se
 Looking a the initialization of an engine clearly shows the separation
 
 <pre class="brush: ruby">
-engine = Ruote::Engine.new(Ruote::Worker.new(Ruote::HashStorage.new))
+dboard = Ruote::Dashboard.new(Ruote::Worker.new(Ruote::HashStorage.new))
 </pre>
 
-The engine is not necessarily containing a worker. The worker can be run independently, with the engine instantied only for launching/querying purposes (the workflow enactment work being performed in the workers).
+The dashbaord is not necessarily wrapping a worker. The worker can be run independently, with the engine instantied only for launching/querying purposes (the workflow enactment work being performed in the workers).
 
 <pre class="brush: ruby">
 worker = Ruote::Worker.new(Ruote::HashStorage.new)
 
-engine = Ruote::Engine.new(Ruote::HashStorage.new)
+dboard = Ruote::Dashboard.new(Ruote::HashStorage.new)
 </pre>
 
 
