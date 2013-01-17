@@ -42,7 +42,7 @@ Yes, you are right, the block participant's block is reproduced in the on_workit
 
 Two optional methods also exist : "#accept?":#accept and "#on_reply":#on_reply. A participant with an accept? method is free to discard incoming workitems that it doesn't like. A participant with an on_reply method is usually some kind of proxy for a real (remote) participant; the on_reply method, when present, is called when the answer (workitem) comes back from the real participant.
 
-By default, when a process instance execution reaches a participant expression, it runs the #consume method of the participant in a dedicated Ruby thread. if the "#do_not_thread":#do_not_thread method returns false, no extra thread is created, the consume call is done immediately (ie, it blocks the worker).
+By default, when a process instance execution reaches a participant expression, it runs the #on_workitem method of the participant in a dedicated Ruby thread. if the "#do_not_thread":#do_not_thread method returns false, no extra thread is created, the #on_workitem call is done immediately (ie, it blocks the worker).
 
 
 h3(#participant). Ruote::Participant (class)
@@ -124,7 +124,7 @@ Note the call to #reply when the work is done. Without this call (sooner or late
 
 h3(#on_cancel). #on_cancel
 
-If you don't immediately (and very quickly) reply to the engine in your consume method, you'd better have a #on_cancel implementation for your class.
+If you don't immediately (and very quickly) reply to the engine in your #on_workitem method, you'd better have a #on_cancel implementation for your class.
 
 <pre class="brush: ruby">
 require 'fileutils'
@@ -275,7 +275,7 @@ receiver = Receiver.new(engine)
 
 h3(#do_not_thread). #do_not_thread #dont_thread? <a name="dont_thread"> </a>
 
-By default, when dispatching a workitem to a participant, a ruote worker will call the participant's consume method in a new thread. The idea is to move the [potentially] bulk work of dispatching outside of the worker loop very quickly.
+By default, when dispatching a workitem to a participant, a ruote worker will call the participant's #on_workitem method in a new thread. The idea is to move the [potentially] bulk work of dispatching outside of the worker loop very quickly.
 
 This is not always appropriate. The participant can tell the worker not to spawn a new thread by implementing a do_not_thread method and letting it reply with true when it's called.
 
@@ -290,7 +290,7 @@ class MyParticipant
     reply
   end
 
-  # The consume method does such a trivial thing that it's not worth spawning
+  # The #on_workitem method does such a trivial thing that it's not worth spawning
   # a thread.
   #
   def do_not_thread
@@ -469,7 +469,7 @@ end
 engine.register 'total', Total
 </pre>
 
-If you scroll a bit, you'll find "an example":#applied_workitem where this method is called outside of the consume method.
+If you scroll a bit, you'll find "an example":#applied_workitem where this method is called outside of the #on_workitem method.
 
 
 h3(#fexp). fexp
