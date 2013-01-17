@@ -4,25 +4,26 @@ title: glossary
 
 h2. glossary
 
-An attempt at defining or explaining terms in ruote and about workflow engines in general.
+An attempt at defining or explaining terms in ruote and about workflow dashboards
+(formerly engines) in general.
 
 
 h3(#engine). dashboard, engine
 
-Before ruote 2.x, an engine was a monolithic worker + storage system. It made sense to call it an engine. With ruote 2.x, the engine became a mere "dashboard", but the name stuck.
+Before ruote 2.x, an engine was a monolithic worker + storage system. It made sense to call it an engine. With ruote 2.x, the engine became a mere "dashboard", but the name lingers in various places.
 
-Looking a the initialization of an engine clearly shows the separation
+Looking at the initialization of a dashboard clearly shows the separation:
 
 <pre class="brush: ruby">
-dboard = Ruote::Dashboard.new(Ruote::Worker.new(Ruote::HashStorage.new))
+dashboard = Ruote::Dashboard.new(Ruote::Worker.new(Ruote::HashStorage.new))
 </pre>
 
-The dashbaord is not necessarily wrapping a worker. The worker can be run independently, with the engine instantied only for launching/querying purposes (the workflow enactment work being performed in the workers).
+The dashboard does not necessarily contain a worker. The worker can be run independently, with the engine instantiated only for launching/querying purposes (the workflow enactment work being performed in the workers).
 
 <pre class="brush: ruby">
 worker = Ruote::Worker.new(Ruote::HashStorage.new)
 
-dboard = Ruote::Dashboard.new(Ruote::HashStorage.new)
+dashboard = Ruote::Dashboard.new(Ruote::HashStorage.new)
 </pre>
 
 
@@ -30,7 +31,7 @@ h3(#fields). fields, workitem fields
 
 The "workitem":#workitem fields are stored in a hash (dictionary data structure). The workitem fields are sometimes referred to as the "payload" of the workitem.
 
-Workitem fields, unlike "process variables":#variable are visible to the "participants":#participant.
+Workitem fields, unlike "process variables":#variable, are visible to the "participants":#participant.
 
 
 h3(#flow_expression). flow expression
@@ -40,7 +41,7 @@ A piece of a process instance.
 
 h3(#fei). fei, flow expression id
 
-An identifier for a flow expression. This same identifier is used to identify "workitems":#workitem
+An identifier for a flow expression. This same identifier is used to identify "workitems":#workitem.
 
 
 h3(#receiver). receiver
@@ -67,7 +68,7 @@ A template for a process. "Process definitions":http://ruote.rubyforge.org/defin
 
 h3(#process_instance). process instance
 
-A process definition, turned into an instance for execution. Is uniquely (in a ruote system) by a "wfid":#wfid (workflow instance id).
+A process definition, turned into an instance for execution. Is uniquely identified (in a ruote system) by a "wfid":#wfid (workflow instance id).
 
 
 h3(#storage). storage
