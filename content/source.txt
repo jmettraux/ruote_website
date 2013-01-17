@@ -19,6 +19,7 @@ h3(#storages). storage implementations
 * "ruote-sequel":https://github.com/jmettraux/ruote-sequel/ - "Sequel":http://sequel.rubyforge.org based persistence
 * "ruote-redis":http://github.com/jmettraux/ruote-redis/ - "Redis":http://code.google.com/p/redis/ storage for ruote ("rdoc":/ruote-redis_rdoc/README_rdoc.html)
 * "ruote-mon":http://github.com/jmettraux/ruote-mon/ - "MongoDB":http://www.mongodb.org/ storage for ruote
+* "ruote-asw":https://github.com/jmettraux/ruote-asw/ - "Amazon SWF":http://aws.amazon.com/swf/ (+ Amazon S3) storage
 * "ruote-mongodb":https://github.com/PlasticLizard/ruote-mongodb/ - the original "MongoDB":http://www.mongodb.org/ storage for ruote (by "Nathan Stults":http://blog.nathanstults.com/)
 * "ruote-couch":http://github.com/jmettraux/ruote-couch/ - "CouchDB":http://couchdb.apache.org/ storage for ruote ("rdoc":/ruote-couch_rdoc/README_rdoc.html)
 * "ruote-dynamo":https://github.com/mdsol-share/ruote-dynamo - "Amazon DynamoDB":http://aws.amazon.com/dynamodb/ based storage (by "Chad Albers":https://github.com/chad-medi)

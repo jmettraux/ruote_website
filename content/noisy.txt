@@ -1,0 +1,92 @@
+---
+title: noisy output
+side_title: noisy output
+---
+
+h2. "noisy" mode
+
+When testing/debugging a workflow, the NOISY mode might come in handy. This mode prints all the messages happening _locally_ (sorry if you have more than one workers, there'll be one different output per worker).
+
+To switch it on, one has to set _noisy_ to true in the Ruote::Dashboard, like in line 8 below.
+
+Let's consider this small ruote test script:
+
+<pre class="brush: ruby">
+require 'pp'
+require 'rufus-json/automatic'
+require 'ruote'
+
+
+ruote = Ruote::Dashboard.new(Ruote::Worker.new(Ruote::HashStorage.new))
+
+ruote.noisy = ENV['NOISY'] == 'true'
+
+ruote.register do
+  alpha Ruote::StorageParticipant
+end
+
+pdef =
+  Ruote.define do
+    concurrence :count => 1 do
+      cursor :tag => 'C1' do
+        alpha :timeout => '10s'
+      end
+      cursor :tag => 'C2', :lose => true do
+        wait '2s' # simulating 'bravo' replying before alpha
+        jump :to => 'alpha', :ref => 'C1'
+      end
+    end
+  end
+
+wfid = ruote.launch(pdef)
+
+ruote.wait_for(wfid)
+</pre>
+
+(gist at "https://gist.github.com/4332547":https://gist.github.com/4332547)
+
+Running it with:
+
+<pre class="brush: shell">
+NOISY=true bundle exec ruby gist4332547.rb
+</pre>
+
+Will output:
+
+<a href="/images/noisy_0.png"><img src="/images/noisy_0.png" width="664px" /></a>
+
+Roughly, each line is a "msg", an event just processed by the local worker. Let's look at a single line:
+
+<a href="/images/noisy_1.png"><img
+  id="line2"
+  src="/images/noisy_1.png"
+  style="width: 664px"
+/></a>
+
+Which can be split into
+
+<img src="/images/noisy_1c.png" />
+
+The first block is mostly about when the msg got processed. The first number is just a counter modulo 10 for pointing at msgs more easily. The last number, right after the timestamp, is the last part of the worker instance object_id, it can be useful when debugging environments with multiple ruote workers (interleaved tests for example).
+
+The second block is composed of the action code and a star. The star is just here to separate the code from the expression identifier (fei) that follows. This action code is a short version of the msg action [name]. See below for a "list of action codes":#action_codes and their corresponding action names.
+
+WIP
+
+h3(#action_codes). action codes
+
+* la: "launch"
+* ap: "apply"
+* re: "reply"
+* di: "dispatch"
+* dd: "dispatched"
+* en: "entered_tag"
+* le: "left_tag"
+* ca: "cancel"
+* dc: "dispatch_cancel"
+* te: "terminated"
+* ce: "ceased" (orphan terminates)
+* va: "set_variable"
+
+WIP
+
