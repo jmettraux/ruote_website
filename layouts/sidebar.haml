@@ -56,7 +56,7 @@
   - elts << [ '/lists.html', 'mailing list' ]
   - elts << [ 'http://ruote-ci.s3.amazonaws.com/ci.html', 'continuous integration' ]
   - elts << [ 'http://ruote-irclogs.s3.amazonaws.com/logs.html', 'IRC' ]
-  -#- elts << [ 'https://www.ohloh.net/p/ruote/', 'ohloh' ]
+  - elts << [ 'https://www.ohloh.net/p/ruote/', 'on ohloh' ]
 
   - elts.each do |elt|
     %li{ :class => elt.first == @item.identifier[0..-2] + '.html' ? 'current' : nil }
