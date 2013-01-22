@@ -4,18 +4,233 @@ title: testing participants
 
 h2. testing participants
 
-testing participant implementations
+testing participant implementations.
 
-(see discussion at "http://groups.google.com/group/openwferu-users/browse_thread/thread/707c3ee1ecc14097":http://groups.google.com/group/openwferu-users/browse_thread/thread/707c3ee1ecc14097 for a temporary piece of documentation)
+There are two ways to test participants: "in isolation":#in_isolation and "in flow":#in_flow.
+
+The "in isolation" way is to simply setup the participant and exercise it. In the "in flow" way, the participant is exercised via a transient (in-memory HashStorage) ruote engine and a minimal flow.
 
 
-h3. test/unit
+<hr/>
+
+
+h3(#in_isolation). testing in isolation
+
+This piece of documentation was contributed by "Hartog C. de Mik":https://github.com/coffeeaddict
+
+h4. Introduction
+
+Testing a participant is gory-detail-stuff. You must know a lot about the internals of Ruote.
+Because in order to 'test' a participant, we have to mimic the environment the participant lives and is executed in.
+
+h4. Setup
+
+Since we are isolating the participant in our experiment^W... tests we have to prevent the participant from communicating with Ruote. In order to do so we have to replace the #reply function with an own singleton.
+
+<pre class="brush: ruby">
+participant = Participant.new
+def participant.reply; end
+</pre>
+
+The singleton-method reply just has to do ... nothing (certainly not reply to the the engine!)
+
+h4. Create a workitem
+
+Loading a workitem is pretty simple, just instantiate a Ruote::Workitem and load it with the proper values for your tests.
+
+h5. Fields
+
+<pre class="brush: ruby">
+wi = Ruote::Workitem.new( 'fields' => { 'my_field' => 'my value' } )
+</pre>
+
+h5. Params
+
+To get the parameters (as given in your process definition), you will have to place them within the #fields hash.
+
+<pre class="brush: ruby">
+wi = Ruote::Workitem.new(
+  'fields' => {
+    'my_field' => 'my value'
+    'params' => {
+      'passed_from_pdef' => 'not really, no...'
+    },
+  })
+</pre>
+
+h4. Injecting a workitem
+
+Since we want to emulate, or mimic, the environment Ruote builds around our participants, we cannot simply call #on_workitem, we have to do what ruote does.
+
+<pre class="brush: ruby">
+it "should receive the workitem" do
+  wi = Ruote::Workitem.new( 'fields' => { 'my_field' => 'my value' } )
+  subject._on_workitem(wi)
+  subject.workitem.should == wi
+end
+</pre>
+
+Or, for old(er) ruote installments
+
+<pre class="brush: ruby">
+it "should consume the workitem" do
+  wi = Ruote::Workitem.new( 'fields' => { 'my_field' => 'my value' } )
+  subject.expects(:consume).with(wi)
+  subject._consume(wi)
+end
+</pre>
+
+h4. Capturing results
+
+h5. Workitem updates
+
+Since you have overridden reply (with nothing) you can just test participant.workitem and expect it to have the latest-greatest.
+
+h5. Side-effects
+
+How you test your side-effects is up to you...
+
+h4. The StorageParticipant
+
+If you have subclassed the storage participant, the rules change a little
+
+h5. Setup
+
+an order for the storage participant to function properly, an instance of the ruote engine should be supplied
+
+<pre class="brush: ruby">
+engine      = Ruote::Dashboard.new(Ruote::HashStorage.new())
+participant = MyStorageParticipant(engine)
+</pre>
+
+h5. Load a workitem
+
+First thing the the StorageParticipant sub-class does (or should do) in #on_workitem is call #super - this will wreak havoc, unless you make sure that you have a workitem with a (valid) fei
+
+<pre class="brush: ruby">
+workitem = RuoteWorkitem.new(
+  'fei' => {
+    'expid' => '0',
+    'subid' => 'abc123',
+    'wfid' => 'some-wfid-could-be-anything',
+    'engine_id' => 'engine' },
+  'fields' => {
+    'age_of_the_captain' => 32 }
+)
+</pre>
+
+h4. Disclaimer
+
+* The code examples provided are not runnable out-off-the-box and are meant has a hook for you to start your work on.
+* The code examples below are RSpec specific and assume the use of Mocha as a mocking framework.
+
+h3. Code samples
+
+participant implementation:
+
+<pre class="brush: ruby">
+require 'open-uri'
+
+class MyParticipant < Ruote::Participant
+
+  def on_workitem
+    begin
+      OpenURI.open_uri(workitem.fields['url'])
+    rescue SocketError => error
+      workitem.fields['error'] = "#{error.class}: #{error.message}"
+    else
+      workitem.fields['visited'] = true
+    end
+  end
+end
+</pre>
+
+spec/participants/my_participant.rb
+
+<pre class="brush: ruby">
+
+require 'spec_helper'
+
+describe MyParticipant do
+
+  subject { setup_participant MyParticipant }
+
+  it "visits successfully the target URL" do
+
+    subject._on_workitem new_workitem(
+      fields: { 'url' => 'http://ruote.rubyforge.org/' })
+
+    subject.workitem.fields['visited'].should be_true
+  end
+end
+</pre>
+
+spec/support/ruote_helpers.rb
+
+<pre class="brush: ruby">
+module RuoteHelpers
+
+  def engine
+    @engine ||= RuoteKit.engine # (or some other setup)
+  end
+
+  def setup_storage_participant(klass)
+
+    participant = klass.new(engine)
+
+    def participant.update(workitem)
+      self.workitem = workitem
+    end
+
+    participant
+  end
+
+  def setup_participant(klass)
+
+    participant = klass.new()
+
+    def participant.reply
+      # catching the reply - it should not do anything
+    end
+
+    participant
+  end
+
+  def new_workitem(opts)
+
+    opts = Ruote.keys_to_s(opts)
+
+    if opts['params']
+      opts['fields']['params'] ||= {}
+      opts['fields']['params'].merge!(opts.delete('params'))
+    end
+
+    Ruote::Workitem.new(opts.merge(
+     'fei' => {
+        'expid'     => '0',
+        'subid'     => 'abc123',
+        'wfid'      => engine.context.wfidgen.generate,
+        'engine_id' => 'engine',
+      }
+    ))
+  end
+end
+
+RSpec.configure do |config|
+  config.include RuoteHelpers
+end
+</pre>
+
+
+<hr/>
+
+
+h3(#in_flow). testing in flow
 
 TODO
 
-h3. rspec
+h3(#links). links
 
-TODO
-
-see "https://gist.github.com/4546918":https://gist.github.com/4546918 for now (Thanks "Hartog":https://github.com/coffeeaddict !)
+* "some pointers on the mailing list":http://groups.google.com/group/openwferu-users/browse_thread/thread/707c3ee1ecc14097
+* "original documentation by Hartog de Mik":https://gist.github.com/4546918
 
