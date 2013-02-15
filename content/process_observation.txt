@@ -8,6 +8,6 @@ TODO
 
 Only two links for now:
 
-* "Ruote::Observer":https://github.com/jmettraux/ruote/blob/a5411e75dba1ce3d5ed0544119e819068724b953/lib/ruote/observer.rb
-* "Ruote::ProcessObserver":https://github.com/jmettraux/ruote/blob/a5411e75dba1ce3d5ed0544119e819068724b953/lib/ruote/util/process_observer.rb
+* "Ruote::Observer":https://github.com/jmettraux/ruote/blob/master/lib/ruote/observer.rb
+* "Ruote::ProcessObserver":https://github.com/jmettraux/ruote/blob/master/lib/ruote/util/process_observer.rb
 
