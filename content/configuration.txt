@@ -236,10 +236,11 @@ The following table summarizes the various storage implementations.
 |"Ruote::FsStorage":#fs_storage | yes (2) | no | 2nd | hierarchy of JSON files, uses file locks to prevent collisions when multiple workers|
 |"Ruote::Redis::Storage":#redis_storage | yes | yes | 1st | "Redis":http://redis.io based persistence|
 |"Ruote::Sequel::Storage":#sequel_storage | yes | yes | 4th | "Sequel":http://sequel.rubyforge.org based persistence|
-|"Ruote::Dm::Storage":#dm_storage | yes (3) | yes | 5th | "DataMapper":http://datamapper.org based persistence|
-|"Ruote::Couch::Storage":#couch_storage | yes | yes | slowest | "Apache CouchDB":http://couchdb.apache.org/ based persistence, very slow|
+|"ruote-postgres":https://github.com/ifad/ruote-postgres | yes | yes | 4th | persistence directly based on "PostgreSQL":http://postgresql.org|
 |"Ruote::Mon::Storage":#mongo_storage | yes | yes | like the Redis storage | "MongoDB":http://www.mongodb.org based persistence|
 |"Ruote::Beanstalk::Storage":#beanstalk_storage | yes | yes | 3rd | FsStorage based persistence with a "Beanstalk":http://kr.github.com/beanstalkd/ front|
+|"Ruote::Dm::Storage":#dm_storage | yes (3) | yes | 5th | "DataMapper":http://datamapper.org based persistence (not maintained anymore)|
+|"Ruote::Couch::Storage":#couch_storage | yes | yes | slowest | "Apache CouchDB":http://couchdb.apache.org/ based persistence, very slow (not maintained anymore)|
 
 (1) well, it's 'yes' but there isn't much to gain from one more worker in the same Ruby runtime
 (2) multiple workers, but not on Windows
