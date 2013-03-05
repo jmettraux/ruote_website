@@ -21,8 +21,8 @@ h3(#storages). storage implementations
 * "ruote-mon":http://github.com/jmettraux/ruote-mon/ - "MongoDB":http://www.mongodb.org/ storage for ruote
 * "ruote-asw":https://github.com/jmettraux/ruote-asw/ - "Amazon SWF":http://aws.amazon.com/swf/ (+ Amazon S3) storage
 * "ruote-mongodb":https://github.com/PlasticLizard/ruote-mongodb/ - the original "MongoDB":http://www.mongodb.org/ storage for ruote (by "Nathan Stults":http://blog.nathanstults.com/)
-* "ruote-couch":http://github.com/jmettraux/ruote-couch/ - "CouchDB":http://couchdb.apache.org/ storage for ruote ("rdoc":/ruote-couch_rdoc/README_rdoc.html)
 * "ruote-dynamo":https://github.com/mdsol-share/ruote-dynamo - "Amazon DynamoDB":http://aws.amazon.com/dynamodb/ based storage (by "Chad Albers":https://github.com/chad-medi)
+* "ruote-postgres":https://github.com/ifad/ruote-postgres - "PostgreSQL":http://www.postgresql.org/ based storage (by "IFAD":http://www.ifad.org/)
 
 
 h3(#misc). various tools around ruote
@@ -66,4 +66,5 @@ The ci tool used is at "https://github.com/jmettraux/ci":https://github.com/jmet
 h3(#unmaintained). not maintained anymore
 
 * "ruote-dm":http://github.com/jmettraux/ruote-dm/ - "DataMapper":http://datamapper.org based persistence (replaced by "ruote-sequel":https://github.com/jmettraux/ruote-sequel)
+* "ruote-couch":http://github.com/jmettraux/ruote-couch/ - "CouchDB":http://couchdb.apache.org/ storage for ruote ("rdoc":/ruote-couch_rdoc/README_rdoc.html)
 
