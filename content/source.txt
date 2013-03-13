@@ -22,7 +22,7 @@ h3(#storages). storage implementations
 * "ruote-asw":https://github.com/jmettraux/ruote-asw/ - "Amazon SWF":http://aws.amazon.com/swf/ (+ Amazon S3) storage
 * "ruote-mongodb":https://github.com/PlasticLizard/ruote-mongodb/ - the original "MongoDB":http://www.mongodb.org/ storage for ruote (by "Nathan Stults":http://blog.nathanstults.com/)
 * "ruote-dynamo":https://github.com/mdsol-share/ruote-dynamo - "Amazon DynamoDB":http://aws.amazon.com/dynamodb/ based storage (by "Chad Albers":https://github.com/chad-medi)
-* "ruote-postgres":https://github.com/ifad/ruote-postgres - "PostgreSQL":http://www.postgresql.org/ based storage (by "IFAD":http://www.ifad.org/)
+* "ruote-postgres":https://github.com/ifad/ruote-postgres - "PostgreSQL":http://www.postgresql.org/ based storage (by "IFAD":https://github.com/ifad)
 
 
 h3(#misc). various tools around ruote
