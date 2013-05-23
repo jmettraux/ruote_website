@@ -44,7 +44,7 @@ The slashes allow to jump to a higher scope. If you don't prefix with any slash 
 
 h4. current scope
 
-The current scope has already been illustred with the concurrent_iterator example above.
+The current scope has already been illustrated with the concurrent_iterator example above.
 
 h4. process scope (process level variables)
 
@@ -60,7 +60,7 @@ Process variables set a launch time are in the _process scope_ (aka process leve
 
 h4. engine scope (engine variables)
 
-Like for the process scope, I'd suggest not setting those from process definitions, but only at engine/storge initialization. Then simply read them.
+Like for the process scope, I'd suggest not setting those from process definitions, but only at engine/storage initialization. Then simply read them.
 
 Those 'engine variables' make for wonderful global aliases, like in
 
