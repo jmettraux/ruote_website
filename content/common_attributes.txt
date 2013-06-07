@@ -237,7 +237,9 @@ There will be no error registered in the error journal (unless there is an error
 
 :on_error must point to a subprocess or a participant, or a command like "redo" or "undo".
 
-When it points to a subprocess, the branch in error gets replaced by an instance that subprocess. When it points to a participant branch gets replaced by a single workitem despatchement to the participant.
+When it points to a subprocess, the branch in error gets replaced by an instance of that subprocess. When it points to a participant branch gets replaced by a single workitem despatchement to the participant.
+
+Before running the subprocess or participant that is meant to handle the error, ruote places the error in a workitem field named "<notextile>__error__</notextile>". The value of the field is a hash describing the error, with keys, like "fei", "at", "class", "message", "trace", etc.
 
 h4(#on_error_composing). composing with on_error (on_error: "retry * 3, pass")
 
