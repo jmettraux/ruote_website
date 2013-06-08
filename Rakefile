@@ -51,10 +51,16 @@ task :deploy do
 
   #sh 'bundle exec rake deploy:rsync'
   #sh 'bundle exec rake deploy:rsync config=openwferu'
+  #sh 'bundle exec rake deploy:rsync config=lambda'
+    #
+    # at some point, these ceased to work, so, went manual
 
   sh 'bundle exec nanoc co'
-  sh 'rsync -glPrvz -e ssh --exclude=".hg" --exclude=".svn" --exclude=".git" /Users/jmettraux/w/ruote_website/output/ jmettraux@rubyforge.org:/var/www/gforge-projects/ruote'
-  sh 'rsync -glPrvz -e ssh --exclude=".hg" --exclude=".svn" --exclude=".git" /Users/jmettraux/w/ruote_website/output/ jmettraux@rubyforge.org:/var/www/gforge-projects/openwferu'
-  #sh 'bundle exec rake deploy:rsync config=lambda'
+
+  out = File.expand_path(File.dirname(__FILE__)) + '/output/'
+  opts = '-glPrvz -e ssh --exclude=".hg" --exclude=".svn" --exclude=".git"'
+
+  sh "rsync #{opts} #{out} jmettraux@rubyforge.org:/var/www/gforge-projects/ruote"
+  sh "rsync #{opts} #{out} jmettraux@rubyforge.org:/var/www/gforge-projects/openwferu"
 end
 
