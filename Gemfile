@@ -1,5 +1,5 @@
 
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'rake'
 gem 'nanoc'
