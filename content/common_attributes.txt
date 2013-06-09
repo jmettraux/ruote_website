@@ -552,11 +552,40 @@ end
 </pre>
 
 
-
 h3(#take_and_discard). :take and :discard
 
-TODO
+These two attribute influence what workitem fields are carried from the expression they adorn.
 
+They can be used to constrain the output of a segment of process.
+
+:take acts as a whitelist:
+
+<pre class="brush: ruby">
+  alpha :take => 'a'
+    # if the alpha participant or subprocess set any field in the workitem
+    # it was given, only the field named "a" will be kept
+
+  alpha :take => /^a/
+    # regular expressions are OK
+
+  alpha :take => [ 'a', /^b/ ]
+    # arrays are OK too
+</pre>
+
+:discard acts as a blacklist:
+
+<pre class="brush: ruby">
+  bravo :discard => [ 'a', /^b/ ]
+    # the field "a" and any field beginning with a "b" will get discarded
+</pre>
+
+:discard => true discards any field set by the adorned expression:
+
+<pre class="brush: ruby">
+  bravo :discard => true
+</pre>
+
+Can be useful to somehow silent a segment of process.
 
 
 h3(#timers). :timers
