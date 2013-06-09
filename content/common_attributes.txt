@@ -235,11 +235,13 @@ If there is an error (at any level/depth) inside of our sequence, the whole bran
 
 There will be no error registered in the error journal (unless there is an error in the handling participant/subprocess itself).
 
-:on_error must point to a subprocess or a participant, or a command like "redo" or "undo".
+:on_error must point to a subprocess or a participant, or a command like "redo", "undo", "cancel", ... See below.
 
 When it points to a subprocess, the branch in error gets replaced by an instance of that subprocess. When it points to a participant branch gets replaced by a single workitem despatchement to the participant.
 
 Before running the subprocess or participant that is meant to handle the error, ruote places the error in a workitem field named "<notextile>__error__</notextile>". The value of the field is a hash describing the error, with keys, like "fei", "at", "class", "message", "trace", etc.
+
+Ruote 2.3.0 introduces a dedicated "on_error" expression that gives some pattern matching ability to on_error. See "on_error":exp/on_error.html expression.
 
 h4(#on_error_composing). composing with on_error (on_error: "retry * 3, pass")
 
@@ -259,7 +261,7 @@ Since ruote 2.3.0, the on_error attribute understands handler composition. One c
   handover_d :on_error => "1s: retry, 1m: retry, 1h: retry"
 </pre>
 
-Now on for the list of messages on_error understands.
+Now, on for the list of messages on_error understands.
 
 h4. on_error: redo
 
@@ -270,6 +272,8 @@ If :redo or 'redo' is given, the process branch will get cancelled and retried :
     # ...
   end
 </pre>
+
+'retry' may be used instead of 'redo'.
 
 h4. on_error: undo
 
@@ -283,6 +287,8 @@ If :undo or 'undo' is passed, the branch will get cancelled and the flow will re
       # business as usual
   end
 </pre>
+
+'pass' may be used instead of 'undo'.
 
 h4. on_error: retry, pass
 
@@ -310,6 +316,8 @@ By specifying 'cancel', one can tell ruote to trigger the on_cancel handler in c
     # ...
   end
 </pre>
+
+That piece of process will call the participant (or subprocess) "decommission" when cancelled and also when encountering an error.
 
 h4. on_error: cando
 
