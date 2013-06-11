@@ -23,8 +23,8 @@ paths = paths + Dir.glob(File.join(src, '*_receiver.rb'))
 #src = File.expand_path(File.join(*%w[ ~ w ruote-amqp lib ])) # :(
 #paths = paths + Dir.glob(File.join(src, "*_participant.rb"))
 
-paths <<
-  "#{ENV['HOME']}/w/rufus/rufus-decision/lib/rufus/decision/participant.rb"
+#paths <<
+#  "#{ENV['HOME']}/w/rufus/rufus-decision/lib/rufus/decision/participant.rb"
 
 
 paths.each do |path|

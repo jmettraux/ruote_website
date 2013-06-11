@@ -361,6 +361,34 @@ or
 All the cursor commands are valid. Read the description of the "cursor":exp/cursor.html expression for more information.
 
 
+h4. on_error: store:x
+
+(since ruote 2.3.1)
+
+This on_error directive let's the error segment cancel itself and then stores the error in the given workfitem field or process variable.
+
+<pre class="brush: ruby">
+  sequence :on_error => 'store: x' do
+    # ...
+  end
+</pre>
+
+It can be used in conjunction with the "error :re => '$f:x'" to reraise the error later on. Or simply with an :if to run certain code if an error was encountered previously.
+
+<pre class="brush: ruby">
+  do_this :on_error => 'store: x'
+    # store error in workitem field "x"
+
+  do_this :on_error => 'store: f:x'
+    # store error in workitem field "x"
+
+  do_this :on_error => 'store: v:y'
+    # store error in process variable "y"
+</pre>
+
+"bury" can be used instead of "store".
+
+
 h3(#on_cancel). :on_cancel
 
 on_cancel is used to point at a subprocess or a participant that should be invoked / receive a workitem in case a [segment of a] process gets cancelled.
