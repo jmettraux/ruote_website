@@ -48,7 +48,7 @@ require 'ruote-redis'
 # set up ruote storage
 
 RUOTE_STORAGE = Ruote::Redis::Storage.new(
-  ::Redis.new(:db => 14, :thread_safe => true), {})))
+  ::Redis.new(:db => 14, :thread_safe => true), {})
 
 #
 # set up ruote dashboard
@@ -85,7 +85,7 @@ require 'ruote-redis'
 # set up ruote storage
 
 RUOTE_STORAGE = Ruote::Redis::Storage.new(
-  ::Redis.new(:db => 14, :thread_safe => true), {})))
+  ::Redis.new(:db => 14, :thread_safe => true), {})
 
 #
 # set up ruote dashboard
@@ -116,7 +116,7 @@ require 'ruote-redis'
 # set up ruote storage
 
 RUOTE_STORAGE = Ruote::Redis::Storage.new(
-  ::Redis.new(:db => 14, :thread_safe => true), {})))
+  ::Redis.new(:db => 14, :thread_safe => true), {})
 
 #
 # set up ruote dashboard
