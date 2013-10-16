@@ -300,7 +300,7 @@ h3(#threads). participants and threads
 
 As you may have gleaned from this doc or from a blog post, ruote 2.1 tries to have only 1 thread per / for the worker, handling all the workflow activity (direct launch/apply orders or triggering schedules). So you end up with 1 extra thread per worker. Note that if you only have an engine (and let the worker run in another runtime, there is no extra thread used by ruote).
 
-(There is an exception with a worker bound to "ruote-couch":http://github.com/jmettraux/ruote-couch, it uses two extra threads to 'observe' CouchDB (instead of polling CouchDB))
+(There is an exception with a worker bound to "ruote-couch":http://github.com/jmettraux/ruote-couch, it uses one extra thread to 'observe' CouchDB (instead of polling it))
 
 Since, most of the time, participant are IO bound, having the dispatching work performed in the worker thread would mean that each delivery to a participant monopolizes the worker. That's why, by default, ruote does each participant#consume call in a new thread.
 
