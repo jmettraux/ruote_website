@@ -60,7 +60,13 @@ task :deploy do
   out = File.expand_path(File.dirname(__FILE__)) + '/output/'
   opts = '-glPrvz -e ssh --exclude=".hg" --exclude=".svn" --exclude=".git"'
 
+  sh "rsync #{opts} #{out} lin:www/ruote"
+    #
+    # hosted at ruote.io/index.html
+
   sh "rsync #{opts} #{out} jmettraux@rubyforge.org:/var/www/gforge-projects/ruote"
   sh "rsync #{opts} #{out} jmettraux@rubyforge.org:/var/www/gforge-projects/openwferu"
+    #
+    # unfortunately rubyforge.org seems down very often these days...
 end
 
