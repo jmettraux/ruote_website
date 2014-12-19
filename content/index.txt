@@ -3,15 +3,15 @@ title: index
 ---
 
 <div style="padding: 1em; background-color: #ff9933; border: 2px solid red;">
-<strong>Ruote active development ceased</strong>.
+<div style="font-size: 150%; margin-bottom: 1em;">2014/12/19: ruote lives on at <a href="https://operati.ca">operati.ca</a></div>
 
-Active development on ruote ceased.
+<strong>2013/11/30: ruote active development ceased</strong>.
 
 See "scaling down ruote":https://groups.google.com/forum/#!topic/openwferu-users/g0jZuWeoXOA
 
 Do not involve ruote in your new project.
 
-I still offer support on the ruote mailing list for existing projects, though.
+<!--I still offer support on the ruote mailing list for existing projects, though.-->
 </div>
 
 <hr/>
