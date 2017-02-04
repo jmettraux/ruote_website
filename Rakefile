@@ -64,8 +64,8 @@ task :deploy do
     #
     # hosted at ruote.io/index.html
 
-  sh "rsync #{opts} #{out} jmettraux@rubyforge.org:/var/www/gforge-projects/ruote"
-  sh "rsync #{opts} #{out} jmettraux@rubyforge.org:/var/www/gforge-projects/openwferu"
+  #sh "rsync #{opts} #{out} jmettraux@rubyforge.org:/var/www/gforge-projects/ruote"
+  #sh "rsync #{opts} #{out} jmettraux@rubyforge.org:/var/www/gforge-projects/openwferu"
     #
     # unfortunately rubyforge.org seems down very often these days...
 end

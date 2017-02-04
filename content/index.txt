@@ -3,7 +3,7 @@ title: index
 ---
 
 <div style="padding: 1em; background-color: #ff9933; border: 2px solid red;">
-<div style="font-size: 150%; margin-bottom: 1em;">2014/12/19: ruote lives on at <a href="https://operati.ca">operati.ca</a></div>
+<div style="font-size: 150%; margin-bottom: 1em;">2014/12/19: ruote lives on at <a href="https://github.com/floraison">floraison</a></div>
 
 <strong>2013/11/30: ruote active development ceased</strong>.
 
